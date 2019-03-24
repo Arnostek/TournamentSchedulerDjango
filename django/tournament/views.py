@@ -16,7 +16,7 @@ class TournamentDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        tournament = Tournament.objects.get(id=1)
+        tournament = Tournament.objects.get(id=self.kwargs['id'])
 
         division_team = {
             div : [
