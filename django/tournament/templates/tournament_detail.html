@@ -1,0 +1,11 @@
+{{tournament.name}}
+<ul>
+{% for division,teams in division_team.items %}
+  <li>{{division.name}}</li>
+  <ol>
+  {% for team in teams %}
+  <li>{{team.name}}</li>
+  {% endfor %}
+</ol>
+{%endfor%}
+</ul>
