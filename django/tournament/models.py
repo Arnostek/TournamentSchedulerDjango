@@ -8,15 +8,17 @@ class Tournament(models.Model):
 
 class Division(models.Model):
     name = models.CharField(max_length = 200)
+    slug = models.SlugField()
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
 
 class Group(models.Model):
     name = models.CharField(max_length = 200)
-    tournament = models.ForeignKey(Division, on_delete=models.CASCADE)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
     finished = models.BooleanField(default=False)
 
 class Team(models.Model):
     name = models.CharField(max_length = 200)
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
 class Match(models.Model):
     home = models.ForeignKey(Team, related_name = 'home_matches', on_delete=models.CASCADE)
