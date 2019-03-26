@@ -18,17 +18,17 @@ class TournamentDetailView(TemplateView):
 
         tournament = Tournament.objects.get(id=self.kwargs['id'])
 
-        division_team = {
+        division_seed = {
             div : [
-                team
-                for team in  div.team_set.all()
+                seed.teamPlaceholder.name
+                for seed in div.divisionseed_set.all()
             ]
             for div in tournament.division_set.all()
         }
 
         context = {
             'tournament' : tournament,
-            'division_team' : division_team,
+            'division_seed' : division_seed,
             #''
 
         }

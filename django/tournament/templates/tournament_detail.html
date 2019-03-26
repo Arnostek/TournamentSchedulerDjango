@@ -1,10 +1,10 @@
 {{tournament.name}}
 <ul>
-{% for division,teams in division_team.items %}
+{% for division,teams in division_seed.items %}
   <li>{{division.name}}</li>
   <ol>
   {% for team in teams %}
-  <li>{{team.name}}</li>
+  <li>{{team}}</li>
   {% endfor %}
 </ol>
 {%endfor%}
