@@ -113,14 +113,14 @@ class SeedAbstract(models.Model):
 class DivisionSeed(SeedAbstract):
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
-class DivisionRank(DivisionSeed):
-    pass
+class DivisionRank(SeedAbstract):
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
 
 class GroupSeed(SeedAbstract):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
-class GroupRank(GroupSeed):
-    pass
+class GroupRank(SeedAbstract):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     # seed ?
 
