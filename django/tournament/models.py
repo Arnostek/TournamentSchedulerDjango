@@ -52,19 +52,19 @@ class TeamPlaceholder(models.Model):
         else:
             return self.name
 
-# seed
-class DivisionSeed(models.Model):
+# seed tables
+class SeedAbstract():
     rank = models.PositiveSmallIntegerField()
+    teamPlaceholder = models.ForeignKey(TeamPlaceholder, null = True, on_delete=models.CASCADE)
+
+class DivisionSeed(SeedAbstract,models.Model):
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
-    teamPlaceholder = models.ForeignKey(TeamPlaceholder, on_delete=models.CASCADE)
 
 class DivisionRank(DivisionSeed):
     pass
 
-class GroupSeed(models.Model):
-    rank = models.PositiveSmallIntegerField()
+class GroupSeed(SeedAbstract,models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    teamPlaceholder = models.ForeignKey(TeamPlaceholder, on_delete=models.CASCADE)
 
 class GroupRank(GroupSeed):
     pass
