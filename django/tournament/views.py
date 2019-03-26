@@ -20,7 +20,7 @@ class TournamentDetailView(TemplateView):
 
         division_seed = {
             div : [
-                seed.teamPlaceholder.name
+                seed.teamPlaceholder.team_name
                 for seed in div.divisionseed_set.all()
             ]
             for div in tournament.division_set.all()
