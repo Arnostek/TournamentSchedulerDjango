@@ -12,8 +12,7 @@ class Division(models.Model):
     teams = models.PositiveSmallIntegerField()
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
 
-    def CreateSeed(self):
-
+    def CreateSeeds(self):
         # create SeedDivision
         for rank in range(self.teams):
             rank = rank + 1
@@ -27,7 +26,7 @@ class Division(models.Model):
 @receiver(models.signals.post_save, sender=Division)
 def division__after_create(sender, instance, created, *args, **kwargs):
     if created:
-        instance.CreateSeed()
+        instance.CreateSeeds()
 
 class Group(models.Model):
     name = models.CharField(max_length = 200)
