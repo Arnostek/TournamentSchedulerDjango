@@ -39,8 +39,9 @@ class TestData:
 
 # turnaj
 tdata = TestData("Prague 2019", "PRG2019")
+# men A
 tdata.AddDivision('Men A','MenA',12)
-tdata.actual_division.CreateGroups(['A','B'],[seed.teamPlaceholder for seed in tdata.actual_division.divisionseed_set.order_by('rank')])
+tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
 #tdata.SeedDivision('Prague A, Prague B, Vidra'.split(','))
 tdata.AddDivision('Men B','MenA',16)
 tdata.AddDivision('Ladies','Ladies',10)
