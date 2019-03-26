@@ -25,6 +25,14 @@ class TeamPlaceholder(models.Model):
 #    division = models.ForeignKey(Division, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, null = True, on_delete=models.PROTECT)
 
+    @property
+    def team_name(self):
+        """ Returns team or team placehoder name"""
+        if (self.team):
+            return self.team.name
+        else:
+            return self.name
+
 # seed
 class DivisionSeed(models.Model):
     rank = models.PositiveSmallIntegerField()
