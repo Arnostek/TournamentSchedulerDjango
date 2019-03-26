@@ -22,6 +22,39 @@ class Division(models.Model):
             # zalozim DivisionSeed
             seed = self.divisionseed_set.create(rank = rank, teamPlaceholder = tph)
 
+    def CreateGroups(self,names,placeholders):
+        """ Vytvoreni naseedovanych skupin"""
+        #
+        groups = []
+
+        # nejdriv zalozime skupiny, objekty si ulozime do groups
+        for name in names:
+            groups.append(self.group_set.create(name = name))
+
+        # pak vytvorime a naplnime seedy
+        # na zacatek jdeme popredu
+        reverse = False
+        group_index = 0
+        seed_rank = 1
+
+        for tph in placeholders:
+            # vytvoreni group seedu
+            groups[group_index].groupseed_set.create(rank = seed_rank, teamPlaceholder = tph)
+            # podle smeru pridame, nebo ubereme index
+            if (reverse):
+                # kontrola spodni hranice
+                if group_index == 0:
+                    reverse = False
+                    seed_rank += 1
+                else:
+                    group_index -= 1
+            else:
+                # kontrola horni hranice
+                if group_index == len(groups) - 1:
+                    reverse = True
+                    seed_rank += 1
+                else:
+                    group_index +=1
 
 @receiver(models.signals.post_save, sender=Division)
 def division__after_create(sender, instance, created, *args, **kwargs):
