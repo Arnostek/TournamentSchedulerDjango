@@ -12,6 +12,9 @@ class Division(models.Model):
     teams = models.PositiveSmallIntegerField()
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return "{} (id={})".format(self.name,self.id)
+
     def CreateSeeds(self):
         # create SeedDivision
         for rank in range(self.teams):
@@ -69,6 +72,9 @@ class Group(models.Model):
     name = models.CharField(max_length = 200)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     finished = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "{} (id={})".format(self.name,self.id)
 
     @property
     def teams(self):
