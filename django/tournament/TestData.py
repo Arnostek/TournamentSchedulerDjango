@@ -56,7 +56,7 @@ tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRan
 
 
 # men B
-tdata.AddDivision('Men B','MenA',16)
+tdata.AddDivision('Men B','MenB',16)
 tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders)
 
 # Ladies
