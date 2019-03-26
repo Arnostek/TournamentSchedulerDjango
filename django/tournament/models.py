@@ -63,6 +63,27 @@ class Division(models.Model):
         for group in groups:
             group.CreateRanks()
 
+    @property
+    def seed_placeholders(self):
+        """
+        vraci list naseedovanych tymu divize serazeny podle rank
+        """
+        return [seed.teamPlaceholder for seed in self.divisionseed_set.order_by('rank')]
+
+    def GetGroupsRanks(self,group_names):
+        """
+        vraci list team placeholderu z vybranych Group
+        """
+        groups = self.group_set.filter(name__in = group_names)
+        ranks = GroupRank.objects.filter(group__in = groups).order_by('rank','group_id')
+        return [rank.teamPlaceholder for rank in ranks]
+
+    def find_rank(self,group_name,rank):
+
+        group = self.group_set.get(name = group_name)
+        rank = group.grouprank_set.get(rank = rank)
+        return rank.teamPlaceholder
+
 @receiver(models.signals.post_save, sender=Division)
 def division__after_create(sender, instance, created, *args, **kwargs):
     if created:
