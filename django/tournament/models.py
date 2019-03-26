@@ -66,6 +66,20 @@ class Group(models.Model):
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     finished = models.BooleanField(default=False)
 
+    @property
+    def teams(self):
+        return self.groupseed_set.all().count()
+
+    def CreateRanks(self):
+        # create SeedDivision
+        for rank in range(self.teams):
+            rank = rank + 1
+            # pripravim si TeamPlaceholder
+            tph = TeamPlaceholder(name = "{}{}".format(self.name, rank))
+            tph.save()
+            # zalozim DivisionSeed
+            seed = self.grouprank_set.create(rank = rank, teamPlaceholder = tph)
+
 # teams
 class Team(models.Model):
     name = models.CharField(max_length = 200)
