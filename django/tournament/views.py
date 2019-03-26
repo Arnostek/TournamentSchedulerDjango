@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament
+from .models import Tournament, Division
 
 # Create your views here.
 
@@ -31,6 +31,30 @@ class TournamentDetailView(TemplateView):
             'division_seed' : division_seed,
             #''
 
+        }
+
+        return context
+
+class DivisionSystemView(TemplateView):
+
+    template_name = 'division_system.html'
+
+    def get_context_data(self, **kwargs):
+
+        division = Division.objects.get(id = self.kwargs['id'])
+
+        groups = {
+
+            group : [
+                seed.teamPlaceholder.team_name
+                for seed in group.groupseed_set.all()
+            ]
+            for group in division.group_set.all()
+        }
+
+        context = {
+            'division' : division,
+            'groups' : groups,
         }
 
         return context

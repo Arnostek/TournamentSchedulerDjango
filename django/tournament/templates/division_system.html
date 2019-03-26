@@ -1,0 +1,11 @@
+{{division.name}}
+<ul>
+{% for group,teams in groups.items %}
+  <li>Group {{group.name}}</li>
+  <ol>
+  {% for team in teams %}
+  <li>{{team}}</li>
+  {% endfor %}
+</ol>
+{%endfor%}
+</ul>

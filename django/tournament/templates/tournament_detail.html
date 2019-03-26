@@ -1,7 +1,7 @@
 {{tournament.name}}
 <ul>
 {% for division,teams in division_seed.items %}
-  <li>{{division.name}}</li>
+  <li><a href="system/{{division.id}}">{{division.name}}</a></li>
   <ol>
   {% for team in teams %}
   <li>{{team}}</li>
