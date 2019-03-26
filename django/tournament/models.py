@@ -56,6 +56,10 @@ class Division(models.Model):
                 else:
                     group_index +=1
 
+        # nakonec pro kazdou groupu vytvorime ranks
+        for group in groups:
+            group.CreateRanks()
+
 @receiver(models.signals.post_save, sender=Division)
 def division__after_create(sender, instance, created, *args, **kwargs):
     if created:
