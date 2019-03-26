@@ -43,7 +43,19 @@ tdata = TestData("Prague 2019", "PRG2019")
 tdata.AddDivision('Men A','MenA',12)
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
 #tdata.SeedDivision('Prague A, Prague B, Vidra'.split(','))
+
+# men B
 tdata.AddDivision('Men B','MenA',16)
+tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders)
+
+# Ladies
 tdata.AddDivision('Ladies','Ladies',10)
+tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
+
+# U14
 tdata.AddDivision('U14','U14',6)
+tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
+
+# U16
 tdata.AddDivision('U16','U16',7)
+tdata.actual_division.CreateGroups(['A'], tdata.actual_division.seed_placeholders)
