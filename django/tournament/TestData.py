@@ -41,8 +41,19 @@ class TestData:
 tdata = TestData("Prague 2019", "PRG2019")
 # men A
 tdata.AddDivision('Men A','MenA',12)
+# zakladani skupiny
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
-#tdata.SeedDivision('Prague A, Prague B, Vidra'.split(','))
+# prvni 4 jdou do semi
+tdata.actual_division.CreateGroups(['S1','S2'], tdata.actual_division.GetGroupsRanks(['A','B'])[:4])
+# zapasy o mista bez semi
+for misto in [11,9,7,5]:
+    tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1])
+# 3rd
+tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[2:4])
+# 3rd
+tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[0:2])
+
+
 
 # men B
 tdata.AddDivision('Men B','MenA',16)
