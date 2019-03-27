@@ -1,19 +1,34 @@
-{{division.name}}
-<h3> System</h3>
-<ul>
-{% for group,teams in groups.items %}
-  <li>Group {{group.name}}</li>
-  <ol>
-  {% for team in teams %}
-  <li>{{team}}</li>
-  {% endfor %}
-</ol>
-{%endfor%}
-</ul>
+{% extends 'body.html' %}
 
-<h4> Games ({{matches.count}}) </h4>
+{% block content %}
 
-<table>
+
+<div class="container-fluid">
+  <h3> {{division.name}} System</h3>
+  <div class="row">
+      {% for group,teams in groups.items %}
+      <div class="col">
+        <h4>{{group.name}}</h5>
+        <ol class="list-group">
+          {% for team in teams %}
+            <li class="list-group-item">{{team}}</li>
+          {% endfor %}
+        </ol>
+      </div>
+      {%endfor%}
+  </div>
+</div>
+
+<h3> Games ({{matches.count}}) </h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>Home</th>
+      <th>Away</th>
+      <th></th>
+    </tr>
+  <thead>
   {% for match in matches %}
     <tr>
       <td>{{match.group.name}}</td>
@@ -23,3 +38,5 @@
     </tr>
   {%endfor%}
 </table>
+
+{% endblock %}
