@@ -1,5 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
+from .polygon_generator import polygon_generator
 
 #
 class Tournament(models.Model):
@@ -16,6 +17,7 @@ class Division(models.Model):
         return "{} (id={})".format(self.name,self.id)
 
     def CreateSeeds(self):
+        """ Vytvoreni zaznamu division seed"""
         # create SeedDivision
         for rank in range(self.teams):
             rank = rank + 1
@@ -79,10 +81,15 @@ class Division(models.Model):
         return [rank.teamPlaceholder for rank in ranks]
 
     def find_rank(self,group_name,rank):
-
+        """ Hledani tymu podle groupy a poradi"""
         group = self.group_set.get(name = group_name)
         rank = group.grouprank_set.get(rank = rank)
         return rank.teamPlaceholder
+
+    def CreateMatches(self):
+        """ Vytvoreni matchu pro divizi """
+        for group in self.group_set.all():
+            group.CreateMatches()
 
 @receiver(models.signals.post_save, sender=Division)
 def division__after_create(sender, instance, created, *args, **kwargs):
@@ -111,6 +118,18 @@ class Group(models.Model):
             # zalozim DivisionSeed
             seed = self.grouprank_set.create(rank = rank, teamPlaceholder = tph)
 
+    def CreateMatches(self):
+        """ vytvoreni vsech zapasu ve skupine """
+        for zapas_tup in polygon_generator(self.teams):
+            self.CreateMatch(zapas_tup)
+
+    def CreateMatch(self,zapas_tup):
+        """ Vytvoreni jednoho zapasu podle poradi seedu """
+        self.match_set.create(
+            group = self,
+            home = self.groupseed_set.get(rank = zapas_tup[0]).teamPlaceholder,
+            away = self.groupseed_set.get(rank = zapas_tup[1]).teamPlaceholder,
+        )
 # teams
 class Team(models.Model):
     name = models.CharField(max_length = 200)
@@ -152,6 +171,7 @@ class GroupRank(SeedAbstract):
     # seed ?
 
 class Match(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
     home = models.ForeignKey(TeamPlaceholder, related_name = 'home_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(TeamPlaceholder, related_name = 'away_matches', on_delete=models.CASCADE)
-    referee = models.ForeignKey(TeamPlaceholder, related_name = 'referee_matches', on_delete=models.CASCADE)
+    referee = models.ForeignKey(TeamPlaceholder, null = True, related_name = 'referee_matches', on_delete=models.CASCADE)
