@@ -1,4 +1,5 @@
 {{division.name}}
+<h3> System</h3>
 <ul>
 {% for group,teams in groups.items %}
   <li>Group {{group.name}}</li>
@@ -9,3 +10,16 @@
 </ol>
 {%endfor%}
 </ul>
+
+<h4> Games ({{matches.count}}) </h4>
+
+<table>
+  {% for match in matches %}
+    <tr>
+      <td>{{match.group.name}}</td>
+      <td>{{match.home.team_name}}</td>
+      <td>{{match.away.team_name}}</td>
+      <td></td>
+    </tr>
+  {%endfor%}
+</table>

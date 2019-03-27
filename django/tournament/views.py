@@ -55,6 +55,7 @@ class DivisionSystemView(TemplateView):
         context = {
             'division' : division,
             'groups' : groups,
+            'matches' : division.match_set.all()
         }
 
         return context
