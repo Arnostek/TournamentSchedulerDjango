@@ -1,4 +1,5 @@
 def polygon_generator(team_count):
+    """ Vraci indexy zapasu ve strukture [(home_seed_rank, away_seed_rank, rotation)]"""
     # poradi tymu v seedu
     seeds = [ i + 1 for i in range(team_count)]
     # pokud je sudy pocet, schovame si jeden tym vedle
@@ -21,7 +22,7 @@ def polygon_generator(team_count):
         # extend matches list
         matchIndexes.extend(
             [
-                (seeds[-1 * i - 1],seeds[i + 1])
+                (seeds[-1 * i - 1] ,seeds[i + 1], rotation)
                 for i in range (size // 2)
             ]
         )
@@ -30,7 +31,8 @@ def polygon_generator(team_count):
         if (evenIndex != None):
             matchIndexes.extend(
                 [
-                    (seeds[0], evenIndex)
+                    # TODO - tady se nemeni strany !!!
+                    (seeds[0], evenIndex, rotation)
                 ]
             )
 

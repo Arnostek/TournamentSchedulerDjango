@@ -27,14 +27,14 @@ class Division(models.Model):
             # zalozim DivisionSeed
             seed = self.divisionseed_set.create(rank = rank, teamPlaceholder = tph)
 
-    def CreateGroups(self,names,placeholders):
+    def CreateGroups(self, names, placeholders, phase):
         """ Vytvoreni naseedovanych skupin"""
         #
         groups = []
 
         # nejdriv zalozime skupiny, objekty si ulozime do groups
         for name in names:
-            groups.append(self.group_set.create(name = name))
+            groups.append(self.group_set.create(name = name, phase = phase))
 
         # pak vytvorime a naplnime seedy
         # na zacatek jdeme popredu
@@ -99,6 +99,7 @@ def division__after_create(sender, instance, created, *args, **kwargs):
 class Group(models.Model):
     name = models.CharField(max_length = 200)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
+    phase = models.PositiveSmallIntegerField()
     finished = models.BooleanField(default=False)
 
     def __str__(self):
@@ -126,7 +127,9 @@ class Group(models.Model):
     def CreateMatch(self,zapas_tup):
         """ Vytvoreni jednoho zapasu podle poradi seedu """
         self.match_set.create(
+            division = self.division,
             group = self,
+            phase_block = zapas_tup[2],
             home = self.groupseed_set.get(rank = zapas_tup[0]).teamPlaceholder,
             away = self.groupseed_set.get(rank = zapas_tup[1]).teamPlaceholder,
         )
@@ -171,7 +174,9 @@ class GroupRank(SeedAbstract):
     # seed ?
 
 class Match(models.Model):
+    division = models.ForeignKey(Division, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    phase_block = models.PositiveSmallIntegerField()
     home = models.ForeignKey(TeamPlaceholder, related_name = 'home_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(TeamPlaceholder, related_name = 'away_matches', on_delete=models.CASCADE)
     referee = models.ForeignKey(TeamPlaceholder, null = True, related_name = 'referee_matches', on_delete=models.CASCADE)
