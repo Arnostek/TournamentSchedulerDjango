@@ -53,11 +53,15 @@ for misto in [11,9,7,5]:
 tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[2:4])
 # final
 tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[0:2])
+# vygenerovani zapasu
+tdata.actual_division.CreateMatches()
 
 ####################################################
 # men B
 tdata.AddDivision('Men B','MenB',16)
 tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders)
+# vygenerovani zapasu
+tdata.actual_division.CreateMatches()
 
 ####################################################
 # Ladies
@@ -71,13 +75,17 @@ for misto in [9,7,5]:
 tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[2:4])
 # final
 tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['S1','S2'])[0:2])
-
+# vygenerovani zapasu
+tdata.actual_division.CreateMatches()
 ####################################################
 # U14
 tdata.AddDivision('U14','U14',6)
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders)
-
+# vygenerovani zapasu
+tdata.actual_division.CreateMatches()
 ####################################################
 # U16
 tdata.AddDivision('U16','U16',7)
 tdata.actual_division.CreateGroups(['A'], tdata.actual_division.seed_placeholders)
+# vygenerovani zapasu
+tdata.actual_division.CreateMatches()
