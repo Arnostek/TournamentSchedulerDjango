@@ -1,11 +1,22 @@
-{{tournament.name}}
-<ul>
-{% for division,teams in division_seed.items %}
-  <li><a href="system/{{division.id}}">{{division.name}}</a></li>
-  <ol>
-  {% for team in teams %}
-  <li>{{team}}</li>
-  {% endfor %}
-</ol>
-{%endfor%}
-</ul>
+{% extends 'body.html' %}
+
+{% block content %}
+
+<h3>{{tournament.name}}</h3>
+
+<div class="container-fluid">
+  <div class="row">
+    {% for division,teams in division_seed.items %}
+    <div class="col">
+      <h4><a href="system/{{division.id}}">{{division.name}}</a></h4>
+
+      <ol class="list-group">
+        {% for team in teams %}
+        <li class="list-group-item">{{team}}</li>
+        {% endfor %}
+      </ol>
+    </div>
+    {%endfor%}
+  </div>
+</div>
+{% endblock %}

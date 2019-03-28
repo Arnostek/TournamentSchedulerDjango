@@ -1,3 +1,11 @@
-{% for tournament in tournaments %}
- <a href="tournament/{{tournament.id}}">{{tournament.name}}</a>
-{% endfor %}
+{% extends 'body.html' %}
+
+{% block content %}
+  <ol class="list-group">
+    {% for tournament in tournaments %}
+    <li class="list-group-item">
+      <a href="tournament/{{tournament.id}}">{{tournament.name}}</a>
+    </li>
+    {% endfor %}
+  </ol>
+{% endblock %}
