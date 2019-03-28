@@ -65,6 +65,17 @@ class Division(models.Model):
         for group in groups:
             group.CreateRanks()
 
+    def CreateTeams(self, teams):
+        """ Create teams in team placehoders """
+        rank = 1
+
+        for team_name in teams:
+            # najdu TeamPlaceholder
+            tph = self.divisionseed_set.get(rank = rank).teamPlaceholder
+            tph.CreateTeam(team_name)
+
+            rank += 1
+
     @property
     def seed_placeholders(self):
         """

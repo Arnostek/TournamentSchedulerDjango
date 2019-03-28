@@ -17,26 +17,6 @@ class TestData:
 
         self.actual_division = self.t.division_set.create(name = name, slug = slug, teams = teams_count)
 
-    def SeedDivision(self,teams):
-
-        i = 0
-
-        for team_name in teams:
-            # najdu TeamPlaceholder
-            tph = self.actual_division.divisionseed_set.all()[i].teamPlaceholder
-            # vytvorim tym
-            team = models.Team(name = team_name)
-            team.save()
-            # ulozim tym do tph
-            tph.team = team
-            tph.save()
-
-            i += 1
-
-#    def AddGroups
-
-
-
 # turnaj
 tdata = TestData("Prague 2019", "PRG2019")
 ####################################################
