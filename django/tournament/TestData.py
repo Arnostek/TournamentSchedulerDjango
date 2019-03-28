@@ -22,6 +22,22 @@ tdata = TestData("Prague 2019", "PRG2019")
 ####################################################
 # men A
 tdata.AddDivision('Men A','MenA',12)
+tdata.actual_division.CreateTeams(
+    [
+        "Gottingen",
+        "KV Nürnberg",
+        "Warsawa Powisle Men",
+        "Kaniow Men",
+        "Neuburg Men",
+        "Prague A",
+        "Prague B",
+        "Austria Men",
+        "KTW Kalisz",
+        "RKV Berlin",
+        "Kwisa Lesna Men",
+        "9ValA",
+    ]
+)
 # zakladani skupiny
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
 # prvni 4 jdou do semi
@@ -39,6 +55,26 @@ tdata.actual_division.CreateMatches()
 ####################################################
 # men B
 tdata.AddDivision('Men B','MenB',16)
+tdata.actual_division.CreateTeams(
+    [
+        "Dresden Men",
+        "Leipzig Men",
+        "Glauchau Men",
+        "Kelheim Men",
+        "Schleißheimer Men",
+        "Nagymaros Men",
+        "Pirates from Bergheim A",
+        "Pirates from Bergheim B",
+        "Linz",
+        "KGL Hannover Rodeo Roundhousekick",
+        "Prague C",
+        "Ukk Wien Men",
+        "ASV Horb",
+        "Salzburg",
+        "Vidra OB",
+        "9ValB",
+    ]
+)
 tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders, 1)
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
