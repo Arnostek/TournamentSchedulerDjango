@@ -143,6 +143,16 @@ class TeamPlaceholder(models.Model):
 #    division = models.ForeignKey(Division, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, null = True, on_delete=models.PROTECT)
 
+    def CreateTeam(self,team_name):
+        """ create related team record """
+        if self.team:
+            raise("Team record already exists!")
+        else:
+            t = Team(name = team_name)
+            t.save()
+            self.team = t
+            self.save()
+
     @property
     def team_name(self):
         """ Returns team or team placehoder name"""
