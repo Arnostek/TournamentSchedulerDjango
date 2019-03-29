@@ -82,8 +82,34 @@ tdata.actual_division.CreateMatches()
 ####################################################
 # Ladies
 tdata.AddDivision('Ladies','Ladies',10)
+tdata.actual_division.CreateTeams(
+    [
+        "Havelbrüder Berlin",
+        "Leipzig Women",
+        "Warsawa Powisle Women",
+        "Kaniow Women",
+        "Neuburg Women",
+        "Nagymaros Women",
+        "Heidelberg Women",
+        "Prague Women",
+        "Swiss Dream Team",
+        "Ukk Wien Women",
+    ]
+)
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
+tdata.actual_division.CreateTeams(
+    [
+        "Dresden U16",
+        "Warsawa Powisle U16",
+        "Glauchau U16",
+        "Neuburg U16",
+        "Nagymaros U16",
+        "Prague U16",
+        "Kwisa Lesna U16",
+    ]
+)
 tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['A','B'])[:4], 2)
+
 # zapasy o mista bez semi
 for misto in [9,7,5]:
     tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], 3)
@@ -96,6 +122,16 @@ tdata.actual_division.CreateMatches()
 ####################################################
 # U14
 tdata.AddDivision('U14','U14',6)
+tdata.actual_division.CreateTeams(
+    [
+        "Dresden U14",
+        "Warsawa Powisle U14",
+        "Kaniow U14",
+        "Glauchau U14",
+        "Prague U14",
+        "Ukk Wien U14",
+    ]
+)
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
