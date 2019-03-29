@@ -122,6 +122,7 @@ tdata.actual_division.CreateTeams(
     ]
 )
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
+
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
 ####################################################
@@ -142,8 +143,8 @@ tdata.actual_division.CreateGroups(['A'], tdata.actual_division.seed_placeholder
 
 a_ranks = tdata.actual_division.GetGroupsRanks(['A'])
 # 3rd
-tdata.actual_division.CreateGroups(['3rd'], [a_ranks[3], a_ranks[4]] , 2)
+tdata.actual_division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , 2)
 # final
-tdata.actual_division.CreateGroups(['final'],[a_ranks[1], a_ranks[2]] , 3)
+tdata.actual_division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , 3)
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
