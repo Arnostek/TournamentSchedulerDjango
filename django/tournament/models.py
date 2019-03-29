@@ -132,8 +132,10 @@ class Group(models.Model):
 
     def CreateMatches(self):
         """ vytvoreni vsech zapasu ve skupine """
-        for zapas_tup in polygon_generator(self.teams):
-            self.CreateMatch(zapas_tup)
+        # pokud jeste neexistuje zadny zapas
+        if self.match_set.count() == 0:
+            for zapas_tup in polygon_generator(self.teams):
+                self.CreateMatch(zapas_tup)
 
     def CreateMatch(self,zapas_tup):
         """ Vytvoreni jednoho zapasu podle poradi seedu """
