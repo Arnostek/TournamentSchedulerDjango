@@ -97,17 +97,6 @@ tdata.actual_division.CreateTeams(
     ]
 )
 tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
-tdata.actual_division.CreateTeams(
-    [
-        "Dresden U16",
-        "Warsawa Powisle U16",
-        "Glauchau U16",
-        "Neuburg U16",
-        "Nagymaros U16",
-        "Prague U16",
-        "Kwisa Lesna U16",
-    ]
-)
 tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['A','B'])[:4], 2)
 
 # zapasy o mista bez semi
@@ -138,6 +127,17 @@ tdata.actual_division.CreateMatches()
 ####################################################
 # U16
 tdata.AddDivision('U16','U16',7)
+tdata.actual_division.CreateTeams(
+    [
+        "Dresden U16",
+        "Warsawa Powisle U16",
+        "Glauchau U16",
+        "Neuburg U16",
+        "Nagymaros U16",
+        "Prague U16",
+        "Kwisa Lesna U16",
+    ]
+)
 tdata.actual_division.CreateGroups(['A'], tdata.actual_division.seed_placeholders, 1)
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
