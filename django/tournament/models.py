@@ -1,11 +1,29 @@
 from django.db import models
 from django.dispatch import receiver
 from .polygon_generator import polygon_generator
+import datetime
 
 #
 class Tournament(models.Model):
     name = models.CharField(max_length = 200)
     slug = models.SlugField()
+
+    def CreatePitches(self, num):
+
+        for pn in range(num):
+
+            self.pitch_set.create(name = 'Pitch {}'.format(pn+1))
+
+    def CreateSchedules(self, begin, end, gametime = 30):
+
+        time = begin
+
+        delta = datetime.timedelta(minutes = gametime)
+
+        while time < end:
+            for pitch in self.pitch_set.all():
+                self.schedule_set.create(tournament = self, time = time, pitch = pitch)
+            time += delta
 
 class Division(models.Model):
     name = models.CharField(max_length = 200)
@@ -203,3 +221,14 @@ class Match(models.Model):
     home = models.ForeignKey(TeamPlaceholder, related_name = 'home_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(TeamPlaceholder, related_name = 'away_matches', on_delete=models.CASCADE)
     referee = models.ForeignKey(TeamPlaceholder, null = True, related_name = 'referee_matches', on_delete=models.CASCADE)
+
+class Pitch(models.Model):
+    name = models.CharField(max_length = 50)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+
+class Schedule(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+    pitch = models.ForeignKey(Pitch, on_delete=models.CASCADE)
+    game_number = models.PositiveSmallIntegerField(null = True)
+    match = models.ForeignKey(Match, null = True, on_delete=models.SET_NULL)
