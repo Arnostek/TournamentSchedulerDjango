@@ -16,7 +16,7 @@ class TournamentDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        tournament = Tournament.objects.get(id=self.kwargs['id'])
+        tournament = Tournament.objects.get(id=self.kwargs['tid'])
 
         division_seed = {
             div : [
@@ -41,7 +41,7 @@ class DivisionSystemView(TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        division = Division.objects.get(id = self.kwargs['id'])
+        division = Division.objects.get(id = self.kwargs['did'])
 
         groups = {
 
