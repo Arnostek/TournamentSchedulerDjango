@@ -221,6 +221,27 @@ class Match(models.Model):
     home = models.ForeignKey(TeamPlaceholder, related_name = 'home_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(TeamPlaceholder, related_name = 'away_matches', on_delete=models.CASCADE)
     referee = models.ForeignKey(TeamPlaceholder, null = True, related_name = 'referee_matches', on_delete=models.CASCADE)
+    home_score = models.PositiveSmallIntegerField(null = True)
+    away_score = models.PositiveSmallIntegerField(null = True)
+
+    @property
+    def home_points(self):
+        return self.get_points(self.home_score,self.away_score)
+
+    @property
+    def away_points(self):
+        return self.get_points(self.away_score,self.home_score)
+
+    def get_points(self,me,oponent):
+        if (not me) or (not oponent):
+            return None
+
+        if me > oponent:
+            return 2
+        elif me == oponent:
+            return 1
+        else:
+            return 0
 
 class Pitch(models.Model):
     name = models.CharField(max_length = 50)
