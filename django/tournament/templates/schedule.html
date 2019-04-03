@@ -23,11 +23,18 @@
       <td><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
       <td>{{schedule.match.group.name}}</td>
-      <td>{{schedule.match.home.team_name}}</td>
+      <td>
+        {% include "schedule-team.html" with tph=schedule.match.home %}
+      </td>
       <!-- <td>{{schedule.match.home_score}}</td>
       <td>{{schedule.match.away_score}}</td> -->
-      <td>{{schedule.match.away.team_name}}</td>
-      <td>{{schedule.match.referee.team_name}}</td>
+      <td>
+        {% include "schedule-team.html" with tph=schedule.match.away %}
+      </td>
+      <!-- <td>{{schedule.match.away.team_name}}</td> -->
+      <td>
+        {% include "schedule-team.html" with tph=schedule.match.referee %}
+      </td>
     </tr>
   {%endfor%}
 </table>

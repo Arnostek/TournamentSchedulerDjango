@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from .models import Tournament, Division
+from django.db.models import Q
 
 # Create your views here.
 
@@ -72,6 +73,13 @@ class ScheduleView(TemplateView):
             schedules = tournament.schedule_set.filter(match__division__id = self.kwargs['did'])
         elif 'pid' in self.kwargs:
             schedules = tournament.schedule_set.filter(pitch__id = self.kwargs['pid'])
+        elif 'team' in self.kwargs:
+            schedules = tournament.schedule_set.filter(
+                    Q(match__home__team__id = self.kwargs['team'])
+                    | Q(match__away__team__id = self.kwargs['team'])
+                    | Q(match__referee__team__id = self.kwargs['team'])
+                )
+
         else:
             schedules = tournament.schedule_set.all()
 
