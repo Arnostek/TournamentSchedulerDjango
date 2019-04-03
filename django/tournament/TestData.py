@@ -187,6 +187,6 @@ tdata.actual_division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , 3)
 tdata.actual_division.CreateMatches()
 
 ## zalozime 4 hriste a prazdny schedule
-tdata.CreatePitches(4)
-tdata.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
-tdata.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
+tdata.t.CreatePitches(4)
+tdata.t.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
+tdata.t.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
