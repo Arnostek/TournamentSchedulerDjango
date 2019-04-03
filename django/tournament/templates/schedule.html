@@ -20,7 +20,7 @@
   {% for schedule in schedules %}
     <tr>
       <td>{{schedule.time}}</td>
-      <td>{{schedule.pitch.name}}</td>
+      <td><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
       <td>{{schedule.match.group.name}}</td>
       <td>{{schedule.match.home.team_name}}</td>
