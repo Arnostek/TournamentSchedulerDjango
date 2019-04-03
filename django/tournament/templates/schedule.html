@@ -13,6 +13,8 @@
       <th>Division</th>
       <th>Group</th>
       <th>Home</th>
+      <th></th>
+      <th></th>
       <th>Away</th>
       <th>Referee</th>
     </tr>
@@ -26,8 +28,8 @@
       <td>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>
-      <!-- <td>{{schedule.match.home_score}}</td>
-      <td>{{schedule.match.away_score}}</td> -->
+      <td><input class="score" id="match-{{schedule.match.id}}" name="home_score" value="{{schedule.match.home_score | default:""}}" /></td>
+      <td><input class="score" id="match-{{schedule.match.id}}" name="away_score" value="{{schedule.match.away_score | default:""}}" /></td>
       <td>
         {% include "schedule-team.html" with tph=schedule.match.away %}
       </td>
