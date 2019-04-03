@@ -8,5 +8,6 @@ urlpatterns = [
     path('tournament-<int:tid>/schedule/', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/division-<int:did>', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/pitch-<int:pid>', views.ScheduleView.as_view()),
+    path('tournament-<int:tid>/schedule/team-<int:team>', views.ScheduleView.as_view()),
     #path('<int:id>', views.TournamentDetailView.as_view()),
 ]
