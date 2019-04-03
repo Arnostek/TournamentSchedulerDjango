@@ -1,0 +1,7 @@
+Dodelat
+
+* zadavani score
+* tabulky skupin, vcetne vysledku
+* nacpani zapasu na hriste
+* kontrola hratelnosti
+* doplneni rozhodcich
