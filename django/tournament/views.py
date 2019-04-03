@@ -59,3 +59,19 @@ class DivisionSystemView(TemplateView):
         }
 
         return context
+
+class ScheduleView(TemplateView):
+
+    template_name = 'schedule.html'
+
+    def get_context_data(self, **kwargs):
+
+        tournament = Tournament.objects.get(id=self.kwargs['tid'])
+
+        context = {
+            'tournament' : tournament,
+            'pitches' : tournament.pitch_set.all(),
+            'schedules' : tournament.schedule_set.all(),
+        }
+
+        return context

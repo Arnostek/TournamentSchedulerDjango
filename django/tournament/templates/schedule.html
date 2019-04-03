@@ -1,0 +1,31 @@
+{% extends 'body.html' %}
+
+{% block content %}
+
+<h2> {{tournament.name}} Schedule</h2>
+
+<h3> Games </h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Pitch</th>
+      <th>Home</th>
+      <th>Away</th>
+      <th>Referee</th>
+    </tr>
+  <thead>
+  {% for schedule in schedules %}
+    <tr>
+      <td>{{schedule.time}}</td>
+      <td>{{schedule.pitch.name}}</td>
+      <td>{{schedule.match.home}}</td>
+      <!-- <td>{{schedule.match.home_score}}</td>
+      <td>{{schedule.match.away_score}}</td> -->
+      <td>{{schedule.match.away}}</td>
+      <td>{{schedule.match.referee}}</td>
+    </tr>
+  {%endfor%}
+</table>
+
+{% endblock %}
