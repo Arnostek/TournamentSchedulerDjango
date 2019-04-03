@@ -68,10 +68,15 @@ class ScheduleView(TemplateView):
 
         tournament = Tournament.objects.get(id=self.kwargs['tid'])
 
+        if 'did' in self.kwargs:
+            schedules = tournament.schedule_set.filter(match__division__id = self.kwargs['did'])
+        else:
+            schedules = tournament.schedule_set.all()
+
         context = {
             'tournament' : tournament,
             'pitches' : tournament.pitch_set.all(),
-            'schedules' : tournament.schedule_set.all(),
+            'schedules' : schedules,
         }
 
         return context
