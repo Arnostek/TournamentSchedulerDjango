@@ -190,3 +190,25 @@ tdata.actual_division.CreateMatches()
 tdata.t.CreatePitches(4)
 tdata.t.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
 tdata.t.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
+
+## rozhozeni zapasu na hriste
+
+# testovaci kod
+
+# divize Men A na pitch 1
+d = tdata.t.division_set.all()[0]
+p = tdata.t.pitch_set.all()[0]
+
+for i in range(d.match_set.count()):
+    sch = tdata.t.schedule_set.filter(pitch = p)[i]
+    sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
+    sch.save()
+
+# divize Ladies na pitch 2
+d = tdata.t.division_set.all()[2]
+p = tdata.t.pitch_set.all()[1]
+
+for i in range(d.match_set.count()):
+    sch = tdata.t.schedule_set.filter(pitch = p)[i]
+    sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
+    sch.save()
