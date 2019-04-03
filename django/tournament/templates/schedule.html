@@ -41,4 +41,13 @@
   {%endfor%}
 </table>
 
+<script>
+$(".score").change(
+  function(){
+    url = "/set/" +this.id + "?" + this.name + "=" + this.value;
+    $.get(url)
+  }
+)
+</script>
+
 {% endblock %}
