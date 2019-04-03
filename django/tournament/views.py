@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division
+from .models import Tournament, Division, Match
 from django.db.models import Q
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -90,3 +91,16 @@ class ScheduleView(TemplateView):
         }
 
         return context
+
+def SetScore(request, mid):
+    print (mid)
+    m = Match.objects.get(id = mid)
+
+    if 'home_score' in request.GET:
+        m.home_score = request.GET["home_score"]
+        m.save()
+    elif 'away_score' in request.GET:
+        m.away_score = request.GET["away_score"]
+        m.save()
+
+    return HttpResponse("OK")
