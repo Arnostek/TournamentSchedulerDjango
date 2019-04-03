@@ -1,4 +1,5 @@
 from . import models
+import datetime
 
 # run it in shell by:
 # from tournament.TestData import TestData
@@ -184,3 +185,8 @@ tdata.actual_division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , 2)
 tdata.actual_division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , 3)
 # vygenerovani zapasu
 tdata.actual_division.CreateMatches()
+
+## zalozime 4 hriste a prazdny schedule
+tdata.CreatePitches(4)
+tdata.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
+tdata.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
