@@ -49,6 +49,7 @@ $("td.score input").change(
     $.get(url)
     .done(
       function(){
+        $(input_el).removeClass("bg-danger");
         $(input_el).addClass("bg-success");
       }
     )
