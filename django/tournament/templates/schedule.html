@@ -47,6 +47,16 @@ $(".score").change(
     var input_el = this
     url = "/set/" +this.id + "/" + this.value;
     $.get(url)
+    .done(
+      function(){
+        $(input_el).addClass("bg-success");
+      }
+    )
+    .fail(
+      function(){
+        $(input_el).addClass("bg-danger");
+      }
+    );
   }
 )
 </script>
