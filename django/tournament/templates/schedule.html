@@ -51,6 +51,8 @@ $("td.score input").change(
       function(){
         $(input_el).removeClass("bg-danger");
         $(input_el).addClass("bg-success");
+        // focus na dalsi score pole - zatim funguje jen v radku
+        $(input_el).closest('td.score').nextAll('td.score').first().find('input').focus();
       }
     )
     .fail(
