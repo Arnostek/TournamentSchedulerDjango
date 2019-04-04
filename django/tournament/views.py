@@ -92,15 +92,16 @@ class ScheduleView(TemplateView):
 
         return context
 
-def SetScore(request, mid):
-    print (mid)
+def SetScore(request, mid, who, score):
+    #print (mid)
     m = Match.objects.get(id = mid)
 
-    if 'home_score' in request.GET:
-        m.home_score = request.GET["home_score"]
+    if who == 'home':
+        m.home_score = score
         m.save()
-    elif 'away_score' in request.GET:
-        m.away_score = request.GET["away_score"]
+
+    elif who == 'away':
+        m.away_score = score
         m.save()
 
     return HttpResponse("OK")

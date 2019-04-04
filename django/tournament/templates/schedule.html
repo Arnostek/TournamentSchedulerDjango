@@ -28,8 +28,8 @@
       <td>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>
-      <td><input class="score" id="match-{{schedule.match.id}}" name="home_score" value="{{schedule.match.home_score | default:""}}" /></td>
-      <td><input class="score" id="match-{{schedule.match.id}}" name="away_score" value="{{schedule.match.away_score | default:""}}" /></td>
+      <td><input class="score" id="match-{{schedule.match.id}}/home" name="home_score" value="{{schedule.match.home_score | default:""}}" /></td>
+      <td><input class="score" id="match-{{schedule.match.id}}/away" name="away_score" value="{{schedule.match.away_score | default:""}}" /></td>
       <td>
         {% include "schedule-team.html" with tph=schedule.match.away %}
       </td>
@@ -44,7 +44,8 @@
 <script>
 $(".score").change(
   function(){
-    url = "/set/" +this.id + "?" + this.name + "=" + this.value;
+    var input_el = this
+    url = "/set/" +this.id + "/" + this.value;
     $.get(url)
   }
 )
