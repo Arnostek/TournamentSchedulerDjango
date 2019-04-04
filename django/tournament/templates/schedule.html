@@ -24,7 +24,7 @@
       <td>{{schedule.time | date:'D H:i'}}</td>
       <td><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
-      <td>{{schedule.match.group.name}}</td>
+      <td><a href="division-{{schedule.match.division.id}}-group-{{schedule.match.group.id}}">{{schedule.match.group.name}}</a></td>
       <td>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>

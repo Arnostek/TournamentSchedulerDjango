@@ -7,6 +7,7 @@ urlpatterns = [
     path('tournament-<int:tid>/division-<int:did>/system', views.DivisionSystemView.as_view()),
     path('tournament-<int:tid>/schedule/', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/division-<int:did>', views.ScheduleView.as_view()),
+    path('tournament-<int:tid>/schedule/division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/pitch-<int:pid>', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/team-<int:team>', views.ScheduleView.as_view()),
     path('set/match-<int:mid>/<slug:who>/<int:score>', views.SetScore),
