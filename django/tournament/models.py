@@ -180,20 +180,20 @@ class Group(models.Model):
     def AddTeamResult(self, teamPlaceholder, points, scored, obtained):
         """ Pripocteni bodu pro jeden tym"""
 
-        if (points != None):
+        if teamPlaceholder not in self.GroupResults:
+            self.GroupResults[teamPlaceholder] = {
+            'games' : 0,
+            'points' : 0,
+            'scored' : 0,
+            'obtained' : 0,
+            }
 
-            if teamPlaceholder not in self.GroupResults:
-                self.GroupResults[teamPlaceholder] = {
-                        'games' : 1,
-                        'points' : points,
-                        'scored' : scored,
-                        'obtained' : obtained,
-                }
-            else:
-                self.GroupResults[teamPlaceholder]['games'] +=  1
-                self.GroupResults[teamPlaceholder]['points'] +=  points
-                self.GroupResults[teamPlaceholder]['scored'] += scored
-                self.GroupResults[teamPlaceholder]['obtained'] += obtained
+        if (points != None):
+            self.GroupResults[teamPlaceholder]['games'] +=  1
+            self.GroupResults[teamPlaceholder]['points'] +=  points
+            self.GroupResults[teamPlaceholder]['scored'] += scored
+            self.GroupResults[teamPlaceholder]['obtained'] += obtained
+
 
 # teams
 class Team(models.Model):
