@@ -57,7 +57,7 @@ class DivisionSystemView(TemplateView):
         context = {
             'division' : division,
             'groups' : groups,
-            'matches' : division.match_set.all().order_by('group__phase','phase_block','id')
+            'matches' : division.match_set.all().order_by('group__phase','phase_block','id'),
         }
 
         return context
