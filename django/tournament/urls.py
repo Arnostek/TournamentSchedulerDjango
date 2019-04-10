@@ -2,12 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    # seznam turnaju
     path('', views.TournamentListView.as_view()),
+    # detail turnaje
     path('tournament-<int:tid>/', views.TournamentDetailView.as_view()),
     # division system
-    path('tournament-<int:tid>/division-<int:did>/system', views.DivisionSystemView.as_view()),
+    path('tournament-<int:tid>/system/division-<int:did>', views.DivisionSystemView.as_view()),
     # division tables
-    path('tournament-<int:tid>/division-<int:did>/tables', views.DivisionTablesView.as_view()),
+    path('tournament-<int:tid>/tables/division-<int:did>', views.DivisionTablesView.as_view()),
     # schedule
     path('tournament-<int:tid>/schedule/', views.ScheduleView.as_view()),
     path('tournament-<int:tid>/schedule/division-<int:did>', views.ScheduleView.as_view()),
