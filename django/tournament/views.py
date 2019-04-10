@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division, Match
+from .models import Tournament, Division, Group, Match
 from django.db.models import Q
 from django.http import HttpResponse
 
@@ -61,6 +61,27 @@ class DivisionSystemView(TemplateView):
         }
 
         return context
+
+class DivisionTablesView(TemplateView):
+
+    template_name = 'division_tables.html'
+
+    def get_context_data(self, **kwargs):
+
+        tables = {}
+
+        division = Division.objects.get(id = self.kwargs['did'])
+
+        for group in division.group_set.all():
+            tables[group] = group.Results
+
+        context = {
+            'division' : division,
+            'tables' : tables,
+        }
+
+        return context
+
 
 class ScheduleView(TemplateView):
 

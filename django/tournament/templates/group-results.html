@@ -1,0 +1,20 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Team</th>
+      <th>Games</th>
+      <th>Scored</th>
+      <th>Obtained</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+{% for tph,res in results.items %}
+<tr>
+  <td>{{tph.team_name}}</td>
+  <td>{{res.games}}</td>
+  <td>{{res.scored}}</td>
+  <td>{{res.obtained}}</td>
+  <td>{{res.points}}</td>
+</tr>
+{% endfor %}
+</table>

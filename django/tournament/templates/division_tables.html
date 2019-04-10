@@ -1,0 +1,11 @@
+{% extends 'body.html' %}
+
+{% block content %}
+  <h2> {{division.name}} Tables</h2>
+  {% for group,results in tables.items %}
+    {% if results%}
+      <h3>Group {{group.name}}</h3>
+      {% include "group-results.html" %}
+    {% endif %}
+  {% endfor %}
+{% endblock %}
