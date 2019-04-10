@@ -164,6 +164,37 @@ class Group(models.Model):
             home = self.groupseed_set.get(rank = zapas_tup[0]).teamPlaceholder,
             away = self.groupseed_set.get(rank = zapas_tup[1]).teamPlaceholder,
         )
+
+    @property
+    def Results(self):
+        """ Vypocte body tymu ve skupine """
+        self.GroupResults = {}
+
+        # projdeme zapasy
+        for match in self.match_set.all():
+            self.AddTeamResult(match.home, match.home_points, match.home_score, match.away_score)
+            self.AddTeamResult(match.away, match.away_points, match.away_score, match.home_score)
+
+        return self.GroupResults
+
+    def AddTeamResult(self, teamPlaceholder, points, scored, obtained):
+        """ Pripocteni bodu pro jeden tym"""
+
+        if (points != None):
+
+            if teamPlaceholder not in self.GroupResults:
+                self.GroupResults[teamPlaceholder] = {
+                        'games' : 1,
+                        'points' : points,
+                        'scored' : scored,
+                        'obtained' : obtained,
+                }
+            else:
+                self.GroupResults[teamPlaceholder]['games'] +=  1
+                self.GroupResults[teamPlaceholder]['points'] +=  points
+                self.GroupResults[teamPlaceholder]['scored'] += scored
+                self.GroupResults[teamPlaceholder]['obtained'] += obtained
+
 # teams
 class Team(models.Model):
     name = models.CharField(max_length = 200)
