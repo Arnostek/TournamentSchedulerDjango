@@ -12,32 +12,35 @@ class TournamentListView(ListView):
     queryset = Tournament.objects.all()
     context_object_name = 'tournaments'
 
-class TournamentDetailView(TemplateView):
+class TournamentDetail:
+
+    @property
+    def tournament(self):
+        tournament = Tournament.objects.get(id=self.kwargs['tid'])
+        return tournament
+
+class TournamentDetailView(TemplateView, TournamentDetail):
 
     template_name = 'tournament_detail.html'
 
     def get_context_data(self, **kwargs):
-
-        tournament = Tournament.objects.get(id=self.kwargs['tid'])
 
         division_seed = {
             div : [
                 seed.teamPlaceholder.team_name
                 for seed in div.divisionseed_set.all()
             ]
-            for div in tournament.division_set.all()
+            for div in self.tournament.division_set.all()
         }
 
         context = {
-            'tournament' : tournament,
+            'tournament' : self.tournament,
             'division_seed' : division_seed,
-            #''
-
         }
 
         return context
 
-class DivisionSystemView(TemplateView):
+class DivisionSystemView(TemplateView, TournamentDetail):
 
     template_name = 'division_system.html'
 
@@ -55,6 +58,7 @@ class DivisionSystemView(TemplateView):
         }
 
         context = {
+            'tournament' : self.tournament,
             'division' : division,
             'groups' : groups,
             'matches' : division.match_set.all().order_by('group__phase','phase_block','id'),
@@ -62,7 +66,7 @@ class DivisionSystemView(TemplateView):
 
         return context
 
-class DivisionTablesView(TemplateView):
+class DivisionTablesView(TemplateView, TournamentDetail):
 
     template_name = 'division_tables.html'
 
@@ -76,6 +80,7 @@ class DivisionTablesView(TemplateView):
             tables[group] = group.Results
 
         context = {
+            'tournament' : self.tournament,
             'division' : division,
             'tables' : tables,
         }
@@ -83,13 +88,13 @@ class DivisionTablesView(TemplateView):
         return context
 
 
-class ScheduleView(TemplateView):
+class ScheduleView(TemplateView, TournamentDetail):
 
     template_name = 'schedule.html'
 
     def get_context_data(self, **kwargs):
 
-        tournament = Tournament.objects.get(id=self.kwargs['tid'])
+        tournament = self.tournament
 
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
