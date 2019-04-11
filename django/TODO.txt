@@ -2,10 +2,10 @@ Dodelat
 * nacpani zapasu na hriste
 * kontrola hratelnosti
 * doplneni rozhodcich
-* navigace, breadcrumbs
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * generator systemu
 
 Hotovo
 * zadavani score
 * tabulky skupin, vcetne vysledku
+* navigace, breadcrumbs
