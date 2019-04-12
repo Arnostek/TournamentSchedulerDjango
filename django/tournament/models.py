@@ -264,7 +264,7 @@ class Match(models.Model):
         return self.get_points(self.away_score,self.home_score)
 
     def get_points(self,me,oponent):
-        if (not me) or (not oponent):
+        if (me == None) or (oponent == None):
             return None
 
         if me > oponent:
