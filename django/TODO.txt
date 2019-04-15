@@ -1,11 +1,18 @@
 Dodelat
+* preklapeni vysledku do dalsich kol
 * nacpani zapasu na hriste
 * kontrola hratelnosti
 * doplneni rozhodcich
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * generator systemu
+* zaheslovani zadavani score
+
+Chyby
+* z django settings.py odebrat SECRET_KEY a DEBUG
+* pri generovani her pro sudy pocet tymu je posledni tym stale "home"
 
 Hotovo
 * zadavani score
 * tabulky skupin, vcetne vysledku
 * navigace, breadcrumbs
+* FIXED nulove score v zapase se nepocita do tabulky!!
