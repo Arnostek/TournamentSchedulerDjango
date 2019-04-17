@@ -175,10 +175,8 @@ class Group(models.Model):
             self.AddTeamResult(match.home, match.home_points, match.home_score, match.away_score)
             self.AddTeamResult(match.away, match.away_points, match.away_score, match.home_score)
 
-        # vratime setridene dle poradi
-#        return self.GroupResults
-
-        return sorted(
+        # setridene dle poradi
+        tmp =  sorted(
             self.GroupResults.items(),
             key = lambda item : (
                     int(item[1]['points']),
@@ -188,6 +186,8 @@ class Group(models.Model):
             ),
             reverse = True
         )
+        # vracime v puvodni strukture
+        return { tup[0] : tup[1] for tup in tmp}
 
 
 

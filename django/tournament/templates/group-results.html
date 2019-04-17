@@ -10,14 +10,14 @@
       <th>Scored</th>
       <th>Obtained</th>
     </tr>
-    {% for restup in results %}
+    {% for tph,res in results.items %}
     <tr>
-      <td>{{restup.0.team_name}}</td>
-      <td>{{restup.1.games}}</td>
-      <td>{{restup.1.points}}</td>
-      <td>{{restup.1.diff}}</td>
-      <td>{{restup.1.scored}}</td>
-      <td>{{restup.1.obtained}}</td>
+      <td>{{tph.team_name}}</td>
+      <td>{{res.games}}</td>
+      <td>{{res.points}}</td>
+      <td>{{res.diff}}</td>
+      <td>{{res.scored}}</td>
+      <td>{{res.obtained}}</td>
     </tr>
     {% endfor %}
   </tbody>
