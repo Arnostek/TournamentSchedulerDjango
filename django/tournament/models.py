@@ -177,6 +177,16 @@ class Group(models.Model):
 
         return self.GroupResults
 
+    @property
+    def All_scores_filled(self):
+        """ Jsou uz zadana score ze vsech zapasu skupiny? """
+
+        for match in self.match_set.all():
+            if !match.score_filled:
+                return False
+
+        return True
+
     def AddTeamResult(self, teamPlaceholder, points, scored, obtained):
         """ Pripocteni bodu pro jeden tym"""
 
@@ -262,6 +272,13 @@ class Match(models.Model):
     @property
     def away_points(self):
         return self.get_points(self.away_score,self.home_score)
+
+    @property
+    def score_filled(self):
+        if (self.home_score == None) or (self.away_score == None):
+            return False
+        else:
+            return True
 
     def get_points(self,me,oponent):
         if (me == None) or (oponent == None):
