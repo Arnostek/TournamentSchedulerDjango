@@ -182,7 +182,7 @@ class Group(models.Model):
         """ Jsou uz zadana score ze vsech zapasu skupiny? """
 
         for match in self.match_set.all():
-            if !match.score_filled:
+            if not match.score_filled:
                 return False
 
         return True
