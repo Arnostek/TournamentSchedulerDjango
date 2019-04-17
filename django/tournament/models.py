@@ -194,6 +194,7 @@ class Group(models.Model):
             self.GroupResults[teamPlaceholder] = {
             'games' : 0,
             'points' : 0,
+            'diff' : 0,
             'scored' : 0,
             'obtained' : 0,
             }
@@ -203,6 +204,7 @@ class Group(models.Model):
             self.GroupResults[teamPlaceholder]['points'] +=  points
             self.GroupResults[teamPlaceholder]['scored'] += scored
             self.GroupResults[teamPlaceholder]['obtained'] += obtained
+            self.GroupResults[teamPlaceholder]['diff'] += scored - obtained
 
 
 # teams
