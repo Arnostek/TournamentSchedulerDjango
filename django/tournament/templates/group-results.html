@@ -5,19 +5,19 @@
     <tr>
       <th>Team</th>
       <th>Games</th>
+      <th>Points</th>
       <th>Diff</th>
       <th>Scored</th>
       <th>Obtained</th>
-      <th>Points</th>
     </tr>
-    {% for tph,res in results.items %}
+    {% for restup in results %}
     <tr>
-      <td>{{tph.team_name}}</td>
-      <td>{{res.games}}</td>
-      <td>{{res.scored}}</td>
-      <td>{{res.obtained}}</td>
-      <td>{{res.points}}</td>
+      <td>{{restup.0.team_name}}</td>
+      <td>{{restup.1.games}}</td>
+      <td>{{restup.1.points}}</td>
       <td>{{restup.1.diff}}</td>
+      <td>{{restup.1.scored}}</td>
+      <td>{{restup.1.obtained}}</td>
     </tr>
     {% endfor %}
   </tbody>

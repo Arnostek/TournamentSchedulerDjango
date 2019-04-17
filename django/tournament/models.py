@@ -175,7 +175,21 @@ class Group(models.Model):
             self.AddTeamResult(match.home, match.home_points, match.home_score, match.away_score)
             self.AddTeamResult(match.away, match.away_points, match.away_score, match.home_score)
 
-        return self.GroupResults
+        # vratime setridene dle poradi
+#        return self.GroupResults
+
+        return sorted(
+            self.GroupResults.items(),
+            key = lambda item : (
+                    int(item[1]['points']),
+                    int(item[1]['diff']),
+                    int(item[1]['scored']),
+                    -1 * int(item[1]['obtained']),
+            ),
+            reverse = True
+        )
+
+
 
     @property
     def All_scores_filled(self):
