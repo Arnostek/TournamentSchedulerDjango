@@ -26,8 +26,12 @@
       <td>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>
-      <td class="score"><input id="match-{{schedule.match.id}}/home" value="{{schedule.match.home_score | default:""}}" /></td>
-      <td class="score"><input id="match-{{schedule.match.id}}/away" value="{{schedule.match.away_score | default:""}}" /></td>
+      <td class="score">
+        {% include "schedule-score.html" with home_away="home" score=schedule.match.home_score %}
+      </td>
+      <td class="score">
+        {% include "schedule-score.html" with home_away="away" score=schedule.match.away_score %}
+      </td>
       <td>
         {% include "schedule-team.html" with tph=schedule.match.away %}
       </td>
