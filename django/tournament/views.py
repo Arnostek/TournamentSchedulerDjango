@@ -125,6 +125,9 @@ def SetScore(request, mid, who, score):
     #print (mid)
     m = Match.objects.get(id = mid)
 
+    if m.locked:
+        return HttpResponse("Error: Match locked!", status=400)
+
     if who == 'home':
         m.home_score = score
         m.save()
@@ -138,6 +141,10 @@ def SetScore(request, mid, who, score):
 def FinishGroup(request, gid):
     # nacteme skupinu a preklopime poradi do group ranks
     g = Group.objects.get(id = gid)
+
+    if g.finished:
+        return HttpResponse("Error: Group already finished!", status=400)
+
     g.FillRanks()
 
     return HttpResponse("OK")
