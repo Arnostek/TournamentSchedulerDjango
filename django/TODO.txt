@@ -9,6 +9,7 @@ Dodelat
 Chyby
 * z django settings.py odebrat SECRET_KEY a DEBUG
 * pri generovani her pro sudy pocet tymu je posledni tym stale "home"
+* nahodne poradi pro shodne body, diff i scored
 
 Hotovo
 * zadavani score
