@@ -220,6 +220,22 @@ class Group(models.Model):
             self.GroupResults[teamPlaceholder]['obtained'] += obtained
             self.GroupResults[teamPlaceholder]['diff'] += scored - obtained
 
+    def FillRanks(self):
+        """ vyplnime tymy v group ranks podle poradi"""
+        rank = 1
+        # projdeme tymy podle poradi
+        for tph in self.Results.keys():
+            # do tph v grouprank doplnime tym dle poradi
+            rankTph = self.grouprank_set.get(rank=rank).teamPlaceholder
+            rankTph.team = tph.team
+            rankTph.save()
+            # skocime na dalsi tym v poradi
+            rank += 1
+
+        # na skupine nastavime priznak finished
+        self.finished = True
+        self.save()
+
 
 # teams
 class Team(models.Model):

@@ -1,6 +1,11 @@
   <tbody class="grouptable">
     <tr>
-      <th>Group {{group.name}}</th>
+      <th>
+        Group {{group.name}}
+        {% if group.All_scores_filled and not group.finished %}
+          <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
+        {% endif %}
+      </th>
     </tr>
     <tr>
       <th>Team</th>
@@ -21,3 +26,24 @@
     </tr>
     {% endfor %}
   </tbody>
+
+  <script>
+  $("button.finish-group").click(
+    function(){
+      var input_el = this
+      url = "/finish/group-" +this.name;
+      $.get(url)
+      .done(
+        function(){
+          $(input_el).removeClass("bg-danger");
+          $(input_el).addClass("bg-success");
+        }
+      )
+      .fail(
+        function(){
+          $(input_el).addClass("bg-danger");
+        }
+      );
+    }
+  )
+  </script>

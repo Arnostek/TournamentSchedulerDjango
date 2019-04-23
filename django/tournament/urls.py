@@ -19,5 +19,7 @@ urlpatterns = [
 
     # score
     path('set/match-<int:mid>/<slug:who>/<int:score>', views.SetScore),
+    # ukonceni skupiny
+    path('finish/group-<int:gid>', views.FinishGroup),
     #path('<int:id>', views.TournamentDetailView.as_view()),
 ]

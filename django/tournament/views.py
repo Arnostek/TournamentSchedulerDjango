@@ -134,3 +134,10 @@ def SetScore(request, mid, who, score):
         m.save()
 
     return HttpResponse("OK")
+
+def FinishGroup(request, gid):
+    # nacteme skupinu a preklopime poradi do group ranks
+    g = Group.objects.get(id = gid)
+    g.FillRanks()
+
+    return HttpResponse("OK")
