@@ -128,6 +128,9 @@ def SetScore(request, mid, who, score):
     if m.locked:
         return HttpResponse("Error: Match locked!", status=400)
 
+    if score > 50:
+        return HttpResponse("Error: Score > 50!", status=400)
+
     if who == 'home':
         m.home_score = score
         m.save()
