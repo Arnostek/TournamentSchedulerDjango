@@ -315,11 +315,13 @@ class Match(models.Model):
     def get_points(self,me,oponent):
         if (me == None) or (oponent == None):
             return None
-
+        # vitezstvi 3 body
         if me > oponent:
-            return 2
+            return 3
+        # remiza 1 bod
         elif me == oponent:
             return 1
+        # prohra 0 bodu
         else:
             return 0
     @property

@@ -17,3 +17,4 @@ Hotovo
 * navigace, breadcrumbs
 * FIXED nulove score v zapase se nepocita do tabulky!!
 * preklapeni vysledku do dalsich kol
+* bodovani 3-1-0 (bylo 2-1-0)
