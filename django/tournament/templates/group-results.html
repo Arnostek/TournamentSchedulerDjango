@@ -4,6 +4,8 @@
         Group {{group.name}}
         {% if group.All_scores_filled and not group.finished %}
           <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
+        {% elif group.finished %}
+          <span class="badge badge-info">finished</span>
         {% endif %}
       </th>
     </tr>
