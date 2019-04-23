@@ -322,6 +322,20 @@ class Match(models.Model):
             return 1
         else:
             return 0
+    @property
+    def locked(self):
+        """ zapas je zamcen, nemuzeme menit score """
+        # grupa je uzavrena
+        if self.group.finished:
+            return True
+        # neni vyplnen home, nebo away team
+        if not self.home.team:
+            return True
+        if not self.away.team:
+            return True
+        # pokud jsme na nic nenarazili, score je mozno editovat
+        return False
+
 
 class Pitch(models.Model):
     name = models.CharField(max_length = 50)
