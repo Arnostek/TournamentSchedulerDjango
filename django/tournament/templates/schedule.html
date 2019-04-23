@@ -15,6 +15,7 @@
       <th></th>
       <th>Away</th>
       <th>Referee</th>
+      <th></th>
     </tr>
   </thead>
   {% for schedule in schedules %}
@@ -39,6 +40,11 @@
       <td>
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
+      <td>
+        {% if not schedule.match.locked and schedule.match.home_points is not None %}
+        <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score" data-toggle="tooltip" title="Delete score">X</button>
+        {% endif %}
+      </td>
     </tr>
   {%endfor%}
 </table>
@@ -55,6 +61,26 @@ $("td.score input").change(
         $(input_el).addClass("bg-success");
         // focus na dalsi score pole - zatim funguje jen v radku
         $(input_el).closest('td.score').nextAll('td.score').first().find('input').focus();
+      }
+    )
+    .fail(
+      function(){
+        $(input_el).addClass("bg-danger");
+      }
+    );
+  }
+)
+
+$(".del-score").click(
+  function(){
+    var input_el = this
+    url = "/del_score/match-" + this.name;
+    $.get(url)
+    .done(
+      function(){
+        $(input_el).removeClass("bg-danger");
+        $(input_el).addClass("bg-success");
+        location.reload();
       }
     )
     .fail(

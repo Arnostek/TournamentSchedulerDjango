@@ -5,7 +5,6 @@ Dodelat
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * generator systemu
 * zaheslovani zadavani score
-* smazani vysledku zapasu
 
 Chyby
 * z django settings.py odebrat SECRET_KEY a DEBUG
@@ -18,3 +17,4 @@ Hotovo
 * FIXED nulove score v zapase se nepocita do tabulky!!
 * preklapeni vysledku do dalsich kol
 * bodovani 3-1-0 (bylo 2-1-0)
+* smazani vysledku zapasu
