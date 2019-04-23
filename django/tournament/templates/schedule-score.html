@@ -1,1 +1,3 @@
-<input id="match-{{schedule.match.id}}/{{home_away}}" value="{{score | default:""}}" {% if schedule.match.locked %}disabled="true"{% endif %}/>
+{% if schedule.match.id %}
+  <input id="match-{{schedule.match.id}}/{{home_away}}" value="{{score | default:""}}" {% if schedule.match.locked %}disabled="true"{% endif %}/>
+{% endif %}
