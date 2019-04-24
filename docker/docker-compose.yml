@@ -9,6 +9,7 @@ services:
       - 8844:8844
     environment:
       - DJANGO_SECRET_KEY
+      - DJANGO_ALLOWED_HOSTS
     restart: unless-stopped
     volumes:
       - ../django:/srv/django
