@@ -7,7 +7,7 @@ Dodelat
 * zaheslovani zadavani score
 
 Chyby
-* z django settings.py odebrat SECRET_KEY a DEBUG
+* z django settings.py odebrat DEBUG
 * pri generovani her pro sudy pocet tymu je posledni tym stale "home"
 * nahodne poradi pro shodne body, diff i scored
 
@@ -19,3 +19,4 @@ Hotovo
 * preklapeni vysledku do dalsich kol
 * bodovani 3-1-0 (bylo 2-1-0)
 * smazani vysledku zapasu
+* z django settings.py odebrat SECRET_KEY 
