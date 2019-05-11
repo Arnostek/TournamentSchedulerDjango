@@ -143,7 +143,12 @@ class Group(models.Model):
         for rank in range(self.teams):
             rank = rank + 1
             # pripravim si TeamPlaceholder
-            tph = TeamPlaceholder(name = "{}{}".format(self.name, rank))
+            tph = TeamPlaceholder()
+            if self.teams == 2:
+                wl = ['Winner','Loser']
+                tph.name = "{} {}".format(wl[rank-1],self.name)
+            else:
+                tph.name = "{}.{}".format(rank,self.name)
             tph.save()
             # zalozim DivisionSeed
             seed = self.grouprank_set.create(rank = rank, teamPlaceholder = tph)
