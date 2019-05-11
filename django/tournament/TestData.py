@@ -5,8 +5,6 @@ from .systems.TwoGroups import TwoGroups
 from .systems.MinGames import MinGames16Teams
 
 
-# run it in shell by:
-# from tournament.TestData import TestData
 
 # zakladani testovacich dat
 class TestData:
@@ -21,6 +19,8 @@ class TestData:
     def AddDivision(self, name, slug, teams_count):
 
         self.actual_division = self.t.division_set.create(name = name, slug = slug, teams = teams_count)
+# run in shell:
+# docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament import TestData'
 
 # turnaj
 tdata = TestData("Prague 2019", "PRG2019")
