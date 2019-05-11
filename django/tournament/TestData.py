@@ -26,7 +26,6 @@ tdata = TestData("Prague 2019", "PRG2019")
 ####################################################
 # men A
 MenA_system = TwoGroups(tdata.t,'Men A','MenA',12)
-tdata.AddDivision('Men A','MenA',12)
 MenA_system.division.CreateTeams(
     [
         "Gottingen",
