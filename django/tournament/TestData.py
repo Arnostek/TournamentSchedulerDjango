@@ -16,7 +16,6 @@ MenA_system = TwoGroups(testTournament,'Men A','MenA',12)
 MenA_system.division.CreateTeams(
     [
         "Gottingen",
-        "KV Nürnberg",
         "Warsawa Powisle Men",
         "Kaniow Men",
         "Neuburg Men",
@@ -27,6 +26,7 @@ MenA_system.division.CreateTeams(
         "RKV Berlin",
         "Kwisa Lesna Men",
         "9ValA",
+        "Vidra A",
     ]
 )
 
@@ -43,7 +43,6 @@ MenB_system.division.CreateTeams(
         "Nagymaros Men",
         "Pirates from Bergheim A",
         "Pirates from Bergheim B",
-        "Linz",
         "KGL Hannover Rodeo Roundhousekick",
         "Prague C",
         "Ukk Wien Men",
@@ -51,6 +50,7 @@ MenB_system.division.CreateTeams(
         "Salzburg",
         "Vidra OB",
         "9ValB",
+        "KV Nürnberg",
     ]
 )
 
