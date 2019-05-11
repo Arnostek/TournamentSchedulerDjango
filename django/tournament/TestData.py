@@ -80,23 +80,26 @@ tdata.actual_division.CreateTeams(
     ]
 )
 tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders, 1)
-# skupina, kde kazdy hraje jednou, zapasy vygenerujeme rucne
-tdata.actual_division.CreateGroups(['E'], tdata.actual_division.GetGroupsRanks(['A','B','C','D']), 2)
+# dolni a horni skupina, kde kazdy hraje jednou, zapasy vygenerujeme rucne
+tdata.actual_division.CreateGroups(['E'], tdata.actual_division.GetGroupsRanks(['A','B','C','D'])[:8], 2)
 e_group = tdata.actual_division.group_set.last()
-e_group.CreateMatch((1,16,3))
-e_group.CreateMatch((2,15,3))
-e_group.CreateMatch((3,14,3))
-e_group.CreateMatch((4,13,3))
-e_group.CreateMatch((5,12,3))
-e_group.CreateMatch((6,11,3))
-e_group.CreateMatch((7,10,3))
-e_group.CreateMatch((8,9,3))
-# semi
-tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['E'])[:4], 3)
-# o mista
+e_group.CreateMatch((1,8,3))
+e_group.CreateMatch((2,7,3))
+e_group.CreateMatch((3,6,3))
+e_group.CreateMatch((4,5,3))
 
+tdata.actual_division.CreateGroups(['F'], tdata.actual_division.GetGroupsRanks(['A','B','C','D'])[8:], 2)
+f_group = tdata.actual_division.group_set.last()
+f_group.CreateMatch((1,8,3))
+f_group.CreateMatch((2,7,3))
+f_group.CreateMatch((3,6,3))
+f_group.CreateMatch((4,5,3))
+
+# semi
+tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['E','F'])[:4], 3)
+# o mista
 for misto in [15,13,11,9,7,5]:
-    tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['E'])[misto - 1: misto + 1], 4)
+    tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], 4)
 # 3rd
 tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 5)
 # final
