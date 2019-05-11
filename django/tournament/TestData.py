@@ -1,6 +1,8 @@
 from . import models
 import datetime
 from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
+from .systems.TwoGroups import TwoGroups
+
 
 # run it in shell by:
 # from tournament.TestData import TestData
@@ -104,8 +106,8 @@ tdata.actual_division.CreateMatches()
 
 ####################################################
 # Ladies
-tdata.AddDivision('Ladies','Ladies',10)
-tdata.actual_division.CreateTeams(
+Ladies_system = TwoGroups(tdata.t,'Ladies','Ladies',10)
+Ladies_system.division.CreateTeams(
     [
         "Havelbrüder Berlin",
         "Leipzig Women",
@@ -119,18 +121,7 @@ tdata.actual_division.CreateTeams(
         "Ukk Wien Women",
     ]
 )
-tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
-tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['A','B'])[:4], 2)
 
-# zapasy o mista bez semi
-for misto in [9,7,5]:
-    tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], 3)
-# 3rd
-tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 4)
-# final
-tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 5)
-# vygenerovani zapasu
-tdata.actual_division.CreateMatches()
 ####################################################
 # U14
 tdata.AddDivision('U14','U14',6)
