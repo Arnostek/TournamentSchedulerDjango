@@ -19,4 +19,5 @@ Hotovo
 * preklapeni vysledku do dalsich kol
 * bodovani 3-1-0 (bylo 2-1-0)
 * smazani vysledku zapasu
-* z django settings.py odebrat SECRET_KEY 
+* z django settings.py odebrat SECRET_KEY
+* opraven system por 16 tymu min. zapasu
