@@ -107,8 +107,8 @@ u16_system.division.CreateTeams(
 
 ## zalozime 4 hriste a prazdny schedule
 prague2019.CreatePitches(5)
-prague2019.CreateSchedules(datetime.datetime(2019,5,25,8),datetime.datetime(2019,5,25,19))
-prague2019.CreateSchedules(datetime.datetime(2019,5,26,8),datetime.datetime(2019,5,26,15))
+prague2019.CreateSchedules(datetime.datetime(2019,5,25,7,30),datetime.datetime(2019,5,25,19))
+prague2019.CreateSchedules(datetime.datetime(2019,5,26,7,30),datetime.datetime(2019,5,26,15))
 
 ## rozhozeni zapasu na hriste
 
