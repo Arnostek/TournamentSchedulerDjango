@@ -4,29 +4,15 @@ from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from .systems.TwoGroups import TwoGroups
 from .systems.MinGames import MinGames16Teams
 
-
-
-# zakladani testovacich dat
-class TestData:
-
-    def __init__(self, tournamentName, tournamentSlug):
-
-        self.t = models.Tournament()
-        self.t.name = tournamentName
-        self.t.slug = tournamentSlug
-        self.t.save()
-
-    def AddDivision(self, name, slug, teams_count):
-
-        self.actual_division = self.t.division_set.create(name = name, slug = slug, teams = teams_count)
 # run in shell:
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament import TestData'
 
 # turnaj
-tdata = TestData("Prague 2019", "PRG2019")
+testTournament = models.Tournament(name = "Prague 2019", slug = "PRG2019")
+testTournament.save()
 ####################################################
 # men A
-MenA_system = TwoGroups(tdata.t,'Men A','MenA',12)
+MenA_system = TwoGroups(testTournament,'Men A','MenA',12)
 MenA_system.division.CreateTeams(
     [
         "Gottingen",
@@ -46,7 +32,7 @@ MenA_system.division.CreateTeams(
 
 ####################################################
 # men B
-MenB_system = MinGames16Teams(tdata.t,'Men B','MenB',16)
+MenB_system = MinGames16Teams(testTournament,'Men B','MenB',16)
 MenB_system.division.CreateTeams(
     [
         "Dresden Men",
@@ -70,7 +56,7 @@ MenB_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = TwoGroups(tdata.t,'Ladies','Ladies',10)
+Ladies_system = TwoGroups(testTournament,'Ladies','Ladies',10)
 Ladies_system.division.CreateTeams(
     [
         "Havelbrüder Berlin",
@@ -120,8 +106,7 @@ tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRan
 tdata.actual_division.CreateMatches()
 ####################################################
 # U16
-
-u16_system = SingleGroupDivisionSystem(tdata.t,'U16','U16',7)
+u16_system = SingleGroupDivisionSystem(testTournament,'U16','U16',7)
 u16_system.division.CreateTeams(
     [
         "Dresden U16",
@@ -135,9 +120,9 @@ u16_system.division.CreateTeams(
 )
 
 ## zalozime 4 hriste a prazdny schedule
-tdata.t.CreatePitches(4)
-tdata.t.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
-tdata.t.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
+testTournament.CreatePitches(4)
+testTournament.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
+testTournament.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
 
 ## rozhozeni zapasu na hriste
 
@@ -145,18 +130,18 @@ tdata.t.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,
 
 # divize Men A na pitch 1
 d = MenA_system.division
-p = tdata.t.pitch_set.all()[0]
+p = testTournament.pitch_set.all()[0]
 
 for i in range(d.match_set.count()):
-    sch = tdata.t.schedule_set.filter(pitch = p)[i]
+    sch = testTournament.schedule_set.filter(pitch = p)[i]
     sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
     sch.save()
 
 # divize Ladies na pitch 2
 d = Ladies_system.division
-p = tdata.t.pitch_set.all()[1]
+p = testTournament.pitch_set.all()[1]
 
 for i in range(d.match_set.count()):
-    sch = tdata.t.schedule_set.filter(pitch = p)[i]
+    sch = testTournament.schedule_set.filter(pitch = p)[i]
     sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
     sch.save()
