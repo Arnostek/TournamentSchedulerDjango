@@ -41,3 +41,35 @@ class MinGames16Teams(DivisionSystemBase):
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 5)
         # final
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 6)
+
+
+class MinGames6Teams(DivisionSystemBase):
+    """ 2 zakladni skupiny, pak jedna velka skupina kde kazdy odehraje dva zapasy. Pricitaji se body z minule. Nasleduji zapasy o misto."""
+
+    def __init__(self,tournament,division_name,division_slug,num_of_teams):
+        # zavolam konsturktor Predka
+        super(MinGames6Teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        # vytvorim system
+        self._createSystem()
+        # vygeneruji zapasy
+        self._createMatches()
+
+    def _createSystem(self):
+        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, 1)
+        # skupina, kde se neodehraje vsechno, zapasy vygenerujeme rucne
+        self.division.CreateGroups(['C'], self.division.GetGroupsRanks(['A','B']), 2)
+        c_group = self.division.group_set.last()
+        c_group.CreateMatch((1,4,0))
+        c_group.CreateMatch((3,6,0))
+        c_group.CreateMatch((5,2,0))
+        c_group.CreateMatch((1,6,1))
+        c_group.CreateMatch((3,2,1))
+        c_group.CreateMatch((5,4,1))
+        #5th
+        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['C'])[4:6], 3)
+        # 3rd
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], 4)
+        # final
+        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['C'])[0:2], 5)
+        # vygenerovani zapasu
+        self.division.CreateMatches()
