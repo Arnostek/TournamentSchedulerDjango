@@ -170,7 +170,7 @@ tdata.t.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,
 # testovaci kod
 
 # divize Men A na pitch 1
-d = tdata.t.division_set.all()[0]
+d = MenA_system.division
 p = tdata.t.pitch_set.all()[0]
 
 for i in range(d.match_set.count()):
@@ -179,7 +179,7 @@ for i in range(d.match_set.count()):
     sch.save()
 
 # divize Ladies na pitch 2
-d = tdata.t.division_set.all()[2]
+d = Ladies_system.division
 p = tdata.t.pitch_set.all()[1]
 
 for i in range(d.match_set.count()):
