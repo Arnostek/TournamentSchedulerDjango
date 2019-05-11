@@ -1,11 +1,11 @@
-from . import models
+from tournament import models
 import datetime
-from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
-from .systems.TwoGroups import TwoGroups
-from .systems.MinGames import MinGames16Teams,MinGames6Teams
+from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
+from tournament.systems.TwoGroups import TwoGroups
+from tournament.systems.MinGames import MinGames16Teams,MinGames6Teams
 
 # run in shell:
-# docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament import TestData'
+# docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2019_4_Pitches'
 
 # turnaj
 testTournament = models.Tournament(name = "Prague 2019 Test 4 hriste", slug = "PRG2019T4")
