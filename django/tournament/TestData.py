@@ -2,6 +2,7 @@ from . import models
 import datetime
 from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from .systems.TwoGroups import TwoGroups
+from .systems.MinGames import MinGames16Teams
 
 
 # run it in shell by:
@@ -45,8 +46,8 @@ MenA_system.division.CreateTeams(
 
 ####################################################
 # men B
-tdata.AddDivision('Men B','MenB',16)
-tdata.actual_division.CreateTeams(
+MenB_system = MinGames16Teams(tdata.t,'Men B','MenB',16)
+MenB_system.division.CreateTeams(
     [
         "Dresden Men",
         "Leipzig Men",
@@ -66,33 +67,6 @@ tdata.actual_division.CreateTeams(
         "9ValB",
     ]
 )
-tdata.actual_division.CreateGroups(['A','B','C','D'], tdata.actual_division.seed_placeholders, 1)
-# dolni a horni skupina, kde kazdy hraje jednou, zapasy vygenerujeme rucne
-tdata.actual_division.CreateGroups(['E'], tdata.actual_division.GetGroupsRanks(['A','B','C','D'])[:8], 2)
-e_group = tdata.actual_division.group_set.last()
-e_group.CreateMatch((1,8,3))
-e_group.CreateMatch((2,7,3))
-e_group.CreateMatch((3,6,3))
-e_group.CreateMatch((4,5,3))
-
-tdata.actual_division.CreateGroups(['F'], tdata.actual_division.GetGroupsRanks(['A','B','C','D'])[8:], 2)
-f_group = tdata.actual_division.group_set.last()
-f_group.CreateMatch((1,8,3))
-f_group.CreateMatch((2,7,3))
-f_group.CreateMatch((3,6,3))
-f_group.CreateMatch((4,5,3))
-
-# semi
-tdata.actual_division.CreateGroups(['SemiA','SemiB'], tdata.actual_division.GetGroupsRanks(['E','F'])[:4], 3)
-# o mista
-for misto in [15,13,11,9,7,5]:
-    tdata.actual_division.CreateGroups(['{}th'.format(misto)], tdata.actual_division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], 4)
-# 3rd
-tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 5)
-# final
-tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 6)
-# vygenerovani zapasu
-tdata.actual_division.CreateMatches()
 
 ####################################################
 # Ladies
