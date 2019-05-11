@@ -5,6 +5,8 @@ Dodelat
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * generator systemu
 * zaheslovani zadavani score
+* pripocteni bodu a score z minule skupiny
+* vynechani zapasu odehranych v minule skupine
 
 Chyby
 * z django settings.py odebrat DEBUG
