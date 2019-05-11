@@ -2,7 +2,7 @@ from . import models
 import datetime
 from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from .systems.TwoGroups import TwoGroups
-from .systems.MinGames import MinGames16Teams
+from .systems.MinGames import MinGames16Teams,MinGames6Teams
 
 # run in shell:
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament import TestData'
@@ -74,8 +74,9 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # U14
-tdata.AddDivision('U14','U14',6)
-tdata.actual_division.CreateTeams(
+
+U14_system = MinGames6Teams(testTournament,'U14','U14',6)
+U14_system.division.CreateTeams(
     [
         "Dresden U14",
         "Warsawa Powisle U14",
@@ -85,25 +86,6 @@ tdata.actual_division.CreateTeams(
         "Ukk Wien U14",
     ]
 )
-tdata.actual_division.CreateGroups(['A','B'], tdata.actual_division.seed_placeholders, 1)
-# skupina, kde se neodehraje vsechno, zapasy vygenerujeme rucne
-tdata.actual_division.CreateGroups(['C'], tdata.actual_division.GetGroupsRanks(['A','B']), 2)
-c_group = tdata.actual_division.group_set.last()
-c_group.CreateMatch((1,4,0))
-c_group.CreateMatch((3,6,0))
-c_group.CreateMatch((5,2,0))
-c_group.CreateMatch((1,6,1))
-c_group.CreateMatch((3,2,1))
-c_group.CreateMatch((5,4,1))
-
-#5th
-tdata.actual_division.CreateGroups(['5th'], tdata.actual_division.GetGroupsRanks(['C'])[4:6], 3)
-# 3rd
-tdata.actual_division.CreateGroups(['3rd'], tdata.actual_division.GetGroupsRanks(['C'])[2:4], 4)
-# final
-tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRanks(['C'])[0:2], 5)
-# vygenerovani zapasu
-tdata.actual_division.CreateMatches()
 ####################################################
 # U16
 u16_system = SingleGroupDivisionSystem(testTournament,'U16','U16',7)
