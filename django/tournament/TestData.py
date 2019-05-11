@@ -103,8 +103,8 @@ u16_system.division.CreateTeams(
 
 ## zalozime 4 hriste a prazdny schedule
 testTournament.CreatePitches(4)
-testTournament.CreateSchedules(datetime.datetime(2019,5,29,7),datetime.datetime(2019,5,29,19))
-testTournament.CreateSchedules(datetime.datetime(2019,5,30,7),datetime.datetime(2019,5,30,15))
+testTournament.CreateSchedules(datetime.datetime(2019,5,25,7),datetime.datetime(2019,5,25,19))
+testTournament.CreateSchedules(datetime.datetime(2019,5,26,7),datetime.datetime(2019,5,26,15))
 
 ## rozhozeni zapasu na hriste
 
