@@ -8,7 +8,7 @@ from .systems.MinGames import MinGames16Teams,MinGames6Teams
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament import TestData'
 
 # turnaj
-testTournament = models.Tournament(name = "Prague 2019", slug = "PRG2019")
+testTournament = models.Tournament(name = "Prague 2019 Test 4 hriste", slug = "PRG2019T4")
 testTournament.save()
 ####################################################
 # men A
