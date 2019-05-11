@@ -1,5 +1,6 @@
 from . import models
 import datetime
+from .systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 
 # run it in shell by:
 # from tournament.TestData import TestData
@@ -164,8 +165,9 @@ tdata.actual_division.CreateGroups(['final'], tdata.actual_division.GetGroupsRan
 tdata.actual_division.CreateMatches()
 ####################################################
 # U16
-tdata.AddDivision('U16','U16',7)
-tdata.actual_division.CreateTeams(
+
+u16_system = SingleGroupDivisionSystem(tdata.t,'U16','U16',7)
+u16_system.division.CreateTeams(
     [
         "Dresden U16",
         "Warsawa Powisle U16",
@@ -176,15 +178,6 @@ tdata.actual_division.CreateTeams(
         "Kwisa Lesna U16",
     ]
 )
-tdata.actual_division.CreateGroups(['A'], tdata.actual_division.seed_placeholders, 1)
-
-a_ranks = tdata.actual_division.GetGroupsRanks(['A'])
-# 3rd
-tdata.actual_division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , 2)
-# final
-tdata.actual_division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , 3)
-# vygenerovani zapasu
-tdata.actual_division.CreateMatches()
 
 ## zalozime 4 hriste a prazdny schedule
 tdata.t.CreatePitches(4)
