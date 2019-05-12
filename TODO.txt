@@ -3,7 +3,6 @@ Dodelat
 * kontrola hratelnosti
 * doplneni rozhodcich
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
-* generator systemu
 * zaheslovani zadavani score
 * pripocteni bodu a score z minule skupiny
 * vynechani zapasu odehranych v minule skupine
@@ -23,3 +22,4 @@ Hotovo
 * smazani vysledku zapasu
 * z django settings.py odebrat SECRET_KEY
 * opraven system por 16 tymu min. zapasu
+* generator systemu
