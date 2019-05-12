@@ -148,7 +148,7 @@ class Group(models.Model):
                 wl = ['Winner','Loser']
                 tph.name = "{} {}".format(wl[rank-1],self.name)
             else:
-                tph.name = "{}.{}".format(rank,self.name)
+                tph.name = "{}. gr {}".format(rank,self.name)
             tph.save()
             # zalozim DivisionSeed
             seed = self.grouprank_set.create(rank = rank, teamPlaceholder = tph)
