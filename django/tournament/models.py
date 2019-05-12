@@ -187,7 +187,6 @@ class Group(models.Model):
                     int(item[1]['points']),
                     int(item[1]['diff']),
                     int(item[1]['scored']),
-                    -1 * int(item[1]['obtained']),
             ),
             reverse = True
         )
