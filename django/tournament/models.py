@@ -130,6 +130,7 @@ class Group(models.Model):
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     phase = models.PositiveSmallIntegerField()
     finished = models.BooleanField(default=False)
+    referee_group = models.ForeignKey("self", null = True,on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} (id={})".format(self.name,self.id)
