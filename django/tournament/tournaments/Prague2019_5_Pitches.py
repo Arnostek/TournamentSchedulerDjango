@@ -3,6 +3,7 @@ import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.TwoGroups import TwoGroups
 from tournament.systems.MinGames import MinGames16Teams,MinGames6Teams
+from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2019_5_Pitches'
@@ -105,29 +106,12 @@ u16_system.division.CreateTeams(
     ]
 )
 
-## zalozime 4 hriste a prazdny schedule
-prague2019.CreatePitches(5)
-prague2019.CreateSchedules(datetime.datetime(2019,5,25,7,30),datetime.datetime(2019,5,25,19))
-prague2019.CreateSchedules(datetime.datetime(2019,5,26,7,30),datetime.datetime(2019,5,26,15))
+## naplanujeme zapasy
 
-## rozhozeni zapasu na hriste
-
-# testovaci kod
-
-# divize Men A na pitch 1
-d = MenA_system.division
-p = prague2019.pitch_set.all()[0]
-
-for i in range(d.match_set.count()):
-    sch = prague2019.schedule_set.filter(pitch = p)[i]
-    sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
-    sch.save()
-
-# divize Ladies na pitch 2
-d = Ladies_system.division
-p = prague2019.pitch_set.all()[1]
-
-for i in range(d.match_set.count()):
-    sch = prague2019.schedule_set.filter(pitch = p)[i]
-    sch.match = d.match_set.all().order_by('group__phase','phase_block','id')[i]
-    sch.save()
+ts = TournamentScheduler(prague2019,5)
+ts.Schedule(
+    [
+        (datetime.datetime(2019,5,25,7),datetime.datetime(2019,5,25,21)),
+        (datetime.datetime(2019,5,26,7),datetime.datetime(2019,5,26,21))
+    ]
+)
