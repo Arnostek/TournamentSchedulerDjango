@@ -18,16 +18,16 @@ class TwoGroups(DivisionSystemBase):
         a_ranks = self.division.GetGroupsRanks(['A'])
         # prvni 4 tymy jdou do semi
         phase += 1
-        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], 2)
+        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
         # zapasy o mista bez semi
         phase += 1
         mista = [m for m in range(5,self.teams_count,2)]
         mista.reverse()
         for misto in mista:
-            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], 3)
+            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], phase)
         # 3rd
         phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 4)
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
         # final
         phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 5)
+        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)

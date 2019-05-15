@@ -38,9 +38,11 @@ class MinGames16Teams(DivisionSystemBase):
         for misto in [15,13,11,9,7,5]:
             self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], phase)
         # 3rd
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 5)
+        phase += 1
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
         # final
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 6)
+        phase += 1
+        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
 
 
 class MinGames6Teams(DivisionSystemBase):
@@ -55,9 +57,11 @@ class MinGames6Teams(DivisionSystemBase):
         self._createMatches()
 
     def _createSystem(self):
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, 1)
+        phase = 1
+        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase)
         # skupina, kde se neodehraje vsechno, zapasy vygenerujeme rucne
-        self.division.CreateGroups(['C'], self.division.GetGroupsRanks(['A','B']), 2)
+        phase += 1
+        self.division.CreateGroups(['C'], self.division.GetGroupsRanks(['A','B']), phase)
         c_group = self.division.group_set.last()
         c_group.CreateMatch((1,4,0))
         c_group.CreateMatch((3,6,0))
@@ -66,10 +70,13 @@ class MinGames6Teams(DivisionSystemBase):
         c_group.CreateMatch((3,2,1))
         c_group.CreateMatch((5,4,1))
         #5th
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['C'])[4:6], 3)
+        phase += 1
+        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['C'])[4:6], phase)
         # 3rd
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], 4)
+        phase += 1
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], phase)
         # final
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['C'])[0:2], 5)
+        phase += 1
+        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['C'])[0:2], phase)
         # vygenerovani zapasu
         self.division.CreateMatches()
