@@ -40,8 +40,9 @@ class TournamentScheduler:
             pocet_zapasu = self.schedule[pitch_index].count()
             if pocet_zapasu < len(self.schedule):
                 old_index = pocet_zapasu -1
-                    self._switchMatches((old_index,pitch_index),(new_index,pitch_index))
                 for new_index in np.flip(np.linspace(0,len(self.schedule),pocet_zapasu,dtype=int)):
+                    if (old_index != new_index):
+                        self._switchMatches((old_index,pitch_index),(new_index,pitch_index))
                     old_index -= 1
 
 
