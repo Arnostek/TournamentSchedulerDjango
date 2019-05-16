@@ -23,6 +23,14 @@ class TournamentScheduler:
             for division in self.tournament.division_set.all()
         ]).T
 
+    def _switchMatches(self,old,new):
+        """ Prohozeni obsahu bunek
+            old a new jsou souradnice ve tvaru (match_index,pitch_index)
+        """
+        tmp = self.schedule.iloc[new[0],new[1]]
+        self.schedule.iloc[new[0],new[1]] = self.schedule.iloc[old[0],old[1]]
+        self.schedule.iloc[old[0],old[1]] = tmp
+
     #def _optimize
 
     def Schedule(self,times):
