@@ -1,5 +1,6 @@
 from . import models
 import pandas as pd
+import numpy as np
 
 class TournamentScheduler:
     """
@@ -22,6 +23,7 @@ class TournamentScheduler:
                 for match in division.match_set.all().order_by('group__phase','phase_block','id')]
             for division in self.tournament.division_set.all()
         ]).T
+        self._makeSameLength()
 
     def _switchMatches(self,old,new):
         """ Prohozeni obsahu bunek
@@ -30,6 +32,18 @@ class TournamentScheduler:
         tmp = self.schedule.iloc[new[0],new[1]]
         self.schedule.iloc[new[0],new[1]] = self.schedule.iloc[old[0],old[1]]
         self.schedule.iloc[old[0],old[1]] = tmp
+
+    def _makeSameLength(self):
+        """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
+        # projdeme hriste
+        for pitch_index in range(self.pitches):
+            pocet_zapasu = self.schedule[pitch_index].count()
+            if pocet_zapasu < len(self.schedule):
+                old_index = pocet_zapasu -1
+                for new_index in np.flip(np.linspace(1,9,6,dtype=int)):
+                    self._switchMatches((old_index,pitch_index),(new_index,pitch_index))
+                    old_index -= 1
+
 
     #def _optimize
 
