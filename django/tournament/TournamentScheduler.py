@@ -1,4 +1,5 @@
 from . import models
+import pandas as pd
 
 class TournamentScheduler:
     """
@@ -16,11 +17,11 @@ class TournamentScheduler:
         """
             vytvoreni maximalniho hraciho planu - vsechny zapasy za sebou, co divize to hriste
         """
-        self.schedule = [
+        self.schedule = pd.DataFrame([
                 [match
                 for match in division.match_set.all().order_by('group__phase','phase_block','id')]
             for division in self.tournament.division_set.all()
-        ]
+        ]).T
 
     #def _optimize
 
@@ -29,25 +30,22 @@ class TournamentScheduler:
             zalozeni schedule
         """
         # pocet sloupcu se musi shodovat s poctem hrist
-        if len(self.schedule) != self.pitches:
+        if len(self.schedule.columns) != self.pitches:
             raise("Pocet hrist musi byt stejny jako pocet sloupcu schedule!")
         else:
             # zalozime hriste
             self.tournament.CreatePitches(self.pitches)
             # zalozime sloty pro zapasy
-            for beg_eng in times:
-                self.tournament.CreateSchedules(beg_eng[0],beg_eng[1])
+            for begin_end in times:
+                self.tournament.CreateSchedules(begin_end[0],begin_end[1])
             # umistime zapasy do slotu
-            pitch_index = 0
-            for pitch_matches in self.schedule:
-                match_index = 0
-                for match in pitch_matches:
+            for match_index in range(len(self.schedule)):
+                for pitch_index in range(self.pitches):
                     sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index])[match_index]
-                    sch.match = match
+                    sch.match = self.schedule.iloc[match_index][pitch_index]
                     sch.save()
-                    match_index += 1
-
-                pitch_index += 1
+                    pitch_index += 1
+                match_index += 1
 
 # potrebne mezery
 # natahnuti planu
