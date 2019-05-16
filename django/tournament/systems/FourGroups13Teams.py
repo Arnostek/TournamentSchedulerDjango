@@ -1,13 +1,13 @@
 from .DivisionSystemBase import DivisionSystemBase
 
-class 13Teams(DivisionSystemBase):
+class FourGroups13Teams(DivisionSystemBase):
     """ 4 zakladni skupiny, prvnich 8 jde nahoru ve dvou skupinach
     dolnich pet ma svou skupinu po ktere se konci. nahore jsou semi a zapasy o misto
     """
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
-        super(13Teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(FourGroups13Teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy
