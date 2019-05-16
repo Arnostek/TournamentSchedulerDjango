@@ -29,9 +29,9 @@ class TournamentScheduler:
         """ Prohozeni obsahu bunek
             old a new jsou souradnice ve tvaru (match_index,pitch_index)
         """
-        tmp = self.schedule.iloc[new[0],new[1]]
-        self.schedule.iloc[new[0],new[1]] = self.schedule.iloc[old[0],old[1]]
-        self.schedule.iloc[old[0],old[1]] = tmp
+        old_val = self.schedule.iloc[old[0],old[1]]
+        self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
+        self.schedule.iloc[new[0],new[1]] = old_val
 
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
