@@ -45,7 +45,7 @@ class Division(models.Model):
             # zalozim DivisionSeed
             seed = self.divisionseed_set.create(rank = rank, teamPlaceholder = tph)
 
-    def CreateGroups(self, names, placeholders, phase):
+    def CreateGroups(self, names, placeholders, phase, referee_groups = None):
         """ Vytvoreni naseedovanych skupin"""
         #
         groups = []
@@ -53,6 +53,13 @@ class Division(models.Model):
         # nejdriv zalozime skupiny, objekty si ulozime do groups
         for name in names:
             groups.append(self.group_set.create(name = name, phase = phase))
+
+        # pokud jsou referee_groups, priradim je do group
+        if referee_groups:
+            for rg_index in len(referee_groups):
+                rg = groups[rg_index]
+                rg.referee_group = self.GetGroup(referee_groups[rg_index])
+                rg.save()
 
         # pak vytvorime a naplnime seedy
         # na zacatek jdeme popredu
