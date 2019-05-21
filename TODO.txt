@@ -1,7 +1,6 @@
 Dodelat
 * nacpani zapasu na hriste
 * kontrola hratelnosti
-* doplneni rozhodcich
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * zaheslovani zadavani score
 * pripocteni bodu a score z minule skupiny
@@ -14,6 +13,7 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* doplneni rozhodcich
 * zadavani score
 * tabulky skupin, vcetne vysledku
 * navigace, breadcrumbs
