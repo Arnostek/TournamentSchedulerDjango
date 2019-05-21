@@ -90,7 +90,7 @@ class TournamentScheduler:
     def _canPlaceTph(self,tph,df_index):
         """ test, zda muzeme tph umistit na dany index"""
         # indexy zapasu ve kterych tym hraje, nebo piska
-        match_indexes = _getTphMatchesDf(tph).dropna(how='all').index
+        match_indexes = self._getTphMatchesDf(tph).dropna(how='all').index
         # testujeme na index a okoli
         for test_index in [df_index -1 , df_index, df_index +1]:
             if test_index in match_indexes:
