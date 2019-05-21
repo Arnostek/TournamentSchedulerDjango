@@ -66,9 +66,11 @@ class TournamentScheduler:
                 match = group_matches_df.iloc[match_ind,pitch]
                 if match:
                     if not match.referee:
-                        # TODO zkontrolovat, zda tym muze piskat
-                        match.referee = self.refPool.pop(0)
-                        match.save()
+                        # zkontrolujeme, zda tym muze piskat
+                        for refPool_index in range(len(refPool_index)):
+                            if self._canPlaceTph(self.refPool[refPool_index],match_ind)
+                                match.referee = self.refPool.pop(refPool_index)
+                                match.save()
 
     def _initRefPool(self,referee_group,match_count):
         """ Init refPool tymy z referee_group v parametru"""
