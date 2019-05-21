@@ -13,6 +13,7 @@ class TournamentScheduler:
         self.pitches = pitches
         #
         self._maxSchedule()
+        self._addReferees()
 
     def _maxSchedule(self):
         """
@@ -44,6 +45,40 @@ class TournamentScheduler:
                     if (old_index != new_index):
                         self._switchMatches((old_index,pitch_index),(new_index,pitch_index))
                     old_index -= 1
+
+    def _addReferees(self):
+        """ Pridani rozhodcich ke groupam, co maji referee_group"""
+        for div in self.tournament.division_set.all():
+            for gr in div.group_set.all():
+                if gr.referee_group:
+                    self._addRefereesGroup(gr)
+
+    def _addRefereesGroup(self,group):
+        """ Pridani rozhodcich dle referee group k jedne skupine """
+        # priravim si refPool
+        self.refPool = []
+        # TODO dopredu vypocist velikost ref pool
+        for i in range(5):
+            self._extendRefPool(group.referee_group)
+        # df zapasy skupiny
+        group_matches_df = self._getGroupMatchesDf(group)
+        # projdu zapasy skupiny
+        for pitch in group_matches_df.columns:
+            for ind in group_matches_df.index:
+                match = group_matches_df.iloc[ind,pitch]
+                if match:
+                    if not match.referee:
+                        # TODO zkontrolovat, zda tym muze piskat
+                        match.referee = self.refPool.pop(0)
+                        match.save()
+
+    def _extendRefPool(self,referee_group):
+        """ Doplneni refPool tymy z referee_group v parametru"""
+        self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
+
+    def _getGroupMatchesDf(self,group):
+        """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
+        return self.schedule.applymap(lambda m : m if m and m.group == group else None)
 
 
     #def _optimize
