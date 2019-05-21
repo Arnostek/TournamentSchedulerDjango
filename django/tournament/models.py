@@ -56,7 +56,7 @@ class Division(models.Model):
 
         # pokud jsou referee_groups, priradim je do group
         if referee_groups:
-            for rg_index in len(referee_groups):
+            for rg_index in range(len(referee_groups)):
                 rg = groups[rg_index]
                 rg.referee_group = self.GetGroup(referee_groups[rg_index])
                 rg.save()
