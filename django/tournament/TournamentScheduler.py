@@ -56,10 +56,8 @@ class TournamentScheduler:
     def _addRefereesGroup(self,group):
         """ Pridani rozhodcich dle referee group k jedne skupine """
         # priravim si refPool
-        self.refPool = []
         # TODO dopredu vypocist velikost ref pool
-        for i in range(5):
-            self._extendRefPool(group.referee_group)
+        self._initRefPool(group.referee_group,100)
         # df zapasy skupiny
         group_matches_df = self._getGroupMatchesDf(group)
         # projdu zapasy skupiny
@@ -72,9 +70,11 @@ class TournamentScheduler:
                         match.referee = self.refPool.pop(0)
                         match.save()
 
-    def _extendRefPool(self,referee_group):
-        """ Doplneni refPool tymy z referee_group v parametru"""
-        self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
+    def _initRefPool(self,referee_group,match_count):
+        """ Init refPool tymy z referee_group v parametru"""
+        self.refPool = []
+        while len(self.refPool) < match_count:
+            self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
 
     def _getGroupMatchesDf(self,group):
         """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
