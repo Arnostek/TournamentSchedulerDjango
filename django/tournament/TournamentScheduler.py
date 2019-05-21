@@ -80,6 +80,21 @@ class TournamentScheduler:
         """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
         return self.schedule.applymap(lambda m : m if m and m.group == group else None)
 
+    def _getTphMatchesDf(self,tph):
+        """vraci dataframe kde jsou jen zapasy tph z parametru"""
+        return self.schedule.applymap(lambda m : m if m and (m.home == tph or m.away == tph or m.referee == tph) else None)
+
+    def _canPlaceTph(self,tph,df_index):
+        """ test, zda muzeme tph umistit na dany index"""
+        # indexy zapasu ve kterych tym hraje, nebo piska
+        match_indexes = _getTphMatchesDf(tph).dropna(how='all').index
+        # testujeme na index a okoli
+        for test_index in [df_index -1 , df_index, df_index +1]:
+            if test_index in match_indexes:
+                return False
+        # pokud nenajdeme problem, muzeme tph umistit
+        return True
+
 
     #def _optimize
 
