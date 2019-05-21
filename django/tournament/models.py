@@ -109,6 +109,12 @@ class Division(models.Model):
         ranks = GroupRank.objects.filter(group__in = groups).order_by('rank','group_id')
         return [rank.teamPlaceholder for rank in ranks]
 
+    def GetGroup(self,group_name):
+        """
+        vraci group podle jmena
+        """
+        return self.group_set.get(name = group_name)
+
     def find_rank(self,group_name,rank):
         """ Hledani tymu podle groupy a poradi"""
         group = self.group_set.get(name = group_name)
