@@ -14,8 +14,9 @@ class TwoGroups(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupina
         phase = 1
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase)
-        a_ranks = self.division.GetGroupsRanks(['A'])
+        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
+        # a_ranks = self.division.GetGroupsRanks(['A'])
+            
         # prvni 4 tymy jdou do semi
         phase += 1
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)

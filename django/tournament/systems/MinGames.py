@@ -14,7 +14,7 @@ class MinGames16Teams(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupiny
         phase = 1
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase)
+        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['B','C','D','A'])
         # dolni a horni skupina, kde kazdy hraje jednou, zapasy vygenerujeme rucne
         phase += 1
         self.division.CreateGroups(['E'], self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)

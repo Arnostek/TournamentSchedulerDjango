@@ -14,7 +14,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupina
         phase = 1
-        self.division.CreateGroups(['A'], self.division.seed_placeholders, phase)
+        self.division.CreateGroups(['A'], self.division.seed_placeholders, phase, ['A'])
         a_ranks = self.division.GetGroupsRanks(['A'])
         # 3rd
         phase += 1
