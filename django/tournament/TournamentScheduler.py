@@ -62,8 +62,8 @@ class TournamentScheduler:
         group_matches_df = self._getGroupMatchesDf(group)
         # projdu zapasy skupiny
         for pitch in group_matches_df.columns:
-            for ind in group_matches_df.index:
-                match = group_matches_df.iloc[ind,pitch]
+            for match_ind in group_matches_df.index:
+                match = group_matches_df.iloc[match_ind,pitch]
                 if match:
                     if not match.referee:
                         # TODO zkontrolovat, zda tym muze piskat
