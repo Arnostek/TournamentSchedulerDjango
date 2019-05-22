@@ -87,7 +87,7 @@ U14_system.division.CreateTeams(
         "Glauchau U14",
         "Prague U14",
         "Ukk Wien U14",
-        "Kalisz U14",
+        #"Kalisz U14",
     ]
 )
 ####################################################
@@ -102,7 +102,7 @@ u16_system.division.CreateTeams(
         "Nagymaros U16",
         "Prague U16",
         "Kwisa Lesna U16",
-        "Kalisz U16",
+        #"Kalisz U16",
     ]
 )
 
