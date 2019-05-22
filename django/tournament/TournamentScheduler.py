@@ -151,6 +151,18 @@ class TournamentScheduler:
                 return False
         return True
 
+    def _canShiftMatch(self,next_match,df_index):
+        # pokud next_match neni match
+        if not isinstance(next_match,models.Match):
+            # pokud v bunce neco je (asi pauza), skocime na dalsi mezeru
+            if next_match:
+                return False
+            else:
+                return True
+        else:
+            return self._canPlaceMatch(next_match, match_ind)
+
+
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
         #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
@@ -173,13 +185,8 @@ class TournamentScheduler:
                 for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
                     # najdeme si nasledujici match
                     next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
-                    # pokud v nasledujici bunce neni match
-                    if not isinstance(next_match,models.Match):
-                        # pokud v bunce neco je (asi pauza), skocime na dalsi mezeru
-                        if next_match:
-                            continue
                     # pokud nasledujici match muze byt posunut na tento radek
-                    if self._canPlaceMatch(next_match, match_ind):
+                    if self._canShiftMatch(next_match,match_ind):
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         break;
         # nakonec vymazeme prazdne radky
