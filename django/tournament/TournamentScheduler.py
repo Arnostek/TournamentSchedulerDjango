@@ -38,9 +38,9 @@ class TournamentScheduler:
         matches = []
         prev_match = None
         for match in division.match_set.all().order_by('group__phase','phase_block','id'):
-            matches.append(match)
             if self._needPause(prev_match,match):
                 matches.append('Pauza')
+            matches.append(match)
             prev_match = match
         return matches
 
