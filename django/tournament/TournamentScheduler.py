@@ -151,7 +151,7 @@ class TournamentScheduler:
                 return False
         return True
 
-    def _canShiftMatch(self,next_match,df_index):
+    def _canShiftMatch(self,next_match,match_ind):
         # pokud next_match neni match
         if not isinstance(next_match,models.Match):
             # pokud v bunce neco je (asi pauza), skocime na dalsi mezeru
