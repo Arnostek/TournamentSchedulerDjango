@@ -33,6 +33,18 @@ class TournamentScheduler:
         self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
         self.schedule.iloc[new[0],new[1]] = old_val
 
+    def _shift_col(self,pitch_ind,match_ind):
+        """ pokud je volne misto, posune bunky nahoru o jedno misto"""
+        if not self.schedule.iloc[match_ind,pitch_ind]:
+            self.schedule[pitch_ind][match_ind:].update(self.schedule[pitch_ind][match_ind:].shift(-1))
+            self.schedule.iloc[-1,pitch_ind] = None
+
+    def _move_match_shift_col(self, match_ind, pitch1_ind, pitch2_ind):
+        """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
+        self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
+        self._shift_col(pitch1_ind,match_ind)
+
+
     def _divisionMatchesWithPauses(self,division):
         """ list zapasu divize s povinnymi mezerami """
         matches = []
