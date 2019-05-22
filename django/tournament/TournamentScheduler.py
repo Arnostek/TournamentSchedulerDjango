@@ -36,8 +36,12 @@ class TournamentScheduler:
     def _shift_col(self,pitch_ind,match_ind):
         """ pokud je volne misto, posune bunky nahoru o jedno misto"""
         if not self.schedule.iloc[match_ind,pitch_ind]:
-            self.schedule[pitch_ind][match_ind:].update(self.schedule[pitch_ind][match_ind:].shift(-1))
-            self.schedule.iloc[-1,pitch_ind] = None
+            # ulozime si posunuty sloupec
+            shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
+            # vymazeme radky smerem dolu
+            self.schedule[pitch_ind] = self.schedule[pitch_ind][:match_ind]
+            # updatneme dolni cast
+            self.schedule[pitch_ind][match_ind:].update(shifted)
 
     def _move_match_shift_col(self, match_ind, pitch1_ind, pitch2_ind):
         """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
