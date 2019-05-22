@@ -144,6 +144,13 @@ class TournamentScheduler:
         # pokud nenajdeme problem, muzeme tph umistit
         return True
 
+    def _canPlaceMatch(self,match,df_index):
+        """ Muzeme zapas umistit na dany radek? """
+        for tph in [match.home,match.away,match.referee]:
+            if not self._canPlaceTph(tph,df_index):
+                return False
+        return True
+
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
         #prochazime hriste v poradi od nejprazdnejsiho
