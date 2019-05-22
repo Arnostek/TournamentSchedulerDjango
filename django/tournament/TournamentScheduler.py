@@ -48,7 +48,6 @@ class TournamentScheduler:
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
         self._shift_col(pitch1_ind,match_ind)
 
-
     def _divisionMatchesWithPauses(self,division):
         """ list zapasu divize s povinnymi mezerami """
         matches = []
@@ -168,7 +167,7 @@ class TournamentScheduler:
             else:
                 # zkoumam vsechny tymy
                 for tph in [next_match.home,next_match.away,next_match.referee]:
-                    # zjistuji, jestli tph neni na predchozim radku 
+                    # zjistuji, jestli tph neni na predchozim radku
                     if match_ind -1 in self._getTphMatchesDf(tph).dropna(how='all').index:
                         return False
                 return True
@@ -211,8 +210,6 @@ class TournamentScheduler:
         self.schedule.dropna(how='all', inplace=True)
 
 
-    #def _optimize
-
     def Schedule(self,times):
         """
             zalozeni schedule
@@ -235,7 +232,3 @@ class TournamentScheduler:
                         sch.save()
                     pitch_index += 1
                 match_index += 1
-
-# potrebne mezery
-# natahnuti planu
-# zkraceni planu - posun na dalsi hriste
