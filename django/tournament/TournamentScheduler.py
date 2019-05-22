@@ -148,7 +148,6 @@ class TournamentScheduler:
         """ zaplneni mezer v hracim planu """
 
         for pitch_ind in self.schedule.columns:
-
             # pokud je zapasu min nez desired_slots
             if self.schedule[pitch_ind].count() < desired_slots:
                 # staci smazat par mezer z konce
@@ -156,8 +155,18 @@ class TournamentScheduler:
                     self._shift_col(pitch_ind,match_ind)
             else:
                 # najdeme volne sloty na jinych pitches
-                # zatim neimplementovano
-                pass
+                for i in range(len(self.schedule) - desired_slots):
+                    # najdeme hriste na ktere budeme posouvat
+                    min_games_pitches = self.schedule.count().sort_values().index
+                    move_to_pitch_ind = min_games_pitches[0]
+                    if move_to_pitch_ind == pitch_ind:
+                        move_to_pitch_ind = min_games_pitches[1]
+                    # postupne zousime volne mezery na hristi
+                    for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index[0]:
+                        self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
+                        break;
+
+
 
 
     #def _optimize
