@@ -191,18 +191,20 @@ class TournamentScheduler:
         for match_ind in range(desired_slots):
             # na kazdem radku hledame prazdna hriste
             for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
-                # presouvame ze hriste s nejvetsim poctem zapasu
-                pitch_ind = self.schedule.count().sort_values(ascending=False).index[0]
-                # pokud je na novem hristi mene zapasu
-                if self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]:
-                    # najdeme si dalsi zapas
-                    if match_ind >= len(self.schedule) -1:
-                        next_match = None
-                    else:
-                        next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
-                    # pokud nasledujici match muze byt posunut na tento radek
-                    if self._canShiftMatch(next_match,match_ind):
-                        self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
+                # presouvame ze hrist s co nejvetsim poctem zapasu
+                for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
+                    # pokud je na novem hristi mene zapasu
+                    if self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]:
+                        # najdeme si dalsi zapas
+                        if match_ind >= len(self.schedule) -1:
+                            next_match = None
+                        else:
+                            next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
+                        # pokud nasledujici match muze byt posunut na tento radek
+                        if self._canShiftMatch(next_match,match_ind):
+                            self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
+                            # ukoncime hledani hriste
+                            break
             # pokud jsme dosahli cile, ukoncime optimalizaci
             if self.schedule.count().max() <= desired_slots:
                 break
