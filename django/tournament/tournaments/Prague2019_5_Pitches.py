@@ -36,22 +36,22 @@ MenA_system.division.CreateTeams(
 MenB_system = MinGames16Teams(prague2019,'Men B','MenB',16)
 MenB_system.division.CreateTeams(
     [
+        "Glauchau Men",
+        "9Val B",
+        "KV Nürnberg",
+        "Schleißheimer Men",
         "Dresden Men",
         "Leipzig Men",
-        "Glauchau Men",
         "Kelheim Men",
-        "Schleißheimer Men",
         "Nagymaros Men",
         "Pirates from Bergheim A",
         "Pirates from Bergheim B",
         "KGL Hannover Rodeo Roundhousekick",
-        "Prague C",
+        "Prague Stars",
         "Ukk Wien Men",
         "ASV Horb",
         "Salzburg",
         "Vidra OB",
-        "9ValB",
-        "KV Nürnberg",
     ]
 )
 
