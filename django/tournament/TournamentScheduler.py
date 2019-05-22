@@ -184,7 +184,10 @@ class TournamentScheduler:
                 # postupne zkousime volne mezery na hristi
                 for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
                     # najdeme si nasledujici match
-                    next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
+                    if match_ind >= len(self.schedule) -1:
+                        next_match = None
+                    else:
+                        next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
                     # pokud nasledujici match muze byt posunut na tento radek
                     if self._canShiftMatch(next_match,match_ind):
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
