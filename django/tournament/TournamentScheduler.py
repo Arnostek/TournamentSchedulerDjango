@@ -154,14 +154,24 @@ class TournamentScheduler:
     def _canShiftMatch(self,next_match,match_ind):
         # pokud next_match neni match
         if not isinstance(next_match,models.Match):
-            # pokud v bunce neco je (asi pauza), skocime na dalsi mezeru
+            # pokud v bunce neco je (asi pauza), nesmime posouvat
             if next_match:
                 return False
+            # pokud v bunce nneni nic, muzeme posouvat
             else:
                 return True
         else:
-            return self._canPlaceMatch(next_match, match_ind)
-
+            # musime otestovat, jestli tymy nejsou na predchozim radku
+            # u indexu 0 jsem v pohode
+            if match_ind == 0:
+                return True
+            else:
+                # zkoumam vsechny tymy
+                for tph in [next_match.home,next_match.away,next_match.referee]:
+                    # zjistuji, jestli tph neni na predchozim radku 
+                    if match_ind -1 in self._getTphMatchesDf(tph).dropna(how='all').index:
+                        return False
+                return True
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
