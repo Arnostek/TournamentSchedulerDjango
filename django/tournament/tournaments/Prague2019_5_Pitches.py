@@ -111,7 +111,7 @@ u16_system.division.CreateTeams(
 ts = TournamentScheduler(prague2019,5)
 ts.Schedule(
     [
-        (datetime.datetime(2019,5,25,7),datetime.datetime(2019,5,25,19)),
-        (datetime.datetime(2019,5,26,7),datetime.datetime(2019,5,26,17))
+        (datetime.datetime(2019,5,25,7,30),datetime.datetime(2019,5,25,19)),
+        (datetime.datetime(2019,5,26,7,30),datetime.datetime(2019,5,26,19))
     ]
 )
