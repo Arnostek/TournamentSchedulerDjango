@@ -171,8 +171,15 @@ class TournamentScheduler:
                     move_to_pitch_ind = min_games_pitches[1]
                 # postupne zkousime volne mezery na hristi
                 for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
+                    # najdeme si nasledujici match
+                    next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
+                    # pokud v nasledujici bunce neni match
+                    if not isinstance(next_match,models.Match):
+                        # pokud v bunce neco je (asi pauza), skocime na dalsi mezeru
+                        if next_match:
+                            continue
                     # pokud nasledujici match muze byt posunut na tento radek
-                    if self._canPlaceMatch(self.schedule.iloc[match_ind + 1, pitch_ind], match_ind):
+                    if self._canPlaceMatch(next_match, match_ind):
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         break;
         # nakonec vymazeme prazdne radky
