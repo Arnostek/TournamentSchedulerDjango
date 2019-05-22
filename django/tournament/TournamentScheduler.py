@@ -146,8 +146,8 @@ class TournamentScheduler:
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
-
-        for pitch_ind in self.schedule.columns:
+        #prochazime hriste v poradi od nejprazdnejsiho
+        for pitch_ind in self.schedule.count().sort_values().index:
             # pokud je zapasu min nez desired_slots
             if self.schedule[pitch_ind].count() < desired_slots:
                 # staci smazat par mezer z konce
