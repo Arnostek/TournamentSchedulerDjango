@@ -109,6 +109,7 @@ u16_system.division.CreateTeams(
 ## naplanujeme zapasy
 
 ts = TournamentScheduler(prague2019,5)
+ts._reduceEmptySlots(38)
 ts.Schedule(
     [
         (datetime.datetime(2019,5,25,7,30),datetime.datetime(2019,5,25,19)),
