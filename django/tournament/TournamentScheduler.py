@@ -189,7 +189,7 @@ class TournamentScheduler:
                 self._shift_col(pitch_ind,match_ind)
 
         # projdeme radky az do desired_slots
-        for match_ind in range(desired_slots)
+        for match_ind in range(desired_slots):
             # na kazdem radku hledame prazdna hriste
             for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
                 # presouvame ze hriste s nejvetsim poctem zapasu
