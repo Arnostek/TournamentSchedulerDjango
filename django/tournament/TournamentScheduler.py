@@ -188,9 +188,10 @@ class TournamentScheduler:
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 self._shift_col(pitch_ind,match_ind)
 
+        # u hrist kde je vice zapasu, musime take presouvat
         for pitch_ind in pitch_indexes:
-            # najdeme volne sloty na jinych pitches
-            for i in range(len(self.schedule) - desired_slots):
+            # potrebujeme tolik cyklu, o kolik je vic zapasu nez desired
+            for i in range(self.schedule[pitch_ind].count() - desired_slots):
                 # najdeme hriste na ktere budeme posouvat
                 min_games_pitches = self.schedule.count().sort_values().index
                 move_to_pitch_ind = min_games_pitches[0]
