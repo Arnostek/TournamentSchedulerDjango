@@ -40,7 +40,7 @@ class TournamentScheduler:
         for match in division.match_set.all().order_by('group__phase','phase_block','id'):
             matches.append(match)
             if self._needPause(prev_match,match):
-                matches.append(None)
+                matches.append('Pauza')
             prev_match = match
         return matches
 
@@ -107,11 +107,11 @@ class TournamentScheduler:
 
     def _getGroupMatchesDf(self,group):
         """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
-        return self.schedule.applymap(lambda m : m if m and m.group == group else None)
+        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and m.group == group else None)
 
     def _getTphMatchesDf(self,tph):
         """vraci dataframe kde jsou jen zapasy tph z parametru"""
-        return self.schedule.applymap(lambda m : m if m and (m.home == tph or m.away == tph or m.referee == tph) else None)
+        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
 
     def _canPlaceTph(self,tph,df_index):
         """ test, zda muzeme tph umistit na dany index"""
@@ -143,9 +143,10 @@ class TournamentScheduler:
             # umistime zapasy do slotu
             for match_index in range(len(self.schedule)):
                 for pitch_index in range(self.pitches):
-                    sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index])[match_index]
-                    sch.match = self.schedule.iloc[match_index][pitch_index]
-                    sch.save()
+                    if isinstance(self.schedule.iloc[match_index][pitch_index],models.Match):
+                        sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index])[match_index]
+                        sch.match = self.schedule.iloc[match_index][pitch_index]
+                        sch.save()
                     pitch_index += 1
                 match_index += 1
 
