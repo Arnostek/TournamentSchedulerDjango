@@ -20,8 +20,7 @@ class TournamentScheduler:
             vytvoreni maximalniho hraciho planu - vsechny zapasy za sebou, co divize to hriste
         """
         self.schedule = pd.DataFrame([
-                [match
-                for match in division.match_set.all().order_by('group__phase','phase_block','id')]
+            self._divisionMatchesWithPauses(division)
             for division in self.tournament.division_set.all()
         ]).T
         self._makeSameLength()
@@ -33,6 +32,33 @@ class TournamentScheduler:
         old_val = self.schedule.iloc[old[0],old[1]]
         self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
         self.schedule.iloc[new[0],new[1]] = old_val
+
+    def _divisionMatchesWithPauses(self,division):
+        """ list zapasu divize s povinnymi mezerami """
+        matches = []
+        prev_match = None
+        for match in division.match_set.all().order_by('group__phase','phase_block','id'):
+            matches.append(match)
+            if self._needPause(prev_match,match):
+                matches.append(None)
+            prev_match = match
+        return matches
+
+    def _needPause(self,match1,match2):
+        """ Je potreba dat mezi zapasy pauzu ?"""
+        if match1 == None:
+            return False
+        else:
+            match1_ranks_tph = [
+                grs.teamPlaceholder
+                for grs in match1.group.grouprank_set.all()
+                ]
+            # pauza je potrebna pokud nejaky z tymu zavisi na poradi skupiny predchoziho zapasu
+            for tph in [match2.home,match2.away,match2.referee]:
+                if tph in match1_ranks_tph:
+                    return True
+            # pokud neni problem, neni pauza potreba
+            return False
 
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
