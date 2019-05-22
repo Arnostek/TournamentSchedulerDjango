@@ -9,7 +9,7 @@ from tournament.TournamentScheduler import TournamentScheduler
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2019_5_Pitches'
 
 # turnaj
-prague2019 = models.Tournament(name = "Prague 2019 Test 5 hrist cely wait list", slug = "PRG2019T5")
+prague2019 = models.Tournament(name = "Prague 2019 - release candidate 001", slug = "PRG2019T5")
 prague2019.save()
 ####################################################
 # men A
