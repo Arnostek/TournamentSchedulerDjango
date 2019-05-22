@@ -78,7 +78,7 @@ Ladies_system.division.CreateTeams(
 ####################################################
 # U14
 
-U14_system = SingleGroupDivisionSystem(prague2019,'U14','U14',7)
+U14_system = SingleGroupDivisionSystem(prague2019,'U14','U14',6)
 U14_system.division.CreateTeams(
     [
         "Dresden U14",
@@ -92,7 +92,7 @@ U14_system.division.CreateTeams(
 )
 ####################################################
 # U16
-u16_system = TwoGroups(prague2019,'U16','U16',8)
+u16_system = SingleGroupDivisionSystem(prague2019,'U16','U16',7)
 u16_system.division.CreateTeams(
     [
         "Dresden U16",
