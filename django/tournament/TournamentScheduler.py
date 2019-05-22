@@ -188,18 +188,15 @@ class TournamentScheduler:
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 self._shift_col(pitch_ind,match_ind)
 
-        # u hrist kde je vice zapasu, musime take presouvat
-        for pitch_ind in pitch_indexes:
-            # potrebujeme tolik cyklu, o kolik je vic zapasu nez desired
-            for i in range(self.schedule[pitch_ind].count() - desired_slots):
-                # najdeme hriste na ktere budeme posouvat
-                min_games_pitches = self.schedule.count().sort_values().index
-                move_to_pitch_ind = min_games_pitches[0]
-                if move_to_pitch_ind == pitch_ind:
-                    move_to_pitch_ind = min_games_pitches[1]
-                # postupne zkousime volne mezery na hristi
-                for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
-                    # najdeme si nasledujici match
+        # projdeme radky az do desired_slots
+        for match_ind in range(desired_slots)
+            # na kazdem radku hledame prazdna hriste
+            for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
+                # presouvame ze hriste s nejvetsim poctem zapasu
+                pitch_ind = self.schedule.count().sort_values(ascending=False).index[0]
+                # pokud je na novem hristi mene zapasu
+                if self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]:
+                    # najdeme si dalsi zapas
                     if match_ind >= len(self.schedule) -1:
                         next_match = None
                     else:
@@ -207,8 +204,10 @@ class TournamentScheduler:
                     # pokud nasledujici match muze byt posunut na tento radek
                     if self._canShiftMatch(next_match,match_ind):
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
-                        break;
-        # nakonec vymazeme prazdne radky
+            # pokud jsme dosahli cile, ukoncime optimalizaci
+            if self.schedule.count().max() <= desired_slots:
+                break
+        # uplne nakonec vymazeme prazdne radky
         self.schedule.dropna(how='all')
 
 
