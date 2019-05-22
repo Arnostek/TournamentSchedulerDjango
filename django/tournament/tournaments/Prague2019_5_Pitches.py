@@ -61,17 +61,17 @@ Ladies_system = TwoGroups(prague2019,'Ladies','Ladies',12)
 Ladies_system.division.CreateTeams(
     [
         "Havelbrüder Berlin",
-        "Leipzig Women",
+        "Neuburg Women",
+        "Swiss Dream Team",
+        "RSV Hannover Women",
         "Warsawa Powisle Women",
         "Kaniow Women",
-        "Neuburg Women",
         "Nagymaros Women",
         "Heidelberg Women",
-        "Prague Women",
-        "Swiss Dream Team",
+        "Leipzig Women",
+        "CZE Flowers",
         "Ukk Wien Women",
-        "RSV Hannover Women",
-        "Muenster",
+        "Praha",
     ]
 )
 
