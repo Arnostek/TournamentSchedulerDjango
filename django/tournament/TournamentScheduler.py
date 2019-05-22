@@ -153,23 +153,26 @@ class TournamentScheduler:
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
-        #prochazime hriste v poradi od nejprazdnejsiho
-        for pitch_ind in self.schedule.count().sort_values().index:
-            # pokud je zapasu min nez desired_slots
-            if self.schedule[pitch_ind].count() < desired_slots:
-                # staci smazat par mezer z konce
-                for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
-                    self._shift_col(pitch_ind,match_ind)
-            else:
-                # najdeme volne sloty na jinych pitches
-                for i in range(len(self.schedule) - desired_slots):
-                    # najdeme hriste na ktere budeme posouvat
-                    min_games_pitches = self.schedule.count().sort_values().index
-                    move_to_pitch_ind = min_games_pitches[0]
-                    if move_to_pitch_ind == pitch_ind:
-                        move_to_pitch_ind = min_games_pitches[1]
-                    # postupne zkousime volne mezery na hristi
-                    for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
+        #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
+        for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
+            # staci smazat par mezer z konce
+            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
+                self._shift_col(pitch_ind,match_ind)
+        # u hrist kde je vice zapasu, musime presouvat
+        pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values().index
+
+        for pitch_ind in pitch_indexes:
+            # najdeme volne sloty na jinych pitches
+            for i in range(len(self.schedule) - desired_slots):
+                # najdeme hriste na ktere budeme posouvat
+                min_games_pitches = self.schedule.count().sort_values().index
+                move_to_pitch_ind = min_games_pitches[0]
+                if move_to_pitch_ind == pitch_ind:
+                    move_to_pitch_ind = min_games_pitches[1]
+                # postupne zkousime volne mezery na hristi
+                for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
+                    # pokud nasledujici match muze byt posunut na tento radek
+                    if self._canPlaceMatch(self.schedule.iloc[match_ind + 1, pitch_ind], match_ind):
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         break;
         # nakonec vymazeme prazdne radky
