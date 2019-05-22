@@ -16,18 +16,18 @@ prague2019.save()
 MenA_system = TwoGroups(prague2019,'Men A','MenA',12)
 MenA_system.division.CreateTeams(
     [
-        "Gottingen",
-        "Warsawa Powisle Men",
+        "RKV Berlin",
+        "9Val A",
         "Kaniow Men",
-        "Neuburg Men",
+        "Vidra A",
+        "Gottingen",
         "Prague A",
-        "Prague B",
         "Austria Men",
         "KTW Kalisz",
-        "RKV Berlin",
+        "Neuburg Men",
+        "Warsawa Powisle Men",
         "Kwisa Lesna Men",
-        "9ValA",
-        "Vidra A",
+        "Prague B",
     ]
 )
 
