@@ -161,8 +161,8 @@ class TournamentScheduler:
                     move_to_pitch_ind = min_games_pitches[0]
                     if move_to_pitch_ind == pitch_ind:
                         move_to_pitch_ind = min_games_pitches[1]
-                    # postupne zousime volne mezery na hristi
-                    for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index[0]:
+                    # postupne zkousime volne mezery na hristi
+                    for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         break;
 
