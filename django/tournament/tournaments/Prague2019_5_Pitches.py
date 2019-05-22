@@ -65,13 +65,13 @@ Ladies_system.division.CreateTeams(
         "Swiss Dream Team",
         "RSV Hannover Women",
         "Warsawa Powisle Women",
-        "Kaniow Women",
+        "Kaniow Mix",
         "Nagymaros Women",
         "Heidelberg Women",
         "Leipzig Women",
         "CZE Flowers",
         "Ukk Wien Women",
-        "Praha",
+        "Prague Women",
     ]
 )
 
