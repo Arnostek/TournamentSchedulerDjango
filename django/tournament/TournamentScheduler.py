@@ -113,6 +113,10 @@ class TournamentScheduler:
         """vraci dataframe kde jsou jen zapasy tph z parametru"""
         return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
 
+    def _getFreeSlotsDf(self):
+        """ Vraci dataframe s prazdnymi hracimi sloty """
+        return self.schedule.applymap(lambda m : None if isinstance(m,models.Match) else 1)
+
     def _canPlaceTph(self,tph,df_index):
         """ test, zda muzeme tph umistit na dany index"""
         # indexy zapasu ve kterych tym hraje, nebo piska
