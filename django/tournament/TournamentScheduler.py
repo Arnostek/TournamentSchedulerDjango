@@ -180,8 +180,13 @@ class TournamentScheduler:
             # staci smazat par mezer z konce
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
                 self._shift_col(pitch_ind,match_ind)
-        # u hrist kde je vice zapasu, musime presouvat
+
+        # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
         pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values().index
+        for pitch_ind in pitch_indexes:
+            # smazeme vsechny prazdne - musime odzadu, jinak se nam cisla meni
+            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
+                self._shift_col(pitch_ind,match_ind)
 
         for pitch_ind in pitch_indexes:
             # najdeme volne sloty na jinych pitches
