@@ -165,6 +165,8 @@ class TournamentScheduler:
                     for match_ind in self._getFreeSlotsDf()[move_to_pitch_ind].dropna().index:
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         break;
+        # nakonec vymazeme prazdne radky
+        self.schedule.dropna(how='all')
 
 
 
