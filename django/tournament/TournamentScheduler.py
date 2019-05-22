@@ -208,9 +208,7 @@ class TournamentScheduler:
             if self.schedule.count().max() <= desired_slots:
                 break
         # uplne nakonec vymazeme prazdne radky
-        self.schedule.dropna(how='all')
-
-
+        self.schedule.dropna(how='all', inplace=True)
 
 
     #def _optimize
