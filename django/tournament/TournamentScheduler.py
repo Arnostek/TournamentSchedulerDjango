@@ -144,6 +144,23 @@ class TournamentScheduler:
         # pokud nenajdeme problem, muzeme tph umistit
         return True
 
+    def _reduceEmptySlots(self):
+        """ zaplneni mezer v hracim planu """
+        # prozatim na zkousku posuneme jen jeden match
+        desired_slots = 41
+
+        for pitch_ind in self.schedule.columns:
+
+            # pokud je zapasu min nez desired_slots
+            if self.schedule[pitch_ind].count() < desired_slots:
+                # staci smazat par mezer z konce
+                for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
+                    self._shift_col(pitch_ind,match_ind)
+            else:
+                # najdeme volne sloty na jinych pitches
+                # zatim neimplementovano
+                pass
+
 
     #def _optimize
 
