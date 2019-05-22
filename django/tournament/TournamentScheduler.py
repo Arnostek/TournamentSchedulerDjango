@@ -131,7 +131,7 @@ class TournamentScheduler:
 
     def _getFreeSlotsDf(self):
         """ Vraci dataframe s prazdnymi hracimi sloty """
-        return self.schedule.applymap(lambda m : None if isinstance(m,models.Match) else 1)
+        return self.schedule.isna().applymap(lambda v : 1 if v else None)
 
     def _canPlaceTph(self,tph,df_index):
         """ test, zda muzeme tph umistit na dany index"""
