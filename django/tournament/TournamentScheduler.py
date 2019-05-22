@@ -144,10 +144,8 @@ class TournamentScheduler:
         # pokud nenajdeme problem, muzeme tph umistit
         return True
 
-    def _reduceEmptySlots(self):
+    def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
-        # prozatim na zkousku posuneme jen jeden match
-        desired_slots = 41
 
         for pitch_ind in self.schedule.columns:
 
