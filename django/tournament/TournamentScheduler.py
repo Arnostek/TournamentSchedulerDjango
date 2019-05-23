@@ -200,11 +200,21 @@ class TournamentScheduler:
                             next_match = None
                         else:
                             next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
-                        # pokud nasledujici match muze byt posunut na tento radek
-                        if self._canShiftMatch(next_match,match_ind):
-                            self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
-                            # ukoncime hledani hriste
-                            break
+                            # pokud to nepujde posunout, jdeme na dalsi hriste
+                            if not self._canShiftMatch(next_match,match_ind):
+                                continue
+                        # najdeme si nextnext zapas - ten se totiz taky dostane bliz
+                        if match_ind >= len(self.schedule) -2:
+                            next_next_match = None
+                        else:
+                            next_next_match = self.schedule.iloc[match_ind + 2, pitch_ind]
+                            # pokud to nepujde posunout, jdeme na dalsi hriste
+                            if not self._canShiftMatch(next_next_match,match_ind + 1):
+                                continue
+                        # pokud nam nic nezabranilo, posunujeme
+                        self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
+                        # ukoncime hledani hriste
+                        break
             # pokud jsme dosahli cile, ukoncime optimalizaci
             if self.schedule.count().max() <= desired_slots:
                 break
