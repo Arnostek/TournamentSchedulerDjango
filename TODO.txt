@@ -1,12 +1,11 @@
 Dodelat
-* nacpani zapasu na hriste
+* rozhodci po zakladni skupine
+* pripocteni bodu a score z minule skupiny
+* zaheslovani zadavani score
 * kontrola hratelnosti
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
-* zaheslovani zadavani score
-* pripocteni bodu a score z minule skupiny
 * vynechani zapasu odehranych v minule skupine
 * cross tabulka s vysledky skupiny
-* rozhodci po zakladni skupine
 
 Chyby
 * z django settings.py odebrat DEBUG
@@ -14,6 +13,7 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* nacpani zapasu na hriste
 * doplneni rozhodcich
 * zadavani score
 * tabulky skupin, vcetne vysledku
