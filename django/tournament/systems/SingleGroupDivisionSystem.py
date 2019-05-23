@@ -19,6 +19,10 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
+        if len(a_ranks) > 5:
+            self._lastMatchAddReferee(a_ranks[5])
         # final
         phase += 1
         self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
+        if len(a_ranks) > 4:
+            self._lastMatchAddReferee(a_ranks[4])
