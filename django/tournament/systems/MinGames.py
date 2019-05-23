@@ -10,6 +10,8 @@ class MinGames16Teams(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # doplnime rozhodci
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - zakladni skupiny
@@ -46,6 +48,27 @@ class MinGames16Teams(DivisionSystemBase):
         # final
         phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+
+    def _addReferees(self):
+        """ Doplneni rozhodcich pro finalove zapasy """
+        # gropy E a F
+        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
+        self._GroupAddReferees('E',[phase1_ranks[0],phase1_ranks[1],phase1_ranks[2],phase1_ranks[3]])
+        self._GroupAddReferees('F',[phase1_ranks[8],phase1_ranks[9],phase1_ranks[10],phase1_ranks[11]])
+        # Semi
+        groupE_ranks = self.division.GetGroupsRanks(['E'])
+        groupF_ranks = self.division.GetGroupsRanks(['F'])
+        self._GroupAddReferees('SemiA',[groupE_ranks[4]])
+        self._GroupAddReferees('SemiB',[groupE_ranks[5]])
+        # umisteni
+        self._GroupAddReferees('15th',[groupF_ranks[0]])
+        self._GroupAddReferees('13th',[groupF_ranks[1]])
+        self._GroupAddReferees('11th',[groupF_ranks[7]])
+        self._GroupAddReferees('9th',[groupF_ranks[6]])
+        self._GroupAddReferees('7th',[groupF_ranks[4]])
+        self._GroupAddReferees('5th',[self.division.GetGroupsRanks(['11th'])[0]])
+        self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['9th'])[0]])
+        self._GroupAddReferees('final',[self.division.GetGroupsRanks(['7th'])[0]])
 
 
 class MinGames6Teams(DivisionSystemBase):
