@@ -187,8 +187,8 @@ class TournamentScheduler:
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 self._shift_col(pitch_ind,match_ind)
 
-        # projdeme radky az do desired_slots
-        for match_ind in range(desired_slots):
+        # projdeme radky az do delky dataframe
+        for match_ind in range(len(self.schedule)):
             # na kazdem radku hledame prazdna hriste
             for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
