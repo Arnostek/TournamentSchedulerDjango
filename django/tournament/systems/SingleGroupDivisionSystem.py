@@ -10,6 +10,8 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # doplnime rozhodci
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
@@ -19,10 +21,14 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
-        if len(a_ranks) > 5:
-            self._lastMatchAddReferee(a_ranks[5])
         # final
         phase += 1
         self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
+
+    def _addReferees(self):
+        """ Doplneni rozhodcich pro finalove zapasy """
+        a_ranks = self.division.GetGroupsRanks(['A'])
+        if len(a_ranks) > 5:
+            self._GroupAddReferees('3rd',[a_ranks[5]])
         if len(a_ranks) > 4:
-            self._lastMatchAddReferee(a_ranks[4])
+            self._GroupAddReferees('final',[a_ranks[4]])

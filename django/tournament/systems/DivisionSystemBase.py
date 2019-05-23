@@ -15,9 +15,11 @@ class DivisionSystemBase:
 
         self.division.CreateMatches()
 
-    def _lastMatchAddReferee(self,referee_tph):
-        # najdeme posledni zapas a pridame rozhodciho
-        m = self.division.match_set.last()
-        if not m.referee:
-            m.referee = referee_tph
+    def _GroupAddReferees(self, group_name, referees_tph):
+        """ doplneni rozhodcich do zapasu skupiny """
+        # najdeme group podle jmena
+        group = self.division.GetGroup(group_name)
+        # projdeme matche skupiny a pridame rozhodci
+        for m in group.match_set.all():
+            m.referee = referees_tph.pop()
             m.save()
