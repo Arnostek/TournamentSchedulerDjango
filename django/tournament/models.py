@@ -356,6 +356,9 @@ class Match(models.Model):
         # pokud jsme na nic nenarazili, score je mozno editovat
         return False
 
+    def __str__(self):
+        return "Match {} group {} ({})".format(self.division.name,self.group.name,self.id)
+
 
 class Pitch(models.Model):
     name = models.CharField(max_length = 50)
