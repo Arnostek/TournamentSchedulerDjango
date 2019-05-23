@@ -10,13 +10,15 @@ class TwoGroups(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # doplnime rozhodci
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
         phase = 1
         self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
         # a_ranks = self.division.GetGroupsRanks(['A'])
-            
+
         # prvni 4 tymy jdou do semi
         phase += 1
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
@@ -32,3 +34,11 @@ class TwoGroups(DivisionSystemBase):
         # final
         phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+
+    def _addReferees(self):
+        """ Doplneni rozhodcich pro finalove zapasy """
+        a_ranks = self.division.GetGroupsRanks(['A'])
+        b_ranks = self.division.GetGroupsRanks(['B'])
+
+        self._GroupAddReferees('SemiA',[a_ranks[2]])
+        self._GroupAddReferees('SemiB',[b_ranks[2]])
