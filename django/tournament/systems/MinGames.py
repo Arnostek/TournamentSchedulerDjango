@@ -19,15 +19,16 @@ class MinGames16Teams(DivisionSystemBase):
         phase += 1
         self.division.CreateGroups(['E'], self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)
         e_group = self.division.group_set.last()
-        e_group.CreateMatch((1,8,3))
-        e_group.CreateMatch((2,7,3))
-        e_group.CreateMatch((3,6,3))
-        e_group.CreateMatch((4,5,3))
-
         self.division.CreateGroups(['F'], self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
         f_group = self.division.group_set.last()
+
+        # zapasy skupin E a F
+        e_group.CreateMatch((1,8,3))
+        e_group.CreateMatch((2,7,3))
         f_group.CreateMatch((1,8,3))
         f_group.CreateMatch((2,7,3))
+        e_group.CreateMatch((3,6,3))
+        e_group.CreateMatch((4,5,3))
         f_group.CreateMatch((3,6,3))
         f_group.CreateMatch((4,5,3))
         # semi - prvni 4 tymy z horni skupiny
