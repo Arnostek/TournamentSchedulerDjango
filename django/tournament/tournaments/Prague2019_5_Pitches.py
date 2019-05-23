@@ -32,6 +32,26 @@ MenA_system.division.CreateTeams(
 )
 
 ####################################################
+# Ladies
+Ladies_system = TwoGroups(prague2019,'Ladies','Ladies',12)
+Ladies_system.division.CreateTeams(
+    [
+        "Havelbrüder Berlin",
+        "Neuburg Women",
+        "Swiss Dream Team",
+        "RSV Hannover Women",
+        "Warsawa Powisle Women",
+        "Kaniow Mix",
+        "Nagymaros Women",
+        "Heidelberg Women",
+        "Leipzig Women",
+        "CZE Flowers",
+        "Ukk Wien Women",
+        "Prague Women",
+    ]
+)
+
+####################################################
 # men B
 MenB_system = MinGames16Teams(prague2019,'Men B','MenB',16)
 MenB_system.division.CreateTeams(
@@ -52,26 +72,6 @@ MenB_system.division.CreateTeams(
         "ASV Horb",
         "Salzburg",
         "Vidra OB",
-    ]
-)
-
-####################################################
-# Ladies
-Ladies_system = TwoGroups(prague2019,'Ladies','Ladies',12)
-Ladies_system.division.CreateTeams(
-    [
-        "Havelbrüder Berlin",
-        "Neuburg Women",
-        "Swiss Dream Team",
-        "RSV Hannover Women",
-        "Warsawa Powisle Women",
-        "Kaniow Mix",
-        "Nagymaros Women",
-        "Heidelberg Women",
-        "Leipzig Women",
-        "CZE Flowers",
-        "Ukk Wien Women",
-        "Prague Women",
     ]
 )
 
