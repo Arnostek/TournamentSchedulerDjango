@@ -11,6 +11,7 @@ from tournament.TournamentScheduler import TournamentScheduler
 # turnaj
 prague2019 = models.Tournament(name = "Prague 2019 - release candidate 002", slug = "PRG2019T5")
 prague2019.save()
+print(prague2019)
 ####################################################
 # men A
 MenA_system = TwoGroups(prague2019,'Men A','MenA',12)
