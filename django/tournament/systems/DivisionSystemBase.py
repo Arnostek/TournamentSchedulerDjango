@@ -14,3 +14,10 @@ class DivisionSystemBase:
     def _createMatches(self):
 
         self.division.CreateMatches()
+
+    def _lastMatchAddReferee(self,referee_tph):
+        # najdeme posledni zapas a pridame rozhodciho
+        m = self.division.match_set.last()
+        if not m.referee:
+            m.referee = referee_tph
+            m.save()
