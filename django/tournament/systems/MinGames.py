@@ -30,13 +30,15 @@ class MinGames16Teams(DivisionSystemBase):
         f_group.CreateMatch((2,7,3))
         f_group.CreateMatch((3,6,3))
         f_group.CreateMatch((4,5,3))
-        # semi
+        # semi - prvni 4 tymy z horni skupiny
         phase += 1
-        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['E','F'])[:4], phase)
+        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['E'])[:4], phase)
         # zapasy o mista bez semi
         phase += 1
-        for misto in [15,13,11,9,7,5]:
-            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], phase)
+        for misto in [15,13,11,9]:
+            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['F'])[misto - 9: misto -7], phase)
+        for misto in [7,5]:
+            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['E'])[misto - 1: misto + 1], phase)
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
