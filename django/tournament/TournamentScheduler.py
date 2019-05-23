@@ -109,6 +109,7 @@ class TournamentScheduler:
                     if not match.referee:
                         # zkontrolujeme, zda tym muze piskat
                         for refPool_index in range(len(self.refPool)):
+                        # TODO zbytecne prochazime cely pool, stacila by jedna obratka
                             if self._canPlaceTph(self.refPool[refPool_index],match_ind):
                                 match.referee = self.refPool.pop(refPool_index)
                                 match.save()
