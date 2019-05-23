@@ -27,7 +27,7 @@ MenA_system.division.CreateTeams(
         "Neuburg Men",
         "Warsawa Powisle Men",
         "Kwisa Lesna Men",
-        "Prague B",
+        "Masaci",
     ]
 )
 
