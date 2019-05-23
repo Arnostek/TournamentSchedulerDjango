@@ -1,5 +1,4 @@
 Dodelat
-* rozhodci po zakladni skupine
 * pripocteni bodu a score z minule skupiny
 * zaheslovani zadavani score
 * kontrola hratelnosti
@@ -13,6 +12,7 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* rozhodci po zakladni skupine
 * nacpani zapasu na hriste
 * doplneni rozhodcich
 * zadavani score
