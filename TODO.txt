@@ -1,7 +1,7 @@
-Dodelat
-* match numbers
+Dodelat - prio
 * pripocteni bodu a score z minule skupiny
-* zaheslovani zadavani score
+
+Dodelat
 * kontrola hratelnosti
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
 * vynechani zapasu odehranych v minule skupine
@@ -13,6 +13,8 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* zaheslovani zadavani score
+* match numbers
 * rozhodci po zakladni skupine
 * nacpani zapasu na hriste
 * doplneni rozhodcich
