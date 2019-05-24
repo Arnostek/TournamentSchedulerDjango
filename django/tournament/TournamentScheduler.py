@@ -194,8 +194,8 @@ class TournamentScheduler:
             for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
-                    # pokud je na novem hristi mene zapasu
-                    if self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]:
+                    # pokud je na novem hristi mene zapasu a je potreba zmensovat
+                    if (self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]) and (self.schedule.count()[pitch_ind] > desired_slots):
                         # najdeme si dalsi zapas
                         if match_ind >= len(self.schedule) -1:
                             next_match = None
