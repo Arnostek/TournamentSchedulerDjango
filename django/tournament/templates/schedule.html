@@ -6,6 +6,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>#</th>
       <th>Time</th>
       <th>Pitch</th>
       <th>Division</th>
@@ -20,6 +21,7 @@
   </thead>
   {% for schedule in schedules %}
     <tr>
+      <td>#{{schedule.game_number}}</td>
       <td>{{schedule.time | date:'D H:i'}}</td>
       <td><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
