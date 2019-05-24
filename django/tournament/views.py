@@ -117,6 +117,7 @@ class ScheduleView(TemplateView, TournamentDetail):
             'tournament' : tournament,
             'pitches' : tournament.pitch_set.all(),
             'schedules' : schedules,
+            'kpadmin' : self.request.user.is_authenticated,
         }
 
         return context
