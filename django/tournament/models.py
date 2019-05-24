@@ -195,6 +195,23 @@ class Group(models.Model):
             self.AddTeamResult(match.home, match.home_points, match.home_score, match.away_score)
             self.AddTeamResult(match.away, match.away_points, match.away_score, match.home_score)
 
+        # pokud jsou, pricteme body z predchozi skupiny
+        for gpt in self.points_transfer_dst.all():
+            # projdeme stare vysledky
+            for old_tph,old_result in gpt.src.Results.items():
+                # najdeme novy groupseed podle tymu
+                new_gs_set = self.groupseed_set.filter(teamPlaceholder__team = old_tph.team)
+                # pokud tym najdeme, pripocteme vysledky
+                if len(new_gs_set) > 0:
+                    self.AddTeamResult(
+                            new_gs_set[0].teamPlaceholder,
+                            old_result["points"],
+                            old_result["scored"],
+                            old_result["obtained"])
+                    # doplnime pocet zapasu
+                    for i in range(old_result["games"]-1):
+                        self.AddTeamResult(new_gs_set[0].teamPlaceholder,0,0,0)
+
         # setridene dle poradi
         tmp =  sorted(
             self.GroupResults.items(),
