@@ -83,6 +83,7 @@ class DivisionTablesView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'division' : division,
             'tables' : tables,
+            'kpadmin' : self.request.user.is_authenticated,
         }
 
         return context
