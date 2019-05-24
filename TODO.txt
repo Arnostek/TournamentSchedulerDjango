@@ -1,5 +1,6 @@
 Dodelat - prio
 * pripocteni bodu a score z minule skupiny
+* print stylesheet
 
 Dodelat
 * kontrola hratelnosti
