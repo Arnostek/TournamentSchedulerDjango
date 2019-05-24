@@ -255,6 +255,10 @@ class Group(models.Model):
         self.finished = True
         self.save()
 
+class GroupPointsTransfer(models.Model):
+    """ Prenaseni bodu mezi skupinami """
+    src = models.ForeignKey(Division, on_delete=models.CASCADE)
+    dest = models.ForeignKey(Division, on_delete=models.CASCADE)
 
 # teams
 class Team(models.Model):
