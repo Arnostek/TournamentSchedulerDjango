@@ -245,7 +245,3 @@ class TournamentScheduler:
                         sch.save()
                     pitch_index += 1
                 match_index += 1
-
-    # def _addMatchNumbers(self):
-    #TODO
-    #     Match.objects.order_by('schedule__time','schedule__pitch')
