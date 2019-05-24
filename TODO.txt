@@ -1,6 +1,5 @@
 Dodelat - prio
 * pripocteni bodu a score z minule skupiny
-* print stylesheet
 
 Dodelat
 * kontrola hratelnosti
@@ -14,6 +13,7 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* print stylesheet
 * zaheslovani zadavani score
 * match numbers
 * rozhodci po zakladni skupine
