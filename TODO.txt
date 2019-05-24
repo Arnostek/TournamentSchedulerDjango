@@ -12,6 +12,7 @@ Chyby
 * nahodne poradi pro shodne body, diff i scored
 
 Hotovo
+* oddelit casove useky ve schedule
 * pripocteni bodu a score z minule skupiny
 * print stylesheet
 * zaheslovani zadavani score

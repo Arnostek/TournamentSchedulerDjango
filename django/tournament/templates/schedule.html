@@ -20,7 +20,7 @@
     </tr>
   </thead>
   {% for schedule in schedules %}
-    <tr>
+    <tr {% ifchanged schedule.time %}class="schedule-time-break"{% endifchanged %}>
       <td>#{{schedule.game_number}}</td>
       <td>{{schedule.time | date:'D H:i'}}</td>
       <td><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
