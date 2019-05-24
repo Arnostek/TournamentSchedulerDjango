@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from .models import Tournament, Division, Group, Match
 from django.db.models import Q
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -123,6 +124,7 @@ class ScheduleView(TemplateView, TournamentDetail):
 
         return context
 
+@login_required
 def SetScore(request, mid, who, score):
     #print (mid)
     m = Match.objects.get(id = mid)
