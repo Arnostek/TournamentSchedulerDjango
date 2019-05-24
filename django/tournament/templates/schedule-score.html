@@ -1,3 +1,3 @@
 {% if schedule.match.id %}
-  <input {% if not kpadmin %}disabled="true" {%endif%} id="match-{{schedule.match.id}}/{{home_away}}" value="{{score | default_if_none:""}}" {% if schedule.match.locked %}disabled="true"{% endif %}/>
+  <input {% if not kpadmin or schedule.match.locked %}disabled="true" {%endif%} id="match-{{schedule.match.id}}/{{home_away}}" value="{{score | default_if_none:""}}" />
 {% endif %}
