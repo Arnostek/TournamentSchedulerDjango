@@ -19,7 +19,7 @@ class Tournament(models.Model):
         time = begin
 
         delta = datetime.timedelta(minutes = gametime)
-        gn = 1
+        gn = self.schedule_set.count() + 1
         while time < end:
             for pitch in self.pitch_set.all():
                 self.schedule_set.create(tournament = self, time = time, pitch = pitch, game_number = gn)
