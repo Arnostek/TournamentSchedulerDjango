@@ -24,6 +24,17 @@ class MinGames16Teams(DivisionSystemBase):
         self.division.CreateGroups(['F'], self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
         f_group = self.division.group_set.last()
 
+        # do E a F prenasime body z minula
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('E'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('E'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('E'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('E'))
+
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('F'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('F'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('F'))
+        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('F'))
+
         # zapasy skupin E a F
         e_group.CreateMatch((1,8,3))
         e_group.CreateMatch((2,7,3))
