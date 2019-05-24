@@ -1,4 +1,5 @@
 Dodelat
+* match numbers
 * pripocteni bodu a score z minule skupiny
 * zaheslovani zadavani score
 * kontrola hratelnosti
