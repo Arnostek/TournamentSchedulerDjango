@@ -257,8 +257,8 @@ class Group(models.Model):
 
 class GroupPointsTransfer(models.Model):
     """ Prenaseni bodu mezi skupinami """
-    src = models.ForeignKey(Division, on_delete=models.CASCADE, related_name = "points_transfer_src")
-    dest = models.ForeignKey(Division, on_delete=models.CASCADE, related_name = "points_transfer_dst")
+    src = models.ForeignKey(Group, on_delete=models.CASCADE, related_name = "points_transfer_src")
+    dest = models.ForeignKey(Group, on_delete=models.CASCADE, related_name = "points_transfer_dst")
 
 # teams
 class Team(models.Model):
