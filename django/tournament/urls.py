@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     # seznam turnaju
@@ -7,7 +8,7 @@ urlpatterns = [
     # detail turnaje
     path('tournament-<int:tid>/', views.TournamentDetailView.as_view()),
     # division system
-    path('tournament-<int:tid>/system/division-<int:did>', views.DivisionSystemView.as_view()),
+    path('tournament-<int:tid>/system/division-<int:did>', cache_page(60 * 15)(views.DivisionSystemView.as_view())),
     # division tables
     path('tournament-<int:tid>/tables/division-<int:did>', views.DivisionTablesView.as_view()),
     # schedule
