@@ -10,6 +10,7 @@ Chyby
 * z django settings.py odebrat DEBUG
 * pri generovani her pro sudy pocet tymu je posledni tym stale "home"
 * nahodne poradi pro shodne body, diff i scored
+* pri mazani mezer musime testovat, zda je mozne to posunout kvuli piskani 
 
 Hotovo
 * oddelit casove useky ve schedule
