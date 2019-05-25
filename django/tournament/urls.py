@@ -14,6 +14,8 @@ urlpatterns = [
     path('tournament-<int:tid>/system/division-<int:did>', cache_page(cache_timeout)(views.DivisionSystemView.as_view())),
     # division tables
     path('tournament-<int:tid>/tables/division-<int:did>', cache_page(cache_timeout)(views.DivisionTablesView.as_view())),
+    # division tables live
+    path('live/tournament-<int:tid>/tables/division-<int:did>', views.DivisionTablesView.as_view()),
     # schedule
     path('tournament-<int:tid>/schedule/', cache_page(cache_timeout)(views.ScheduleView.as_view())),
     path('tournament-<int:tid>/schedule/division-<int:did>', cache_page(cache_timeout)(views.ScheduleView.as_view())),
