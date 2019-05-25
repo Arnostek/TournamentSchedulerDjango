@@ -20,6 +20,8 @@ urlpatterns = [
     path('tournament-<int:tid>/schedule/division-<int:did>-group-<int:gid>', cache_page(cache_timeout)(views.ScheduleView.as_view())),
     path('tournament-<int:tid>/schedule/pitch-<int:pid>', cache_page(cache_timeout)(views.ScheduleView.as_view())),
     path('tournament-<int:tid>/schedule/team-<int:team>', cache_page(cache_timeout)(views.ScheduleView.as_view())),
+    # schedule edit
+    path('tournament-<int:tid>/schedule/edit', views.ScheduleView.as_view()),
 
     # score
     path('set/match-<int:mid>/<slug:who>/<int:score>', views.SetScore),
