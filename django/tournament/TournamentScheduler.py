@@ -178,6 +178,7 @@ class TournamentScheduler:
         #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
         for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
             # staci smazat par mezer z konce
+            # BUG pozor - musime testovat, zda to je mozne
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
                 self._shift_col(pitch_ind,match_ind)
 
