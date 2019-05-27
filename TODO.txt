@@ -1,23 +1,15 @@
-Dodelat - prio
+TODO - prio
 
-Dodelat
+TODO
 * kontrola hratelnosti
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
-* vynechani zapasu odehranych v minule skupine
-* cross tabulka s vysledky skupiny
 * u 16 tymu minimum zapasu preskladat poradi zapasu ve skupinach E a F - zacina hrat D, ktere konci posledni
 * schedule url udelat s pomlckou, ne zanorene tak, aby mohly vsechny odkazy byt relativni
-* filtr so / ne
-* filtr neodehrane zapasy
 * predelat odkazy na relativni
 
-Chyby
-* z django settings.py odebrat DEBUG
-* pri generovani her pro sudy pocet tymu je posledni tym stale "home"
-* nahodne poradi pro shodne body, diff i scored
-* pri mazani mezer musime testovat, zda je mozne to posunout kvuli piskani
+Errors - all errors turned into github project issues
 
-Hotovo
+Finished
 * oddelit casove useky ve schedule
 * pripocteni bodu a score z minule skupiny
 * print stylesheet
