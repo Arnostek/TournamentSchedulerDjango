@@ -23,9 +23,9 @@
     <tr {% ifchanged schedule.time %}class="schedule-time-break"{% endifchanged %}>
       <td>#{{schedule.game_number}}</td>
       <td class="text-nowrap">{{schedule.time | date:'D H:i'}}</td>
-      <td class="text-nowrap"><a href="pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
-      <td><a href="division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
-      <td><a href="division-{{schedule.match.division.id}}-group-{{schedule.match.group.id}}">{{schedule.match.group.name}}</a></td>
+      <td class="text-nowrap"><a href="schedule-pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
+      <td><a href="schedule-division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
+      <td><a href="schedule-division-{{schedule.match.division.id}}-group-{{schedule.match.group.id}}">{{schedule.match.group.name}}</a></td>
       <td>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>
