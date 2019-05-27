@@ -36,13 +36,13 @@ class MinGames16Teams(DivisionSystemBase):
         models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('F'))
 
         # zapasy skupin E a F
-        e_group.CreateMatch((1,8,3))
         e_group.CreateMatch((2,7,3))
-        f_group.CreateMatch((1,8,3))
         f_group.CreateMatch((2,7,3))
         e_group.CreateMatch((3,6,3))
-        e_group.CreateMatch((4,5,3))
         f_group.CreateMatch((3,6,3))
+        e_group.CreateMatch((1,8,3))
+        f_group.CreateMatch((1,8,3))
+        e_group.CreateMatch((4,5,3))
         f_group.CreateMatch((4,5,3))
         # semi - prvni 4 tymy z horni skupiny
         phase += 1

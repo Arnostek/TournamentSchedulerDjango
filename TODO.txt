@@ -3,7 +3,6 @@ TODO - prio
 TODO
 * kontrola hratelnosti
 * kontrola integrity parametru v url - group, division, team vs tournament apod.
-* u 16 tymu minimum zapasu preskladat poradi zapasu ve skupinach E a F - zacina hrat D, ktere konci posledni
 * schedule url udelat s pomlckou, ne zanorene tak, aby mohly vsechny odkazy byt relativni
 * predelat odkazy na relativni
 
