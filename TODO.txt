@@ -1,8 +1,4 @@
-TODO - prio
-
-TODO
-* kontrola hratelnosti
-* kontrola integrity parametru v url - group, division, team vs tournament apod.
+TODO - all todos turned into github project issues
 
 Errors - all errors turned into github project issues
 
