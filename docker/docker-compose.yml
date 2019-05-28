@@ -6,11 +6,12 @@ services:
     build: ./TournamentSchedulerDjango/
     container_name: TournamentSchedulerDjango
     ports:
-      - 8844:8844
+      - ${DJANGO_PORT}:8844
     environment:
       - DJANGO_SECRET_KEY
       - DJANGO_ALLOWED_HOSTS
       - DJANGO_DEBUG
+      - DJANGO_PORT
     restart: unless-stopped
     volumes:
       - ../django:/srv/django
