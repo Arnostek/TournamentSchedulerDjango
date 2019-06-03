@@ -1,4 +1,5 @@
 from .DivisionSystemBase import DivisionSystemBase
+from tournament.models import GroupPointsTransfer
 
 class MinGames16Teams(DivisionSystemBase):
     """ 4 zakladni skupiny, pak rozdeleno na horni a dolni kde kazdy odehraje prave jeden zapas. Pricitaji se body z minule. Semi a zapasy o misto."""
@@ -25,15 +26,15 @@ class MinGames16Teams(DivisionSystemBase):
         f_group = self.division.group_set.last()
 
         # do E a F prenasime body z minula
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('E'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('E'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('E'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('E'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('E'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('E'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('E'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('E'))
 
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('F'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('F'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('F'))
-        models.GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('F'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('A'), dest = self.division.GetGroup('F'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('B'), dest = self.division.GetGroup('F'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('C'), dest = self.division.GetGroup('F'))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('D'), dest = self.division.GetGroup('F'))
 
         # zapasy skupin E a F
         e_group.CreateMatch((2,7,3))
