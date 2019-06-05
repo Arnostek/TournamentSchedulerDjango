@@ -6,9 +6,12 @@ from .models import Tournament, Division, Group, Match
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from django.utils.dateparse import parse_date
 
 # Create your views here.
 
+    
 class TournamentListView(ListView):
     template_name = 'tournament-list.html'
     queryset = Tournament.objects.all()
@@ -105,7 +108,9 @@ class ScheduleView(TemplateView, TournamentDetail):
     def get_context_data(self, **kwargs):
 
         tournament = self.tournament
-
+        fdate = self.request.GET.get('filter_date')
+        mteam = self.request.GET.get('mark_team')
+        
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
                 schedules = tournament.schedule_set.filter(match__group__id = self.kwargs['gid'])
@@ -119,15 +124,32 @@ class ScheduleView(TemplateView, TournamentDetail):
                     | Q(match__away__team__id = self.kwargs['team'])
                     | Q(match__referee__team__id = self.kwargs['team'])
                 )
-
         else:
             schedules = tournament.schedule_set.all()
 
+        if fdate:
+            schedules = schedules.filter(time__date=parse_date(fdate))
+           
+        # It´s so ugly please don´t hit me    
+        teams = []
+        for s in tournament.schedule_set.all():
+            if s.match: 
+                if s.match.home and s.match.home.team:   
+                    teams.append(s.match.home.team.name)
+                if s.match.away and s.match.away.team:   
+                    teams.append(s.match.away.team.name)
+                if s.match.referee and s.match.referee.team:   
+                    teams.append(s.match.referee.team.name)
+        teams = sorted(set(teams))
+            
         context = {
             'tournament' : tournament,
             'pitches' : tournament.pitch_set.all(),
             'schedules' : schedules,
             'kpadmin' : self.request.user.is_authenticated,
+            'playdays' : tournament.GetPlayDays(),
+            'teams': teams,
+            'mark_team': mteam,
         }
 
         return context
