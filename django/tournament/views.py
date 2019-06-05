@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
 from .models import Tournament, Division, Group, Match
@@ -17,7 +18,10 @@ class TournamentDetail:
 
     @property
     def tournament(self):
-        tournament = Tournament.objects.get(id=self.kwargs['tid'])
+        try:
+            tournament = Tournament.objects.get(id=self.kwargs['tid'])
+        except Tournament.DoesNotExist:
+            raise Http404("This Tournament does not exist")
         return tournament
 
 class TournamentDetailView(TemplateView, TournamentDetail):
@@ -46,9 +50,10 @@ class DivisionSystemView(TemplateView, TournamentDetail):
     template_name = 'division_system.html'
 
     def get_context_data(self, **kwargs):
-
-        division = Division.objects.get(id = self.kwargs['did'])
-
+        try: 
+            division = Division.objects.get(id = self.kwargs['did'])
+        except Division.DoesNotExist:
+            raise Http404("This Division does not exist")
         groups = {
 
             group : [
@@ -75,7 +80,10 @@ class DivisionTablesView(TemplateView, TournamentDetail):
 
         tables = {}
 
-        division = Division.objects.get(id = self.kwargs['did'])
+        try: 
+            division = Division.objects.get(id = self.kwargs['did'])
+        except Division.DoesNotExist:
+            raise Http404("This Division does not exist")
 
         for group in division.group_set.all():
             tables[group] = group.Results
