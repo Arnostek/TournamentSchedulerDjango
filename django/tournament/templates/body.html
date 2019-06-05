@@ -33,6 +33,12 @@
       tr.schedule-time-break{
         border-top: 2px solid #abbac9;
       }
+      .myteam1{ 
+        background: #ff9999;
+      }
+      .myteam2{ 
+        background: #99ff99;
+      }
     </style>
     <style type="text/css" media="print">
      td a {
@@ -86,8 +92,9 @@
               {% endfor %}
             </div>
           </li>
-
+          {% block filterbox %}  {% endblock %}
         </ul>
+        
       </div>
     </nav>
     {% endif %}
