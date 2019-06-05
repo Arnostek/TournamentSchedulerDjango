@@ -1,4 +1,32 @@
 {% extends 'body.html' %}
+{% block filterbox %}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Day
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+     {% for day in playdays %}
+        <a class="dropdown-item" href="?filter_date={{day|date:"Y-m-d"}}">{{ day|date:"l - d.m.Y" }}</a>
+     {% endfor %}
+  </div>
+</li>
+<li class="nav-item dropdown">
+  	<select class="custom-select custom-select-sm myteam1" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
+  	    <option selected>My Team</option>
+     {% for team in teams %}
+        <option value="{{ team }}">{{ team }}</option>
+     {% endfor %}
+     </select>
+</li>
+<li class="nav-item dropdown">
+  	<select class="custom-select custom-select-sm myteam2" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
+  	    <option selected>My other Team</option>
+     {% for team in teams %}
+        <option value="{{ team }}">{{ team }}</option>
+     {% endfor %}
+     </select>
+</li>
+{% endblock filterbox%}
 
 {% block content %}
 
@@ -48,7 +76,7 @@
         {% endif %}
       </td>
     </tr>
-  {%endfor%}
+  {% endfor %}
 </table>
 
 <script>
@@ -91,7 +119,18 @@ $(".del-score").click(
       }
     );
   }
-)
+);
+
+function highlightTeam(team, css) {
+	//alert(team + ':' + css);
+	$("td a").filter(function() {
+        return $(this).text() != team;
+    }).parent('td').removeClass(css);
+	$("td a").filter(function() {
+        return $(this).text() == team;
+    }).parent('td').addClass(css);
+	
+}
 </script>
 
 {% endblock %}

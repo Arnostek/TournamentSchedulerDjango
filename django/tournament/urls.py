@@ -3,7 +3,7 @@ from . import views
 from django.views.decorators.cache import cache_page
 
 
-cache_timeout = 60 * 15
+cache_timeout = 60 * 2
 
 urlpatterns = [
     # seznam turnaju
