@@ -1,26 +1,36 @@
 {% extends 'body.html' %}
 {% block filterbox %}
-<li class="nav-item dropdown">
-  	<select class="custom-select custom-select-sm myteam1" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
-  	    <option selected>My Team</option>
-     {% for team in teams %}
-        <option value="{{ team }}">{{ team }}</option>
-     {% endfor %}
-     </select>
-</li>
-<li class="nav-item dropdown">
-  	<select class="custom-select custom-select-sm myteam2" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
-  	    <option selected>My other Team</option>
-     {% for team in teams %}
-        <option value="{{ team }}">{{ team }}</option>
-     {% endfor %}
-     </select>
-</li>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <a class="navbar-brand" href="/tournament-{{tournament.id}}/schedule-full">Game-Schedule</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarFilter" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarFilter">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+  			<select class="custom-select custom-select-sm myteam1" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
+  	    		<option selected>My Team</option>
+     				{% for team in teams %}
+        				<option value="{{ team }}">{{ team }}</option>
+     				{% endfor %}
+     			</select>
+			</li>
+			<li class="nav-item dropdown">
+  				<select class="custom-select custom-select-sm myteam2" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
+  	   			 <option selected>My other Team</option>
+     				{% for team in teams %}
+       					 <option value="{{ team }}">{{ team }}</option>
+     				{% endfor %}
+    			 </select>
+			</li>
+        </ul>
+      </div>
+    </nav>
 {% endblock filterbox%}
 
 {% block content %}
 
-<h2>Schedule</h2>
 <table class="table table-striped">
   <thead>
     <tr>
