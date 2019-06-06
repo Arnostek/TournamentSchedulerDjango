@@ -5,53 +5,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <style type="text/css">
-      td.score input {
-        width: 35px;
-      }
-
-      h2 {
-        margin: 20px;
-      }
-
-      h3 {
-        margin-left: 20px;
-      }
-
-
-      .grouptable tr:first-child th {
-        font-size: large;
-        padding: 30px;
-      }
-      .grouptable tr:last-child{
-        border-bottom: 40px solid white;
-      }
-
-      .finish-group{
-        margin-left: 30px;
-      }
-
-      tr.schedule-time-break{
-        border-top: 2px solid #abbac9;
-      }
-      .myteam1{ 
-        background: #ff9999;
-      }
-      .myteam2{ 
-        background: #99ff99;
-      }
-    </style>
-    <style type="text/css" media="print">
-     td a {
-       color: black;
-       text-decoration: none !important;
-     }
-     td.score input{
-        border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-     }
-    </style>
+    <link rel="stylesheet" href="/static/print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
   </head>
   <body>
 
@@ -95,7 +50,7 @@
           </li>
           {% block filterbox %}  {% endblock %}
         </ul>
-        
+
       </div>
     </nav>
     {% endif %}
