@@ -57,7 +57,7 @@
 
     {% if tournament.id %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-      <a class="navbar-brand" href="/tournament-{{tournament.id}}">{{tournament.name}}</a>
+      <a class="navbar-brand" href="/tournament-{{tournament.id}}"><img src="/static/ball32_d.png" width="32" height="32" class="d-inline-block align-top" alt="">&nbsp;&nbsp;&nbsp;{{tournament.name}}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -93,13 +93,11 @@
               {% endfor %}
             </div>
           </li>
-          {% block filterbox %}  {% endblock %}
         </ul>
-        
       </div>
     </nav>
     {% endif %}
-
+   {% block filterbox %}  {% endblock %}
     <div class="content">
     {% block content %}
     {% endblock %}
