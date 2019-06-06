@@ -1,6 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
 from .polygon_generator import polygon_generator
+from django.utils.dateparse import *
 import datetime
 
 #
@@ -25,6 +26,12 @@ class Tournament(models.Model):
                 self.schedule_set.create(tournament = self, time = time, pitch = pitch, game_number = gn)
                 gn += 1
             time += delta
+            
+    def GetPlayDays(self):
+        wds = []
+        for day in list(Schedule.objects.filter(tournament=self).extra({'textdate' : "date(time)"}).values('textdate').annotate(gamecount=models.Count('game_number'))):
+            wds.append(parse_date(day["textdate"]))
+        return wds
 
 class Division(models.Model):
     name = models.CharField(max_length = 200)
