@@ -1,0 +1,33 @@
+td.score input {
+  width: 35px;
+}
+
+h2 {
+  margin: 20px;
+}
+
+h3 {
+  margin-left: 20px;
+}
+
+.grouptable tr:first-child th {
+  font-size: large;
+  padding: 30px;
+}
+.grouptable tr:last-child{
+  border-bottom: 40px solid white;
+}
+
+.finish-group{
+  margin-left: 30px;
+}
+
+tr.schedule-time-break{
+  border-top: 2px solid #abbac9;
+}
+.myteam1{
+  background: #ff9999;
+}
+.myteam2{
+  background: #99ff99;
+}
