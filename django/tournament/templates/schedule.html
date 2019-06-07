@@ -71,8 +71,13 @@
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
       <td>
-        {% if kpadmin and not schedule.match.locked and schedule.match.home_points is not None %}
-        <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button>
+        {% if kpadmin %} 
+          {% if  not schedule.match.locked and schedule.match.home_points is not None %}
+             <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button>
+          {% else %}
+              <a href="/schedule-move-up-{{schedule.id}}"> <span class="fa fa-arrow-circle-up fa-lg"></span> </a>
+              <a href="/schedule-move-down-{{schedule.id}}"> <span class="fa fa-arrow-circle-down fa-lg"></span> </a>
+          {% endif %}
         {% endif %}
       </td>
     </tr>

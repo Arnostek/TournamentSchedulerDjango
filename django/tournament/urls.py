@@ -10,7 +10,9 @@ urlpatterns = [
     # score
     path('set/match-<int:mid>/<slug:who>/<int:score>', views.SetScore),
     path('del_score/match-<int:mid>', views.DelScore),
-
+    # move
+    path('schedule-move-up-<int:sid>', views.MoveUp),
+    path('schedule-move-down-<int:sid>', views.MoveDown),
     # finish group
     path('finish/group-<int:gid>', views.FinishGroup),
 ]
@@ -30,6 +32,7 @@ urlpatterns_tmp = [
     ('tournament-<int:tid>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
     ('tournament-<int:tid>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),
     ('tournament-<int:tid>/schedule-team-<int:team>', views.ScheduleView.as_view()),
+    
 ]
 
 # add cached and live version for every url from urlpatterns_tmp
