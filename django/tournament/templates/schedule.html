@@ -75,8 +75,8 @@
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
              <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button>
           {% else %}
-              <a href="/schedule-move-up-{{schedule.id}}"> <span class="fa fa-arrow-circle-up fa-lg"></span> </a>
-              <a href="/schedule-move-down-{{schedule.id}}"> <span class="fa fa-arrow-circle-down fa-lg"></span> </a>
+              <input type="checkbox" id="select{{schedule.id}}" class="teamselector" onclick="selectMatch({{schedule.id}})">
+              <a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
           {% endif %}
         {% endif %}
       </td>
@@ -135,6 +135,25 @@ function highlightTeam(team, css) {
         return $(this).text() == team;
     }).parent('td').addClass(css);
 
+}
+function selectMatch(sid){
+	if ($('#select' + sid).is(':checked')){
+		$('.teamselector').prop('checked', false);
+		$('#select' + sid).prop('checked', true); 
+		$('.teamswitch').each(function(){
+			var oldUrl = $(this).attr('href');
+			var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-' + sid;
+			$(this).attr('href', newUrl);
+		})
+	} else {
+		$('.teamswitch').each(function(){
+			var oldUrl = $(this).attr('href');
+			var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-xx';
+			$(this).attr('href', newUrl);
+		})
+	}
+
+	$("input:checkbox").prop('checked', $(this).prop("checked"));
 }
 </script>
 

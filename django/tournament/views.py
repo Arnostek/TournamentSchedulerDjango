@@ -189,16 +189,19 @@ def DelScore(request, mid):
     return HttpResponse("OK")
 
 @login_required
-def MoveUp(request,  sid):
-    s = Schedule.objects.get(id = sid)
-    t = s.tournament
+def SwitchMatch(request,  sid1, sid2):
+    s1 = Schedule.objects.get(id = sid1)
+    s2 = Schedule.objects.get(id = sid2)
+    m1 = s1.match
+    m2 = s2.match
+    s1.match = m2
+    s2.match = m1
+    s1.save()
+    s2.save()
+    t = s1.tournament
     return redirect('/tournament-' + str(t.id) + '/schedule-full')
                     
-@login_required
-def MoveDown(request,  sid):
-    s = Schedule.objects.get(id = sid)
-    t = s.tournament
-    return redirect('/tournament-' + str(t.id) + '/schedule-full')
+
 
 @login_required
 def FinishGroup(request, gid):

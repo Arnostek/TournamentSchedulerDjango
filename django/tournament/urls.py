@@ -10,9 +10,8 @@ urlpatterns = [
     # score
     path('set/match-<int:mid>/<slug:who>/<int:score>', views.SetScore),
     path('del_score/match-<int:mid>', views.DelScore),
-    # move
-    path('schedule-move-up-<int:sid>', views.MoveUp),
-    path('schedule-move-down-<int:sid>', views.MoveDown),
+    # switch match
+    path('schedule-switch-<int:sid1>-<int:sid2>', views.SwitchMatch),
     # finish group
     path('finish/group-<int:gid>', views.FinishGroup),
 ]
