@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division, Group, Match
+from .models import Tournament, Division, Group, Match, Schedule
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -174,6 +174,7 @@ def SetScore(request, mid, who, score):
 
     return HttpResponse("OK")
 
+@login_required
 def DelScore(request, mid):
     """ Smazani score pro zapas"""
     m = Match.objects.get(id = mid)
@@ -187,6 +188,22 @@ def DelScore(request, mid):
 
     return HttpResponse("OK")
 
+@login_required
+def SwitchMatch(request,  sid1, sid2):
+    s1 = Schedule.objects.get(id = sid1)
+    s2 = Schedule.objects.get(id = sid2)
+    m1 = s1.match
+    m2 = s2.match
+    s1.match = m2
+    s2.match = m1
+    s1.save()
+    s2.save()
+    t = s1.tournament
+    return redirect('/tournament-' + str(t.id) + '/schedule-full')
+                    
+
+
+@login_required
 def FinishGroup(request, gid):
     # nacteme skupinu a preklopime poradi do group ranks
     g = Group.objects.get(id = gid)
