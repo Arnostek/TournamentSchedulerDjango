@@ -11,7 +11,7 @@ from django.utils.dateparse import parse_date
 
 # Create your views here.
 
-    
+
 class TournamentListView(ListView):
     template_name = 'tournament-list.html'
     queryset = Tournament.objects.all()
@@ -199,8 +199,8 @@ def SwitchMatch(request,  sid1, sid2):
     s1.save()
     s2.save()
     t = s1.tournament
-    return redirect('/tournament-' + str(t.id) + '/schedule-full')
-                    
+    return redirect('/live/tournament-' + str(t.id) + '/schedule-full')
+
 
 
 @login_required
