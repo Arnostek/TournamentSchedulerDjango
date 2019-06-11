@@ -7,24 +7,25 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarFilter">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-  			<select class="custom-select custom-select-sm myteam1" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link"><input type="checkbox" id="tgns" onclick="togglePlayedGames()">filter old games</a></li>
+            <li class="nav-item dropdown">
+  			<select class="custom-select custom-select-sm myteam1 nav-link" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
   	    		<option selected>My Team</option>
-     				{% for team in teams %}
-        				<option value="{{ team }}">{{ team }}</option>
-     				{% endfor %}
+     			{% for team in teams %}
+        			<option value="{{ team }}">{{ team }}</option>
+     			{% endfor %}
      			</select>
 			</li>
 			<li class="nav-item dropdown">
-  				<select class="custom-select custom-select-sm myteam2" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
-  	   			 <option selected>My other Team</option>
-     				{% for team in teams %}
-       					 <option value="{{ team }}">{{ team }}</option>
-     				{% endfor %}
-    			 </select>
+  			  <select class="custom-select custom-select-sm myteam2 nav-link" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
+  	   			<option selected>My other Team</option>
+     			{% for team in teams %}
+       				<option value="{{ team }}">{{ team }}</option>
+     			{% endfor %}
+    		  </select>
 			</li>
-        </ul>
+          </ul>
       </div>
     </nav>
 {% endblock filterbox%}
@@ -45,10 +46,12 @@
       <th>Away</th>
       <th>Referee</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   {% for schedule in schedules %}
-    <tr {% ifchanged schedule.time %}class="schedule-time-break"{% endifchanged %}>
+    <tr {% ifchanged schedule.time %}class="schedule-time-break{% if schedule.match.home_points is not None %} played{% endif %}"{% endifchanged %}
+     {% if schedule.match.home_points is not None %}class="played"{% endif %}>
       <td>#{{schedule.game_number}}</td>
       <td class="text-nowrap"><a href="?filter_date={{schedule.time | date:'Y-m-d'}}">{{schedule.time | date:'D'}}</a> {{schedule.time | date:'H:i'}}</td>
       <td class="text-nowrap"><a href="schedule-pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
@@ -73,10 +76,10 @@
       <td>
         {% if kpadmin %} 
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
-             <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button>
+             <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button></td><td>
           {% else %}
-              <input type="checkbox" id="select{{schedule.id}}" class="teamselector" onclick="selectMatch({{schedule.id}})">
-              <a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
+              <input type="checkbox" id="select{{schedule.id}}" class="teamselector" onclick="selectMatch({{schedule.id}})"></td>
+              <td><a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
           {% endif %}
         {% endif %}
       </td>
@@ -155,6 +158,9 @@ function selectMatch(sid){
 
 	$("input:checkbox").prop('checked', $(this).prop("checked"));
 }
+$("#tgns").change(function(){
+    $("tr.played").toggle(!this.checked); 
+});
 </script>
 
 {% endblock %}
