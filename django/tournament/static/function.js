@@ -49,6 +49,7 @@ function highlightTeam(team, css) {
     }).parent('td').addClass(css);
 
 }
+
 function selectMatch(sid){
 	if ($('#select' + sid).is(':checked')){
 		$('.teamselector').prop('checked', false);
@@ -71,3 +72,22 @@ function selectMatch(sid){
 $("#tgns").change(function(){
     $("tr.played").toggle(!this.checked);
 });
+
+$("button.finish-group").click(
+  function(){
+    var input_el = this
+    url = "/finish/group-" +this.name;
+    $.get(url)
+    .done(
+      function(){
+        $(input_el).removeClass("bg-danger");
+        $(input_el).addClass("bg-success");
+      }
+    )
+    .fail(
+      function(){
+        $(input_el).addClass("bg-danger");
+      }
+    );
+  }
+)
