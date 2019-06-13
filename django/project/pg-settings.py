@@ -25,7 +25,7 @@ SECRET_KEY = 'superpass'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'FALSE'
 
-ALLOWED_HOSTS = os.environ['DJANGO_ALLOWED_HOSTS'].split(',') if os.environ['DJANGO_ALLOWED_HOSTS'] else []
+ALLOWED_HOSTS = ['www.canoepolo.at', 'localhost', '178.63.95.206',]
 
 
 # Application definition
