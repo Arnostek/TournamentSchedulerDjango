@@ -110,22 +110,21 @@ class ScheduleView(TemplateView, TournamentDetail):
         tournament = self.tournament
         fdate = self.request.GET.get('filter_date')
         mteam = self.request.GET.get('mark_team')
+        schedules = tournament.schedule_set.all().order_by('time','pitch')
 
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
-                schedules = tournament.schedule_set.filter(match__group__id = self.kwargs['gid'])
+                schedules = schedules.filter(match__group__id = self.kwargs['gid'])
             else:
-                schedules = tournament.schedule_set.filter(match__division__id = self.kwargs['did'])
+                schedules = schedules.filter(match__division__id = self.kwargs['did'])
         elif 'pid' in self.kwargs:
-            schedules = tournament.schedule_set.filter(pitch__id = self.kwargs['pid'])
+            schedules = schedules.filter(pitch__id = self.kwargs['pid'])
         elif 'team' in self.kwargs:
-            schedules = tournament.schedule_set.filter(
+            schedules = schedules.filter(
                     Q(match__home__team__id = self.kwargs['team'])
                     | Q(match__away__team__id = self.kwargs['team'])
                     | Q(match__referee__team__id = self.kwargs['team'])
                 )
-        else:
-            schedules = tournament.schedule_set.all()
 
         if fdate:
             schedules = schedules.filter(time__date=parse_date(fdate))
