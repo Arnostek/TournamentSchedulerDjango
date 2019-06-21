@@ -228,6 +228,9 @@ class TournamentScheduler:
         # uplne nakonec vymazeme prazdne radky
         self.schedule.dropna(how='all', inplace=True)
 
+    def Optimize(self,desired_slots):
+        """ Optimize schedule to desired slots """
+        self._reduceEmptySlots(desired_slots)
 
     def Schedule(self,times):
         """
