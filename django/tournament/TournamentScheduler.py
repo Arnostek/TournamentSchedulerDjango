@@ -53,7 +53,6 @@ class TournamentScheduler:
         #
         tdc = TournamentSchedulerDataframeCreator(tournament)
         self.schedule = tdc.schedule
-        self._maxSchedule()
         self._makeSameLength()
         self._addReferees()
 
