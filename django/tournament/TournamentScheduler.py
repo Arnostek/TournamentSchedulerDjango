@@ -2,6 +2,46 @@ from . import models
 import pandas as pd
 import numpy as np
 
+
+class TournamentSchedulerDataframeCreator:
+    """ creates schedule dataframe from tournament matches """
+    def __init__(self,tournament):
+        """ constructor, returns pandas dataframe  """
+
+        self.tournament = tournament
+
+        return pd.DataFrame([
+            self._divisionMatchesWithPauses(division)
+            for division in self.tournament.division_set.all()
+        ]).T
+
+    def _divisionMatchesWithPauses(self,division):
+        """ returns matches list with necessary breaks in between """
+        matches = []
+        prev_match = None
+        for match in division.match_set.all().order_by('group__phase','phase_block','id'):
+            if self._needPause(prev_match,match):
+                matches.append('Pauza')
+            matches.append(match)
+            prev_match = match
+        return matches
+
+    def _needPause(self,match1,match2):
+        """ Returns True if we need to add break between matches"""
+        if match1 == None:
+            return False
+        else:
+            match1_ranks_tph = [
+                grs.teamPlaceholder
+                for grs in match1.group.grouprank_set.all()
+                ]
+            # pauza je potrebna pokud nejaky z tymu zavisi na poradi skupiny predchoziho zapasu
+            for tph in [match2.home,match2.away,match2.referee]:
+                if tph in match1_ranks_tph:
+                    return True
+            # pokud neni problem, neni pauza potreba
+            return False
+
 class TournamentScheduler:
     """
     vytvoreni hraciho planu
@@ -12,18 +52,10 @@ class TournamentScheduler:
         self.tournament = tournament
         self.pitches = pitches
         #
+        self.schedule = TournamentSchedulerDataframeCreator(tournament)
         self._maxSchedule()
-        self._addReferees()
-
-    def _maxSchedule(self):
-        """
-            vytvoreni maximalniho hraciho planu - vsechny zapasy za sebou, co divize to hriste
-        """
-        self.schedule = pd.DataFrame([
-            self._divisionMatchesWithPauses(division)
-            for division in self.tournament.division_set.all()
-        ]).T
         self._makeSameLength()
+        self._addReferees()
 
     def _switchMatches(self,old,new):
         """ Prohozeni obsahu bunek
@@ -47,33 +79,6 @@ class TournamentScheduler:
         """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
         self._shift_col(pitch1_ind,match_ind)
-
-    def _divisionMatchesWithPauses(self,division):
-        """ list zapasu divize s povinnymi mezerami """
-        matches = []
-        prev_match = None
-        for match in division.match_set.all().order_by('group__phase','phase_block','id'):
-            if self._needPause(prev_match,match):
-                matches.append('Pauza')
-            matches.append(match)
-            prev_match = match
-        return matches
-
-    def _needPause(self,match1,match2):
-        """ Je potreba dat mezi zapasy pauzu ?"""
-        if match1 == None:
-            return False
-        else:
-            match1_ranks_tph = [
-                grs.teamPlaceholder
-                for grs in match1.group.grouprank_set.all()
-                ]
-            # pauza je potrebna pokud nejaky z tymu zavisi na poradi skupiny predchoziho zapasu
-            for tph in [match2.home,match2.away,match2.referee]:
-                if tph in match1_ranks_tph:
-                    return True
-            # pokud neni problem, neni pauza potreba
-            return False
 
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
