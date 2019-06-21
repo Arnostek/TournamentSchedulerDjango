@@ -9,8 +9,7 @@ class TournamentSchedulerDataframeCreator:
         """ constructor, returns pandas dataframe  """
 
         self.tournament = tournament
-
-        return pd.DataFrame([
+        self.schedule =  pd.DataFrame([
             self._divisionMatchesWithPauses(division)
             for division in self.tournament.division_set.all()
         ]).T
@@ -52,7 +51,8 @@ class TournamentScheduler:
         self.tournament = tournament
         self.pitches = pitches
         #
-        self.schedule = TournamentSchedulerDataframeCreator(tournament)
+        tdc = TournamentSchedulerDataframeCreator(tournament)
+        self.schedule = tdc.schedule
         self._maxSchedule()
         self._makeSameLength()
         self._addReferees()
