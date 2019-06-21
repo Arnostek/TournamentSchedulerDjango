@@ -35,6 +35,7 @@ class TournamentSchedulerDataframeCreator:
                 for grs in match1.group.grouprank_set.all()
                 ]
             # pauza je potrebna pokud nejaky z tymu zavisi na poradi skupiny predchoziho zapasu
+            # we need break when team depends on previous match result 
             for tph in [match2.home,match2.away,match2.referee]:
                 if tph in match1_ranks_tph:
                     return True
@@ -50,7 +51,7 @@ class TournamentScheduler:
         """ konstruktor, predani turnaje ktery planujeme a poctu hrist """
         self.tournament = tournament
         self.pitches = pitches
-        #
+        # create schedule from tournament matches
         tdc = TournamentSchedulerDataframeCreator(tournament)
         self.schedule = tdc.schedule
         self._makeSameLength()
