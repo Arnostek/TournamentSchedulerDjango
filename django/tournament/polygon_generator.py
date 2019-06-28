@@ -1,16 +1,23 @@
+# code for generating round robin group matches
+# see https://nrich.maths.org/1443 for idea
+
 def polygon_generator(team_count):
-    """ Vraci indexy zapasu ve strukture [(home_seed_rank, away_seed_rank, rotation)]"""
+    """
+        function returns list of match tuples as  [(home_seed_rank, away_seed_rank, rotation)]
+    """
     # poradi tymu v seedu
+
     seeds = [ i + 1 for i in range(team_count)]
     # pokud je sudy pocet, schovame si jeden tym vedle
+    # when there is even num of teams in group, we pop last team to var evenIndex
     if (team_count % 2) == 0:
         evenIndex = seeds.pop()
     else:
         evenIndex = None
-    # indexy zapasu
+    # result var
     matchIndexes = []
 
-    # velikost polygonu
+    # polygon size
     size = len(seeds)
 
     # rotate size times
@@ -31,7 +38,7 @@ def polygon_generator(team_count):
         if (evenIndex != None):
             matchIndexes.extend(
                 [
-                    # TODO - tady se nemeni strany !!!
+                    # TODO - last even team is always "away"
                     (seeds[0], evenIndex, rotation)
                 ]
             )
