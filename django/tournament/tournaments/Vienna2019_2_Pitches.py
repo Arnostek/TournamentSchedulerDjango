@@ -52,6 +52,6 @@ ts._reduceEmptySlots(35)
 ts.Schedule(
     [
         (datetime.datetime(2019,8,6,8,30),datetime.datetime(2019,8,6,19)),
-        (datetime.datetime(2019,8,7,8,30),datetime.datetime(2019,8,7,13))
+        (datetime.datetime(2019,8,7,8,30),datetime.datetime(2019,8,7,19))
     ]
 )
