@@ -1,7 +1,7 @@
 from .DivisionSystemBase import DivisionSystemBase
 
 class FourGroups12Teams(DivisionSystemBase):
-    """ 4 zakladni skupiny, prvnich 8 jde nahoru ve dvou skupinach
+    """ 4 basic groups, first 8 teams goes to 2 groups up rest goes down
     dolnich pet ma svou skupinu po ktere se konci. nahore jsou semi a zapasy o misto
     """
 
@@ -14,10 +14,10 @@ class FourGroups12Teams(DivisionSystemBase):
         self._createMatches()
 
     def _createSystem(self):
-        # phase 1 - zakladni skupina
+        # phase 1 - basic groups
         phase = 1
         self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase)
-        # dve horni a jedna dolni skupina
+        # phase 2 - two groups up, one down
         phase += 1
         phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
         a_ranks = self.division.GetGroupsRanks(['A'])
@@ -27,12 +27,12 @@ class FourGroups12Teams(DivisionSystemBase):
         self.division.CreateGroups(['X'],[a_ranks[0] , b_ranks[0] , c_ranks[1] , d_ranks[1] ], phase)
         self.division.CreateGroups(['Y'],[a_ranks[1] , b_ranks[1] , c_ranks[0] , d_ranks[0] ], phase)
         self.division.CreateGroups(['Z'],[a_ranks[2] , b_ranks[2] , c_ranks[2] , d_ranks[2] ], phase)
-        # prvni 4 tymy jdou do semi
+        # first 4 teams go to semi
         phase += 1
         z_ranks = self.division.GetGroupsRanks(['Z'])
         xy_ranks = self.division.GetGroupsRanks(['xy'])
         self.division.CreateGroups(['SemiA','SemiB'], xy_ranks[:4], phase)
-        # zapasy o mista bez semi
+        # Finals
         phase += 1
 
         self.division.CreateGroups(['11th'],z_ranks[:2] , phase)
