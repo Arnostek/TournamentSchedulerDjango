@@ -50,6 +50,8 @@ class FourGroups12Teams(DivisionSystemBase):
         """ Referees for final matches """
         z_ranks = self.division.GetGroupsRanks(['Z'])
         xy_ranks = self.division.GetGroupsRanks(['X','Y'])
+        self._GroupAddReferees('SemiA',[xy_ranks[4]])
+        self._GroupAddReferees('SemiB',[xy_ranks[5]])
         self._GroupAddReferees('11th',[xy_ranks[7]])
         self._GroupAddReferees('9th',[xy_ranks[5]])
         self._GroupAddReferees('7th',[z_ranks[2]])
