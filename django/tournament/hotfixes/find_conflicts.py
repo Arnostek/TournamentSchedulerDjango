@@ -5,13 +5,17 @@
 
 
 import pandas as pd
-from tournament.models import Tournament
+from tournament.models import Tournament,Schedule
 # kontrola dvou zapasu
 def has_conflict(m1,m2):
     for tph1 in [m1.home,m1.away,m1.referee]:
         for tph2 in [m2.home,m2.away,m2.referee]:
             if tph1 == tph2:
-                print ("Problem match num {} team {}".format(m1,tph1.team.name))
+                team_name = tph1
+                if tph1 and tph1.team:
+                    team_name = tph1.team.name
+
+                print ("Problem match num #{} team {}".format(Schedule.objects.get(match=m1).game_number,team_name))
 
 # create schedule dataframe
 df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in Tournament.objects.last().schedule_set.all()])
