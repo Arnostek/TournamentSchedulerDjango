@@ -37,10 +37,10 @@ class FourGroups12Teams(DivisionSystemBase):
         # Finals
         phase += 1
 
-        self.division.CreateGroups(['11th'],z_ranks[:2] , phase)
-        self.division.CreateGroups(['9th'],z_ranks[2:] , phase)
         self.division.CreateGroups(['7th'],xy_ranks[7:8] , phase)
         self.division.CreateGroups(['5th'],xy_ranks[5:6] , phase)
+        self.division.CreateGroups(['11th'],z_ranks[2:] , phase)
+        self.division.CreateGroups(['9th'],z_ranks[:2] , phase)
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
