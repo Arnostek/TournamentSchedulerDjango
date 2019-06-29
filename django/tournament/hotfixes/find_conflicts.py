@@ -1,3 +1,9 @@
+# Conflict finder
+# run following lines:
+# docker-compose exec tournament_scheduler python /srv/django/manage.py shell_plus
+# from tournament.hotfixes import find_conflicts
+
+
 import pandas as pd
 from tournament.models import Tournament
 # kontrola dvou zapasu
