@@ -1,8 +1,10 @@
 from .DivisionSystemBase import DivisionSystemBase
 
 class FourGroups12Teams(DivisionSystemBase):
-    """ 4 basic groups, first 8 teams goes to 2 groups up rest goes down
-    dolnich pet ma svou skupinu po ktere se konci. nahore jsou semi a zapasy o misto
+    """ phase 1 - 4 basic groups,
+        phase 2 - first 8 teams go to 2 groups up rest go down
+        semi
+        finals
     """
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
