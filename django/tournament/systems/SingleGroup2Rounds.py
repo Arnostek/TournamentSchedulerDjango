@@ -27,10 +27,10 @@ class SingleGroup2Rounds(DivisionSystemBase):
         # 3rd
         phase += 1
         a_ranks = r2_ranks
-        self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
+        self.division.CreateGroups(['3rd'], [r2_ranks[2], r2_ranks[3]] , phase)
         # final
         phase += 1
-        self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
+        self.division.CreateGroups(['final'],[r2_ranks[0], r2_ranks[1]] , phase)
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
