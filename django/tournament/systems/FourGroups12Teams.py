@@ -23,8 +23,8 @@ class FourGroups12Teams(DivisionSystemBase):
         # phase 2 - two groups up, one down
         phase += 1
         phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
-        self.division.CreateGroups(['X','Y'], phase1_ranks[:8], phase)
-        self.division.CreateGroups(['Z'],phase1_ranks[8:], phase)
+        self.division.CreateGroups(['X','Y'], phase1_ranks[:8], phase, referee_groups = ['Y','X'])
+        self.division.CreateGroups(['Z'],phase1_ranks[8:], phase, referee_groups = ['Z'])
         # first 4 teams go to semi
         phase += 1
         z_ranks = self.division.GetGroupsRanks(['Z'])
