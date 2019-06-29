@@ -21,7 +21,7 @@ class FourGroups12Teams(DivisionSystemBase):
         self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase)
         # phase 2 - two groups up, one down
         phase += 1
-        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
+#        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
         a_ranks = self.division.GetGroupsRanks(['A'])
         b_ranks = self.division.GetGroupsRanks(['B'])
         c_ranks = self.division.GetGroupsRanks(['C'])
