@@ -22,14 +22,9 @@ class FourGroups12Teams(DivisionSystemBase):
         self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, referee_groups = ['A','B','C','D'])
         # phase 2 - two groups up, one down
         phase += 1
-#        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        b_ranks = self.division.GetGroupsRanks(['B'])
-        c_ranks = self.division.GetGroupsRanks(['C'])
-        d_ranks = self.division.GetGroupsRanks(['D'])
-        self.division.CreateGroups(['X'],[a_ranks[0] , b_ranks[0] , c_ranks[1] , d_ranks[1] ], phase)
-        self.division.CreateGroups(['Y'],[a_ranks[1] , b_ranks[1] , c_ranks[0] , d_ranks[0] ], phase)
-        self.division.CreateGroups(['Z'],[a_ranks[2] , b_ranks[2] , c_ranks[2] , d_ranks[2] ], phase)
+        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
+        self.division.CreateGroups(['X','Y'], phase1_ranks[:8], phase)
+        self.division.CreateGroups(['Z'],phase1_ranks[8:], phase)
         # first 4 teams go to semi
         phase += 1
         z_ranks = self.division.GetGroupsRanks(['Z'])
