@@ -18,10 +18,10 @@ class SingleGroup2Rounds(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - first round
         phase = 1
-        self.division.CreateGroups(['R1'], self.division.seed_placeholders, phase, ['R1'])
+        self.division.CreateGroups(['R1'], self.division.seed_placeholders, phase, referee_groups = ['R1'])
         # phase 2 - second round
         phase += 1
-        self.division.CreateGroups(['R2'], self.division.seed_placeholders, phase, ['R2'])
+        self.division.CreateGroups(['R2'], self.division.seed_placeholders, phase, referee_groups = ['R2'])
         r2_ranks = self.division.GetGroupsRanks(['R2'])
         # transfer points from R1 to R2
         GroupPointsTransfer.objects.create(src = self.division.GetGroup('R1'), dest = self.division.GetGroup('R2'))
