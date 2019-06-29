@@ -7,15 +7,15 @@ class SingleGroup2Rounds(DivisionSystemBase):
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
         super(SingleGroup2Rounds, self).__init__(tournament,division_name,division_slug,num_of_teams)
-        # vytvorim system
+        # create game system
         self._createSystem()
-        # vygeneruji zapasy
+        # generate matches
         self._createMatches()
-        # doplnime rozhodci
+        # add referees
         self._addReferees()
 
     def _createSystem(self):
-        # phase 1 - zakladni skupina
+        # phase 1 - first round
         phase = 1
         self.division.CreateGroups(['R1'], self.division.seed_placeholders, phase, ['R1'])
         r1_ranks = self.division.GetGroupsRanks(['R1'])
