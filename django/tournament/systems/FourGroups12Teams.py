@@ -32,7 +32,7 @@ class FourGroups12Teams(DivisionSystemBase):
         # first 4 teams go to semi
         phase += 1
         z_ranks = self.division.GetGroupsRanks(['Z'])
-        xy_ranks = self.division.GetGroupsRanks(['xy'])
+        xy_ranks = self.division.GetGroupsRanks(['X','Y'])
         self.division.CreateGroups(['SemiA','SemiB'], xy_ranks[:4], phase)
         # Finals
         phase += 1
