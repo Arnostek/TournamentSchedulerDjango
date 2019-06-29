@@ -1,4 +1,5 @@
 import pandas as pd
+from tournament.models import Tournament
 # kontrola dvou zapasu
 def has_conflict(m1,m2):
     for tph1 in [m1.home,m1.away,m1.referee]:
