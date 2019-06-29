@@ -14,10 +14,10 @@ def has_conflict(m1,m2):
             if tph1 == tph2:
                 print ("Problem match num {} team {}".format(m1,tph1.team.name))
 
-# kontrola vseho
-for i in range(36):
-    for p1 in range(5):
-        for p2 in range(5):
+# check all
+for i in range(len(df)-1):
+    for p1 in range(len(df.columns)):
+        for p2 in range(len(df.columns)):
             m1 = df.iloc[i,p1]
             m2 = df.iloc[i+1,p2]
             if m1 and m2:
