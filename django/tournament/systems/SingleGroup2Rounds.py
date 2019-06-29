@@ -34,8 +34,6 @@ class SingleGroup2Rounds(DivisionSystemBase):
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        if len(a_ranks) > 5:
-            self._GroupAddReferees('3rd',[a_ranks[5]])
-        if len(a_ranks) > 4:
-            self._GroupAddReferees('final',[a_ranks[4]])
+        r2_ranks = self.division.GetGroupsRanks(['R2'])
+        self._GroupAddReferees('3rd',[r2_ranks[1]])
+        self._GroupAddReferees('final',[r2_ranks[2]])
