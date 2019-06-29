@@ -1,4 +1,5 @@
 from .DivisionSystemBase import DivisionSystemBase
+from tournament.models import GroupPointsTransfer
 import random
 
 class SingleGroup2Rounds(DivisionSystemBase):
