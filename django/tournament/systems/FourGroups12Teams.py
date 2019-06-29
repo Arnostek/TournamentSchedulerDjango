@@ -14,6 +14,8 @@ class FourGroups12Teams(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # add referees
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - basic groups
@@ -43,3 +45,14 @@ class FourGroups12Teams(DivisionSystemBase):
         # final
         phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+
+    def _addReferees(self):
+        """ Referees for final matches """
+        z_ranks = self.division.GetGroupsRanks(['Z'])
+        xy_ranks = self.division.GetGroupsRanks(['X','Y'])
+        self._GroupAddReferees('11th',[xy_ranks[7]])
+        self._GroupAddReferees('9th',[xy_ranks[5]])
+        self._GroupAddReferees('7th',[z_ranks[2]])
+        self._GroupAddReferees('5th',[z_ranks[0]])
+        self._GroupAddReferees('3rd',[xy_ranks[6]])
+        self._GroupAddReferees('final',[xy_ranks[4]])
