@@ -22,7 +22,7 @@ class TournamentDetail:
     @property
     def tournament(self):
         try:
-            tournament = Tournament.objects.get(id=self.kwargs['tid'])
+            tournament = Tournament.objects.get(slug=self.kwargs['slug'])
         except Tournament.DoesNotExist:
             raise Http404("This Tournament does not exist")
         return tournament
