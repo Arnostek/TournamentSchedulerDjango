@@ -25,6 +25,8 @@ class Tournament(models.Model):
                 self.schedule_set.create(tournament = self, time = time, pitch = pitch, game_number = gn)
                 gn += 1
             time += delta
+    def __str__(self):
+        return self.name
 
 class Division(models.Model):
     name = models.CharField(max_length = 200)
@@ -385,6 +387,8 @@ class Match(models.Model):
 class Pitch(models.Model):
     name = models.CharField(max_length = 50)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 class Schedule(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)

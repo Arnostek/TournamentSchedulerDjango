@@ -11,7 +11,7 @@ class TournamentSchedulerDataframeCreator:
         self.tournament = tournament
         self.schedule =  pd.DataFrame([
             self._divisionMatchesWithPauses(division)
-            for division in self.tournament.division_set.all().order_by('id'):
+            for division in self.tournament.division_set.all().order_by('id')
         ]).T
 
     def _divisionMatchesWithPauses(self,division):
