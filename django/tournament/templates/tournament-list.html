@@ -4,7 +4,7 @@
   <ol class="list-group">
     {% for tournament in tournaments %}
     <li class="list-group-item">
-      <a href="tournament-{{tournament.id}}">{{tournament.name}}</a>
+      <a href="{{tournament.slug}}">{{tournament.name}}</a>
     </li>
     {% endfor %}
   </ol>

@@ -20,17 +20,17 @@ urlpatterns_tmp = [
     # tournament list
     ('',views.TournamentListView.as_view()),
     # tournament detail
-    ('tournament-<int:tid>/', views.TournamentDetailView.as_view()),
+    ('<slug:slug>/', views.TournamentDetailView.as_view()),
     # division system
-    ('tournament-<int:tid>/system-division-<int:did>', views.DivisionSystemView.as_view()),
+    ('<slug:slug>/system-division-<int:did>', views.DivisionSystemView.as_view()),
     # division tables
-    ('tournament-<int:tid>/tables-division-<int:did>', views.DivisionTablesView.as_view()),
+    ('<slug:slug>/tables-division-<int:did>', views.DivisionTablesView.as_view()),
     # schedule
-    ('tournament-<int:tid>/schedule-full', views.ScheduleView.as_view()),
-    ('tournament-<int:tid>/schedule-division-<int:did>', views.ScheduleView.as_view()),
-    ('tournament-<int:tid>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
-    ('tournament-<int:tid>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),
-    ('tournament-<int:tid>/schedule-team-<int:team>', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-full', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-division-<int:did>', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-team-<int:team>', views.ScheduleView.as_view()),
     
 ]
 
