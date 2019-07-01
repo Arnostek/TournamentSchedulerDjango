@@ -11,7 +11,7 @@ class TournamentSchedulerDataframeCreator:
         self.tournament = tournament
         self.schedule =  pd.DataFrame([
             self._divisionMatchesWithPauses(division)
-            for division in self.tournament.division_set.all()
+            for division in self.tournament.division_set.all().order_by('id'):
         ]).T
 
     def _divisionMatchesWithPauses(self,division):
@@ -68,6 +68,12 @@ class TournamentScheduler:
     def _shift_col(self,pitch_ind,match_ind):
         """ pokud je volne misto, posune bunky nahoru o jedno misto"""
         if not self.schedule.iloc[match_ind,pitch_ind]:
+            # if there is match in cell above
+            if isinstance(self.schedule.iloc[match_ind + 1,pitch_ind],models.Match):
+                # we have to check possible Conflict
+                next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
+                if not self._canShiftMatch(next_match,match_ind):
+                    return
             # ulozime si posunuty sloupec
             shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
             # vymazeme radky smerem dolu
@@ -249,7 +255,7 @@ class TournamentScheduler:
             for match_index in range(len(self.schedule)):
                 for pitch_index in range(self.pitches):
                     if isinstance(self.schedule.iloc[match_index][pitch_index],models.Match):
-                        sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index])[match_index]
+                        sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index]).order_by('time')[match_index]
                         sch.match = self.schedule.iloc[match_index][pitch_index]
                         sch.save()
                     pitch_index += 1
