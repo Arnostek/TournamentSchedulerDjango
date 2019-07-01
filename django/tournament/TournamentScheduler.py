@@ -32,7 +32,7 @@ class TournamentSchedulerDataframeCreator:
         else:
             match1_ranks_tph = [
                 grs.teamPlaceholder
-                for grs in match1.group.grouprank_set.all()
+                for grs in match1.group.grouprank_set.all().order_by('id')
                 ]
             # pauza je potrebna pokud nejaky z tymu zavisi na poradi skupiny predchoziho zapasu
             # we need break when team depends on previous match result
@@ -100,8 +100,8 @@ class TournamentScheduler:
 
     def _addReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
-        for div in self.tournament.division_set.all():
-            for gr in div.group_set.all():
+        for div in self.tournament.division_set.all().order_by('id'):
+            for gr in div.group_set.all().order_by('id'):
                 if gr.referee_group:
                     self._addRefereesGroup(gr)
 
@@ -130,7 +130,7 @@ class TournamentScheduler:
         """ Init refPool tymy z referee_group v parametru"""
         self.refPool = []
         while len(self.refPool) < match_count:
-            self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
+            self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all().order_by('id')])
 
     def _getGroupMatchesDf(self,group):
         """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
