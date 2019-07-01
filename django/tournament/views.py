@@ -198,7 +198,7 @@ def SwitchMatch(request,  sid1, sid2):
     s1.save()
     s2.save()
     t = s1.tournament
-    return redirect('/live/tournament-' + str(t.id) + '/schedule-full')
+    return redirect('/live/' + t.slug + '/schedule-full')
 
 
 
