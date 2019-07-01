@@ -47,11 +47,11 @@ u16_system.division.CreateTeams(
 
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(vienna2019,5)
-ts._reduceEmptySlots(35)
+ts = TournamentScheduler(vienna2019,pitches = 2)
+ts._reduceEmptySlots(30)
 ts.Schedule(
     [
-        (datetime.datetime(2019,8,6,8,30),datetime.datetime(2019,8,6,19)),
-        (datetime.datetime(2019,8,7,8,30),datetime.datetime(2019,8,7,13))
+        (datetime.datetime(2019,7,6,8,30),datetime.datetime(2019,7,6,19)),
+        (datetime.datetime(2019,7,7,8,30),datetime.datetime(2019,7,7,15))
     ]
 )
