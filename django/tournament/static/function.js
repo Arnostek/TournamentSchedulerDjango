@@ -1,3 +1,5 @@
+
+// changed score
 $("td.score input").change(
   function(){
     var input_el = this
@@ -19,6 +21,7 @@ $("td.score input").change(
   }
 );
 
+// delete score
 $(".del-score").click(
   function(){
     var input_el = this
@@ -38,39 +41,42 @@ $(".del-score").click(
     );
   }
 );
-
+// functions
 function highlightTeam(team, css) {
-	//alert(team + ':' + css);
-	$("td a").filter(function() {
-        return $(this).text() != team;
-    }).parent('td').removeClass(css);
-	$("td a").filter(function() {
-        return $(this).text() == team;
-    }).parent('td').addClass(css);
+  //alert(team + ':' + css);
+  $("td a").filter(function() {
+    return $(this).text() != team;
+  }).parent('td').removeClass(css);
+  $("td a").filter(function() {
+    return $(this).text() == team;
+  }).parent('td').addClass(css);
 
 }
 
 function selectMatch(sid){
-	if ($('#select' + sid).is(':checked')){
-		$('.teamselector').prop('checked', false);
-		$('#select' + sid).prop('checked', true);
-		$('.teamswitch').each(function(){
-			var oldUrl = $(this).attr('href');
-			var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-' + sid;
-			$(this).attr('href', newUrl);
-		})
-	} else {
-		$('.teamswitch').each(function(){
-			var oldUrl = $(this).attr('href');
-			var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-xx';
-			$(this).attr('href', newUrl);
-		})
-	}
+  if ($('#select' + sid).is(':checked')){
+    $('.teamselector').prop('checked', false);
+    $('#select' + sid).prop('checked', true);
+    $('.teamswitch').each(function(){
+      var oldUrl = $(this).attr('href');
+      var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-' + sid;
+      $(this).attr('href', newUrl);
+    })
+  } else {
+    $('.teamswitch').each(function(){
+      var oldUrl = $(this).attr('href');
+      var newUrl = oldUrl.split('-').slice(0,3).join('-') + '-xx';
+      $(this).attr('href', newUrl);
+    })
+  }
 
-	$("input:checkbox").prop('checked', $(this).prop("checked"));
+  $("input:checkbox").prop('checked', $(this).prop("checked"));
 }
+
+// events
+
 $("#tgns").change(function(){
-    $("tr.played").toggle(!this.checked);
+  $("tr.played").toggle(!this.checked);
 });
 
 $("button.finish-group").click(
