@@ -33,69 +33,70 @@ function selectMatch(sid){
 //
 // events
 //
+$(document).ready(function(){
+  // changed score
+  $("td.score input").change(
+    function(){
+      var input_el = this
+      url = "/set/" +this.id + "/" + this.value;
+      $.get(url)
+      .done(
+        function(){
+          $(input_el).removeClass("bg-danger");
+          $(input_el).addClass("bg-success");
+          // focus na dalsi score pole - zatim funguje jen v radku
+          $(input_el).closest('td.score').nextAll('td.score').first().find('input').focus();
+        }
+      )
+      .fail(
+        function(){
+          $(input_el).addClass("bg-danger");
+        }
+      );
+    }
+  );
 
-// changed score
-$("td.score input").change(
-  function(){
-    var input_el = this
-    url = "/set/" +this.id + "/" + this.value;
-    $.get(url)
-    .done(
-      function(){
-        $(input_el).removeClass("bg-danger");
-        $(input_el).addClass("bg-success");
-        // focus na dalsi score pole - zatim funguje jen v radku
-        $(input_el).closest('td.score').nextAll('td.score').first().find('input').focus();
-      }
-    )
-    .fail(
-      function(){
-        $(input_el).addClass("bg-danger");
-      }
-    );
-  }
-);
+  // delete score
+  $(".del-score").click(
+    function(){
+      var input_el = this
+      url = "/del_score/match-" + this.name;
+      $.get(url)
+      .done(
+        function(){
+          $(input_el).removeClass("bg-danger");
+          $(input_el).addClass("bg-success");
+          location.reload();
+        }
+      )
+      .fail(
+        function(){
+          $(input_el).addClass("bg-danger");
+        }
+      );
+    }
+  );
 
-// delete score
-$(".del-score").click(
-  function(){
-    var input_el = this
-    url = "/del_score/match-" + this.name;
-    $.get(url)
-    .done(
-      function(){
-        $(input_el).removeClass("bg-danger");
-        $(input_el).addClass("bg-success");
-        location.reload();
-      }
-    )
-    .fail(
-      function(){
-        $(input_el).addClass("bg-danger");
-      }
-    );
-  }
-);
+  $("#tgns").change(function(){
+    $("tr.played").toggle(!this.checked);
+  });
 
-$("#tgns").change(function(){
-  $("tr.played").toggle(!this.checked);
+  $("button.finish-group").click(
+    function(){
+      var input_el = this
+      url = "/finish/group-" +this.name;
+      $.get(url)
+      .done(
+        function(){
+          $(input_el).removeClass("bg-danger");
+          $(input_el).addClass("bg-success");
+        }
+      )
+      .fail(
+        function(){
+          $(input_el).addClass("bg-danger");
+        }
+      );
+    }
+  )
 });
-
-$("button.finish-group").click(
-  function(){
-    var input_el = this
-    url = "/finish/group-" +this.name;
-    $.get(url)
-    .done(
-      function(){
-        $(input_el).removeClass("bg-danger");
-        $(input_el).addClass("bg-success");
-      }
-    )
-    .fail(
-      function(){
-        $(input_el).addClass("bg-danger");
-      }
-    );
-  }
-)
