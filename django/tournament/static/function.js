@@ -17,7 +17,7 @@ $("td.score input").change(
       }
     );
   }
-)
+);
 
 $(".del-score").click(
   function(){
