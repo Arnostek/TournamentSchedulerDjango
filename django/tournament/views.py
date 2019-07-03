@@ -22,7 +22,7 @@ class TournamentDetail:
     @property
     def tournament(self):
         try:
-            tournament = Tournament.objects.get(id=self.kwargs['tid'])
+            tournament = Tournament.objects.get(slug=self.kwargs['slug'])
         except Tournament.DoesNotExist:
             raise Http404("This Tournament does not exist")
         return tournament
@@ -198,7 +198,7 @@ def SwitchMatch(request,  sid1, sid2):
     s1.save()
     s2.save()
     t = s1.tournament
-    return redirect('/live/tournament-' + str(t.id) + '/schedule-full')
+    return redirect('/live/' + t.slug + '/schedule-full')
 
 
 

@@ -31,3 +31,8 @@ tr.schedule-time-break{
 .myteam2{
   background: #99ff99;
 }
+
+nav.sticky-top {
+    margin-bottom: 0px;
+    position: static;
+}
