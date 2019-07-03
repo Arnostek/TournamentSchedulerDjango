@@ -11,7 +11,7 @@ class TournamentSchedulerDataframeCreator:
         self.tournament = tournament
         self.schedule =  pd.DataFrame([
             self._divisionMatchesWithPauses(division)
-            for division in self.tournament.division_set.all()
+            for division in self.tournament.division_set.all().order_by('id')
         ]).T
 
     def _divisionMatchesWithPauses(self,division):
@@ -255,7 +255,7 @@ class TournamentScheduler:
             for match_index in range(len(self.schedule)):
                 for pitch_index in range(self.pitches):
                     if isinstance(self.schedule.iloc[match_index][pitch_index],models.Match):
-                        sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all()[pitch_index])[match_index]
+                        sch = self.tournament.schedule_set.filter(pitch = self.tournament.pitch_set.all().order_by('id')[pitch_index])[match_index]
                         sch.match = self.schedule.iloc[match_index][pitch_index]
                         sch.save()
                     pitch_index += 1
