@@ -306,6 +306,9 @@ class TeamPlaceholder(models.Model):
             return self.team.name
         else:
             return self.name
+        
+    def __str__(self):
+        return self.team_name
 
 # seed tables
 class SeedAbstract(models.Model):
@@ -335,9 +338,9 @@ class Match(models.Model):
     phase_block = models.PositiveSmallIntegerField()
     home = models.ForeignKey(TeamPlaceholder, related_name = 'home_matches', on_delete=models.CASCADE)
     away = models.ForeignKey(TeamPlaceholder, related_name = 'away_matches', on_delete=models.CASCADE)
-    referee = models.ForeignKey(TeamPlaceholder, null = True, related_name = 'referee_matches', on_delete=models.CASCADE)
-    home_score = models.PositiveSmallIntegerField(null = True)
-    away_score = models.PositiveSmallIntegerField(null = True)
+    referee = models.ForeignKey(TeamPlaceholder, null = True, blank=True, related_name = 'referee_matches', on_delete=models.CASCADE)
+    home_score = models.PositiveSmallIntegerField(null = True, blank=True)
+    away_score = models.PositiveSmallIntegerField(null = True, blank=True)
 
     @property
     def home_points(self):
