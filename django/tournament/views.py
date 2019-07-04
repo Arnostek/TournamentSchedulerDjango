@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.utils.dateparse import parse_date
+import pandas as pd
 
 # Create your views here.
 
@@ -213,3 +214,26 @@ def FinishGroup(request, gid):
     g.FillRanks()
 
     return HttpResponse("OK")
+
+def FindConflicts(request, tid):
+    tm = Tournament.objects.get(id = tid)
+    response = ""
+    df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in tm.schedule_set.all()])
+    df = df.pivot(columns='pitch',index='time',values='match')
+    for i in range(len(df)-1):
+        for p1 in range(len(df.columns)):
+            for p2 in range(len(df.columns)):
+                m1 = df.iloc[i,p1]
+                m2 = df.iloc[i+1,p2]
+                if m1 and m2:
+                    for tph1 in [m1.home,m1.away,m1.referee]:
+                        for tph2 in [m2.home,m2.away,m2.referee]:
+                            if tph1 == tph2:
+                                team_name = tph1
+                                if tph1 and tph1.team:
+                                    team_name = tph1.team.name
+                                    response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,team_name, Schedule.objects.get(match=m2).game_number))
+    if response == "":
+        response += "No conflicts found - yyiihhaaa"
+    response += "<a href='/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
+    return HttpResponse(response)
