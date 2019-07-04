@@ -306,9 +306,9 @@ class TeamPlaceholder(models.Model):
             return self.team.name
         else:
             return self.name
-        
+
     def __str__(self):
-        return self.team_name
+        return self.team_name + ' ('+self.name+')'
 
 # seed tables
 class SeedAbstract(models.Model):
