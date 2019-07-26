@@ -27,12 +27,6 @@ class TeamAdmin(admin.ModelAdmin):
     ordering = ('name',)
     search_fields = ('name',)
 
-@admin.register(Schedule)
-class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('tournament', 'time', 'pitch', 'match')
-    ordering = ('time','pitch')
-    search_fields = ('time', 'pitch')
-    
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
     list_display = ('division', 'group', 'phase_block', 'home', 'away', 'referee')
