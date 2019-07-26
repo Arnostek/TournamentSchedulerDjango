@@ -36,5 +36,6 @@ class ScheduleAdmin(admin.ModelAdmin):
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
     list_display = ('division', 'group', 'phase_block', 'home', 'away', 'referee')
+    readonly_fields = ('division', 'group', 'phase_block', 'home', 'away')
     ordering = ('division', 'group', 'phase_block')
     search_fields = ('home', 'away', 'referee')
