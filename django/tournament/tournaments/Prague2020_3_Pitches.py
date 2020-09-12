@@ -2,6 +2,7 @@ from tournament import models
 import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.TwoGroups import TwoGroups
+from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
