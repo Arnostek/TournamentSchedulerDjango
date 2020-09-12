@@ -21,8 +21,12 @@ class TwoGroups8Teams(DivisionSystemBase):
 
         # phase 2 - second round
         phase += 1
-        self.division.CreateGroups(['C','D'], self.division.GetGroupsRanks(['C','D']), phase, ['D','C'])
-        # a_ranks = self.division.GetGroupsRanks(['A'])
+
+        a_ranks = self.division.GetGroupsRanks(['A'])
+        b_ranks = self.division.GetGroupsRanks(['B'])
+
+        self.division.CreateGroups(['C'], [a_ranks[0], b_ranks[1], a_ranks[2], b_ranks[3]], phase)
+        self.division.CreateGroups(['D'], [b_ranks[0], a_ranks[1], b_ranks[2], a_ranks[3]], phase)
 
         # phase 3 - places
         phase += 1
