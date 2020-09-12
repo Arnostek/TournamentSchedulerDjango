@@ -69,7 +69,7 @@ u16_system.division.CreateTeams(
 ####################################################
 # U14
 
-U14_system = TwoGroups(prague2020,'U14','U14',8)
+U14_system = TwoGroups8Teams(prague2020,'U14','U14',8)
 U14_system.division.CreateTeams(
     [
         "Kaniow U14",
