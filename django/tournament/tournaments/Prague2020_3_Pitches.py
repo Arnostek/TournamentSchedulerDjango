@@ -5,7 +5,7 @@ from tournament.systems.TwoGroups import TwoGroups
 from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
-# docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import prague2020_5_Pitches'
+# docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
 prague2020 = models.Tournament(name = "PIT 2020", slug = "PIT2020")
