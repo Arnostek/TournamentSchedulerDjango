@@ -43,10 +43,14 @@ class TwoGroups(DivisionSystemBase):
         self._GroupAddReferees('SemiA',[a_ranks[2]])
         self._GroupAddReferees('SemiB',[b_ranks[2]])
 
-        self._GroupAddReferees('11th',[a_ranks[3]])
-        self._GroupAddReferees('9th', [b_ranks[1]])
-        self._GroupAddReferees('7th', [a_ranks[1]])
-        self._GroupAddReferees('5th', [a_ranks[5]])
+        if self.teams_count > 11:
+            self._GroupAddReferees('11th',[a_ranks[3]])
+        if self.teams_count > 9:
+            self._GroupAddReferees('9th', [b_ranks[1]])
+        if self.teams_count > 7:
+            self._GroupAddReferees('7th', [a_ranks[1]])
+        if self.teams_count > 5:
+            self._GroupAddReferees('5th', [a_ranks[5]])
 
         self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
         self._GroupAddReferees('final',[self.division.GetGroupsRanks(['5th'])[0]])
