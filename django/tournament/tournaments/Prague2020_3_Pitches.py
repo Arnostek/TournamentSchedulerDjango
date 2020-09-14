@@ -14,7 +14,7 @@ prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = TwoGroups(prague2020,'Men','Men',11)
+Men_system = TwoGroups(prague2020,'Men','Men',10)
 Men_system.division.CreateTeams(
     [
         "Kaniow Men",
@@ -26,7 +26,7 @@ Men_system.division.CreateTeams(
         "RKV Berlin",
         "Prague C",
         "Leipzig ?",
-        "SG Havelbruder",
+        # "SG Havelbruder",
         "WS Dresden",
         "UKS Katowice",
         "Glauchau",
@@ -35,19 +35,19 @@ Men_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = TwoGroups(prague2020,'Ladies','Ladies',9)
+Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',6)
 Ladies_system.division.CreateTeams(
     [
         "Kaniow Women",
-        "Swiss Ladies ?",
+        # "Swiss Ladies ?",
         "Prague Women",
         # "Prague Women 2",
-        "Havelschwester A",
+        # "Havelschwester A",
         # "Goettingen Ladies",
         "Poland U21 Women A",
         "Poland U21 Women B",
         # "Leipzig Women",
-        "Havelschwester B",
+        # "Havelschwester B",
         "Prague Flowers",
         "United syndrom team",
     ]
