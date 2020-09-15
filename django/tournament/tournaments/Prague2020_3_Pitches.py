@@ -14,7 +14,7 @@ prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = TwoGroups8Teams(prague2020,'Men','Men',8)
+Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',6)
 Men_system.division.CreateTeams(
     [
         # "Kaniow Men",
@@ -23,9 +23,9 @@ Men_system.division.CreateTeams(
         "Czech U21",
         # "KSC Neckarau",
         "KTW Kalisz Men",
-        "RKV Berlin",
+        # "RKV Berlin",
         "Prague C",
-        "Leipzig ?",
+        # "Leipzig ?",
         # "SG Havelbruder",
         # "WS Dresden",
         "UKS Katowice",
