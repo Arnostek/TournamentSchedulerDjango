@@ -14,10 +14,10 @@ prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = TwoGroups(prague2020,'Men','Men',10)
+Men_system = TwoGroups8Teams(prague2020,'Men','Men',8)
 Men_system.division.CreateTeams(
     [
-        "Kaniow Men",
+        # "Kaniow Men",
         # "Tri Stihii",
         "Prague B",
         "Czech U21",
@@ -27,7 +27,7 @@ Men_system.division.CreateTeams(
         "Prague C",
         "Leipzig ?",
         # "SG Havelbruder",
-        "WS Dresden",
+        # "WS Dresden",
         "UKS Katowice",
         "Glauchau",
     ]
@@ -35,10 +35,10 @@ Men_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',6)
+Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',5)
 Ladies_system.division.CreateTeams(
     [
-        "Kaniow Women",
+        # "Kaniow Women",
         # "Swiss Ladies ?",
         "Prague Women",
         # "Prague Women 2",
@@ -55,30 +55,30 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # U16
-u16_system = SingleGroupDivisionSystem(prague2020,'U16','U16',5)
+u16_system = SingleGroupDivisionSystem(prague2020,'U16','U16',3)
 u16_system.division.CreateTeams(
     [
         "Prague U16",
         "Tanew Księżpol U16",
-        "KTW Kalisz U16 Boys",
+        # "KTW Kalisz U16 Boys",
         "KTW Kalisz/Tanew U16 Girls",
         # "Kanu team Berlin U16",
-        "WS Dresden U16",
+        # "WS Dresden U16",
     ]
 )
 
 ####################################################
 # U14
 
-U14_system = TwoGroups8Teams(prague2020,'U14','U14',8)
+U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',6)
 U14_system.division.CreateTeams(
     [
-        "Kaniow U14",
+        # "Kaniow U14",
         "Prague U14",
         "KTW Kalisz U14 Boys",
         "KTW Kalisz U14 Girls",
         "Jabko U14",
-        "WS Dresden U14",
+        # "WS Dresden U14",
         "UKS Katowice U14",
         "Glauchau U14",
     ]
