@@ -250,7 +250,7 @@ class TournamentScheduler:
 
     def _reduceColumns(self):
         """ reduce columns to num of pitches """
-        if len(self.schedule.columns) > self.pitches:
+        while len(self.schedule.columns) > self.pitches:
             # pitches sorted by count of matches
             pitches = self.schedule.count().sort_values().index
             # we will move between pitches
