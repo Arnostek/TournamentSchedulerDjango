@@ -55,6 +55,7 @@ class TournamentScheduler:
         tdc = TournamentSchedulerDataframeCreator(tournament)
         self.schedule = tdc.schedule
         self._makeSameLength()
+        self._reduceColumns()
         self._addReferees()
 
     def _switchMatches(self,old,new):
