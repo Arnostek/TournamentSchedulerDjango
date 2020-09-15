@@ -30,6 +30,7 @@ Men_system.division.CreateTeams(
         # "WS Dresden",
         "UKS Katowice",
         "Glauchau",
+        "Tanew Księżpol U16",
     ]
 )
 
@@ -50,20 +51,7 @@ Ladies_system.division.CreateTeams(
         # "Havelschwester B",
         "Prague Flowers",
         "United syndrom team",
-    ]
-)
-
-####################################################
-# U16
-u16_system = SingleGroupDivisionSystem(prague2020,'U16','U16',3)
-u16_system.division.CreateTeams(
-    [
-        "Prague U16",
-        "Tanew Księżpol U16",
-        # "KTW Kalisz U16 Boys",
         "KTW Kalisz/Tanew U16 Girls",
-        # "Kanu team Berlin U16",
-        # "WS Dresden U16",
     ]
 )
 
@@ -73,6 +61,7 @@ u16_system.division.CreateTeams(
 U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',6)
 U14_system.division.CreateTeams(
     [
+        "Prague U16",
         # "Kaniow U14",
         "Prague U14",
         "KTW Kalisz U14 Boys",
