@@ -19,8 +19,9 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         self.division.CreateGroups(['A'], self.division.seed_placeholders, phase, ['A'])
         a_ranks = self.division.GetGroupsRanks(['A'])
         # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
+        if len(a_ranks) > 3:
+            phase += 1
+            self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
         # final
         phase += 1
         self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
