@@ -264,6 +264,8 @@ class TournamentScheduler:
             self.schedule.drop(columns = [pitch_from], inplace = True)
             # rename columns
             self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+            # make same lengths again
+            self._makeSameLength()
 
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
