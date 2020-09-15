@@ -102,7 +102,10 @@ class TournamentScheduler:
         # projdeme hriste
         for pitch_index in self.schedule.columns:
             pocet_zapasu = self.schedule[pitch_index].count()
+
             if pocet_zapasu < len(self.schedule):
+                # remove all spaces before lengthen
+                self.schedule[pitch_index] = self.schedule[pitch_index].dropna().reset_index(drop=True)
                 old_index = pocet_zapasu -1
                 for new_index in np.flip(np.linspace(0,len(self.schedule)-1,pocet_zapasu,dtype=int)):
                     if (old_index != new_index):
