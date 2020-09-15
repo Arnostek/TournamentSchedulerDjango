@@ -89,7 +89,7 @@ class TournamentScheduler:
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
         # projdeme hriste
-        for pitch_index in range(self.pitches):
+        for pitch_index in range(len(self.schedule.columns)):
             pocet_zapasu = self.schedule[pitch_index].count()
             if pocet_zapasu < len(self.schedule):
                 old_index = pocet_zapasu -1
