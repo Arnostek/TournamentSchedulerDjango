@@ -245,6 +245,23 @@ class TournamentScheduler:
         # uplne nakonec vymazeme prazdne radky
         self.schedule.dropna(how='all', inplace=True)
 
+    def _reduceColumns(self):
+        """ reduce columns to num of pitches """
+        if len(self.schedule.columns) > self.pitches:
+            # pitches sorted by count of matches
+            pitches = self.schedule.count().sort_values().index
+            # we will move between pitches
+            pitch_from = pitches[0]
+            pitch_to = pitches[1]
+            # reverse loop through matches
+            for match_ind in range(len(self.schedule) -1,-1,-1):
+                if isinstance(self.schedule[pitch_from][match_ind],models.Match):
+                    self._insert_match_to_another_pitch(match_ind,pitch_from,pitch_to)
+            # drop empty column
+            self.schedule.drop(columns = [pitch_from], inplace = True)
+            # rename columns
+            self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
         self._reduceEmptySlots(desired_slots)
