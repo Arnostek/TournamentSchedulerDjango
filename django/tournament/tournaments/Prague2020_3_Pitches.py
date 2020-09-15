@@ -9,12 +9,12 @@ from tournament.TournamentScheduler import TournamentScheduler
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test02")
+prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test03")
 prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',6)
+Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',7)
 Men_system.division.CreateTeams(
     [
         # "Kaniow Men",
@@ -36,7 +36,7 @@ Men_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',5)
+Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',6)
 Ladies_system.division.CreateTeams(
     [
         # "Kaniow Women",
@@ -58,7 +58,7 @@ Ladies_system.division.CreateTeams(
 ####################################################
 # U14
 
-U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',6)
+U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',7)
 U14_system.division.CreateTeams(
     [
         "Prague U16",
@@ -74,7 +74,7 @@ U14_system.division.CreateTeams(
 )
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(prague2020,3)
+ts = TournamentScheduler(prague2020,2)
 ts.Optimize(40)
 ts.Schedule(
     [
