@@ -75,7 +75,7 @@ U14_system.division.CreateTeams(
 ## naplanujeme zapasy
 
 ts = TournamentScheduler(prague2020,2)
-ts.Optimize(40)
+# ts.Optimize(40)
 ts.Schedule(
     [
         (datetime.datetime(2020,9,19,7,00),datetime.datetime(2020,9,19,19)),
