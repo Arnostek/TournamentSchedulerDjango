@@ -19,7 +19,7 @@ Men_system.division.CreateTeams(
     [
         # "Kaniow Men",
         # "Tri Stihii",
-        "Prague B",
+        "Prague B - DobroPtaah",
         "Czech U21",
         # "KSC Neckarau",
         "KTW Kalisz Men",
