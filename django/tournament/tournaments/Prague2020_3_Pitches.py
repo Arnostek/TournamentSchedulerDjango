@@ -9,7 +9,7 @@ from tournament.TournamentScheduler import TournamentScheduler
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test06")
+prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test07")
 prague2020.save()
 print(prague2020)
 ####################################################
@@ -78,7 +78,7 @@ ts = TournamentScheduler(prague2020,2)
 # ts.Optimize(40)
 ts.Schedule(
     [
-        (datetime.datetime(2020,9,19,7,00),datetime.datetime(2020,9,19,19)),
-        (datetime.datetime(2020,9,20,7,00),datetime.datetime(2020,9,20,19))
+        (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,19)),
+        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,19))
     ]
 )
