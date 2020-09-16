@@ -79,6 +79,6 @@ ts = TournamentScheduler(prague2020,2)
 ts.Schedule(
     [
         (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,19)),
-        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,19))
+        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,16))
     ]
 )
