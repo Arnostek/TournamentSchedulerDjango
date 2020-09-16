@@ -19,7 +19,7 @@ Men_system.division.CreateTeams(
     [
         # "Kaniow Men",
         # "Tri Stihii",
-        "DobroPtaah",
+        "UKS Katowice",
         "Czech U21",
         # "KSC Neckarau",
         "KTW Kalisz Men",
@@ -28,7 +28,7 @@ Men_system.division.CreateTeams(
         # "Leipzig ?",
         # "SG Havelbruder",
         # "WS Dresden",
-        "UKS Katowice",
+        "DobroPtaah",
         # "Glauchau",
         "Tanew Księżpol U16",
     ]
