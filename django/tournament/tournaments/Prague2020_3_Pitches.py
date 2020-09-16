@@ -9,12 +9,12 @@ from tournament.TournamentScheduler import TournamentScheduler
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test05")
+prague2020 = models.Tournament(name = "PIT 2020 Test only!!!!!!", slug = "Test06")
 prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',7)
+Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',6)
 Men_system.division.CreateTeams(
     [
         # "Kaniow Men",
@@ -29,7 +29,7 @@ Men_system.division.CreateTeams(
         # "SG Havelbruder",
         # "WS Dresden",
         "UKS Katowice",
-        "Glauchau",
+        # "Glauchau",
         "Tanew Księżpol U16",
     ]
 )
