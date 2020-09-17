@@ -41,7 +41,7 @@ Ladies_system.division.CreateTeams(
     [
         # "Kaniow Women",
         # "Swiss Ladies ?",
-        "Prague Women",
+        "Prague Women 1",
         # "Prague Women 2",
         # "Havelschwester A",
         # "Goettingen Ladies",
@@ -49,19 +49,19 @@ Ladies_system.division.CreateTeams(
         "Poland U21 Women B",
         # "Leipzig Women",
         # "Havelschwester B",
-        "Prague Flowers",
-        "United syndrom team",
+        "Prague Women 2",
+        # "United syndrom team",
         "KTW Kalisz/Tanew U16 Girls",
+        "Prague U16",
     ]
 )
 
 ####################################################
 # U14
 
-U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',6)
+U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',5)
 U14_system.division.CreateTeams(
     [
-        "Prague U16",
         # "Kaniow U14",
         "Prague U14",
         "KTW Kalisz U14 Boys",
