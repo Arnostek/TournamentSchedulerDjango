@@ -1,8 +1,7 @@
 from tournament import models
 import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
-from tournament.systems.TwoGroups import TwoGroups
-from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
+from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
@@ -59,7 +58,7 @@ Ladies_system.division.CreateTeams(
 ####################################################
 # U14
 
-U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',5)
+U14_system = SingleGroup5teams(prague2020,'U14','U14',5)
 U14_system.division.CreateTeams(
     [
         # "Kaniow U14",
@@ -79,6 +78,6 @@ ts = TournamentScheduler(prague2020,2)
 ts.Schedule(
     [
         (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,18)),
-        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,16))
+        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,18))
     ]
 )
