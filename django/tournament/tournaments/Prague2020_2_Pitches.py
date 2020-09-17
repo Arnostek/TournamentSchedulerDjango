@@ -13,10 +13,10 @@ prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',6)
+Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',7)
 Men_system.division.CreateTeams(
     [
-        # "Kaniow Men",
+        "Kaniow",
         # "Tri Stihii",
         "UKS Katowice",
         "Czech U21",
@@ -77,7 +77,7 @@ ts = TournamentScheduler(prague2020,2)
 # ts.Optimize(40)
 ts.Schedule(
     [
-        (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,18)),
-        (datetime.datetime(2020,9,20,8,00),datetime.datetime(2020,9,20,18))
+        (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,18,30)),
+        (datetime.datetime(2020,9,20,7,30),datetime.datetime(2020,9,20,18))
     ]
 )
