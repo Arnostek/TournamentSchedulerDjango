@@ -35,5 +35,10 @@ class SingleGroup5teams(DivisionSystemBase):
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        # a_ranks = self.division.GetGroupsRanks(['A'])
-        pass
+        b_ranks = self.division.GetGroupsRanks(['B'])
+        self._GroupAddReferees('SemiA', [b_ranks[0]])
+        self._GroupAddReferees('SemiB', [b_ranks[1]])
+
+        semi_ranks = self.division.GetGroupsRanks(['SemiA','SemiB'])
+        self._GroupAddReferees('3rd', [semi_ranks[0]])
+        self._GroupAddReferees('final', [semi_ranks[2]])
