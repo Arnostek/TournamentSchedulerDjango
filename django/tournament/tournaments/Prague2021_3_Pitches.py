@@ -31,20 +31,6 @@ Men1_system.division.CreateTeams(
 )
 
 ####################################################
-# men 2
-Men2_system = SingleGroup5teams(prague2021,'Men 2','Men2',5)
-Men2_system.division.CreateTeams(
-    [
-        "Dresden Men",
-        "Nürnberg-Neckarau",
-        "Czech Men Dobroptah",
-        # "Glauchau B",
-        "Munich mix team",
-        "Nagymaros U18 B",
-    ]
-)
-
-####################################################
 # Ladies
 Ladies_system = SingleGroupDivisionSystem(prague2021,'Ladies','Ladies',6,semi=True)
 Ladies_system.division.CreateTeams(
@@ -73,6 +59,20 @@ Juniors_system.division.CreateTeams(
         # "Glauchau U14"
         "Katowice U14",
         "Czech U14",
+    ]
+)
+
+####################################################
+# men 2
+Men2_system = SingleGroup5teams(prague2021,'Men 2','Men2',5)
+Men2_system.division.CreateTeams(
+    [
+        "Dresden Men",
+        "Nürnberg-Neckarau",
+        "Czech Men Dobroptah",
+        # "Glauchau B",
+        "Munich mix team",
+        "Nagymaros U18 B",
     ]
 )
 ## naplanujeme zapasy
