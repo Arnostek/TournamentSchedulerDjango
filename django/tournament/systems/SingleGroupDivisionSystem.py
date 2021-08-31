@@ -20,6 +20,10 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         a_ranks = self.division.GetGroupsRanks(['A'])
         # 3rd
         if len(a_ranks) > 3:
+        # 5th
+        if len(a_ranks) > 5:
+            phase += 1
+            self.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]] , phase)
             phase += 1
             self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
         # final
