@@ -52,7 +52,7 @@ class TwoGroups8Teams(DivisionSystemBase):
         d_ranks = self.division.GetGroupsRanks(['D'])
 
         self._GroupAddReferees('7th', [c_ranks[1]])
-        self._GroupAddReferees('5th', [d_ranks[0]])
+        self._GroupAddReferees('5th', [c_ranks[0]])
 
         self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
         self._GroupAddReferees('final',[self.division.GetGroupsRanks(['5th'])[0]])
