@@ -17,16 +17,16 @@ print(prague2021)
 Men1_system = TwoGroups8Teams(prague2021,'Men 1','Men1',8)
 Men1_system.division.CreateTeams(
     [
-        "Kwisa Lesna",
         # "Kaniow Men",
         "RKV Berlin",
-        "Czech Men Emerites",
-        "U21 Czech Men",
-        # "Glauchau A",
-        "Katowice Men",
-        "Nagymaros Men",
         "AVSK",
         "Austria",
+        "U21 Czech Men",
+        "Kwisa Lesna",
+        "Czech Men Emerites",
+        # "Glauchau A",
+        "Nagymaros Men",
+        "Katowice Men",
     ]
 )
 
@@ -52,10 +52,10 @@ Juniors_system = TwoGroups8Teams(prague2021,'Juniors','Juniors',8)
 Juniors_system.division.CreateTeams(
     [
         "Poland U16",
-        "Szeged U16",
-        "Nagymaros U18 B",
         "Czech U16",
         "Kaniow U16",
+        "Szeged U16",
+        "Nagymaros U18 B",
         # "Glauchau U14"
         "Katowice U14",
         "Czech U14 A",
