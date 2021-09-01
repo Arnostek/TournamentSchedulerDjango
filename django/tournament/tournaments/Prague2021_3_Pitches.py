@@ -48,7 +48,7 @@ Ladies_system.division.CreateTeams(
 ####################################################
 # Juniors
 
-Juniors_system = SingleGroupDivisionSystem(prague2021,'Juniors','Juniors',7)
+Juniors_system = TwoGroups8Teams(prague2021,'Juniors','Juniors',8)
 Juniors_system.division.CreateTeams(
     [
         "Poland U16",
@@ -58,7 +58,8 @@ Juniors_system.division.CreateTeams(
         "Kaniow U16",
         # "Glauchau U14"
         "Katowice U14",
-        "Czech U14",
+        "Czech U14 A",
+        "Czech U14 B",
     ]
 )
 
