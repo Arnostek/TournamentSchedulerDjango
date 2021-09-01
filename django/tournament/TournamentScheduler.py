@@ -256,13 +256,14 @@ class TournamentScheduler:
         """ reduce columns to num of pitches """
         while len(self.schedule.columns) > self.pitches:
             # pitches sorted by count of matches
-            pitches = self.schedule.count().sort_values().index
-            # we will move between pitches
-            pitch_from = pitches[0]
-            pitch_to = pitches[1]
+            # hriste s nejmene zapasy
+            pitch_from = self.schedule.count().sort_values().index[0]
+
             # reverse loop through matches
             for match_ind in range(len(self.schedule) -1,-1,-1):
                 if isinstance(self.schedule[pitch_from][match_ind],models.Match):
+                    # hriste s druhym nejmensim poctem zapasu
+                    pitch_to = self.schedule.count().sort_values().index[1]
                     self._insert_match_to_another_pitch(match_ind,pitch_from,pitch_to)
             # drop empty column
             self.schedule.drop(columns = [pitch_from], inplace = True)
