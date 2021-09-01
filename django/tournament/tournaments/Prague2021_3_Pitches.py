@@ -73,7 +73,7 @@ Men2_system.division.CreateTeams(
         "Czech Men Dobroptah",
         # "Glauchau B",
         "Munich mix team",
-        "Nagymaros U18 B",
+        "Nagymaros U18 A",
     ]
 )
 ## naplanujeme zapasy
