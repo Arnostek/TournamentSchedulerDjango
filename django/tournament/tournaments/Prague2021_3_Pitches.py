@@ -79,12 +79,11 @@ Men2_system.division.CreateTeams(
 ## naplanujeme zapasy
 
 ts = TournamentScheduler(prague2021,3)
-ts.Optimize(30)
-ts.Optimize(30)
-ts.Optimize(30)
+ts.Optimize(40)
+
 ts.Schedule(
     [
-        (datetime.datetime(2021,9,4,8,00),datetime.datetime(2021,9,4,18,30)),
-        (datetime.datetime(2021,9,5,8,00),datetime.datetime(2021,9,5,23))
+        (datetime.datetime(2021,9,4,7,30),datetime.datetime(2021,9,4,18,30)),
+        (datetime.datetime(2021,9,5,7,30),datetime.datetime(2021,9,5,23))
     ]
 )
