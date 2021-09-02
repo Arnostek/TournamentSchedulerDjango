@@ -113,7 +113,7 @@ class TournamentScheduler:
             return
 
         # hriste s nejmensim poctem zapasu
-        pitch2_ind = self.schedule.count().sort_values().index[0]
+        pitch2_ind = self.schedule.apply(lambda series: series.last_valid_index()).sort_values().index[0]
         # if target is match
         if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
             # add new row to end
