@@ -73,9 +73,9 @@ class TournamentScheduler:
             return
         if self.schedule.isna().iloc[match_ind,pitch_ind]:
             # if there is match in cell above
-            if isinstance(self.schedule.iloc[match_ind + 1,pitch_ind],models.Match):
+            next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
+            if isinstance(next_match,models.Match):
                 # we have to check possible Conflict
-                next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
                 if not self._canShiftMatch(next_match,match_ind):
                     return
             # ulozime si posunuty sloupec
