@@ -252,7 +252,7 @@ class TournamentScheduler:
         # uplne nakonec vymazeme prazdne radky
         self._deleteEmptyRows()
 
-    def _deleteEmptyRows():
+    def _deleteEmptyRows(self):
         """ Delete empty schedule rows"""
         # smazeme prazdne radky
         self.schedule.dropna(how='all', inplace=True)
