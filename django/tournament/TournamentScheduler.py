@@ -107,7 +107,8 @@ class TournamentScheduler:
             return
         # find empty place in schedule row
         row = self.schedule.iloc[match_ind,:]
-        for pitch_ind in row[row.isna()].index:
+        # prepiseme vse co neni zapas
+        for pitch_ind in row[row.apply(lambda x : not isinstance(x,models.Match))].index:
             # insert match and return
             self.schedule.iloc[match_ind,pitch_ind] = match
             return
