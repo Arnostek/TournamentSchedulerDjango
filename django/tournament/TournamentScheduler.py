@@ -202,14 +202,7 @@ class TournamentScheduler:
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
         self._reduceEmptySlots01(desired_slots)
-        # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
-        self._resetMatchIndex()
-        pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values(ascending=False).index
-        for pitch_ind in pitch_indexes:
-            # smazeme vsechny prazdne - musime odzadu, jinak se nam cisla meni
-            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
-                self._shift_col(pitch_ind,match_ind)
-
+        self._reduceEmptySlots02(desired_slots)
         # projdeme radky az do delky dataframe
         self._resetMatchIndex()
         for match_ind in range(len(self.schedule)):
@@ -266,6 +259,14 @@ class TournamentScheduler:
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
                 self._shift_col(pitch_ind,match_ind)
 
+    def _reduceEmptySlots02(self,desired_slots):
+        # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
+        self._resetMatchIndex()
+        pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values(ascending=False).index
+        for pitch_ind in pitch_indexes:
+            # smazeme vsechny prazdne - musime odzadu, jinak se nam cisla meni
+            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
+                self._shift_col(pitch_ind,match_ind)
 
 
     def _reduceColumns(self):
