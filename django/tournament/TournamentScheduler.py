@@ -19,8 +19,13 @@ class TournamentSchedulerDataframeCreator:
         matches = []
         prev_match = None
         for match in division.match_set.all().order_by('group__phase','phase_block','id'):
+            # mezi skupinami davam pauzu
             if self._needPause(prev_match,match):
-                matches.append('Pauza')
+                matches.append('Pauza - pocitani')
+            # pri konfliktu davam Pauzu
+            if prev_match and not self._canFollow(prev_match,match):
+                matches.append('Pauza - konflikt')
+            # pridam zapas
             matches.append(match)
             prev_match = match
         return matches
@@ -41,6 +46,14 @@ class TournamentSchedulerDataframeCreator:
                     return True
             # pokud neni problem, neni pauza potreba
             return False
+
+    def _canFollow(self,match1,match2):
+        """ Muze match2 byt po matchi1 ?  """
+        for tph1 in [match1.home,match1.away,match1.referee]:
+            for tph2 in [match2.home,match2.away,match2.referee]:
+                if tph1 == tph2:
+                    return False
+        return True
 
 class TournamentScheduler:
     """
@@ -78,6 +91,7 @@ class TournamentScheduler:
                 # we have to check possible Conflict
                 if not self._canShiftMatch(next_match,match_ind):
                     return
+###### TODO - tady musime hlidat konflikty u vsech nasledujicich matchu, protoze se take posunou
             # ulozime si posunuty sloupec
             shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
             # vymazeme radky smerem dolu
