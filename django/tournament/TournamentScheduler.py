@@ -296,6 +296,12 @@ class TournamentScheduler:
         """ Optimize schedule to desired slots """
         self._reduceEmptySlots(desired_slots)
 
+    def DeleteSchedule(self):
+        """ Delete schedule and pitches """
+        self.tournament.schedule_set.all().delete()
+        self.tournament.pitch_set.all().delete()
+
+
     def Schedule(self,times):
         """
             zalozeni schedule
