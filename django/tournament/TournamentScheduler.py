@@ -309,17 +309,18 @@ class TournamentScheduler:
             # pitches sorted by count of matches
             # hriste s nejmene zapasy
             pitch_from = self.schedule.count().sort_values().index[0]
-
-            # reverse loop through matches
-            for match_ind in range(len(self.schedule) -1,-1,-1):
-                if isinstance(self.schedule[pitch_from][match_ind],models.Match):
-                    # hriste s druhym nejmensim poctem zapasu
-                    pitch_to = self.schedule.count().sort_values().index[1]
-                    self._insert_match_to_another_pitch(match_ind,pitch_from,pitch_to)
-            # drop empty column
+            # matches to move
+            matches_to_move = self.schedule[pitch_from].dropna()
+            # drop old column
             self.schedule.drop(columns = [pitch_from], inplace = True)
             # rename columns
             self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+            # reverse loop through matches
+            for match_ind in matches_to_move.index.sort_values(ascending=False):
+                print(matches_to_move[match_ind], match_ind)
+                self._insert_match(matches_to_move[match_ind], match_ind)
+                matches_to_move[match_ind] = None
+
             # make same lengths again
             self._makeSameLength()
 
