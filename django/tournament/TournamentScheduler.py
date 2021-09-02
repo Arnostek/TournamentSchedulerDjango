@@ -201,14 +201,7 @@ class TournamentScheduler:
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
-        #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
-        self._resetMatchIndex()
-        for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
-            # staci smazat par mezer z konce
-            # BUG pozor - musime testovat, zda to je mozne
-            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
-                self._shift_col(pitch_ind,match_ind)
-
+        self._reduceEmptySlots01(desired_slots)
         # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
         self._resetMatchIndex()
         pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values(ascending=False).index
@@ -263,6 +256,16 @@ class TournamentScheduler:
     def _resetMatchIndex(self):
         """ Reset schedule match index"""
         self.schedule.reset_index(inplace=True,drop=True)
+
+    def _reduceEmptySlots01(self,desired_slots):
+        #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
+        self._resetMatchIndex()
+        for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
+            # staci smazat par mezer z konce
+            # BUG pozor - musime testovat, zda to je mozne
+            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
+                self._shift_col(pitch_ind,match_ind)
+
 
 
     def _reduceColumns(self):
