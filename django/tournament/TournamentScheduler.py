@@ -68,6 +68,9 @@ class TournamentScheduler:
 
     def _shift_col(self,pitch_ind,match_ind):
         """ pokud je volne misto, posune bunky nahoru o jedno misto"""
+        # posledni radek nema cenu posouvat
+        if match_ind == self.schedule.index.max():
+            return
         if self.schedule.isna().iloc[match_ind,pitch_ind]:
             # if there is match in cell above
             if isinstance(self.schedule.iloc[match_ind + 1,pitch_ind],models.Match):
