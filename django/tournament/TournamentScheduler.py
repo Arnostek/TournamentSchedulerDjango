@@ -250,11 +250,12 @@ class TournamentScheduler:
             if self.schedule.count().max() <= desired_slots:
                 break
         # uplne nakonec vymazeme prazdne radky
-        self._deleteEmptyRows()
+        #self._deleteEmptyRows()
 
     def _deleteEmptyRows(self):
         """ Delete empty schedule rows"""
         # smazeme prazdne radky
+        # BUG - nekontrolujeme, zda je to mozne
         self.schedule.dropna(how='all', inplace=True)
         # reset indexu
         self._resetMatchIndex()
