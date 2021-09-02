@@ -101,6 +101,28 @@ class TournamentScheduler:
             # move match to another pitch
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
 
+    def _insert_match(self, match, match_ind):
+        """ Insert match instance to row match_ind """
+        if not isinstance(match, models.Match):
+            return
+        # find empty place in schedule row
+        row = self.schedule.iloc[match_ind,:]
+        for pitch_ind in row[row.isna()].index:
+            # insert match and return
+            self.schedule.iloc[match_ind,pitch_ind] = match
+            return
+
+        # hriste s nejmensim poctem zapasu
+        pitch2_ind = self.schedule.count().sort_values().index[0]
+        # if target is match
+        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
+            # add new row to end
+            self.schedule.loc[self.schedule.index.max()+1] = None
+            # create space for match
+            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
+            # add match
+            self.schedule.loc[match_ind,pitch2_ind] = match
+
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
         # projdeme hriste
