@@ -250,7 +250,15 @@ class TournamentScheduler:
             if self.schedule.count().max() <= desired_slots:
                 break
         # uplne nakonec vymazeme prazdne radky
+        self._deleteEmptyRows()
+
+    def _deleteEmptyRows():
+        """ Delete empty schedule rows"""
+        # smazeme prazdne radky
         self.schedule.dropna(how='all', inplace=True)
+        # reset indexu
+        self.schedule.reset_index(inplace=True,drop=True)
+
 
     def _reduceColumns(self):
         """ reduce columns to num of pitches """
