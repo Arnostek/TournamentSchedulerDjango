@@ -50,7 +50,11 @@ class TournamentSchedulerDataframeCreator:
     def _canFollow(self,match1,match2):
         """ Muze match2 byt po matchi1 ?  """
         for tph1 in [match1.home,match1.away,match1.referee]:
+            if tph1 == None:
+                continue
             for tph2 in [match2.home,match2.away,match2.referee]:
+                if tph2 == None:
+                    continue
                 if tph1 == tph2:
                     return False
         return True
