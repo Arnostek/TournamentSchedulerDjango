@@ -81,6 +81,7 @@ Men2_system.division.CreateTeams(
 ts = TournamentScheduler(prague2021,3)
 ts.schedule.dropna(inplace=True, how='all')
 ts._reduceEmptySlots01(33)
+ts._reduceEmptySlots02(33)
 
 ts.Schedule(
     [
