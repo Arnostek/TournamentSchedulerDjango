@@ -19,8 +19,13 @@ class TournamentSchedulerDataframeCreator:
         matches = []
         prev_match = None
         for match in division.match_set.all().order_by('group__phase','phase_block','id'):
+            # mezi skupinami davam pauzu
             if self._needPause(prev_match,match):
-                matches.append('Pauza')
+                matches.append('Pauza - pocitani')
+            # pri konfliktu davam Pauzu
+            if prev_match and not self._canFollow(prev_match,match):
+                matches.append('Pauza - konflikt')
+            # pridam zapas
             matches.append(match)
             prev_match = match
         return matches
@@ -41,6 +46,18 @@ class TournamentSchedulerDataframeCreator:
                     return True
             # pokud neni problem, neni pauza potreba
             return False
+
+    def _canFollow(self,match1,match2):
+        """ Muze match2 byt po matchi1 ?  """
+        for tph1 in [match1.home,match1.away,match1.referee]:
+            if tph1 == None:
+                continue
+            for tph2 in [match2.home,match2.away,match2.referee]:
+                if tph2 == None:
+                    continue
+                if tph1 == tph2:
+                    return False
+        return True
 
 class TournamentScheduler:
     """
@@ -68,13 +85,17 @@ class TournamentScheduler:
 
     def _shift_col(self,pitch_ind,match_ind):
         """ pokud je volne misto, posune bunky nahoru o jedno misto"""
-        if not self.schedule.iloc[match_ind,pitch_ind]:
+        # posledni radek nema cenu posouvat
+        if match_ind == self.schedule.index.max():
+            return
+        if self.schedule.isna().iloc[match_ind,pitch_ind]:
             # if there is match in cell above
-            if isinstance(self.schedule.iloc[match_ind + 1,pitch_ind],models.Match):
+            next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
+            if isinstance(next_match,models.Match):
                 # we have to check possible Conflict
-                next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
                 if not self._canShiftMatch(next_match,match_ind):
                     return
+###### TODO - tady musime hlidat konflikty u vsech nasledujicich matchu, protoze se take posunou
             # ulozime si posunuty sloupec
             shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
             # vymazeme radky smerem dolu
@@ -97,6 +118,29 @@ class TournamentScheduler:
             self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
             # move match to another pitch
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
+
+    def _insert_match(self, match, match_ind):
+        """ Insert match instance to row match_ind """
+        if not isinstance(match, models.Match):
+            return
+        # find empty place in schedule row
+        row = self.schedule.iloc[match_ind,:]
+        # prepiseme vse co neni zapas
+        for pitch_ind in row[row.apply(lambda x : not isinstance(x,models.Match))].index:
+            # insert match and return
+            self.schedule.iloc[match_ind,pitch_ind] = match
+            return
+
+        # hriste s nejmensim poctem zapasu
+        pitch2_ind = self.schedule.apply(lambda series: series.last_valid_index()).sort_values().index[0]
+        # if target is match
+        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
+            # add new row to end
+            self.schedule.loc[self.schedule.index.max()+1] = None
+            # create space for match
+            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
+            # add match
+            self.schedule.loc[match_ind,pitch2_ind] = match
 
     def _makeSameLength(self):
         """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
@@ -201,21 +245,49 @@ class TournamentScheduler:
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
+        self._reduceEmptySlots01(desired_slots)
+        self._reduceEmptySlots02(desired_slots)
+        self._reduceEmptySlots03(desired_slots)
+
+    def _deleteEmptyRows(self):
+        """ Delete empty schedule rows"""
+        # smazeme prazdne radky
+        # BUG - nekontrolujeme, zda je to mozne
+        self.schedule.dropna(how='all', inplace=True)
+        # reset indexu
+        self._resetMatchIndex()
+
+    def _resetMatchIndex(self):
+        """ Reset schedule match index"""
+        self.schedule.reset_index(inplace=True,drop=True)
+
+    def _reduceEmptySlots01(self,desired_slots):
         #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
+        # reset indexu
+        self._resetMatchIndex()
+        # najdeme hriste, kde je zapasu min nebo rovno desired
         for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
             # staci smazat par mezer z konce
             # BUG pozor - musime testovat, zda to je mozne
-            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False)[: len(self.schedule) - desired_slots]:
-                self._shift_col(pitch_ind,match_ind)
+            # najdeme volna mista ve schedule, od konce k zacatku
+            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
+                # dokud je zapasu bez NA na konci vic nez desired
+                if self.schedule[pitch_ind].last_valid_index() > desired_slots:
+                    # redukujeme mezery
+                    self._shift_col(pitch_ind,match_ind)
 
+    def _reduceEmptySlots02(self,desired_slots):
         # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
+        self._resetMatchIndex()
         pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values(ascending=False).index
         for pitch_ind in pitch_indexes:
             # smazeme vsechny prazdne - musime odzadu, jinak se nam cisla meni
             for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 self._shift_col(pitch_ind,match_ind)
 
+    def _reduceEmptySlots03(self,desired_slots):
         # projdeme radky az do delky dataframe
+        self._resetMatchIndex()
         for match_ind in range(len(self.schedule)):
             # na kazdem radku hledame prazdna hriste
             for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
@@ -247,30 +319,38 @@ class TournamentScheduler:
             if self.schedule.count().max() <= desired_slots:
                 break
         # uplne nakonec vymazeme prazdne radky
-        self.schedule.dropna(how='all', inplace=True)
+        #self._deleteEmptyRows()
+
 
     def _reduceColumns(self):
         """ reduce columns to num of pitches """
         while len(self.schedule.columns) > self.pitches:
             # pitches sorted by count of matches
-            pitches = self.schedule.count().sort_values().index
-            # we will move between pitches
-            pitch_from = pitches[0]
-            pitch_to = pitches[1]
-            # reverse loop through matches
-            for match_ind in range(len(self.schedule) -1,-1,-1):
-                if isinstance(self.schedule[pitch_from][match_ind],models.Match):
-                    self._insert_match_to_another_pitch(match_ind,pitch_from,pitch_to)
-            # drop empty column
+            # hriste s nejmene zapasy
+            pitch_from = self.schedule.count().sort_values().index[0]
+            # matches to move
+            matches_to_move = self.schedule[pitch_from].dropna()
+            # drop old column
             self.schedule.drop(columns = [pitch_from], inplace = True)
             # rename columns
             self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+            # reverse loop through matches
+            for match_ind in matches_to_move.index.sort_values(ascending=False):
+                self._insert_match(matches_to_move[match_ind], match_ind)
+                matches_to_move[match_ind] = None
+
             # make same lengths again
             self._makeSameLength()
 
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
         self._reduceEmptySlots(desired_slots)
+
+    def DeleteSchedule(self):
+        """ Delete schedule and pitches """
+        self.tournament.schedule_set.all().delete()
+        self.tournament.pitch_set.all().delete()
+
 
     def Schedule(self,times):
         """

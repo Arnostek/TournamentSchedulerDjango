@@ -29,8 +29,6 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             # semi
             phase += 1
             self.division.CreateGroups(['Semi1'], [a_ranks[1], a_ranks[2]] , phase)
-            # final
-            phase += 1
             self.division.CreateGroups(['Semi2'],[a_ranks[0], a_ranks[3]] , phase)
 
             semi_ranks = self.division.GetGroupsRanks(['Semi1','Semi2'])

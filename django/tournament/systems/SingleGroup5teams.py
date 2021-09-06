@@ -20,7 +20,7 @@ class SingleGroup5teams(DivisionSystemBase):
         a_ranks = self.division.GetGroupsRanks(['A'])
         # phase 2 - kdo opravdu vypadne
         phase += 1
-        self.division.CreateGroups(['B'], [a_ranks[2], a_ranks[3], a_ranks[4]], phase, ['A'])
+        self.division.CreateGroups(['B'], [a_ranks[2], a_ranks[3], a_ranks[4]], phase)
         b_ranks = self.division.GetGroupsRanks(['B'])
 
         # semi
@@ -35,5 +35,10 @@ class SingleGroup5teams(DivisionSystemBase):
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        # a_ranks = self.division.GetGroupsRanks(['A'])
-        pass
+        b_ranks = self.division.GetGroupsRanks(['B'])
+        self._GroupAddReferees('SemiA', [b_ranks[0]])
+        self._GroupAddReferees('SemiB', [b_ranks[1]])
+
+        semi_ranks = self.division.GetGroupsRanks(['SemiA','SemiB'])
+        self._GroupAddReferees('3rd', [semi_ranks[0]])
+        self._GroupAddReferees('final', [semi_ranks[2]])

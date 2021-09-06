@@ -32,7 +32,6 @@ class TwoGroups8Teams(DivisionSystemBase):
         self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['D'])[2:4], phase)
 
         # 5th
-        phase += 1
         self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['D'])[0:2], phase)
 
         # 3rd
@@ -50,8 +49,8 @@ class TwoGroups8Teams(DivisionSystemBase):
         c_ranks = self.division.GetGroupsRanks(['C'])
         d_ranks = self.division.GetGroupsRanks(['D'])
 
-        self._GroupAddReferees('7th', [c_ranks[1]])
-        self._GroupAddReferees('5th', [c_ranks[0]])
+        self._GroupAddReferees('7th', [d_ranks[1]])
+        self._GroupAddReferees('5th', [d_ranks[2]])
 
-        self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
-        self._GroupAddReferees('final',[self.division.GetGroupsRanks(['5th'])[0]])
+        self._GroupAddReferees('3rd',[d_ranks[0]])
+        self._GroupAddReferees('final',[c_ranks[2]])
