@@ -1,8 +1,7 @@
 from tournament import models
 import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
-from tournament.systems.TwoGroups import TwoGroups
-from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
+from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
@@ -14,33 +13,34 @@ prague2020.save()
 print(prague2020)
 ####################################################
 # men
-Men_system = TwoGroups8Teams(prague2020,'Men','Men',8)
+Men_system = SingleGroupDivisionSystem(prague2020,'Men','Men',7)
 Men_system.division.CreateTeams(
     [
-        # "Kaniow Men",
+        "Kaniow",
         # "Tri Stihii",
-        "Prague B",
+        "UKS Katowice",
         "Czech U21",
         # "KSC Neckarau",
-        "KTW Kalisz Men",
-        "RKV Berlin",
+        # "RKV Berlin",
+        "DobroPtaah",
         "Prague C",
-        "Leipzig ?",
+        "KTW Kalisz Men",
+        # "Leipzig ?",
         # "SG Havelbruder",
         # "WS Dresden",
-        "UKS Katowice",
-        "Glauchau",
+        # "Glauchau",
+        "Tanew Księżpol U16",
     ]
 )
 
 ####################################################
 # Ladies
-Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',5)
+Ladies_system = SingleGroupDivisionSystem(prague2020,'Ladies','Ladies',6)
 Ladies_system.division.CreateTeams(
     [
         # "Kaniow Women",
         # "Swiss Ladies ?",
-        "Prague Women",
+        "Prague Women 1",
         # "Prague Women 2",
         # "Havelschwester A",
         # "Goettingen Ladies",
@@ -48,29 +48,17 @@ Ladies_system.division.CreateTeams(
         "Poland U21 Women B",
         # "Leipzig Women",
         # "Havelschwester B",
-        "Prague Flowers",
-        "United syndrom team",
-    ]
-)
-
-####################################################
-# U16
-u16_system = SingleGroupDivisionSystem(prague2020,'U16','U16',3)
-u16_system.division.CreateTeams(
-    [
-        "Prague U16",
-        "Tanew Księżpol U16",
-        # "KTW Kalisz U16 Boys",
+        "Prague Women 2",
+        # "United syndrom team",
         "KTW Kalisz/Tanew U16 Girls",
-        # "Kanu team Berlin U16",
-        # "WS Dresden U16",
+        "Prague U16",
     ]
 )
 
 ####################################################
 # U14
 
-U14_system = SingleGroupDivisionSystem(prague2020,'U14','U14',6)
+U14_system = SingleGroup5teams(prague2020,'U14','U14',5)
 U14_system.division.CreateTeams(
     [
         # "Kaniow U14",
@@ -80,16 +68,16 @@ U14_system.division.CreateTeams(
         "Jabko U14",
         # "WS Dresden U14",
         "UKS Katowice U14",
-        "Glauchau U14",
+        # "Glauchau U14",
     ]
 )
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(prague2020,3)
-ts.Optimize(40)
+ts = TournamentScheduler(prague2020,2)
+# ts.Optimize(40)
 ts.Schedule(
     [
-        (datetime.datetime(2020,9,19,7,00),datetime.datetime(2020,9,19,19)),
-        (datetime.datetime(2020,9,20,7,00),datetime.datetime(2020,9,20,19))
+        (datetime.datetime(2020,9,19,8,00),datetime.datetime(2020,9,19,18,30)),
+        (datetime.datetime(2020,9,20,7,30),datetime.datetime(2020,9,20,18))
     ]
 )
