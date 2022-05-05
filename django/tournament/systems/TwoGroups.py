@@ -3,9 +3,11 @@ from .DivisionSystemBase import DivisionSystemBase
 class TwoGroups(DivisionSystemBase):
     """ Dve zakladni skupiny, semi pro 1. a 2., zapasy o misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,last3=False):
         # zavolam konsturktor Predka
         super(TwoGroups, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        # lichy pocet tymu?
+        self.last3 = last3
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy
@@ -22,9 +24,14 @@ class TwoGroups(DivisionSystemBase):
         # prvni 4 tymy jdou do semi
         phase += 1
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
+        # lichy pocet tymu = skupina poslednich tri
+        if self.last3:
+            phase += 1
+            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase)
         # zapasy o mista bez semi
         phase += 1
-        mista = [m for m in range(5,self.teams_count,2)]
+        mista = [m for m in range(5,self.teams_count if not self.last3 else self.teams_count - 3,2)]
+        # mista = [m for m in range(5,self.teams_count,2)]
         mista.reverse()
         for misto in mista:
             self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], phase)
