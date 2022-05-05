@@ -14,4 +14,4 @@ Python django website for running Canoepolo tournament.
 ## Create tournament
 * Program your system
 * run shell: docker-compose exec tournament_scheduler python /srv/django/manage.py shell_plus
-* run your script: from tournament.tournaments import Prague2021_3_Pitches
+* run your script: from tournament.tournaments import Prague2022_4_Pitches
