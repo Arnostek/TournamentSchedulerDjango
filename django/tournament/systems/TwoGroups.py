@@ -26,7 +26,6 @@ class TwoGroups(DivisionSystemBase):
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
         # lichy pocet tymu = skupina poslednich tri
         if self.last3:
-            phase += 1
             self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase)
         # zapasy o mista bez semi
         phase += 1
