@@ -3,11 +3,13 @@ from .DivisionSystemBase import DivisionSystemBase
 class SingleGroupDivisionSystem(DivisionSystemBase):
     """ Jedna zakladni skupina, kazdy s kazdym, zapas o 3. a prvni misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False,final_for=10):
         # zavolam konsturktor Predka
         super(SingleGroupDivisionSystem, self).__init__(tournament,division_name,division_slug,num_of_teams)
         # bude semi?
         self.semi = semi
+        # od ktereho mista se bude hrat finale
+        self.final_for = final_for
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy
@@ -21,7 +23,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         self.division.CreateGroups(['A'], self.division.seed_placeholders, phase, ['A'])
         a_ranks = self.division.GetGroupsRanks(['A'])
         # 5th
-        if len(a_ranks) > 5:
+        if len(a_ranks) > 5 and self.final_for >= 5:
             phase += 1
             self.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]] , phase)
 
@@ -40,7 +42,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
         else:
             # 3rd
-            if len(a_ranks) > 3:
+            if len(a_ranks) > 3 and self.final_for >= 3:
                 phase += 1
                 self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
             # final
@@ -50,7 +52,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
         a_ranks = self.division.GetGroupsRanks(['A'])
-        if len(a_ranks) > 5:
+        if len(a_ranks) > 5 and self.final_for >= 3:
             self._GroupAddReferees('3rd',[a_ranks[5]])
         if len(a_ranks) > 4:
             self._GroupAddReferees('final',[a_ranks[4]])
