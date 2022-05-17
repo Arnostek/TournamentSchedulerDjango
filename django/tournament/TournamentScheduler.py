@@ -59,6 +59,68 @@ class TournamentSchedulerDataframeCreator:
                     return False
         return True
 
+
+class TournamentSchedulerDataframeOptimizer:
+    """
+        optimalizace dataframe
+    """
+    def __init__(self,schedule):
+        """ init, predame dataframe"""
+        self.schedule = schedule
+        self.DfEditor = TournamentSchedulerDataframeEditor(self.schedule)
+        self.DfTester = TournamentSchedulerDataframeTester(self.schedule)
+
+    # def
+
+    def _makeSameLength(self):
+        """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
+        # projdeme hriste
+        for pitch_index in self.schedule.columns:
+            # spocteme zapasy
+            pocet_zapasu = self.schedule[pitch_index].count()
+            # pokud je zapasu mene nez delka df
+            if pocet_zapasu < len(self.schedule):
+                # remove all spaces before lengthen
+                self.schedule[pitch_index] = self.schedule[pitch_index].dropna().reset_index(drop=True)
+                old_index = pocet_zapasu -1
+                for new_index in np.flip(np.linspace(0,len(self.schedule)-1,pocet_zapasu,dtype=int)):
+                    if (old_index != new_index):
+                        self.DfEditor._switchMatches((old_index,pitch_index),(new_index,pitch_index))
+                    old_index -= 1
+
+
+class TournamentSchedulerDataframeEditor:
+    """
+        zakladni operace nad dataframe
+    """
+    def __init__(self,schedule):
+        """ init, predame dataframe"""
+        self.schedule = schedule
+
+    def _switchMatches(self,old,new):
+        """ Prohozeni obsahu bunek
+            old a new jsou souradnice ve tvaru (match_index,pitch_index)
+        """
+        old_val = self.schedule.iloc[old[0],old[1]]
+        self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
+        self.schedule.iloc[new[0],new[1]] = old_val
+
+class TournamentSchedulerDataframeTester:
+    """
+        testy nad dataframe
+    """
+    def __init__(self,schedule):
+        """ init, predame dataframe"""
+        self.schedule = schedule
+
+#
+    # def _hasConflict(self,match_ind,tph):
+    #     """zkontroluje zda je v okoli radku match_ind konflikt pro dane tph"""
+    #     self.tdf
+
+
+
+
 class TournamentScheduler:
     """
     vytvoreni hraciho planu
@@ -71,17 +133,11 @@ class TournamentScheduler:
         # create schedule from tournament matches
         tdc = TournamentSchedulerDataframeCreator(tournament)
         self.schedule = tdc.schedule
-        self._makeSameLength()
+        # create optimizer
+        tdo = TournamentSchedulerDataframeOptimizer(self.schedule)
+        tdo._makeSameLength()
         self._reduceColumns()
         self._addReferees()
-
-    def _switchMatches(self,old,new):
-        """ Prohozeni obsahu bunek
-            old a new jsou souradnice ve tvaru (match_index,pitch_index)
-        """
-        old_val = self.schedule.iloc[old[0],old[1]]
-        self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
-        self.schedule.iloc[new[0],new[1]] = old_val
 
     def _shift_col(self,pitch_ind,match_ind):
         """ pokud je volne misto, posune bunky nahoru o jedno misto"""
@@ -141,21 +197,6 @@ class TournamentScheduler:
             self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
             # add match
             self.schedule.loc[match_ind,pitch2_ind] = match
-
-    def _makeSameLength(self):
-        """ natahne vlozi mezery mezi zapasy tak, vsechny zapasy koncily stejne"""
-        # projdeme hriste
-        for pitch_index in self.schedule.columns:
-            pocet_zapasu = self.schedule[pitch_index].count()
-
-            if pocet_zapasu < len(self.schedule):
-                # remove all spaces before lengthen
-                self.schedule[pitch_index] = self.schedule[pitch_index].dropna().reset_index(drop=True)
-                old_index = pocet_zapasu -1
-                for new_index in np.flip(np.linspace(0,len(self.schedule)-1,pocet_zapasu,dtype=int)):
-                    if (old_index != new_index):
-                        self._switchMatches((old_index,pitch_index),(new_index,pitch_index))
-                    old_index -= 1
 
     def _addReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
