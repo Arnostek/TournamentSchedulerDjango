@@ -243,6 +243,9 @@ class TournamentScheduler:
             else:
                 # zkoumam vsechny tymy
                 for tph in [next_match.home,next_match.away,next_match.referee]:
+                    # jen doplnene tymy
+                    if tph == None:
+                        continue
                     # zjistuji, jestli tph neni na predchozim radku
                     if match_ind -1 in self._getTphMatchesDf(tph).dropna(how='all').index:
                         return False
