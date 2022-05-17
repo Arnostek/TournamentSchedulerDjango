@@ -320,6 +320,9 @@ class TournamentScheduler:
                             if not self._canShiftMatch(next_next_match,match_ind + 1):
                                 continue
                         # pokud nam nic nezabranilo, posunujeme
+                        # pokud je na cilovem hristi pauza, smazeme ji
+                        if not isinstance(self.schedule.iloc[match_ind,move_to_pitch_ind],models.Match):
+                            self.schedule.iloc[match_ind,move_to_pitch_ind] = np.nan
                         self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         # ukoncime hledani hriste
                         break
