@@ -203,6 +203,11 @@ class TournamentScheduler:
         """ Vraci dataframe s prazdnymi hracimi sloty """
         return self.schedule.isna().applymap(lambda v : 1 if v else None)
 
+    def _getNonMatchSlotsDf(self):
+        """ Vraci dataframe se sloty kde nejsou zapasy """
+        return self.schedule.applymap(lambda m : 1 if not isinstance(m,models.Match) else None)
+
+
     def _canPlaceTph(self,tph,df_index):
         """ test, zda muzeme tph umistit na dany index"""
         # indexy zapasu ve kterych tym hraje, nebo piska
