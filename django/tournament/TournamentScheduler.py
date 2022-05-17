@@ -302,7 +302,7 @@ class TournamentScheduler:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
                     # pokud je na novem hristi mene zapasu a je potreba zmensovat
-                    if (self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]) and (self.schedule.count()[pitch_ind] > desired_slots):
+                    if (isinstance(self.schedule.iloc[match_ind][pitch_ind],models.Match) and self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]) and (self.schedule.count()[pitch_ind] > desired_slots):
                         # najdeme si dalsi zapas
                         if match_ind >= len(self.schedule) -1:
                             next_match = None
