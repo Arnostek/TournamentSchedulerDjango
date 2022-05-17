@@ -298,7 +298,7 @@ class TournamentScheduler:
         self._resetMatchIndex()
         for match_ind in range(len(self.schedule)):
             # na kazdem radku hledame prazdna hriste
-            for move_to_pitch_ind in self._getFreeSlotsDf().iloc[match_ind].dropna().index:
+            for move_to_pitch_ind in self._getNonMatchSlotsDf().iloc[match_ind].dropna().index:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
                     # pokud je na novem hristi mene zapasu a je potreba zmensovat
