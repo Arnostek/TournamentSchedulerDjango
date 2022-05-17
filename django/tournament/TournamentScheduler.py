@@ -88,6 +88,26 @@ class TournamentSchedulerDataframeOptimizer:
                         self.DfEditor._switchMatches((old_index,pitch_index),(new_index,pitch_index))
                     old_index -= 1
 
+    def _reduceColumns(self,pitches):
+        """ reduce columns to num of pitches """
+        while len(self.schedule.columns) > pitches:
+            # pitches sorted by count of matches
+            # hriste s nejmene zapasy
+            pitch_from = self.schedule.count().sort_values().index[0]
+            # matches to move
+            matches_to_move = self.schedule[pitch_from].dropna()
+            # drop old column
+            self.schedule.drop(columns = [pitch_from], inplace = True)
+            # rename columns
+            self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+            # reverse loop through matches
+            for match_ind in matches_to_move.index.sort_values(ascending=False):
+                self.DfEditor._insert_match(matches_to_move[match_ind], match_ind)
+                matches_to_move[match_ind] = None
+
+            # make same lengths again
+            self._makeSameLength()
+
 
 class TournamentSchedulerDataframeEditor:
     """
@@ -104,6 +124,31 @@ class TournamentSchedulerDataframeEditor:
         old_val = self.schedule.iloc[old[0],old[1]]
         self.schedule.iloc[old[0],old[1]] = self.schedule.iloc[new[0],new[1]]
         self.schedule.iloc[new[0],new[1]] = old_val
+
+    def _insert_match(self, match, match_ind):
+        """ Insert match instance to row match_ind """
+        if not isinstance(match, models.Match):
+            return
+        # find empty place in schedule row
+        row = self.schedule.iloc[match_ind,:]
+        # prepiseme vse co neni zapas
+        for pitch_ind in row[row.apply(lambda x : not isinstance(x,models.Match))].index:
+            # insert match and return
+            self.schedule.iloc[match_ind,pitch_ind] = match
+            return
+
+        # hriste s nejmensim poctem zapasu
+        pitch2_ind = self.schedule.apply(lambda series: series.last_valid_index()).sort_values().index[0]
+        # if target is match
+        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
+            # add new row to end
+            self.schedule.loc[self.schedule.index.max()+1] = None
+            # create space for match
+            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
+            # add match
+            self.schedule.loc[match_ind,pitch2_ind] = match
+
+
 
 class TournamentSchedulerDataframeTester:
     """
@@ -136,7 +181,7 @@ class TournamentScheduler:
         # create optimizer
         tdo = TournamentSchedulerDataframeOptimizer(self.schedule)
         tdo._makeSameLength()
-        self._reduceColumns()
+        tdo._reduceColumns(pitches)
         self._addReferees()
 
     def _shift_col(self,pitch_ind,match_ind):
@@ -174,29 +219,6 @@ class TournamentScheduler:
             self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
             # move match to another pitch
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
-
-    def _insert_match(self, match, match_ind):
-        """ Insert match instance to row match_ind """
-        if not isinstance(match, models.Match):
-            return
-        # find empty place in schedule row
-        row = self.schedule.iloc[match_ind,:]
-        # prepiseme vse co neni zapas
-        for pitch_ind in row[row.apply(lambda x : not isinstance(x,models.Match))].index:
-            # insert match and return
-            self.schedule.iloc[match_ind,pitch_ind] = match
-            return
-
-        # hriste s nejmensim poctem zapasu
-        pitch2_ind = self.schedule.apply(lambda series: series.last_valid_index()).sort_values().index[0]
-        # if target is match
-        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
-            # add new row to end
-            self.schedule.loc[self.schedule.index.max()+1] = None
-            # create space for match
-            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
-            # add match
-            self.schedule.loc[match_ind,pitch2_ind] = match
 
     def _addReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
@@ -381,27 +403,6 @@ class TournamentScheduler:
                 break
         # uplne nakonec vymazeme prazdne radky
         #self._deleteEmptyRows()
-
-
-    def _reduceColumns(self):
-        """ reduce columns to num of pitches """
-        while len(self.schedule.columns) > self.pitches:
-            # pitches sorted by count of matches
-            # hriste s nejmene zapasy
-            pitch_from = self.schedule.count().sort_values().index[0]
-            # matches to move
-            matches_to_move = self.schedule[pitch_from].dropna()
-            # drop old column
-            self.schedule.drop(columns = [pitch_from], inplace = True)
-            # rename columns
-            self.schedule.columns = [i for i in range(len(self.schedule.columns))]
-            # reverse loop through matches
-            for match_ind in matches_to_move.index.sort_values(ascending=False):
-                self._insert_match(matches_to_move[match_ind], match_ind)
-                matches_to_move[match_ind] = None
-
-            # make same lengths again
-            self._makeSameLength()
 
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
