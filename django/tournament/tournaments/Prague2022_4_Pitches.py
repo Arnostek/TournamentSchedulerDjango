@@ -33,6 +33,21 @@ Men1_system.division.CreateTeams(
 )
 
 ####################################################
+# Ladies
+Ladies_system = SingleGroupDivisionSystem(prague2022,'Ladies','Ladies',7,semi=False,final_for=1)
+Ladies_system.division.CreateTeams(
+    [
+        "Goettingen Women",
+        "Spielgemeinschaft (SG) Jambalaya",
+        "VMW Berlin Women",
+        "Kaniow Women",
+        "Dresden Women",
+        "Prague Women",
+        "Prague U18 Women",
+    ]
+)
+
+####################################################
 # men 2
 Men2_system = FourGroups13Teams(prague2022,'Men 2','Men2',13)
 Men2_system.division.CreateTeams(
@@ -71,19 +86,6 @@ U18_system.division.CreateTeams(
 )
 
 ####################################################
-# Ladies
-Ladies_system = SingleGroupDivisionSystem(prague2022,'Ladies','Ladies',7,semi=False)
-Ladies_system.division.CreateTeams(
-[
-"Goettingen Women",
-"Spielgemeinschaft (SG) Jambalaya",
-"VMW Berlin Women",
-"Kaniow Women",
-"Dresden Women",
-"Prague Women",
-"Prague U18 Women",
-]
-)
 # U15
 
 U15_system = SingleGroupDivisionSystem(prague2022,'U15','U15',7,semi=False,final_for=1)
