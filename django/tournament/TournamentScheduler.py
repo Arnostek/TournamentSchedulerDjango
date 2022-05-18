@@ -449,14 +449,6 @@ class TournamentScheduler:
         while len(self.refPool) < match_count:
             self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
 
-
-
-    def _reduceEmptySlots(self,desired_slots):
-        """ zaplneni mezer v hracim planu """
-        self._reduceEmptySlots01(desired_slots)
-        self._reduceEmptySlots02(desired_slots)
-        self._reduceEmptySlots03(desired_slots)
-
     def _deleteEmptyRows(self):
         """ Delete empty schedule rows"""
         # smazeme prazdne radky
@@ -467,7 +459,9 @@ class TournamentScheduler:
 
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
-        self._reduceEmptySlots(desired_slots)
+        self._reduceEmptySlots01(desired_slots)
+        self._reduceEmptySlots02(desired_slots)
+        self._reduceEmptySlots03(desired_slots)
 
     def DeleteSchedule(self):
         """ Delete schedule and pitches """
