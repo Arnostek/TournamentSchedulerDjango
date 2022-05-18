@@ -124,12 +124,11 @@ ts.tdo._reduceColumnsOnePitch(ts.pitches)
 # add referees
 ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
-ts._reduceEmptySlots(35)
-ts._reduceEmptySlots(35)
-ts._reduceEmptySlots(35)
-# ts._reduceEmptySlots02(35)
-# ts._reduceEmptySlots03(35)
-# ts._reduceEmptySlots02(33)
+
+# optimize games
+ts.tdo._reduceEmptySlots01(41)
+ts.tdo._reduceEmptySlots02(41)
+ts.tdo._reduceEmptySlots03(44)
 
 ts.Schedule(
     [
