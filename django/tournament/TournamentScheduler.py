@@ -137,37 +137,37 @@ class TournamentSchedulerDataframeOptimizer:
         #nejdriv projdeme hriste, kde je zapasu min nebo rovno desired
         # reset indexu
         print("--- _reduceEmptySlots01")
-        self._resetMatchIndex()
+        self.DfEditor._resetMatchIndex()
         # najdeme hriste, kde je zapasu min nebo rovno desired
         for pitch_ind in self.schedule.count()[self.schedule.count() <= desired_slots].sort_values().index:
             # staci smazat par mezer z konce
             # BUG pozor - musime testovat, zda to je mozne
             # najdeme volna mista ve schedule, od konce k zacatku
-            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
+            for match_ind in self.DfTester._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 # dokud je zapasu bez NA na konci vic nez desired
                 if self.schedule[pitch_ind].last_valid_index() > desired_slots:
                     # redukujeme mezery
                     print("_shift_col Pitch: {}, match: {}".format(pitch_ind,match_ind))
-                    self._shift_col(pitch_ind,match_ind)
+                    self.DfEditor._shift_col(pitch_ind,match_ind)
 
     def _reduceEmptySlots02(self,desired_slots):
         # u hrist kde je zapasu vic nez desired smazeme vsechny mezery
         print("--- _reduceEmptySlots02")
-        self._resetMatchIndex()
+        self.DfEditor._resetMatchIndex()
         pitch_indexes = self.schedule.count()[self.schedule.count() > desired_slots].sort_values(ascending=False).index
         for pitch_ind in pitch_indexes:
             # smazeme vsechny prazdne - musime odzadu, jinak se nam cisla meni
-            for match_ind in self._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
+            for match_ind in self.DfTester._getFreeSlotsDf()[pitch_ind].dropna().index.sort_values(ascending=False):
                 print("_shift_col Pitch: {}, match: {}".format(pitch_ind,match_ind))
-                self._shift_col(pitch_ind,match_ind)
+                self.DfEditor._shift_col(pitch_ind,match_ind)
 
     def _reduceEmptySlots03(self,desired_slots):
         # projdeme radky az do delky dataframe
         print("--- _reduceEmptySlots03")
-        self._resetMatchIndex()
+        self.DfEditor._resetMatchIndex()
         for match_ind in range(len(self.schedule)):
             # na kazdem radku hledame prazdna hriste
-            for move_to_pitch_ind in self._getNonMatchSlotsDf().iloc[match_ind].dropna().index:
+            for move_to_pitch_ind in self.DfTester._getNonMatchSlotsDf().iloc[match_ind].dropna().index:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
                     # pokud je na novem hristi mene zapasu a je potreba zmensovat
@@ -178,7 +178,7 @@ class TournamentSchedulerDataframeOptimizer:
                         else:
                             next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
                             # pokud to nepujde posunout, jdeme na dalsi hriste
-                            if not self._canShiftMatch(next_match,match_ind):
+                            if not self.DfTester._canShiftMatch(next_match,match_ind):
                                 print("Neprosel next_match - Pitch: {}, match: {}".format(pitch_ind,match_ind))
                                 continue
                         # najdeme si nextnext zapas - ten se totiz taky dostane bliz
@@ -187,7 +187,7 @@ class TournamentSchedulerDataframeOptimizer:
                         else:
                             next_next_match = self.schedule.iloc[match_ind + 2, pitch_ind]
                             # pokud to nepujde posunout, jdeme na dalsi hriste
-                            if not self._canShiftMatch(next_next_match,match_ind + 1):
+                            if not self.DfTester._canShiftMatch(next_next_match,match_ind + 1):
                                 print("Neprosel next_next_match - Pitch: {}, match: {}".format(pitch_ind,match_ind))
                                 continue
                         # pokud nam nic nezabranilo, posunujeme
@@ -195,7 +195,7 @@ class TournamentSchedulerDataframeOptimizer:
                         # pokud je na cilovem hristi pauza, smazeme ji
                         if not isinstance(self.schedule.iloc[match_ind,move_to_pitch_ind],models.Match):
                             self.schedule.iloc[match_ind,move_to_pitch_ind] = np.nan
-                        self._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
+                        self.DfEditor._move_match_shift_col(match_ind, pitch_ind, move_to_pitch_ind)
                         # ukoncime hledani hriste
                         break
             # pokud jsme dosahli cile, ukoncime optimalizaci
@@ -266,7 +266,7 @@ class TournamentSchedulerDataframeEditor:
             next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
             if isinstance(next_match,models.Match):
                 # we have to check possible Conflict
-                if not self._canShiftMatch(next_match,match_ind):
+                if not self.DfTester._canShiftMatch(next_match,match_ind):
                     return
 ###### TODO - tady musime hlidat konflikty u vsech nasledujicich matchu, protoze se take posunou
             # ulozime si posunuty sloupec
