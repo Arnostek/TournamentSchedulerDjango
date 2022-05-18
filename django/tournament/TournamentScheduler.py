@@ -336,6 +336,66 @@ class TournamentSchedulerDataframeTester:
         """ pocty zapasu bez mezer po hristich"""
         return self.schedule_matches_only().count()
 
+    def _getGroupMatchesDf(self,group):
+        """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
+        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and m.group == group else None)
+
+    def _getTphMatchesDf(self,tph):
+        """vraci dataframe kde jsou jen zapasy tph z parametru"""
+        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
+
+    def _getFreeSlotsDf(self):
+        """ Vraci dataframe s prazdnymi hracimi sloty """
+        return self.schedule.isna().applymap(lambda v : 1 if v else None)
+
+    def _getNonMatchSlotsDf(self):
+        """ Vraci dataframe se sloty kde nejsou zapasy """
+        return self.schedule.applymap(lambda m : 1 if not isinstance(m,models.Match) else None)
+
+    def _canPlaceTph(self,tph,df_index):
+        """ test, zda muzeme tph umistit na dany index"""
+        # indexy zapasu ve kterych tym hraje, nebo piska
+        match_indexes = self._getTphMatchesDf(tph).dropna(how='all').index
+        # testujeme na index a okoli
+        for test_index in [df_index -1 , df_index, df_index +1]:
+            if test_index in match_indexes:
+                return False
+        # pokud nenajdeme problem, muzeme tph umistit
+        return True
+
+    def _canPlaceMatch(self,match,df_index):
+        """ Muzeme zapas umistit na dany radek? """
+        for tph in [match.home,match.away,match.referee]:
+            if not self._canPlaceTph(tph,df_index):
+                return False
+        return True
+
+    def _canShiftMatch(self,next_match,match_ind):
+        # pokud next_match neni match
+        if not isinstance(next_match,models.Match):
+            # pokud v bunce neco je (asi pauza), nesmime posouvat
+            if next_match:
+                print("Match {} nelze posunout na {} (_canShiftMatch)".format(next_match,match_ind))
+                return False
+            # pokud v bunce nneni nic, muzeme posouvat
+            else:
+                return True
+        else:
+            # musime otestovat, jestli tymy nejsou na predchozim radku
+            # u indexu 0 jsem v pohode
+            if match_ind == 0:
+                return True
+            else:
+                # zkoumam vsechny tymy
+                for tph in [next_match.home,next_match.away,next_match.referee]:
+                    # jen doplnene tymy
+                    if tph == None:
+                        continue
+                    # zjistuji, jestli tph neni na predchozim radku
+                    if match_ind -1 in self._getTphMatchesDf(tph).dropna(how='all').index:
+                        return False
+                return True
+
 class TournamentScheduler:
     """
     vytvoreni hraciho planu
@@ -388,66 +448,7 @@ class TournamentScheduler:
         while len(self.refPool) < match_count:
             self.refPool.extend([gs.teamPlaceholder for gs in referee_group.groupseed_set.all()])
 
-    def _getGroupMatchesDf(self,group):
-        """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
-        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and m.group == group else None)
 
-    def _getTphMatchesDf(self,tph):
-        """vraci dataframe kde jsou jen zapasy tph z parametru"""
-        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
-
-    def _getFreeSlotsDf(self):
-        """ Vraci dataframe s prazdnymi hracimi sloty """
-        return self.schedule.isna().applymap(lambda v : 1 if v else None)
-
-    def _getNonMatchSlotsDf(self):
-        """ Vraci dataframe se sloty kde nejsou zapasy """
-        return self.schedule.applymap(lambda m : 1 if not isinstance(m,models.Match) else None)
-
-
-    def _canPlaceTph(self,tph,df_index):
-        """ test, zda muzeme tph umistit na dany index"""
-        # indexy zapasu ve kterych tym hraje, nebo piska
-        match_indexes = self._getTphMatchesDf(tph).dropna(how='all').index
-        # testujeme na index a okoli
-        for test_index in [df_index -1 , df_index, df_index +1]:
-            if test_index in match_indexes:
-                return False
-        # pokud nenajdeme problem, muzeme tph umistit
-        return True
-
-    def _canPlaceMatch(self,match,df_index):
-        """ Muzeme zapas umistit na dany radek? """
-        for tph in [match.home,match.away,match.referee]:
-            if not self._canPlaceTph(tph,df_index):
-                return False
-        return True
-
-    def _canShiftMatch(self,next_match,match_ind):
-        # pokud next_match neni match
-        if not isinstance(next_match,models.Match):
-            # pokud v bunce neco je (asi pauza), nesmime posouvat
-            if next_match:
-                print("Match {} nelze posunout na {} (_canShiftMatch)".format(next_match,match_ind))
-                return False
-            # pokud v bunce nneni nic, muzeme posouvat
-            else:
-                return True
-        else:
-            # musime otestovat, jestli tymy nejsou na predchozim radku
-            # u indexu 0 jsem v pohode
-            if match_ind == 0:
-                return True
-            else:
-                # zkoumam vsechny tymy
-                for tph in [next_match.home,next_match.away,next_match.referee]:
-                    # jen doplnene tymy
-                    if tph == None:
-                        continue
-                    # zjistuji, jestli tph neni na predchozim radku
-                    if match_ind -1 in self._getTphMatchesDf(tph).dropna(how='all').index:
-                        return False
-                return True
 
     def _reduceEmptySlots(self,desired_slots):
         """ zaplneni mezer v hracim planu """
