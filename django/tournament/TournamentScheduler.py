@@ -164,7 +164,34 @@ class TournamentSchedulerDataframeTester:
     #     self.tdf
 
 
+    # kontrola dvou zapasu
+    def has_conflict(self,m1,m2):
+        if (self.is_match_instance(m1) and self.is_match_instance(m2)):
+            for tph1 in [m1.home,m1.away,m1.referee]:
+                for tph2 in [m2.home,m2.away,m2.referee]:
+                    if tph1 == tph2:
+                        if tph1 != None:
+                            team_name = tph1
+                            if tph1 and tph1.team:
+                                team_name = tph1.team.name
+                            print ("Problem match num #{} team {}".format(models.Schedule.objects.get(match=m1).game_number,team_name))
 
+    def is_match_instance(self,m):
+        """
+            Vraci True pro instanci Match
+        """
+        return isinstance(m,models.Match)
+
+    def df_find_conflict(self):
+        # check all
+        df = self.schedule
+        for i in range(len(df)-1):
+            for p1 in range(len(df.columns)):
+                for p2 in range(len(df.columns)):
+                    m1 = df.iloc[i,p1]
+                    m2 = df.iloc[i+1,p2]
+                    if m1 and m2:
+                        self.has_conflict(m1,m2)
 
 class TournamentScheduler:
     """
