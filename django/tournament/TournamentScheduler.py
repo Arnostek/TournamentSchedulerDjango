@@ -68,7 +68,7 @@ class TournamentSchedulerDataframeOptimizer:
         """ init, predame dataframe"""
         self.schedule = schedule
         self.DfEditor = TournamentSchedulerDataframeEditor(self.schedule)
-        self.DfTester = TournamentSchedulerDataframeTester(self.schedule)
+        self.DfTester = self.DfEditor.DfTester
 
     # def
 
@@ -211,6 +211,7 @@ class TournamentSchedulerDataframeEditor:
     def __init__(self,schedule):
         """ init, predame dataframe"""
         self.schedule = schedule
+        self.DfTester = TournamentSchedulerDataframeTester(self.schedule)
 
     def _switchMatches(self,old,new):
         """ Prohozeni obsahu bunek
