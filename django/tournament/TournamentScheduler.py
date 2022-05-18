@@ -108,6 +108,30 @@ class TournamentSchedulerDataframeOptimizer:
             # make same lengths again
             self._makeSameLength()
 
+    def _reduceColumnsOnePitch(self,pitches):
+        """ reduce columns to num of pitches
+            vhodne jen pro nektere systemy
+            idealne kdyz je jen o jedno hriste mene nez divizi a existuji dve skupiny se malym poctem zapasu
+        """
+        while len(self.schedule.columns) > pitches:
+            # pitches sorted by count of matches
+            # hriste s nejmene zapasy
+            pitch_from = self.DfTester.count_matches().sort_values().index[0]
+            pitch_to = self.DfTester.count_matches().sort_values().index[1]
+            # matches to move - zapasy ze stareho hriste
+            matches_to_move = self.DfTester.schedule_matches_only()[pitch_from].dropna()
+            # reverse loop through matches
+            for match_ind in matches_to_move.index.sort_values(ascending=False):
+                # postupne presouvame na nove hriste
+                self.DfEditor._insert_match_to_another_pitch(match_ind,pitch_from,pitch_to)
+                matches_to_move[match_ind] = None
+            # drop old column
+            self.schedule.drop(columns = [pitch_from], inplace = True)
+            # rename columns
+            self.schedule.columns = [i for i in range(len(self.schedule.columns))]
+            # make same lengths again
+            self._makeSameLength()
+
 
 class TournamentSchedulerDataframeEditor:
     """
