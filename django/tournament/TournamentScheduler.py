@@ -435,7 +435,7 @@ class TournamentScheduler:
         # TODO dopredu vypocist velikost ref pool
         self._initRefPool(group.referee_group,100)
         # df zapasy skupiny
-        group_matches_df = self._getGroupMatchesDf(group)
+        group_matches_df = self.tdo.DfTester._getGroupMatchesDf(group)
         # projdu zapasy skupiny
         for pitch in group_matches_df.columns:
             for match_ind in group_matches_df.index:
@@ -445,7 +445,7 @@ class TournamentScheduler:
                         # zkontrolujeme, zda tym muze piskat
                         for refPool_index in range(len(self.refPool)):
                         # TODO zbytecne prochazime cely pool, stacila by jedna obratka
-                            if self._canPlaceTph(self.refPool[refPool_index],match_ind):
+                            if self.tdo.DfTester._canPlaceTph(self.refPool[refPool_index],match_ind):
                                 match.referee = self.refPool.pop(refPool_index)
                                 match.save()
                                 break
@@ -462,7 +462,7 @@ class TournamentScheduler:
         # BUG - nekontrolujeme, zda je to mozne
         self.schedule.dropna(how='all', inplace=True)
         # reset indexu
-        self._resetMatchIndex()
+        self.tdo.DfTester._resetMatchIndex()
 
     def DeleteSchedule(self):
         """ Delete schedule and pitches """
