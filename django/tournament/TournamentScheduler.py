@@ -416,9 +416,10 @@ class TournamentScheduler:
         tdc = TournamentSchedulerDataframeCreator(tournament)
         self.schedule = tdc.schedule
         # create optimizer
-        tdo = TournamentSchedulerDataframeOptimizer(self.schedule)
-        tdo._makeSameLength()
-        tdo._reduceColumns(pitches)
+        self.tdo = TournamentSchedulerDataframeOptimizer(self.schedule)
+        self.tdo._makeSameLength()
+        self.tdo._reduceColumns(pitches)
+        # add referees
         self._addReferees()
 
     def _addReferees(self):
