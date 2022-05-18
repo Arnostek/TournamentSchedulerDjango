@@ -5,6 +5,7 @@ from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.systems.TwoGroups import TwoGroups
 from tournament.systems.FourGroups13Teams import FourGroups13Teams
 from tournament.TournamentScheduler import TournamentScheduler
+import pytz
 
 # run in shell:
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
@@ -126,7 +127,8 @@ ts._reduceEmptySlots(35)
 
 ts.Schedule(
     [
-        (datetime.datetime(2022,5,28,7,30),datetime.datetime(2022,5,28,19,00)),
-        (datetime.datetime(2022,5,29,7,30),datetime.datetime(2022,5,29,23))
+        (datetime.datetime(2022,5,28,7,00,tzinfo = pytz.utc),datetime.datetime(2022,5,28,19,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2022,5,29,7,00,tzinfo = pytz.utc),datetime.datetime(2022,5,29,23,tzinfo = pytz.utc)),
+        # (datetime.datetime(2022,5,30,7,30),datetime.datetime(2022,5,30,23)),
     ]
 )
