@@ -222,6 +222,7 @@ class TournamentSchedulerDataframeEditor:
 
     def _insert_match(self, match, match_ind):
         """ Insert match instance to row match_ind """
+        # presouvame jen zapasy
         if not isinstance(match, models.Match):
             return
         # find empty place in schedule row
