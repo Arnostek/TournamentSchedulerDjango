@@ -204,6 +204,12 @@ class TournamentSchedulerDataframeOptimizer:
         # uplne nakonec vymazeme prazdne radky
         #self._deleteEmptyRows()
 
+    def Optimize(self,desired_slots):
+        """ Optimize schedule to desired slots """
+        self._reduceEmptySlots01(desired_slots)
+        self._reduceEmptySlots02(desired_slots)
+        self._reduceEmptySlots03(desired_slots)
+
 class TournamentSchedulerDataframeEditor:
     """
         zakladni operace nad dataframe
@@ -456,12 +462,6 @@ class TournamentScheduler:
         self.schedule.dropna(how='all', inplace=True)
         # reset indexu
         self._resetMatchIndex()
-
-    def Optimize(self,desired_slots):
-        """ Optimize schedule to desired slots """
-        self._reduceEmptySlots01(desired_slots)
-        self._reduceEmptySlots02(desired_slots)
-        self._reduceEmptySlots03(desired_slots)
 
     def DeleteSchedule(self):
         """ Delete schedule and pitches """
