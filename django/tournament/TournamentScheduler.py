@@ -418,9 +418,6 @@ class TournamentScheduler:
         # create optimizer
         self.tdo = TournamentSchedulerDataframeOptimizer(self.schedule)
         self.tdo._makeSameLength()
-        self.tdo._reduceColumns(pitches)
-        # add referees
-        self.AddReferees()
 
     def AddReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""

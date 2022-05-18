@@ -117,6 +117,12 @@ U15_system.division.CreateTeams(
 ## naplanujeme zapasy
 
 ts = TournamentScheduler(prague2022,4)
+
+# optimize pitches
+# ts.tdo._reduceColumns(ts.pitches)
+ts.tdo._reduceColumnsOnePitch(ts.pitches)
+# add referees
+ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 ts._reduceEmptySlots(35)
 ts._reduceEmptySlots(35)
