@@ -102,6 +102,7 @@ class TournamentSchedulerDataframeOptimizer:
             self.schedule.columns = [i for i in range(len(self.schedule.columns))]
             # reverse loop through matches
             for match_ind in matches_to_move.index.sort_values(ascending=False):
+# chybi test zda je to mozne
                 self.DfEditor._insert_match(matches_to_move[match_ind], match_ind)
                 matches_to_move[match_ind] = None
 
