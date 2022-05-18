@@ -3,6 +3,7 @@ import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.systems.TwoGroups import TwoGroups
+from tournament.systems.FourGroups13Teams import FourGroups13Teams
 from tournament.TournamentScheduler import TournamentScheduler
 
 # run in shell:
@@ -14,13 +15,13 @@ prague2022.save()
 print(prague2022)
 ####################################################
 # men 1
-Men1_system = TwoGroups(prague2022,'Men 1','Men1',11,last3=True)
+Men1_system = TwoGroups(prague2022,'Men 1','Men1',10,last3=False)
 Men1_system.division.CreateTeams(
     [
         "Goettingen A",
         "KG Wanderfalke Essen",
         "Katowice Men",
-        "Kaniow Men",
+        # "Kaniow Men",
         "Nuremberg Men",
         "Wien Men",
         "RKV Berlin",
@@ -33,7 +34,7 @@ Men1_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = TwoGroups(prague2022,'Men 2','Men2',11,last3=True)
+Men2_system = FourGroups13Teams(prague2022,'Men 2','Men2',13)
 Men2_system.division.CreateTeams(
     [
         "Goettingen B",
@@ -47,29 +48,15 @@ Men2_system.division.CreateTeams(
         "Dresden Men",
         "KGL Hannover",
         "Dobroptaah",
-    ]
-)
-
-
-####################################################
-# U15
-
-U15_system = SingleGroupDivisionSystem(prague2022,'U15','U15',6)
-U15_system.division.CreateTeams(
-    [
-        "VMW Berlin U14",
-        "Katowice U15",
-        "Dresden U15-1",
-        "Dresden U15-2",
-        "Prague U15 M",
-        "Prague U15 W",
+        "Denmark U18",
+        "Schleißheimer PC",
     ]
 )
 
 ####################################################
 # U18
 
-U18_system = SingleGroup5teams(prague2022,'U18','U18',5)
+U18_system = SingleGroupDivisionSystem(prague2022,'U18','U18',7,semi=False,final_for=1)
 U18_system.division.CreateTeams(
     [
         "UKK Wien U18",
@@ -77,6 +64,9 @@ U18_system.division.CreateTeams(
         "Kalisz U18",
         "Kalisz U16",
         "Czech U18",
+        "Kalisz U16 Girls",
+        "Kwisa Leszna U18",
+
     ]
 )
 
@@ -94,7 +84,20 @@ Ladies_system.division.CreateTeams(
 "Prague U18 Women",
 ]
 )
+# U15
 
+U15_system = SingleGroupDivisionSystem(prague2022,'U15','U15',7,semi=False,final_for=1)
+U15_system.division.CreateTeams(
+    [
+        "VMW Berlin U14",
+        "Katowice U15",
+        "Dresden U15-1",
+        "Dresden U15-2",
+        "Prague U15 M",
+        "Prague U15 W",
+        "Kwisa Leszna U15",
+    ]
+)
 
 ####################################################
 # Domca
