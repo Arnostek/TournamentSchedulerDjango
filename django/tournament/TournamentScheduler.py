@@ -148,7 +148,16 @@ class TournamentSchedulerDataframeEditor:
             # add match
             self.schedule.loc[match_ind,pitch2_ind] = match
 
-
+    def _insert_match_to_another_pitch(self, match_ind, pitch1_ind, pitch2_ind):
+        """ move match to another pitch, create space if neccesary """
+        # if target is match
+        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
+            # add new row to end
+            self.schedule.loc[self.schedule.index.max()+1] = None
+            # create space for match
+            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
+            # move match to another pitch
+        self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
 
 class TournamentSchedulerDataframeTester:
     """
@@ -235,17 +244,6 @@ class TournamentScheduler:
         """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
         self._shift_col(pitch1_ind,match_ind)
-
-    def _insert_match_to_another_pitch(self, match_ind, pitch1_ind, pitch2_ind):
-        """ move match to another pitch, create space if neccesary """
-        # if target is match
-        if isinstance(self.schedule.iloc[match_ind,pitch2_ind],models.Match):
-            # add new row to end
-            self.schedule.loc[self.schedule.index.max()+1] = None
-            # create space for match
-            self.schedule.loc[match_ind:,pitch2_ind] = self.schedule.loc[match_ind:,pitch2_ind].shift()
-            # move match to another pitch
-        self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
 
     def _addReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
