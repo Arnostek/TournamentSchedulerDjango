@@ -202,6 +202,15 @@ class TournamentSchedulerDataframeTester:
                     if m1 and m2:
                         self.has_conflict(m1,m2)
 
+
+    def schedule_matches_only(self):
+        """ schedule zafiltrovane jen na matche"""
+        return self.schedule[self.schedule.applymap(lambda x : isinstance(x,models.Match))]
+
+    def count_matches(self):
+        """ pocty zapasu bez mezer po hristich"""
+        return self.schedule_matches_only().count()
+
 class TournamentScheduler:
     """
     vytvoreni hraciho planu
