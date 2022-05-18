@@ -253,6 +253,35 @@ class TournamentSchedulerDataframeEditor:
             # move match to another pitch
         self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
 
+    def _shift_col(self,pitch_ind,match_ind):
+        """ pokud je volne misto, posune bunky nahoru o jedno misto"""
+        # posledni radek nema cenu posouvat
+        if match_ind == self.schedule.index.max():
+            return
+        if self.schedule.isna().iloc[match_ind,pitch_ind]:
+            # if there is match in cell above
+            next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
+            if isinstance(next_match,models.Match):
+                # we have to check possible Conflict
+                if not self._canShiftMatch(next_match,match_ind):
+                    return
+###### TODO - tady musime hlidat konflikty u vsech nasledujicich matchu, protoze se take posunou
+            # ulozime si posunuty sloupec
+            shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
+            # vymazeme radky smerem dolu
+            self.schedule[pitch_ind] = self.schedule[pitch_ind][:match_ind]
+            # updatneme dolni cast
+            self.schedule[pitch_ind][match_ind:].update(shifted)
+
+    def _move_match_shift_col(self, match_ind, pitch1_ind, pitch2_ind):
+        """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
+        self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
+        self._shift_col(pitch1_ind,match_ind)
+
+    def _resetMatchIndex(self):
+        """ Reset schedule match index"""
+        self.schedule.reset_index(inplace=True,drop=True)
+
 class TournamentSchedulerDataframeTester:
     """
         testy nad dataframe
@@ -322,31 +351,6 @@ class TournamentScheduler:
         tdo._makeSameLength()
         tdo._reduceColumns(pitches)
         self._addReferees()
-
-    def _shift_col(self,pitch_ind,match_ind):
-        """ pokud je volne misto, posune bunky nahoru o jedno misto"""
-        # posledni radek nema cenu posouvat
-        if match_ind == self.schedule.index.max():
-            return
-        if self.schedule.isna().iloc[match_ind,pitch_ind]:
-            # if there is match in cell above
-            next_match = self.schedule.iloc[match_ind + 1,pitch_ind]
-            if isinstance(next_match,models.Match):
-                # we have to check possible Conflict
-                if not self._canShiftMatch(next_match,match_ind):
-                    return
-###### TODO - tady musime hlidat konflikty u vsech nasledujicich matchu, protoze se take posunou
-            # ulozime si posunuty sloupec
-            shifted = self.schedule[pitch_ind][match_ind:].shift(-1)
-            # vymazeme radky smerem dolu
-            self.schedule[pitch_ind] = self.schedule[pitch_ind][:match_ind]
-            # updatneme dolni cast
-            self.schedule[pitch_ind][match_ind:].update(shifted)
-
-    def _move_match_shift_col(self, match_ind, pitch1_ind, pitch2_ind):
-        """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
-        self._switchMatches((match_ind,pitch1_ind),(match_ind,pitch2_ind))
-        self._shift_col(pitch1_ind,match_ind)
 
     def _addReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
@@ -456,10 +460,6 @@ class TournamentScheduler:
         self.schedule.dropna(how='all', inplace=True)
         # reset indexu
         self._resetMatchIndex()
-
-    def _resetMatchIndex(self):
-        """ Reset schedule match index"""
-        self.schedule.reset_index(inplace=True,drop=True)
 
     def Optimize(self,desired_slots):
         """ Optimize schedule to desired slots """
