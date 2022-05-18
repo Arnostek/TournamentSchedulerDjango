@@ -420,9 +420,9 @@ class TournamentScheduler:
         self.tdo._makeSameLength()
         self.tdo._reduceColumns(pitches)
         # add referees
-        self._addReferees()
+        self.AddReferees()
 
-    def _addReferees(self):
+    def AddReferees(self):
         """ Pridani rozhodcich ke groupam, co maji referee_group"""
         for div in self.tournament.division_set.all():
             for gr in div.group_set.all():
