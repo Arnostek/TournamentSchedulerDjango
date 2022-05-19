@@ -242,6 +242,23 @@ class Group(models.Model):
         for match in self.match_set.all():
             df.loc[match.home,match.away] = match
             df.loc[match.away,match.home] = match
+
+        # df pro vysledky
+        results = pd.DataFrame(index=df.index, columns=['Points','Scored','Obtained'])
+
+        # napocteni bodu
+        for tph in df.index:
+            results.loc[tph,'Points'] = df[tph].apply(lambda m: m.tph_points(tph) if isinstance(m,Match) else None).sum()
+            results.loc[tph,'Scored'] = df[tph].apply(lambda m: m.tph_scored(tph) if isinstance(m,Match) else None).sum()
+            results.loc[tph,'Obtained'] = df[tph].apply(lambda m: m.tph_obtained(tph) if isinstance(m,Match) else None).sum()
+
+        # join df
+        df = df.join(results)
+
+        # upravime indexy a columns
+        df.index = df.index.map(lambda t: t.team.name)
+        df.columns = df.columns.map(lambda t: t.team.name if isinstance(t,TeamPlaceholder) else t)
+
         return df
 
 
@@ -366,6 +383,39 @@ class Match(models.Model):
     def away_points(self):
         return self.get_points(self.away_score,self.home_score)
 
+    def tph_obtained(self,tph):
+        """ vraci obtained z pohledu tph"""
+        # pokud je tph home
+        if tph == self.home:
+            return self.away_score
+        # pokud je tph away
+        if tph == self.away:
+            return self.home_score
+        # default
+        return None
+
+    def tph_scored(self,tph):
+        """ vraci scored z pohledu tph"""
+        # pokud je tph home
+        if tph == self.home:
+            return self.home_score
+        # pokud je tph away
+        if tph == self.away:
+            return self.away_score
+        # default
+        return None
+
+    def tph_points(self,tph):
+        """ vraci points z pohledu tph"""
+        # pokud je tph home
+        if tph == self.home:
+            return self.home_points
+        # pokud je tph away
+        if tph == self.away:
+            return self.away_points
+        # default
+        return None
+
     @property
     def score_filled(self):
         if (self.home_score == None) or (self.away_score == None):
@@ -374,6 +424,7 @@ class Match(models.Model):
             return True
 
     def get_points(self,me,oponent):
+        """ pocet bodu v zavislosti na score zapasu"""
         if (me == None) or (oponent == None):
             return None
         # vitezstvi 3 body
