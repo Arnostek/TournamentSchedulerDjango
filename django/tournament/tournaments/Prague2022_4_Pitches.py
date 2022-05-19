@@ -20,16 +20,16 @@ Men1_system = TwoGroups(prague2022,'Men 1','Men1',10,last3=False)
 Men1_system.division.CreateTeams(
     [
         "RKV Berlin",
-        "Czech U21",
-        "Wien Men",
-        "Prague A",
-        "KG Wanderfalke Essen",
         "KCNW Berlin",
+        "KG Wanderfalke Essen",
+        "Czech U21",
         "Goettingen A",
-        "Katowice Men",
+        "Prague A",
+        "Wien Men",
         # "Kaniow Men",
         "Nuremberg Men",
         "Kalisz Men",
+        "Katowice Men",
     ]
 )
 
