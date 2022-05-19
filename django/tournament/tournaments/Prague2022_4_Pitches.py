@@ -16,7 +16,7 @@ prague2022.save()
 print(prague2022)
 ####################################################
 # men 1
-Men1_system = TwoGroups(prague2022,'Men 1','Men1',10,last3=False)
+Men1_system = TwoGroups(prague2022,'Men Elite','MenElite',10,last3=False)
 Men1_system.division.CreateTeams(
     [
         "RKV Berlin",
@@ -39,7 +39,7 @@ Ladies_system = SingleGroupDivisionSystem(prague2022,'Ladies','Ladies',7,semi=Fa
 Ladies_system.division.CreateTeams(
     [
         "Goettingen Women",
-        "Spielgemeinschaft (SG) Jambalaya",
+        "SG Jambalaya",
         "VMW Berlin Women",
         "Kaniow Women",
         "Dresden Women",
@@ -63,7 +63,7 @@ Men2_system.division.CreateTeams(
         "Jägi Berlin",
         "Dresden Men",
         "KGL Hannover",
-        "Dobroptaah",
+        "DobroPtaah",
         "Denmark U18",
         "Schleißheimer PC",
     ]
