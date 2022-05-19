@@ -227,6 +227,22 @@ class Group(models.Model):
         # vracime v puvodni strukture
         return { tup[0] : tup[1] for tup in tmp}
 
+    @property
+    def ResultsDetail(self):
+        """ Data pro cross tabulku zapasu"""
+        import pandas as pd
+
+        # seznam tph z groupy
+        teams = [s.teamPlaceholder for s in self.groupseed_set.all()]
+        
+        # dataframe tabulky
+        df = pd.DataFrame(index=teams,columns=teams)
+        
+        # naplneni zapasu
+        for match in self.match_set.all():
+            df.loc[match.home,match.away] = match
+            df.loc[match.away,match.home] = match
+        return df
 
 
     @property
