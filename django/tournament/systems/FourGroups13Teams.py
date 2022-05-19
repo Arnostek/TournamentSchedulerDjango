@@ -16,14 +16,14 @@ class FourGroups13Teams(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupina
         phase = 1
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase)
+        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['C','D','A','B'])
         # dve horni a jedna dolni skupina
         phase += 1
         phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
         nasazeni_nahoru = phase1_ranks[:4]
         nasazeni_nahoru.extend([phase1_ranks[5],phase1_ranks[4],phase1_ranks[7],phase1_ranks[6]])
-        self.division.CreateGroups(['E','F'],nasazeni_nahoru , phase)
-        self.division.CreateGroups(['G'], self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
+        self.division.CreateGroups(['E','F'],nasazeni_nahoru , phase, ['F','E'])
+        self.division.CreateGroups(['G'], self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase, ['G'])
         # prvni 4 tymy jdou do semi
         phase += 1
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['E','F'])[:4], phase)
