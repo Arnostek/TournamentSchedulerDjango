@@ -2,11 +2,9 @@
 
 {% block content %}
   <h2> {{division.name}} Tables</h2>
-  <table class="table table-striped">
   {% for group,results in tables.items %}
     {% if results%}
       {% include "group-crossresults.html" %}
     {% endif %}
   {% endfor %}
-  </table>
 {% endblock %}
