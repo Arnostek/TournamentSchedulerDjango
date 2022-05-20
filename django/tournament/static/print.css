@@ -8,3 +8,8 @@ td.score input{
    box-shadow: none !important;
    outline: none !important;
 }
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #000 !important;
+}

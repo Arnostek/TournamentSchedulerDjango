@@ -1,5 +1,5 @@
   <!-- <div class="grouptable"> -->
-    <h3>Group {{group.name}}
+    <h3 class="d-inline">Group {{group.name}}</h3>
         {% if group.All_scores_filled and not group.finished %}
           {% if kpadmin %}
           <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
@@ -7,6 +7,5 @@
         {% elif group.finished %}
           <span class="badge badge-info">finished</span>
         {% endif %}
-    </h3>
     {{results|safe}}
   <!-- </div> -->
