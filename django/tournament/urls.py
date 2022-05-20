@@ -34,6 +34,8 @@ urlpatterns_tmp = [
     ('<slug:slug>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-team-<int:team>', views.ScheduleView.as_view()),
+    # protocols
+    ('<slug:slug>/protocols-pitch-<int:pid>', views.ProtocolsView.as_view()),
 
 ]
 

@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css" media="all">
+      @page {
+          size: A4 landscape;
+      }
+      body {
+          //writing-mode: tb-rl;
+          margin: 0px;
+          padding: 0px;
+      }
+
+      .protocol{
+        page-break-after: always;
+        position: relative;
+        width: 200mm;
+        height: 100mm;
+      }
+
+      .protocol div{
+        position: absolute;
+        top: 25mm;
+        height: 10mm;
+        align: center;
+        font-weight: bold;
+      }
+
+      .protocol .match-num{
+        width: 30mm;
+        left: 25mm;
+      }
+
+      .protocol .team1{
+        width: 50mm;
+        left: 140mm;
+
+      }
+
+      .protocol .team2{
+        width: 50mm;
+        left: 190mm;
+      }
+
+    </style>
+  </head>
+  <body>
+    {% for match in matches %}
+    <div class="protocol">
+      <div class="match-num">#{{match.number}}</div>
+      <div class="team1">{{match.team1}}</div>
+      <div class="team2">{{match.team2}}</div>
+    </div>
+    {% endfor %}
+  </body>
+</html>

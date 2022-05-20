@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division, Group, Match, Schedule
+from .models import Tournament, Division, Group, Match, Schedule, Pitch
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -125,6 +125,29 @@ class DivisionTablesView(TemplateView, TournamentDetail):
         }
 
         return context
+
+class ProtocolsView(TemplateView, TournamentDetail):
+
+    template_name = 'protocols.html'
+
+    def get_context_data(self, **kwargs):
+
+        try:
+            pitch = Pitch.objects.get(id = self.kwargs['pid'])
+        except Pitch.DoesNotExist:
+            raise Http404("This pitch does not exist")
+
+        matches = []
+
+        for s in pitch.schedule_set.all():
+            if s.match:
+                matches.append({
+                'number' : s.game_number,
+                'team1' : s.match.home.team_name,
+                'team2' : s.match.away.team_name,
+                })
+
+        return {'matches' : matches}
 
 
 class ScheduleView(TemplateView, TournamentDetail):
