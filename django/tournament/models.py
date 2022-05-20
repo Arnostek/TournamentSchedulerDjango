@@ -273,8 +273,8 @@ class Group(models.Model):
         matches = matches.join(results)
 
         # upravime indexy a columns
-        matches.index = matches.index.map(lambda t: t.team.name if t.team else t)
-        matches.columns = matches.columns.map(lambda t: t.team.name if isinstance(t,TeamPlaceholder) and t.team else t)
+        matches.index = matches.index.map(lambda t: t.team_name)
+        matches.columns = matches.columns.map(lambda t: t.team_name if isinstance(t,TeamPlaceholder) else t)
 
         return matches
 
