@@ -27,13 +27,14 @@ urlpatterns_tmp = [
     ('<slug:slug>/system-division-<int:did>', views.DivisionSystemView.as_view()),
     # division tables
     ('<slug:slug>/tables-division-<int:did>', views.DivisionTablesView.as_view()),
+    ('<slug:slug>/tables-division-cross-<int:did>', views.DivisionCrossTablesView.as_view()),
     # schedule
     ('<slug:slug>/schedule-full', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-division-<int:did>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-team-<int:team>', views.ScheduleView.as_view()),
-    
+
 ]
 
 # add cached and live version for every url from urlpatterns_tmp
