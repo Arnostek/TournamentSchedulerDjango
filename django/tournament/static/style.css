@@ -36,3 +36,7 @@ nav.sticky-top {
     margin-bottom: 0px;
     position: static;
 }
+
+.crosstable td{
+    text-align: center;
+}
