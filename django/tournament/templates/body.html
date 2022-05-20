@@ -50,6 +50,17 @@
               {% endfor %}
             </div>
           </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Cross tables
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              {% for div in tournament.division_set.all %}
+              <a class="dropdown-item" href="tables-division-cross-{{div.id}}">{{div.name}}</a>
+              {% endfor %}
+            </div>
+          </li>
         </ul>
       </div>
     </nav>
