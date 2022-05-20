@@ -234,32 +234,47 @@ class Group(models.Model):
 
         # seznam tph z groupy
         teams = [s.teamPlaceholder for s in self.groupseed_set.all()]
-        
+
         # dataframe tabulky
         df = pd.DataFrame(index=teams,columns=teams)
-        
+
         # naplneni zapasu
         for match in self.match_set.all():
             df.loc[match.home,match.away] = match
             df.loc[match.away,match.home] = match
 
         # df pro vysledky
-        results = pd.DataFrame(index=df.index, columns=['Points','Scored','Obtained'])
+        results = pd.DataFrame(index=df.index, columns=['Games','Points','Scored','Obtained'])
 
-        # napocteni bodu
+        # vysledky zapasu
+        matches = pd.DataFrame(index=df.index,columns=df.columns)
+
+        # napocteni bodu a vysledku
         for tph in df.index:
+            results.loc[tph,'Games'] = df[tph].apply(lambda m: 1 if isinstance(m,Match) and m.score_filled else None).sum()
             results.loc[tph,'Points'] = df[tph].apply(lambda m: m.tph_points(tph) if isinstance(m,Match) else None).sum()
             results.loc[tph,'Scored'] = df[tph].apply(lambda m: m.tph_scored(tph) if isinstance(m,Match) else None).sum()
             results.loc[tph,'Obtained'] = df[tph].apply(lambda m: m.tph_obtained(tph) if isinstance(m,Match) else None).sum()
 
+            for tph_col in df.columns:
+
+                m = df.loc[tph,tph_col]
+                if isinstance(m,Match):
+                    if m.score_filled:
+                        matches.loc[tph,tph_col] = '{} : {}'.format(m.tph_scored(tph),m.tph_obtained(tph))
+                    else:
+                        matches.loc[tph,tph_col] = ' : '
+                else:
+                    matches.loc[tph,tph_col] = 'X'
+
         # join df
-        df = df.join(results)
+        matches = matches.join(results)
 
         # upravime indexy a columns
-        df.index = df.index.map(lambda t: t.team.name)
-        df.columns = df.columns.map(lambda t: t.team.name if isinstance(t,TeamPlaceholder) else t)
+        matches.index = matches.index.map(lambda t: t.team.name if t.team else t)
+        matches.columns = matches.columns.map(lambda t: t.team.name if isinstance(t,TeamPlaceholder) and t.team else t)
 
-        return df
+        return matches
 
 
     @property
