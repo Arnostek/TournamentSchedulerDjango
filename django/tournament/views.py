@@ -90,7 +90,7 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
             raise Http404("This Division does not exist")
 
         for group in division.group_set.all():
-            tables[group] = group.ResultsDetail.to_html(classes="table crosstable",justify="center")
+            tables[group] = group.ResultsDetail.to_html(classes="table crosstable table-bordered",justify="center")
 
         context = {
             'tournament' : self.tournament,
