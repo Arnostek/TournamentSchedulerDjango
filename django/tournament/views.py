@@ -143,6 +143,8 @@ class ProtocolsView(TemplateView, TournamentDetail):
             if s.match:
                 matches.append({
                 'number' : s.game_number,
+                'division' : s.match.division.name,
+                'group' : s.match.group.name,
                 'team1' : s.match.home.team_name,
                 'team2' : s.match.away.team_name,
                 })
