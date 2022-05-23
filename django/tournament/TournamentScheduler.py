@@ -186,8 +186,9 @@ class TournamentSchedulerDataframeOptimizer:
                             next_next_match = None
                         else:
                             next_next_match = self.schedule.iloc[match_ind + 2, pitch_ind]
-                            # pokud to nepujde posunout, jdeme na dalsi hriste
-                            if not self.DfTester._canShiftMatch(next_next_match,match_ind + 1):
+                            # hledame, zda neni konflikt na radku match_ind. Na match_ind + 1 by byt nemel, protoze jinak by byl uz predtim.
+                            # neproverujeme surroundings, protoze bychom nasli sami sebe
+                            if not self.DfTester._canPlaceMatch(next_next_match,match_ind,surroundings=False):
                                 print("Neprosel next_next_match - Pitch: {}, match: {}".format(pitch_ind,match_ind))
                                 continue
                         # pokud nam nic nezabranilo, posunujeme
