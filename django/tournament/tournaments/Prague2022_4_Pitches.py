@@ -132,6 +132,19 @@ ts.tdo._reduceEmptySlots03(39)
 ts.tdo._reduceEmptySlots03(39)
 ts.tdo._reduceEmptySlots03(39)
 
+# referees Men2
+Men2 = prague2022.division_set.get(slug='Men2')
+
+ef_ranks = Men2.GetGroupsRanks(['E','F'])
+ef_ranks.extend(ef_ranks)
+ef_ranks.extend(ef_ranks)
+ef_ranks.extend(ef_ranks)
+
+ts._addRefereesGroup(
+    group = Men2.group_set.get(name='G'),
+    refpool = ef_ranks
+)
+
 ts.Schedule(
     [
         (datetime.datetime(2022,5,28,7,00,tzinfo = pytz.utc),datetime.datetime(2022,5,28,19,00,tzinfo = pytz.utc)),
