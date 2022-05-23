@@ -441,11 +441,15 @@ class TournamentScheduler:
                 if gr.referee_group:
                     self._addRefereesGroup(gr)
 
-    def _addRefereesGroup(self,group):
+    def _addRefereesGroup(self,group,refpool=None):
         """ Pridani rozhodcich dle referee group k jedne skupine """
+        # pokud byl predan refpool
+        if refpool:
+            self.refPool = refpool
         # priravim si refPool
-        # TODO dopredu vypocist velikost ref pool
-        self._initRefPool(group.referee_group,100)
+        else:
+            # TODO dopredu vypocist velikost ref pool
+            self._initRefPool(group.referee_group,100)
         # df zapasy skupiny
         group_matches_df = self.tdo.DfTester._getGroupMatchesDf(group)
         # projdu zapasy skupiny
