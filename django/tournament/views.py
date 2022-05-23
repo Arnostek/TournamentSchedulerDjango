@@ -285,5 +285,5 @@ def FindConflicts(request, tid):
                                     response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,team_name, Schedule.objects.get(match=m2).game_number))
     if response == "":
         response += "No conflicts found - yyiihhaaa"
-    response += "<a href='/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
+    response += "<a href='/live/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
     return HttpResponse(response)
