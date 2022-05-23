@@ -3,7 +3,7 @@ import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.systems.TwoGroups import TwoGroups
-from tournament.systems.FourGroups13Teams import FourGroups13Teams
+from tournament.systems.FourGroups12Teams import FourGroups12Teams
 from tournament.TournamentScheduler import TournamentScheduler
 import pytz
 
@@ -50,7 +50,7 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = FourGroups13Teams(prague2022,'Men 2','Men2',13)
+Men2_system = FourGroups12Teams(prague2022,'Men 2','Men2',12)
 Men2_system.division.CreateTeams(
     [
         "Goettingen B",
@@ -64,7 +64,6 @@ Men2_system.division.CreateTeams(
         "Dresden Men",
         "KGL Hannover",
         "DobroPtaah",
-        "Denmark U18",
         "Schleißheimer PC",
     ]
 )
@@ -130,20 +129,6 @@ ts.tdo._reduceEmptySlots01(39)
 ts.tdo._reduceEmptySlots02(39)
 ts.tdo._reduceEmptySlots03(39)
 ts.tdo._reduceEmptySlots03(39)
-ts.tdo._reduceEmptySlots03(39)
-
-# referees Men2
-Men2 = prague2022.division_set.get(slug='Men2')
-
-ef_ranks = Men2.GetGroupsRanks(['E','F'])
-ef_ranks.extend(ef_ranks)
-ef_ranks.extend(ef_ranks)
-ef_ranks.extend(ef_ranks)
-
-ts._addRefereesGroup(
-    group = Men2.group_set.get(name='G'),
-    refpool = ef_ranks
-)
 
 ts.Schedule(
     [
