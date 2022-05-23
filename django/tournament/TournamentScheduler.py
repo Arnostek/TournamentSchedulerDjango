@@ -359,22 +359,36 @@ class TournamentSchedulerDataframeTester:
         """ Vraci dataframe se sloty kde nejsou zapasy """
         return self.schedule.applymap(lambda m : 1 if not isinstance(m,models.Match) else None)
 
-    def _canPlaceTph(self,tph,df_index):
-        """ test, zda muzeme tph umistit na dany index"""
+    def _canPlaceTph(self,tph,df_index,surroundings=True):
+        """ test, zda muzeme tph umistit na dany index a okolni radky
+
+            tph         - tph testovaneho tymu
+            df_index    - index zapasu
+            surroundings- prohledavat radek nad a pod
+        """
         # indexy zapasu ve kterych tym hraje, nebo piska
         match_indexes = self._getTphMatchesDf(tph).dropna(how='all').index
-        # testujeme na index a okoli
-        for test_index in [df_index -1 , df_index, df_index +1]:
-            if test_index in match_indexes:
-                return False
+        # testujeme na index
+        if df_index in match_indexes:
+            return False
+        # testujeme okoli
+        if surroundings:
+            for test_index in [df_index -1 , df_index +1]:
+                if test_index in match_indexes:
+                    return False
         # pokud nenajdeme problem, muzeme tph umistit
         return True
 
-    def _canPlaceMatch(self,match,df_index):
-        """ Muzeme zapas umistit na dany radek? """
-        for tph in [match.home,match.away,match.referee]:
-            if not self._canPlaceTph(tph,df_index):
-                return False
+    def _canPlaceMatch(self,match,df_index,surroundings=True):
+        """ Muzeme zapas umistit na dany radek?
+            match         - match
+            df_index    - index zapasu
+            surroundings- prohledavat radek nad a pod
+        """
+        if isinstance(match, models.Match):
+            for tph in [match.home,match.away,match.referee]:
+                if not self._canPlaceTph(tph,df_index,surroundings):
+                    return False
         return True
 
     def _canShiftMatch(self,next_match,match_ind):
