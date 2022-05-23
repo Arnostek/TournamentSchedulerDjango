@@ -16,7 +16,7 @@ class FourGroups13Teams(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupina
         phase = 1
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['B','C','D','A'])
+        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['C','D','A','B'])
         # dve horni a jedna dolni skupina
         phase += 1
         phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
@@ -30,7 +30,7 @@ class FourGroups13Teams(DivisionSystemBase):
         # prvni 4 tymy jdou do semi
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['E','F'])[:4], phase)
         # zapasy o mista bez semi
-        # phase += 1
+        phase += 1
         mista = [m for m in [5,7]]
         mista.reverse()
         for misto in mista:
