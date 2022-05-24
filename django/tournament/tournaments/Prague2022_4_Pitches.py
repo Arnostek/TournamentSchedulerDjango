@@ -3,6 +3,7 @@ import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.SingleGroup5teams import SingleGroup5teams
 from tournament.systems.TwoGroups import TwoGroups
+from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.systems.FourGroups12Teams import FourGroups12Teams
 from tournament.TournamentScheduler import TournamentScheduler
 import pytz
@@ -88,14 +89,15 @@ U18_system.division.CreateTeams(
 ####################################################
 # U15
 
-U15_system = SingleGroupDivisionSystem(prague2022,'U15','U15',7,semi=False,final_for=1)
+U15_system = TwoGroups8Teams(prague2022,'U15','U15',8)
 U15_system.division.CreateTeams(
     [
         "VMW Berlin U14",
         "Katowice U15",
         "Dresden U15-1",
         "Dresden U15-2",
-        "Prague U15 M",
+        "Prague U15 M-1",
+        "Prague U15 M-2",
         "Prague U15 W",
         "Kwisa Leszna U15",
     ]
