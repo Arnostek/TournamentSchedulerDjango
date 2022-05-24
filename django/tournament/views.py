@@ -180,17 +180,13 @@ class ScheduleView(TemplateView, TournamentDetail):
         if fdate:
             schedules = schedules.filter(time__date=parse_date(fdate))
 
-        # It´s so ugly please don´t hit me
-        teams = []
-        for s in tournament.schedule_set.all():
-            if s.match:
-                if s.match.home and s.match.home.team:
-                    teams.append(s.match.home.team.name)
-                if s.match.away and s.match.away.team:
-                    teams.append(s.match.away.team.name)
-                if s.match.referee and s.match.referee.team:
-                    teams.append(s.match.referee.team.name)
-        teams = sorted(set(teams))
+        # all teams from all divisions
+        teams = {}
+        for d in tournament.division_set.all():
+            for s in d.divisionseed_set.all():
+                if s.teamPlaceholder.team.id:
+                    teams[s.teamPlaceholder.team.id] = s.teamPlaceholder.team.name
+                teams
 
         context = {
             'tournament' : tournament,

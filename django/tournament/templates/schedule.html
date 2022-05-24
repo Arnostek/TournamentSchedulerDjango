@@ -10,20 +10,12 @@
           <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link"><input type="checkbox" id="tgns">filter old games</a></li>
             <li class="nav-item dropdown">
-  			<select class="custom-select custom-select-sm myteam1 nav-link" onchange="highlightTeam(this.value, 'myteam1')" style="max-width:150px">
-  	    		<option selected>My Team</option>
-     			{% for team in teams %}
-        			<option value="{{ team }}">{{ team }}</option>
-     			{% endfor %}
+  			<select class="custom-select custom-select-sm nav-link bg-warning" onchange="highlightTeamClass(this.value)" style="max-width:150px">
+  	    		<option selected>Highlight Team</option>
+            {% for team_id, team_name in teams.items %}
+         				<option value="{{ team_id }}">{{ team_name }}</option>
+       			{% endfor %}
      			</select>
-			</li>
-			<li class="nav-item dropdown">
-  			  <select class="custom-select custom-select-sm myteam2 nav-link" onchange="highlightTeam(this.value, 'myteam2')" style="max-width:150px">
-  	   			<option selected>My other Team</option>
-     			{% for team in teams %}
-       				<option value="{{ team }}">{{ team }}</option>
-     			{% endfor %}
-    		  </select>
 			</li>
 			{% if kpadmin %}<li class="nav-item"><a class="nav-link" href="/findconflicts/tournament-{{tournament.id}}">Check Conflicts</a></li>{% endif %}
           </ul>
@@ -58,7 +50,7 @@
       <td class="text-nowrap"><a href="schedule-pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="schedule-division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
       <td><a href="schedule-division-{{schedule.match.division.id}}-group-{{schedule.match.group.id}}">{{schedule.match.group.name}}</a></td>
-      <td>
+      <td {% if schedule.match.home.team %}class="team team-{{schedule.match.home.team.id}}"{% endif %}>
         {% include "schedule-team.html" with tph=schedule.match.home %}
       </td>
       <td class="score">
@@ -67,11 +59,10 @@
       <td class="score">
         {% include "schedule-score.html" with home_away="away" score=schedule.match.away_score %}
       </td>
-      <td>
+      <td {% if schedule.match.away.team %}class="team team-{{schedule.match.away.team.id}}"{% endif %}>
         {% include "schedule-team.html" with tph=schedule.match.away %}
       </td>
-      <!-- <td>{{schedule.match.away.team_name}}</td> -->
-      <td>
+      <td {% if schedule.match.referee.team %}class="team team-{{schedule.match.referee.team.id}}"{% endif %}>
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
       <td>

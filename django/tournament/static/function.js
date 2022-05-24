@@ -1,13 +1,6 @@
-// functions
-function highlightTeam(team, css) {
-  //alert(team + ':' + css);
-  $("td a").filter(function() {
-    return $(this).text() != team;
-  }).parent('td').removeClass(css);
-  $("td a").filter(function() {
-    return $(this).text() == team;
-  }).parent('td').addClass(css);
-
+function highlightTeamClass(team) {
+  $('td.team').removeClass('bg-warning')
+  $('td.team-'+team).addClass('bg-warning')
 }
 
 function selectMatch(sid){
