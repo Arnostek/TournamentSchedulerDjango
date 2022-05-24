@@ -45,7 +45,7 @@ Ladies_system.division.CreateTeams(
         "Kaniow Women",
         "Dresden Women",
         "Prague Women",
-        "Prague U18 Women",
+        "Czech U18 Women",
     ]
 )
 
@@ -96,9 +96,9 @@ U15_system.division.CreateTeams(
         "Katowice U15",
         "Dresden U15-1",
         "Dresden U15-2",
-        "Prague U15 M-1",
-        "Prague U15 M-2",
-        "Prague U15 W",
+        "Czech U15 M-1",
+        "Prague U15",
+        "Czech U15 W",
         "Kwisa Leszna U15",
     ]
 )
