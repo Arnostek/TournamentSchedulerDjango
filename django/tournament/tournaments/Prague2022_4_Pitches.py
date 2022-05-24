@@ -80,7 +80,7 @@ U18_system.division.CreateTeams(
         "Kalisz U16",
         "Czech U18",
         "Kalisz U16 Girls",
-        "Kwisa Leszna U18",
+        "Kwisa Lesna U18",
 
     ]
 )
