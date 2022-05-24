@@ -125,3 +125,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "tournament/static"),
 ]
 STATIC_ROOT = '/srv/staticroot'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
