@@ -96,7 +96,7 @@ U15_system.division.CreateTeams(
         "Katowice U15",
         "Dresden U15-1",
         "Dresden U15-2",
-        "Czech U15 M-1",
+        "Czech U15 M",
         "Prague U15",
         "Czech U15 W",
         "Kwisa Leszna U15",
