@@ -21,7 +21,7 @@ class FourGroups12Teams(DivisionSystemBase):
         # phase 1 - basic groups
         phase = 1
         # teams ref own group to be able shrink schedule
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, referee_groups = ['A','B','C','D'])
+        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, referee_groups = ['C','D','A','B'])
         # phase 2 - two groups up, one down
         phase += 1
         phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
