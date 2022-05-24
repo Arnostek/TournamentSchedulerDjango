@@ -181,12 +181,12 @@ class ScheduleView(TemplateView, TournamentDetail):
             schedules = schedules.filter(time__date=parse_date(fdate))
 
         # all teams from all divisions
-        teams = {}
+        teams = []
         for d in tournament.division_set.all():
             for s in d.divisionseed_set.all():
                 if s.teamPlaceholder.team.id:
-                    teams[s.teamPlaceholder.team.id] = s.teamPlaceholder.team.name
-                teams
+                    teams.append( {'id' : s.teamPlaceholder.team.id,
+                                  'name' : s.teamPlaceholder.team.name + ' (' + s.division.slug + ')'} )
 
         context = {
             'tournament' : tournament,
