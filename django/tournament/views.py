@@ -160,7 +160,7 @@ class ScheduleView(TemplateView, TournamentDetail):
 
         tournament = self.tournament
         fdate = self.request.GET.get('filter_date')
-        mteam = self.request.GET.get('mark_team')
+        # mteam = self.request.GET.get('mark_team')
         schedules = tournament.schedule_set.all().order_by('time','pitch')
 
         if 'did' in self.kwargs:
@@ -176,6 +176,7 @@ class ScheduleView(TemplateView, TournamentDetail):
                     | Q(match__away__team__id = self.kwargs['team'])
                     | Q(match__referee__team__id = self.kwargs['team'])
                 )
+            highlight_team = self.kwargs['team']
 
         if fdate:
             schedules = schedules.filter(time__date=parse_date(fdate))
@@ -194,7 +195,8 @@ class ScheduleView(TemplateView, TournamentDetail):
             'schedules' : schedules,
             'kpadmin' : self.request.user.is_authenticated,
             'teams': teams,
-            'mark_team': mteam,
+            'highlight_team' : highlight_team
+            # 'mark_team': mteam,
         }
 
         return context

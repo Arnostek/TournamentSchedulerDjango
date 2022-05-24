@@ -1,6 +1,6 @@
 {% extends 'body.html' %}
-{% block filterbox %}
 
+{% block filterbox %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       <a class="navbar-brand" href="/tournament-{{tournament.id}}/schedule-full">Game-Schedule</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarFilter" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,4 +78,11 @@
     </tr>
   {% endfor %}
 </table>
+
+{% if highlight_team %}
+<script>
+highlightTeamClass({{highlight_team}})
+</script>
+{% endif %}
+
 {% endblock %}
