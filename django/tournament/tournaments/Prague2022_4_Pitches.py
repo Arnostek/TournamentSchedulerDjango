@@ -16,7 +16,7 @@ prague2022.save()
 print(prague2022)
 ####################################################
 # men 1
-Men1_system = TwoGroups(prague2022,'Men Elite','MenElite',10,last3=False)
+Men1_system = TwoGroups(prague2022,'Men Elite','MenElite',10,last3=False,semi5_8=True)
 Men1_system.division.CreateTeams(
     [
         "RKV Berlin",
