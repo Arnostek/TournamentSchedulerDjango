@@ -244,7 +244,7 @@ class Group(models.Model):
             df.loc[match.away,match.home] = match
 
         # df pro vysledky
-        results = pd.DataFrame(index=df.index, columns=['Games','Points','Diff','Scored','Obtained'])
+        results = pd.DataFrame(index=df.index, columns=['Games','Points','Diff','Scored','Obtained','Rank'])
 
         # vysledky zapasu
         matches = pd.DataFrame(index=df.index,columns=df.columns)
@@ -268,6 +268,9 @@ class Group(models.Model):
                     matches.loc[tph,tph_col] = 'X'
 
         results['Diff'] = results['Scored'] - results['Obtained']
+        # rank - setridime index a naplnime Rank
+        results.loc[results.sort_values(by=['Points','Diff','Scored'],ascending=False).index,'Rank'] = range(1,len(results)+1)
+
 
         # join df
         matches = matches.join(results)
