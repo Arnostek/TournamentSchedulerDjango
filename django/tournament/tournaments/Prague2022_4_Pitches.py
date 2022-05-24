@@ -92,14 +92,14 @@ U18_system.division.CreateTeams(
 U15_system = TwoGroups8Teams(prague2022,'U15','U15',8)
 U15_system.division.CreateTeams(
     [
-        "VMW Berlin U14",
-        "Katowice U15",
-        "Dresden U15-1",
-        "Dresden U15-2",
         "Czech U15 M",
-        "Prague U15",
-        "Czech U15 W",
+        "Dresden U15-1",
         "Kwisa Leszna U15",
+        "VMW Berlin U14",
+        "Dresden U15-2",
+        "Katowice U15",
+        "Czech U15 W",
+        "Prague U15",
     ]
 )
 
