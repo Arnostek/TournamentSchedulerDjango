@@ -127,10 +127,9 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(39)
-ts.tdo._reduceEmptySlots02(39)
-ts.tdo._reduceEmptySlots03(39)
-ts.tdo._reduceEmptySlots03(39)
+ts.tdo._reduceEmptySlots01(36)
+ts.tdo._reduceEmptySlots02(36)
+ts.tdo._reduceEmptySlots03(36)
 
 ts.Schedule(
     [
