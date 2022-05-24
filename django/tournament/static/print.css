@@ -13,3 +13,8 @@ td.score input{
 .table-bordered td {
   border: 1px solid #000 !important;
 }
+
+/* skryti admin prvku */
+ td.admin{
+  display: none;
+}

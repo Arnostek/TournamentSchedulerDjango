@@ -65,13 +65,13 @@
       <td {% if schedule.match.referee.team %}class="team team-{{schedule.match.referee.team.id}}"{% endif %}>
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
-      <td>
+      <td class="admin">
         {% if kpadmin %}
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
              <button name="{{schedule.match.id}}" class="badge badge-pill badge-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button></td><td>
           {% else %}
               <input type="checkbox" id="select{{schedule.id}}" class="teamselector" onclick="selectMatch({{schedule.id}})"></td>
-              <td><a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
+              <td class="admin"><a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
           {% endif %}
         {% endif %}
       </td>
