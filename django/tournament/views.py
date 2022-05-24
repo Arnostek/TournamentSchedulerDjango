@@ -162,6 +162,7 @@ class ScheduleView(TemplateView, TournamentDetail):
         fdate = self.request.GET.get('filter_date')
         # mteam = self.request.GET.get('mark_team')
         schedules = tournament.schedule_set.all().order_by('time','pitch')
+        highlight_team = None
 
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
