@@ -14,6 +14,12 @@ td.score input{
   border: 1px solid #000 !important;
 }
 
+/* oznaceni tymu */
+#schedule td.bg-warning{
+  background-color: rgb(255, 193, 7) !important;
+  font-weight: bold !important;
+}
+
 /* skryti admin prvku */
  td.admin{
   display: none;
