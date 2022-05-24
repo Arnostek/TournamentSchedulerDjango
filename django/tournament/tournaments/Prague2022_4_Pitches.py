@@ -62,9 +62,9 @@ Men2_system.division.CreateTeams(
         "Kwisa Lesna",
         "VMW Berlin Men",
         "Jägi Berlin",
-        "Dresden Men",
-        "KGL Hannover",
         "DobroPtaah",
+        "KGL Hannover",
+        "Dresden Men",
         "Schleißheimer PC",
     ]
 )
