@@ -280,10 +280,7 @@ def FindConflicts(request, tid):
                         for tph1 in [m1.home,m1.away,m1.referee]:
                             for tph2 in [m2.home,m2.away,m2.referee]:
                                 if tph1 == tph2 and tph1 != None:
-                                    team_name = tph1
-                                    if tph1 and tph1.team:
-                                        team_name = tph1.team.name
-                                    response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,team_name, Schedule.objects.get(match=m2).game_number))
+                                    response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,tph1.team_name, Schedule.objects.get(match=m2).game_number))
     if response == "":
         response += "No conflicts found - yyiihhaaa"
     response += "<a href='/live/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
