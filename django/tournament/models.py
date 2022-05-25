@@ -269,7 +269,9 @@ class Group(models.Model):
 
         results['Diff'] = results['Scored'] - results['Obtained']
         # rank - setridime index a naplnime Rank
-        results.loc[results.sort_values(by=['Points','Diff','Scored'],ascending=False).index,'Rank'] = range(1,len(results)+1)
+        rank_cols = ['Points','Diff','Scored']
+        # results.loc[results.sort_values(by=rank_cols,ascending=False).index,'Rank'] = range(1,len(results)+1)
+        results['Rank'] = results.sort_values(by=rank_cols,ascending=False).groupby(rank_cols, sort=False).ngroup()+1
         # vse prevedeme na int
         results = results.astype(int)
 
