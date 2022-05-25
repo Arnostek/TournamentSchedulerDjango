@@ -270,7 +270,8 @@ class Group(models.Model):
         results['Diff'] = results['Scored'] - results['Obtained']
         # rank - setridime index a naplnime Rank
         results.loc[results.sort_values(by=['Points','Diff','Scored'],ascending=False).index,'Rank'] = range(1,len(results)+1)
-
+        # vse prevedeme na int
+        results = results.astype(int)
 
         # join df
         matches = matches.join(results)
