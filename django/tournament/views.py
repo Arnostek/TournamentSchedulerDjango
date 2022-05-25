@@ -147,6 +147,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
                 'group' : s.match.group.name,
                 'team1' : s.match.home.team_name,
                 'team2' : s.match.away.team_name,
+                'ref' : s.match.referee.team_name if s.match.referee else '',
                 })
 
         return {'matches' : matches}

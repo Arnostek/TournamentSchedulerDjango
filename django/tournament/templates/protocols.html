@@ -31,6 +31,12 @@
         left: 35mm;
       }
 
+      .protocol .ref{
+        width: 50mm;
+        left: 55mm;
+        top: 30mm;
+      }
+
       .protocol .division{
         left: 70mm;
       }
@@ -43,7 +49,7 @@
 
       .protocol .team2{
         width: 50mm;
-        left: 150mm;
+        left: 160mm;
       }
 
     </style>
@@ -52,6 +58,7 @@
     {% for match in matches %}
     <div class="protocol">
       <div class="match-num">#{{match.number}}</div>
+      <div class="ref">{{match.ref}}</div>
       <div class="division">{{match.division}} - {{match.group}}</div>
       <div class="team1">{{match.team1}}</div>
       <div class="team2">{{match.team2}}</div>
