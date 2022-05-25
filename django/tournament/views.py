@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division, Group, Match, Schedule, Pitch
+from .models import Tournament, Division, Group, Match, Schedule, Pitch, Team
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -158,6 +158,7 @@ class ScheduleView(TemplateView, TournamentDetail):
 
     def get_context_data(self, **kwargs):
 
+        filtered_for = None;
         tournament = self.tournament
         fdate = self.request.GET.get('filter_date')
         # mteam = self.request.GET.get('mark_team')
@@ -167,10 +168,13 @@ class ScheduleView(TemplateView, TournamentDetail):
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
                 schedules = schedules.filter(match__group__id = self.kwargs['gid'])
+                filtered_for = '{} - Group {}'.format(Division.objects.get(id=self.kwargs['did']).name,Group.objects.get(id=self.kwargs['gid']).name)
             else:
                 schedules = schedules.filter(match__division__id = self.kwargs['did'])
+                filtered_for = '{}'.format(Division.objects.get(id=self.kwargs['did']).name)
         elif 'pid' in self.kwargs:
             schedules = schedules.filter(pitch__id = self.kwargs['pid'])
+            filtered_for = '{}'.format(Pitch.objects.get(id=self.kwargs['pid']).name)
         elif 'team' in self.kwargs:
             schedules = schedules.filter(
                     Q(match__home__team__id = self.kwargs['team'])
@@ -178,9 +182,11 @@ class ScheduleView(TemplateView, TournamentDetail):
                     | Q(match__referee__team__id = self.kwargs['team'])
                 )
             highlight_team = self.kwargs['team']
+            filtered_for = '{}'.format(Team.objects.get(id=self.kwargs['team']).name)
 
         if fdate:
             schedules = schedules.filter(time__date=parse_date(fdate))
+            filtered_for = (filtered_for or '') + ' - ' + fdate
 
         # all teams from all divisions
         teams = []
@@ -196,7 +202,8 @@ class ScheduleView(TemplateView, TournamentDetail):
             'schedules' : schedules,
             'kpadmin' : self.request.user.is_authenticated,
             'teams': teams,
-            'highlight_team' : highlight_team
+            'highlight_team' : highlight_team,
+            'filtered_for' : filtered_for,
             # 'mark_team': mteam,
         }
 
