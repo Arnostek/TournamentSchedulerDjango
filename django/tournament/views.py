@@ -272,6 +272,8 @@ def FindConflicts(request, tid):
     for i in range(len(df)-1):
         for p1 in range(len(df.columns)):
             m1 = df.iloc[i,p1]
+            if m1 and not m1.referee:
+                response += ("Missing referee in match num #{} <br>".format(Schedule.objects.get(match=m1).game_number))
             for p2 in range(len(df.columns)):
                 for m2 in [df.iloc[i,p2],df.iloc[i+1,p2]]:
                     if m1 and m2 and m1 != m2:
