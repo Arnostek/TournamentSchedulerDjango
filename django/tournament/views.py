@@ -140,7 +140,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
         matches = []
 
         for s in pitch.schedule_set.all():
-            if s.match:
+            if s.match and not s.match.score_filled:
                 matches.append({
                 'number' : s.game_number,
                 'division' : s.match.division.name,
