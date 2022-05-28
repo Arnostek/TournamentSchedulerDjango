@@ -46,6 +46,12 @@
         left: 65mm;
       }
 
+      .protocol .time{
+        left: 65mm;
+        top: 10mm;
+      }
+
+
       .protocol .team1{
         width: 50mm;
         left: 133mm;
@@ -70,6 +76,7 @@
       <div class="match-num">#{{match.number}}</div>
       <div class="ref">{{match.ref}}</div>
       <div class="division">{{match.division}} - {{match.group}}</div>
+      <div class="time">{{match.time|date:"D h:i"}} {{match.pitch}}</div>
       <div class="team1">{{match.team1}}</div>
       <div class="team2">{{match.team2}}</div>
     </div>
