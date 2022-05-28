@@ -24,3 +24,8 @@ td.score input{
  td.admin{
   display: none;
 }
+
+div.crosstable-phase{
+
+  page-break-after: always;
+}

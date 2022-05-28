@@ -2,9 +2,18 @@
 
 {% block content %}
   <h2> {{division.name}} Tables</h2>
-  {% for group,results in tables.items %}
-    {% if results%}
-      {% include "group-crossresults.html" %}
+  <div class="crosstable-phase">
+  {% for group,detail in tables.items %}
+
+     {% ifchanged detail.phase %}
+      </div>
+      <div class="crosstable-phase">
+    {% endifchanged %}
+
+    {% if detail.results %}
+    {% include "group-crossresults.html" %}
+    {{detail.results | safe}}
     {% endif %}
   {% endfor %}
+  </div>
 {% endblock %}
