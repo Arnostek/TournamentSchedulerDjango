@@ -1,8 +1,8 @@
 {% extends 'body.html' %}
 
 {% block content %}
+  <div>
   <h2> {{division.name}} Tables</h2>
-  <div class="crosstable-phase">
   {% for group,detail in tables.items %}
 
      {% ifchanged detail.phase %}
