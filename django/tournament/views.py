@@ -145,6 +145,18 @@ class ProtocolsView(TemplateView, TournamentDetail):
             except Pitch.DoesNotExist:
                 raise Http404("This pitch does not exist")
 
+        if 'gid' in self.kwargs:
+            try:
+                schedules = Schedule.objects.filter(match__group = self.kwargs['gid'])
+            except Group.DoesNotExist:
+                raise Http404("This group does not exist")
+
+        if 'did' in self.kwargs:
+            try:
+                schedules = Schedule.objects.filter(match__division = self.kwargs['did'],match__group__phase = self.kwargs['phase'])
+            except Group.DoesNotExist:
+                raise Http404("This group does not exist")
+
         # pripravime data pro sablonu
         for s in schedules:
             if s.match and not s.match.score_filled:
