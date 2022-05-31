@@ -102,9 +102,9 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
                     'phase' : group.phase,
                     'results': """
                             <table class="table crosstable table-bordered table-striped">
-                            <td>{}</td>
-                            <td style="width: 20mm;">{} : {}</td>
-                            <td>{}</td>
+                            <td style="width: 40%;">{}</td>
+                            <td style="width: 20%;">{} : {}</td>
+                            <td style="width: 40%;">{}</td>
                             </table>""".format(match.home.team_name,match.home_score or '',match.away_score or '',match.away.team_name)
                 }
 
