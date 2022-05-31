@@ -136,14 +136,18 @@ class ProtocolsView(TemplateView, TournamentDetail):
 
     def get_context_data(self, **kwargs):
 
-        try:
-            pitch = Pitch.objects.get(id = self.kwargs['pid'])
-        except Pitch.DoesNotExist:
-            raise Http404("This pitch does not exist")
-
         matches = []
+        schedules = []
 
-        for s in pitch.schedule_set.all():
+        if 'pid' in self.kwargs:
+            try:
+                pitch = Pitch.objects.get(id = self.kwargs['pid'])
+                schedules = pitch.schedule_set.all()
+            except Pitch.DoesNotExist:
+                raise Http404("This pitch does not exist")
+
+        # pripravime data pro sablonu
+        for s in schedules:
             if s.match and not s.match.score_filled:
                 matches.append({
                 'number' : s.game_number,
@@ -154,7 +158,6 @@ class ProtocolsView(TemplateView, TournamentDetail):
                 'ref' : s.match.referee.team_name if s.match.referee else '',
                 'pitch' : s.pitch.name,
                 'time' : s.time,
-
                 })
 
         return {'matches' : matches}
