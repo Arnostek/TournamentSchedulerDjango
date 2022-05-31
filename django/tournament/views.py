@@ -96,6 +96,19 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
                     'phase' : group.phase,
                     'results': group.ResultsDetail.to_html(classes="table crosstable table-bordered table-striped",justify="center"),
                 }
+            else:
+                match = group.match_set.first()
+                tables[group] = {
+                    'phase' : group.phase,
+                    'results': """
+<table class="table crosstable table-bordered table-striped">
+<td>{}</td>
+<td>{} : {}</td>
+<td>{}</td>
+</table>
+
+                    """.format(match.home.team_name,match.home_score or '',match.away_score or '',match.away.team_name)
+                }
 
 
         context = {
