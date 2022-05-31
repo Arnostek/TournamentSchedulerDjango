@@ -141,8 +141,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
 
         if 'pid' in self.kwargs:
             try:
-                pitch = Pitch.objects.get(id = self.kwargs['pid'])
-                schedules = pitch.schedule_set.all()
+                schedules = Schedule.objects.filter(pitch = self.kwargs['pid'])
             except Pitch.DoesNotExist:
                 raise Http404("This pitch does not exist")
 
