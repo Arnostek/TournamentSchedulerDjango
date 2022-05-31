@@ -93,7 +93,7 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
             tables[group] = {
                 'phase' : group.phase,
                 'results': group.ResultsDetail.to_html(classes="table crosstable table-bordered table-striped",justify="center"),
-            } 
+            }
 
 
         context = {
