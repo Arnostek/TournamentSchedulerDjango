@@ -57,7 +57,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               {% for div in tournament.division_set.all %}
-              <a class="dropdown-item" href="tables-division-cross-{{div.id}}">{{div.name}}</a>
+              <a class="dropdown-item" href="crosstables-division-{{div.id}}">{{div.name}}</a>
               {% endfor %}
             </div>
           </li>
