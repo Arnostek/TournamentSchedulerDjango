@@ -26,9 +26,10 @@ class SingleGroup2Rounds(DivisionSystemBase):
         # transfer points from R1 to R2
         GroupPointsTransfer.objects.create(src = self.division.GetGroup('R1'), dest = self.division.GetGroup('R2'))
         # 3rd
-        phase += 1
-        a_ranks = r2_ranks
-        self.division.CreateGroups(['3rd'], [r2_ranks[2], r2_ranks[3]] , phase)
+        if self.teams_count > 3:
+            phase += 1
+            a_ranks = r2_ranks
+            self.division.CreateGroups(['3rd'], [r2_ranks[2], r2_ranks[3]] , phase)
         # final
         phase += 1
         self.division.CreateGroups(['final'],[r2_ranks[0], r2_ranks[1]] , phase)

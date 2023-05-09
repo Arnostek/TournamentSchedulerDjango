@@ -70,6 +70,7 @@ class TwoGroups(DivisionSystemBase):
         #     self._GroupAddReferees('7th', [a_ranks[1]])
         # if self.teams_count > 5:
         #     self._GroupAddReferees('5th', [a_ranks[5]])
+        if self.teams_count > 6 and self.semi5_8:
+            self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
 
-        self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
         self._GroupAddReferees('final',[self.division.GetGroupsRanks(['5th'])[0]])
