@@ -5,9 +5,9 @@ import random
 class SingleGroup2Rounds(DivisionSystemBase):
     """ Jedna zakladni skupina, kazdy s kazdym, zapas o 3. a prvni misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,add_referees = True):
         # zavolam konsturktor Predka
-        super(SingleGroup2Rounds, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(SingleGroup2Rounds, self).__init__(tournament,division_name,division_slug,num_of_teams,add_referees)
         # create game system
         self._createSystem()
         # generate matches
@@ -36,6 +36,7 @@ class SingleGroup2Rounds(DivisionSystemBase):
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        r2_ranks = self.division.GetGroupsRanks(['R2'])
-        self._GroupAddReferees('3rd',[r2_ranks[1]])
-        self._GroupAddReferees('final',[r2_ranks[2]])
+        if self.add_referees:
+            r2_ranks = self.division.GetGroupsRanks(['R2'])
+            self._GroupAddReferees('3rd',[r2_ranks[1]])
+            self._GroupAddReferees('final',[r2_ranks[2]])

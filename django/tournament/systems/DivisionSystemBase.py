@@ -1,11 +1,12 @@
 class DivisionSystemBase:
     """ Zakladni trida, ze ktere se dedi tridy pro jednotlive systemy"""
 
-    def __init__(self,tournament,division_name,division_slug,teams_count):
+    def __init__(self,tournament,division_name,division_slug,teams_count,add_referees=True):
 
         self.tournament = tournament
         self.teams_count = teams_count
         self._createDivision(division_name, division_slug, teams_count)
+        self.add_referees  = add_referees
 
     def _createDivision(self,name,slug,teams_count):
 
