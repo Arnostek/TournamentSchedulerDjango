@@ -12,7 +12,7 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST26")
+prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST27")
 prague2023.save()
 print(prague2023)
 ####################################################
@@ -173,9 +173,9 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(40)
-ts.tdo._reduceEmptySlots02(40)
-ts.tdo._reduceEmptySlots03(40)
+ts.tdo._reduceEmptySlots01(37)
+ts.tdo._reduceEmptySlots02(37)
+ts.tdo._reduceEmptySlots03(37)
 
 ts.Schedule(
     [
