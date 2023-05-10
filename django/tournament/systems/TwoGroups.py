@@ -23,15 +23,18 @@ class TwoGroups(DivisionSystemBase):
         self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
         # a_ranks = self.division.GetGroupsRanks(['A'])
 
-        # prvni 4 tymy jdou do semi
         phase += 1
-        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
         # volitelne semi pro 5-8
         if self.semi5_8:
             self.division.CreateGroups(['SemiC','SemiD'], self.division.GetGroupsRanks(['A','B'])[4:8], phase)
+
+        # prvni 4 tymy jdou do semi
+        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
+
         # lichy pocet tymu = skupina poslednich tri
         if self.last3:
             self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase)
+
         # zapasy o mista
         phase += 1
         if self.semi5_8:
@@ -50,6 +53,7 @@ class TwoGroups(DivisionSystemBase):
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
+
         # final
         phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
