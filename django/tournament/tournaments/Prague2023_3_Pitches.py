@@ -68,7 +68,7 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = TwoGroups(prague2023,'Men 2','Men2',9,last3=True)
+Men2_system = TwoGroups(prague2023,'Men 2','Men2',8,semi5_8=True)
 Men2_system.division.CreateTeams(
     [
 "WCH Berlin",
@@ -77,11 +77,11 @@ Men2_system.division.CreateTeams(
 "Nagymaros U21",
 "Dresden Men",
 "KTW 2",
-"Dobroptaah",
+"DobroTeen",
 
 # presunuta U18
 "UKS Kaniow U18",
-"Czech U18",
+# "Czech U18",
 
         # "Goettingen B",
         # "KC Kelheim",
