@@ -4,6 +4,7 @@ from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSyst
 from tournament.systems.SingleGroup2Rounds import SingleGroup2Rounds
 from tournament.systems.TwoGroups import TwoGroups
 from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
+from tournament.systems.TwoGroups8TeamsMiddle import TwoGroups8TeamsMiddle
 from tournament.systems.FourGroups12Teams import FourGroups12Teams
 from tournament.TournamentScheduler import TournamentScheduler
 import pytz
@@ -12,12 +13,12 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST43")
+prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST47")
 prague2023.save()
 print(prague2023)
 ####################################################
 # men 1
-Men1_system = TwoGroups8TeamsCross(prague2023,'Men Elite','MenElite',8)
+Men1_system = TwoGroups8TeamsMiddle(prague2023,'Men Elite','MenElite',8)
 Men1_system.division.CreateTeams(
     [
         "UKS Katowice Men",
@@ -33,7 +34,7 @@ Men1_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = TwoGroups(prague2023,'Ladies','Ladies',8,semi5_8=True)
+Ladies_system = TwoGroups8TeamsCross(prague2023,'Ladies','Ladies',8)
 Ladies_system.division.CreateTeams(
     [
         "VMW Berlin Women",
@@ -70,7 +71,7 @@ U15_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = TwoGroups(prague2023,'Men 2','Men2',8,semi5_8=True)
+Men2_system = TwoGroups8TeamsCross(prague2023,'Men 2','Men2',8)
 Men2_system.division.CreateTeams(
     [
         "WCH Berlin",
