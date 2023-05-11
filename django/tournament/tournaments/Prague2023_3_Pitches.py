@@ -55,9 +55,9 @@ U15_system.division.CreateTeams(
     [
         "VMW Berlin U15 A",
         "VMW Berlin U15 B",
-        "Powisle U14",
-        "UKS Kaniow U15",
         "Nagymaros U14",
+        "UKS Kaniow U15",
+        "Powisle U14",
         "UKS Katowice U15",
         "Dresden U15",
         "VK Berlin U15",
