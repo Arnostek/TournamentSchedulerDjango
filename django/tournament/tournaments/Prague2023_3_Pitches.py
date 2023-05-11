@@ -3,7 +3,7 @@ import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.SingleGroup2Rounds import SingleGroup2Rounds
 from tournament.systems.TwoGroups import TwoGroups
-from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
+from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
 from tournament.systems.FourGroups12Teams import FourGroups12Teams
 from tournament.TournamentScheduler import TournamentScheduler
 import pytz
@@ -12,12 +12,12 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST29")
+prague2023 = models.Tournament(name = "PIT 2023 TEST", slug = "PIT2023-TEST41")
 prague2023.save()
 print(prague2023)
 ####################################################
 # men 1
-Men1_system = TwoGroups(prague2023,'Men Elite','MenElite',8,semi5_8=True)
+Men1_system = TwoGroups8TeamsCross(prague2023,'Men Elite','MenElite',8)
 Men1_system.division.CreateTeams(
     [
         "UKS Katowice Men",
