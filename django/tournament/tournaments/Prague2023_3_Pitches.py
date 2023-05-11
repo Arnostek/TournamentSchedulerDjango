@@ -121,7 +121,7 @@ ts.tdo._reduceEmptySlots03(37)
 ts.Schedule(
     [
         (datetime.datetime(2023,5,20,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,20,19,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2023,5,21,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,21,22,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,21,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,21,16,30,tzinfo = pytz.utc)),
         # (datetime.datetime(2022,5,30,7,30),datetime.datetime(2022,5,30,23)),
     ]
 )
