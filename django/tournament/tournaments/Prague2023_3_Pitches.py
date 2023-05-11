@@ -20,25 +20,14 @@ print(prague2023)
 Men1_system = TwoGroups(prague2023,'Men Elite','MenElite',8,semi5_8=True)
 Men1_system.division.CreateTeams(
     [
-"UKS Katowice Men",
-"KTW 1",
-"Prague A",
-"Prague B",
-"Czech U21",
-"Trakai",
-"Lesna Men",
-"Austria U21",
-        # "RKV Berlin",
-        # "KCNW Berlin",
-        # "KG Wanderfalke Essen",
-        # "Czech U21",
-        # "Goettingen A",
-        # "Prague A",
-        # "Wien Men",
-        # # "Kaniow Men",
-        # "Nuremberg Men",
-        # "Kalisz Men",
-        # "Katowice Men",
+        "UKS Katowice Men",
+        "KTW 1",
+        "Prague A",
+        "Prague B",
+        "Czech U21",
+        "Trakai",
+        "Lesna Men",
+        "Austria U21",
     ]
 )
 
@@ -55,14 +44,6 @@ Ladies_system.division.CreateTeams(
         "Dresden Women",
         "Czech U21 Women",
         "Prague Women",
-
-        # "Goettingen Women",
-        # "SG Jambalaya",
-        # "VMW Berlin Women",
-        # "Kaniow Women",
-        # "Dresden Women",
-        # "Prague Women",
-        # "Czech U18 Women",
     ]
 )
 
@@ -72,27 +53,18 @@ Ladies_system.division.CreateTeams(
 U15_system = TwoGroups(prague2023,'U15','U15',11,last3=True)
 U15_system.division.CreateTeams(
     [
+        "VMW Berlin U15 A",
+        "VMW Berlin U15 B",
+        "Powisle U14",
+        "UKS Kaniow U15",
+        "Nagymaros U14",
+        "UKS Katowice U15",
+        "Dresden U15",
+        "VK Berlin U15",
+        "Czech U15W",
+        "Czech U15M",
+        "Lesna U14",
 
-"VMW Berlin U15 A",
-"VMW Berlin U15 B",
-"Powisle U14",
-"UKS Kaniow U15",
-"Nagymaros U14",
-"UKS Katowice U15",
-"Dresden U15",
-"VK Berlin U15",
-"Czech U15W",
-"Czech U15M",
-"Lesna U14",
-
-        # "Czech U15 M",
-        # "Dresden U15-1",
-        # "Kwisa Leszna U15",
-        # "VMW Berlin U14",
-        # "Dresden U15-2",
-        # "Katowice U15",
-        # "Czech U15 W",
-        # "Prague U15",
     ]
 )
 
@@ -101,50 +73,19 @@ U15_system.division.CreateTeams(
 Men2_system = TwoGroups(prague2023,'Men 2','Men2',8,semi5_8=True)
 Men2_system.division.CreateTeams(
     [
-"WCH Berlin",
-"KC Kelheim",
-"Linz",
-"Nagymaros U21",
-"Dresden Men",
-"KTW 2",
-"DobroTeen",
+        "WCH Berlin",
+        "KC Kelheim",
+        "Linz",
+        "Nagymaros U21",
+        "Dresden Men",
+        "KTW 2",
+        "DobroTeen",
 
-# presunuta U18
-"UKS Kaniow U18",
-# "Czech U18",
-
-        # "Goettingen B",
-        # "KC Kelheim",
-        # "SG Potsdam",
-        # "Leipzig",
-        # "WCH Berlin",
-        # "Kwisa Lesna",
-        # "VMW Berlin Men",
-        # "Jägi Berlin",
-        # "DobroPtaah",
-        # "KGL Hannover",
-        # "Dresden Men",
-        # "Schleißheimer PC",
+        # presunuta U18
+        "UKS Kaniow U18",
+        # "Czech U18",
     ]
 )
-
-####################################################
-# U18
-
-# U18_system = SingleGroupDivisionSystem(prague2023,'U18','U18',7,semi=False,final_for=1)
-# U18_system.division.CreateTeams(
-#     [
-#         "UKK Wien U18",
-#         "Kaniow U16",
-#         "Kalisz U18",
-#         "Kalisz U16",
-#         "Czech U18",
-#         "Kalisz U16 Girls",
-#         "Kwisa Lesna U18",
-#
-#     ]
-# )
-
 
 
 ####################################################
@@ -154,9 +95,9 @@ U12_system = SingleGroup2Rounds(prague2023,'U12','U12',3,add_referees = False)
 U12_system.division.CreateTeams(
     [
 
-"Powisle U12",
-"Dresden U12",
-"Czech U12",
+        "Powisle U12",
+        "Dresden U12",
+        "Czech U12",
 
     ]
 )
