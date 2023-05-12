@@ -13,7 +13,7 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023 TEST 4 pitches", slug = "PIT2023-TEST49")
+prague2023 = models.Tournament(name = "PIT 2023 TEST 4 pitches", slug = "PIT2023-TEST50")
 prague2023.save()
 print(prague2023)
 ####################################################
@@ -117,14 +117,14 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(37)
-ts.tdo._reduceEmptySlots02(37)
-ts.tdo._reduceEmptySlots03(37)
+ts.tdo._reduceEmptySlots01(33)
+ts.tdo._reduceEmptySlots02(33)
+ts.tdo._reduceEmptySlots03(33)
 
 ts.Schedule(
     [
-        (datetime.datetime(2023,5,20,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,20,19,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2023,5,21,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,21,16,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,20,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,20,19,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,21,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,21,16,30,tzinfo = pytz.utc)),
         # (datetime.datetime(2022,5,30,7,30),datetime.datetime(2022,5,30,23)),
     ]
 )
