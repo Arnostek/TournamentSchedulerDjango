@@ -1,7 +1,7 @@
 from .DivisionSystemBase import DivisionSystemBase
 
 class TwoGroups8TeamsCross(DivisionSystemBase):
-    """ Two groups, Lower and Higher group, finals"""
+    """ Two groups, 4 semifinals, finals"""
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
