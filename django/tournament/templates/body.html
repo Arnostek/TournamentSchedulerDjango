@@ -40,6 +40,7 @@
             <a class="nav-link" href="schedule-full">Schedule<span class="sr-only">(current)</span></a>
           </li>
 
+          {% if kpadmin %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Tables
@@ -50,6 +51,7 @@
               {% endfor %}
             </div>
           </li>
+          {% endif %}
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,6 +64,7 @@
             </div>
           </li>
 
+          {% if kpadmin %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Protocol print
@@ -79,7 +82,9 @@
                 {% endfor %}
               {% endfor %}
             </div>
+            {% endif %}
           </li>
+
         </ul>
       </div>
     </nav>
