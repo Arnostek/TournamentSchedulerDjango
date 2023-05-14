@@ -13,7 +13,7 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023 TEST 4 pitches", slug = "PIT2023-TEST51")
+prague2023 = models.Tournament(name = "PIT 2023", slug = "PIT2023")
 prague2023.save()
 print(prague2023)
 ####################################################
