@@ -33,7 +33,7 @@ class TwoGroups(DivisionSystemBase):
 
         # lichy pocet tymu = skupina poslednich tri
         if self.last3:
-            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase)
+            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase,['Last3'])
 
         # zapasy o mista
         phase += 1
