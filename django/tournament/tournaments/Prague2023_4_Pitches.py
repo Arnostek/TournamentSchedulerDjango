@@ -21,8 +21,8 @@ print(prague2023)
 Men1_system = SingleGroupDivisionSystem(prague2023,'Men Elite','MenElite',6,semi=True)
 Men1_system.division.CreateTeams(
     [
-        "UKS Katowice Men",
         "Prague A",
+        "UKS Katowice Men",
         # "KTW 1",
         "Prague B",
         "Czech U21",
