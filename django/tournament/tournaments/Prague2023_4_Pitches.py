@@ -18,12 +18,12 @@ prague2023.save()
 print(prague2023)
 ####################################################
 # men 1
-Men1_system = SingleGroupDivisionSystem(prague2023,'Men Elite','MenElite',7)
+Men1_system = SingleGroupDivisionSystem(prague2023,'Men Elite','MenElite',6,semi=True)
 Men1_system.division.CreateTeams(
     [
         "UKS Katowice Men",
         "Prague A",
-        "KTW 1",
+        # "KTW 1",
         "Prague B",
         "Czech U21",
         # "Trakai",
@@ -52,7 +52,7 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = TwoGroups8TeamsMiddle(prague2023,'Men 2','Men2',8)
+Men2_system = SingleGroupDivisionSystem(prague2023,'Men 2','Men2',7)
 Men2_system.division.CreateTeams(
     [
         "WCH Berlin",
@@ -60,7 +60,7 @@ Men2_system.division.CreateTeams(
         "Linz",
         "Nagymaros U21",
         "Dresden Men",
-        "KTW 2",
+        # "KTW 2",
         "DobroTeen",
 
         # presunuta U18
