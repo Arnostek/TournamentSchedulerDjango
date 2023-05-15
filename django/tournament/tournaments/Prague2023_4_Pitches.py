@@ -61,10 +61,8 @@ Men2_system.division.CreateTeams(
         "Nagymaros U21",
         "Dresden Men",
         # "KTW 2",
-        "DobroTeen",
-
-        # presunuta U18
         "UKS Kaniow U18",
+        "DobroTeen",
         # "Czech U18",
     ]
 )
