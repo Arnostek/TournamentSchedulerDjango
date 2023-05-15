@@ -3,9 +3,9 @@ from .DivisionSystemBase import DivisionSystemBase
 class SingleGroupDivisionSystem(DivisionSystemBase):
     """ Jedna zakladni skupina, kazdy s kazdym, zapas o 3. a prvni misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False,final_for=None):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False,final_for=None,last3=None):
         # zavolam konsturktor Predka
-        super(SingleGroupDivisionSystem, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True,final_for = final_for)
+        super(SingleGroupDivisionSystem, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True,final_for = final_for,last3=last3)
 
         # vytvorim system
         self._createSystem()
@@ -25,6 +25,11 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             phase += 1
             self.division.CreateGroups(['Semi1'], [a_ranks[1], a_ranks[2]] , phase)
             self.division.CreateGroups(['Semi2'],[a_ranks[0], a_ranks[3]] , phase)
+
+        # last 3
+        if self.last3:
+            phase += 1
+            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A'])[-3:], phase,['Last3'])
 
         # 5th
         if len(a_ranks) > 5 and self.final_for >= 5:
