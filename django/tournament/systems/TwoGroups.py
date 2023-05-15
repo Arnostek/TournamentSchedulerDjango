@@ -5,11 +5,7 @@ class TwoGroups(DivisionSystemBase):
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams,last3=False,semi5_8=False):
         # zavolam konsturktor Predka
-        super(TwoGroups, self).__init__(tournament,division_name,division_slug,num_of_teams)
-        # lichy pocet tymu?
-        self.last3 = last3
-        # semi pro 5-8
-        self.semi5_8 = semi5_8
+        super(TwoGroups, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True, semi5_8 = semi5_8, last3 = last3)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy

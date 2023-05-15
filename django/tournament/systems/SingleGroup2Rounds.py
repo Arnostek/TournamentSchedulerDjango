@@ -5,9 +5,9 @@ import random
 class SingleGroup2Rounds(DivisionSystemBase):
     """ Jedna zakladni skupina, kazdy s kazdym, zapas o 3. a prvni misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams,add_referees = True):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi = False, add_referees = True):
         # zavolam konsturktor Predka
-        super(SingleGroup2Rounds, self).__init__(tournament,division_name,division_slug,num_of_teams,add_referees)
+        super(SingleGroup2Rounds, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = False, add_referees = add_referees)
         # create game system
         self._createSystem()
         # generate matches

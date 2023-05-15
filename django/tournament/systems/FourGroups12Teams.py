@@ -9,7 +9,7 @@ class FourGroups12Teams(DivisionSystemBase):
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
-        super(FourGroups12Teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(FourGroups12Teams, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy

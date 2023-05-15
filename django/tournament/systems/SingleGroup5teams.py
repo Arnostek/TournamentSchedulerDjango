@@ -5,7 +5,7 @@ class SingleGroup5teams(DivisionSystemBase):
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
-        super(SingleGroup5teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(SingleGroup5teams, self).__init__(tournament,division_name,division_slug,num_of_teams, semi = True)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy

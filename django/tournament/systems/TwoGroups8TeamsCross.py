@@ -5,7 +5,7 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
-        super(TwoGroups8TeamsCross, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(TwoGroups8TeamsCross, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True,semi5_8 = True)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy

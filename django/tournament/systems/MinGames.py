@@ -6,7 +6,7 @@ class MinGames16Teams(DivisionSystemBase):
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
         # zavolam konsturktor Predka
-        super(MinGames16Teams, self).__init__(tournament,division_name,division_slug,num_of_teams)
+        super(MinGames16Teams, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True)
         # vytvorim system
         self._createSystem()
         # vygeneruji zapasy
