@@ -1,9 +1,13 @@
+body {
+  padding-top: 70px;
+}
+
 td.score input {
   width: 35px;
 }
 
 h2 {
-  margin: 20px;
+  margin: 10px;
 }
 
 h3 {
