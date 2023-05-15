@@ -5,7 +5,7 @@
 <h2> {{division.name}} System</h2>
 
 <div class="container-fluid">
-  <h3>Groups</h3>
+  <h3>{{division.name}} Groups</h3>
   <div class="row">
       {% for group,teams in groups.items %}
       <div class="col">
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<h3> Games ({{matches.count}}) </h3>
+<h3>{{division.name}} Games ({{matches.count}}) </h3>
 <table class="table table-striped">
   <thead>
     <tr>
