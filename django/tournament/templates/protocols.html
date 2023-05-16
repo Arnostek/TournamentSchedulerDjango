@@ -14,72 +14,223 @@
       .protocol{
         page-break-after: always;
         position: relative;
-        width: 200mm;
-        height: 100mm;
+        width: 297mm;
+        height: 210mm;
       }
 
-      .protocol div{
-        position: absolute;
-        top: 17mm;
-        height: 7mm;
-        align: center;
+      table{
+        border-collapse: collapse;
+      }
+
+      /* score */
+      .score thead th{
+        border: 2px solid black;
+        font-size: 14px;
+      }
+
+      .score thead td{
+        font-size: 16px;
         font-weight: bold;
+      }
+
+
+      .score tbody tr th,.score tbody tr td{
+        border: 1px solid black;
         text-align: center;
       }
 
-      .protocol .match-num{
-        width: 30mm;
-        left: 25mm;
-        top: 21mm;
+      /* bunky score */
+      .score tbody td{
+        border: 1px solid black;
+        width: 3cm;
+        text-align: center;
       }
 
-      .protocol .ref{
-        width: 70mm;
-        left: 53mm;
-        top: 34mm;
-        align: center;
-        font-size: 50%;
-        text-align: left;
+      .score tbody td.comments{
+        width: 6cm;
       }
 
-      .protocol .division{
-        left: 65mm;
+      /* info */
+      td.info{
+        vertical-align: top;
       }
 
-      .protocol .time{
-        left: 65mm;
-        top: 10mm;
+      .info table {
+
+        width: 10cm;
+        margin-left: 5mm;
+        margin-bottom: 15mm;
+      }
+
+      .info tr{
+        border: 2px solid black;
+        height: 20px;
+      }
+
+      /* rekapitulace */
+      .rekap table{
+        border-collapse: separate;
+        width: 100%;
+      }
+      .rekap td{
+        height: 2cm;
+        margin-right: 1cm;
+        border: 2px solid black;
+        text-align: center;
       }
 
 
-      .protocol .team1{
-        width: 50mm;
-        left: 133mm;
-        height: 12mm;
-      	align: center;
-      	font-size: 80%;
-      }
-
-      .protocol .team2{
-        width: 50mm;
-        left: 184mm;
-        height: 12mm;
-        align: center;
-        font-size: 80%;
-      }
 
     </style>
   </head>
   <body>
     {% for match in matches %}
-    <div class="protocol">
-      <div class="match-num">#{{match.number}}</div>
-      <div class="ref">{{match.ref}}</div>
-      <div class="division">{{match.division}} - {{match.group}}</div>
-      <div class="time">{{match.time|date:"D H:i"}} {{match.pitch}}</div>
-      <div class="team1">{{match.team1}}</div>
-      <div class="team2">{{match.team2}}</div>
-    </div>
+
+  <table class="protocol">
+    <thead>
+      <tr>
+        <th colspan="2"><h2>PIT 2023</h2></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="info">
+          <!-- Game info -->
+          <table>
+            <tbody>
+              <tr>
+                <th>Game Nr.</th>
+                <td>{{match.number}}</td>
+              </tr>
+              <tr>
+                <th>Division</th>
+                <td>{{match.division}}</td>
+              </tr>
+              <tr>
+                <th>Phase</th>
+                <td>{{match.phase_block}}</td>
+              </tr>
+              <tr>
+                <th>Group</th>
+                <td>{{match.group}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Referee info -->
+          <table>
+            <tbody>
+              <tr>
+                <th>Referee team</th>
+                <td>{{match.ref}}</td>
+              </tr>
+              <tr>
+                <th>Referee 1</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Referee 2</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Time keeper</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Score keeper</th>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Cards -->
+          <table>
+            <thead>
+              <tr>
+                <th>Cards</th>
+              </tr>
+              <tr>
+                <th>Time</th>
+                <th>Card</th>
+                <th>Team</th>
+                <th>Nr.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in '1234567890'|make_list %}
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </td>
+        <td class="score">
+          <!-- zapas -->
+          <table>
+            <thead>
+              <tr>
+                <th colspan="3">Team 1</th>
+
+                <th colspan="3">Team 2</th>
+              </tr>
+              <tr>
+                <td colspan="3">{{match.team1}}</th>
+                <td colspan="3">{{match.team2}}</th>
+              </tr>
+              <tr>
+                <th>Time</th>
+                <th>Nr.</th>
+                <th>Score</th>
+                <th>Nr.</th>
+                <th colspan="2">Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in '123456789012345678901234567890'|make_list %}
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="no-border">:</td>
+                <td></td>
+                <td colspan="2" class="comments"></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="rekap" colspan="2">
+          <!-- Rekapitulace -->
+          <table>
+            <thead>
+              <tr>
+                <th>Start of game time</th>
+                <th>Half time score</th>
+                <th>Final score</th>
+                <th>Referee signature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>:</td>
+                <td>:</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
     {% endfor %}
   </body>
 </html>
