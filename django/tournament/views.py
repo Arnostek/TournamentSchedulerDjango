@@ -182,6 +182,8 @@ class ProtocolsView(TemplateView, TournamentDetail):
                 'ref' : s.match.referee.team_name if s.match.referee else '',
                 'pitch' : s.pitch.name,
                 'time' : s.time,
+                'phase' : s.match.group.phase,
+                'tournament' : s.match.division.tournament.name,
                 })
 
         return {'matches' : matches}

@@ -89,7 +89,7 @@
   <table class="protocol">
     <thead>
       <tr>
-        <th colspan="2"><h2>PIT 2023</h2></th>
+        <th colspan="2">{{match.tournament}}</th>
       </tr>
     </thead>
     <tbody>
@@ -103,12 +103,16 @@
                 <td>{{match.number}}</td>
               </tr>
               <tr>
+                <th>Scheduled time</th>
+                <td>{{match.time | date:'H:i'}}</td>
+              </tr>
+              <tr>
                 <th>Division</th>
                 <td>{{match.division}}</td>
               </tr>
               <tr>
                 <th>Phase</th>
-                <td>{{match.phase_block}}</td>
+                <td>{{match.phase}}</td>
               </tr>
               <tr>
                 <th>Group</th>
