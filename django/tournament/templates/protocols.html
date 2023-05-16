@@ -7,22 +7,31 @@
       }
       body {
           //writing-mode: tb-rl;
-          margin: 0px;
+          margin: 5px;
           padding: 0px;
       }
 
       .protocol{
         page-break-after: always;
         position: relative;
-        width: 297mm;
-        height: 210mm;
+        width: 287mm;
+        height: 200mm;
       }
 
-      table{
+      .protocol th{
+          border: 2px solid black;
+          margin: 3px;
+      }
+
+      /* table{
+        border-collapse: collapse;
+      } */
+
+      /* score */
+      .score table{
         border-collapse: collapse;
       }
 
-      /* score */
       .score thead th{
         border: 2px solid black;
         font-size: 14px;
@@ -31,6 +40,8 @@
       .score thead td{
         font-size: 16px;
         font-weight: bold;
+        border: 2px solid black;
+        text-align: center;
       }
 
 
@@ -46,6 +57,10 @@
         text-align: center;
       }
 
+      /* .score tr{
+        height: 3mm;
+      } */
+
       .score tbody td.comments{
         width: 6cm;
       }
@@ -55,25 +70,34 @@
         vertical-align: top;
       }
 
-      .info table {
-
+      .info table{
+        border-collapse: collapse;
         width: 10cm;
-        margin-left: 5mm;
-        margin-bottom: 15mm;
+        margin-top: 10mm;
       }
 
       .info tr{
         border: 2px solid black;
-        height: 20px;
+      }
+
+      .info th{
+        text-align: left;
+        height: 5mm;
+      }
+
+      .info td{
+        text-align: center;
+        height: 5mm;
       }
 
       /* rekapitulace */
       .rekap table{
-        border-collapse: separate;
+        border-collapse: collapse;
         width: 100%;
       }
+
       .rekap td{
-        height: 2cm;
+        height: 1cm;
         margin-right: 1cm;
         border: 2px solid black;
         text-align: center;
@@ -195,7 +219,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for i in '123456789012345678901234567890'|make_list %}
+              {% for i in '12345678901234567890123'|make_list %}
               <tr>
                 <td></td>
                 <td></td>
