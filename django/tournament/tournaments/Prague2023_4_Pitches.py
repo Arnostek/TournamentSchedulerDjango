@@ -52,11 +52,11 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = SingleGroupDivisionSystem(prague2023,'Men 2','Men2',7,last3 = True)
+Men2_system = SingleGroupDivisionSystem(prague2023,'Men 2','Men2',6)
 Men2_system.division.CreateTeams(
     [
         "WCH Berlin",
-        "KC Kelheim",
+        # "KC Kelheim",
         "Linz",
         "Nagymaros U21",
         "Dresden Men",
