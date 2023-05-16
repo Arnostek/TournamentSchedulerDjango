@@ -115,14 +115,14 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(33)
-ts.tdo._reduceEmptySlots02(33)
-ts.tdo._reduceEmptySlots03(33)
+ts.tdo._reduceEmptySlots01(31)
+ts.tdo._reduceEmptySlots02(31)
+ts.tdo._reduceEmptySlots03(31)
 
 ts.Schedule(
     [
-        (datetime.datetime(2023,5,20,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,20,19,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2023,5,21,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,21,16,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,20,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,20,18,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,21,7,30,tzinfo = pytz.utc),datetime.datetime(2023,5,21,15,30,tzinfo = pytz.utc)),
         # (datetime.datetime(2022,5,30,7,30),datetime.datetime(2022,5,30,23)),
     ]
 )
