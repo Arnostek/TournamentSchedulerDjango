@@ -13,7 +13,7 @@ import pytz
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2020_3_Pitches'
 
 # turnaj
-prague2023 = models.Tournament(name = "PIT 2023", slug = "PIT2023")
+prague2023 = models.Tournament(name = "PIT 2023", slug = "PIT2023-kaniow05")
 prague2023.save()
 print(prague2023)
 ####################################################
@@ -34,13 +34,13 @@ Men1_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = TwoGroups8TeamsMiddle(prague2023,'Ladies','Ladies',8)
+Ladies_system = SingleGroupDivisionSystem(prague2023,'Ladies','Ladies',7)
 Ladies_system.division.CreateTeams(
     [
         "VMW Berlin Women",
         "KSVH Berlin Women",
         "UKS Katowice Women",
-        "UKS Kaniow Women",
+        # "UKS Kaniow Women",
         "Austria Women",
         "Dresden Women",
         "Prague Women",
@@ -71,13 +71,13 @@ Men2_system.division.CreateTeams(
 ####################################################
 # U15
 
-U15_system = TwoGroups(prague2023,'U15','U15',11,last3=True)
+U15_system = TwoGroups(prague2023,'U15','U15',10)
 U15_system.division.CreateTeams(
     [
         "VMW Berlin U15 A",
         "VMW Berlin U15 B",
         "Nagymaros U14",
-        "UKS Kaniow U15",
+        # "UKS Kaniow U15",
         "Powisle U14",
         "UKS Katowice U15",
         "Dresden U15",
