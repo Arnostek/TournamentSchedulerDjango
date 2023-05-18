@@ -22,12 +22,12 @@ Men1_system = SingleGroupDivisionSystem(prague2023,'Men Elite','MenElite',6,semi
 Men1_system.division.CreateTeams(
     [
         "Prague A",
-        "UKS Katowice Men",
         # "KTW 1",
         "Prague B",
-        "Czech U21",
+        "UKS Katowice Men",
         # "Trakai",
         "Lesna Men",
+        "Czech U21",
         "Austria U21",
     ]
 )
@@ -35,7 +35,7 @@ Men1_system.division.CreateTeams(
 ####################################################
 # U15
 
-U15_system = TwoGroups(prague2023,'U15','U15',10)
+U15_system = TwoGroups(prague2023,'U15','U15',9)
 U15_system.division.CreateTeams(
     [
         "VMW Berlin U15 A",
@@ -43,7 +43,7 @@ U15_system.division.CreateTeams(
         "Nagymaros U14",
         # "UKS Kaniow U15",
         "Powisle U14",
-        "UKS Katowice U15",
+        # "UKS Katowice U15",
         "Dresden U15",
         "VK Berlin U15",
         "Czech U15W",
@@ -58,13 +58,13 @@ U15_system.division.CreateTeams(
 Ladies_system = SingleGroupDivisionSystem(prague2023,'Ladies','Ladies',7)
 Ladies_system.division.CreateTeams(
     [
-        "VMW Berlin Women",
+        "Prague Women",
         "KSVH Berlin Women",
         "UKS Katowice Women",
         # "UKS Kaniow Women",
         "Austria Women",
         "Dresden Women",
-        "Prague Women",
+        "VMW Berlin Women",
         "Czech U21 Women",
     ]
 )
