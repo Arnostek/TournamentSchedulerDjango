@@ -6,8 +6,9 @@
     <div class="row">
 
       <div class="col">
-        <h3>Pitch schedule</h3>
+        <h3>Schedule</h3>
           <ol class="list-group">
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/schedule-full">Full schedule</a></li>
             {% for pitch in tournament.pitch_set.all %}
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/schedule-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
             {% endfor %}
