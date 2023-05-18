@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <h3>Pitch protocols<h3>
+        <h3>Pitch protocols</h3>
           <ol class="list-group">
             {% for pitch in tournament.pitch_set.all %}
             <li class="list-group-item"><a href="protocols-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
@@ -17,7 +17,7 @@
 
     {% for div in tournament.division_set.all %}
     <div class="col">
-      <h3>{{div.name}} protocols<h3>
+      <h3>{{div.name}} protocols</h3>
         <ol class="list-group">
           {% for group in div.group_set.all %}
             {% ifchanged group.phase %}
