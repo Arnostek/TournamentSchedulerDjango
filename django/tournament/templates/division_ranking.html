@@ -13,7 +13,7 @@
           {% for rank in ranking %}
             <li class="list-group-item text-nowrap">
               <strong>{{rank.rank}}.</strong>
-              {% if rank.teamPlaceholder.team %}{{rank.teamPlaceholder.team.name}}{%else%}{{rank.teamPlaceholder}}{%endif%}
+              {% if rank.teamPlaceholder.team %}{{rank.teamPlaceholder.team.name}}{%else%}{{rank.teamPlaceholder.name}}{%endif%}
             </li>
           {% endfor %}
         </ol>
