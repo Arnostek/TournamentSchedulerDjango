@@ -2,9 +2,18 @@
 
 {% block content %}
 
-  <h2>Prints</h2>
   <div class="container-fluid">
     <div class="row">
+
+      <div class="col">
+        <h3>Pitch schedule</h3>
+          <ol class="list-group">
+            {% for pitch in tournament.pitch_set.all %}
+            <li class="list-group-item"><a href="schedule-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
+            {% endfor %}
+          </ol>
+      </div>
+
       <div class="col">
         <h3>Pitch protocols</h3>
           <ol class="list-group">
@@ -14,10 +23,15 @@
           </ol>
       </div>
 
+    </div>
+  </div>
 
+  <h2>Division protocols</h2>
+  <div class="container-fluid">
+    <div class="row">
     {% for div in tournament.division_set.all %}
     <div class="col">
-      <h3>{{div.name}} protocols</h3>
+      <h3>{{div.name}}</h3>
         <ol class="list-group">
           {% for group in div.group_set.all %}
             {% ifchanged group.phase %}
