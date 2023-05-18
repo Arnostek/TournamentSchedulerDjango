@@ -3,7 +3,7 @@ from .DivisionSystemBase import DivisionSystemBase
 class TwoGroups(DivisionSystemBase):
     """ Dve zakladni skupiny, semi pro 1. a 2., zapasy o misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams,last3=False,semi5_8=False):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,last3=None,semi5_8=False):
         # zavolam konsturktor Predka
         super(TwoGroups, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True, semi5_8 = semi5_8, last3 = last3)
         # vytvorim system
