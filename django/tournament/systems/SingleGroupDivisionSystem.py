@@ -35,6 +35,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         if len(a_ranks) > 5 and self.final_for >= 5:
             phase += 1
             self.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]] , phase)
+            self.division.CreateRanks(5,d.GetGroupsRanks(['5th']))
 
         # final
         if self.semi:
@@ -43,9 +44,11 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             # 3rd
             phase += 1
             self.division.CreateGroups(['3rd'], [semi_ranks[2], semi_ranks[3]] , phase)
+            self.division.CreateRanks(3,d.GetGroupsRanks(['3rd']))
             # final
             phase += 1
             self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
+            self.division.CreateRanks(1,d.GetGroupsRanks(['final']))
 
         else:
             # 3rd
