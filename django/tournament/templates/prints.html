@@ -23,6 +23,15 @@
           </ol>
       </div>
 
+      <div class="col">
+        <h3>Division tables</h3>
+          <ol class="list-group">
+            {% for div in tournament.division_set.all %}
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/crosstables-division-{{div.id}}">{{div.name}}</a></li>
+            {% endfor %}
+          </ol>
+      </div>
+
     </div>
   </div>
 
