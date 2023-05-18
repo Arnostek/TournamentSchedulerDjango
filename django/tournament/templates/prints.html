@@ -1,0 +1,34 @@
+{% extends 'body.html' %}
+
+{% block content %}
+
+  <h2>Prints</h2>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h3>Pitch protocols<h3>
+          <ol class="list-group">
+            {% for pitch in tournament.pitch_set.all %}
+            <li class="list-group-item"><a href="protocols-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
+            {% endfor %}
+          </ol>
+      </div>
+
+
+    {% for div in tournament.division_set.all %}
+    <div class="col">
+      <h3>{{div.name}} protocols<h3>
+        <ol class="list-group">
+          {% for group in div.group_set.all %}
+            {% ifchanged group.phase %}
+            <li class="list-group-item"><a href="protocols-division-{{div.id}}-phase-{{group.phase}}">{{div.name}} phase {{group.phase}}</a></li>
+            {% endifchanged %}
+            <li class="list-group-item"><a href="protocols-group-{{group.id}}">{{div.name}} gr. {{group.name}}</a></li>
+          {% endfor %}
+        </ol>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

@@ -16,6 +16,8 @@ urlpatterns = [
     path('finish/group-<int:gid>', views.FinishGroup),
     # Check for conflicts
     path('findconflicts/tournament-<int:tid>', views.FindConflicts),
+    # prints
+    path('<slug:slug>/prints', views.PrintsView.as_view()),
 ]
 
 urlpatterns_tmp = [

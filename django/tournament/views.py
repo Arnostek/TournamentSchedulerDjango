@@ -332,3 +332,16 @@ def FindConflicts(request, tid):
         response += "No conflicts found - yyiihhaaa"
     response += "<a href='/live/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
     return HttpResponse(response)
+
+
+
+class PrintsView(TemplateView, TournamentDetail):
+    template_name = 'prints.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = {
+            'tournament' : self.tournament,
+        }
+
+        return context

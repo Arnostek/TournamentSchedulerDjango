@@ -52,25 +52,10 @@
           </li>
 
           {% if kpadmin %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Protocol print
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              {% for pitch in tournament.pitch_set.all %}
-              <a class="dropdown-item" href="protocols-pitch-{{pitch.id}}">{{pitch.name}}</a>
-              {% endfor %}
-              {% for div in tournament.division_set.all %}
-                {% for group in div.group_set.all %}
-                  {% ifchanged group.phase %}
-                  <a class="dropdown-item" href="protocols-division-{{div.id}}-phase-{{group.phase}}">{{div.name}} phase {{group.phase}}</a>
-                  {% endifchanged %}
-                  <a class="dropdown-item" href="protocols-group-{{group.id}}">{{div.name}} gr. {{group.name}}</a>
-                {% endfor %}
-              {% endfor %}
-            </div>
-            {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="prints">Prints<span class="sr-only">(current)</span></a>
           </li>
+          {% endif %}
 
 
           {% if kpadmin %}
