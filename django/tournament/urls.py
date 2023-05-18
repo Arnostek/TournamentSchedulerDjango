@@ -38,6 +38,8 @@ urlpatterns_tmp = [
     ('<slug:slug>/protocols-pitch-<int:pid>', views.ProtocolsView.as_view()),
     ('<slug:slug>/protocols-group-<int:gid>', views.ProtocolsView.as_view()),
     ('<slug:slug>/protocols-division-<int:did>-phase-<int:phase>', views.ProtocolsView.as_view()),
+    #ranking
+    ('<slug:slug>/ranking-division-<int:did>', views.DivisionRankingView.as_view()),
     # prints
     ('<slug:slug>/prints', views.PrintsView.as_view()),
 ]

@@ -1,0 +1,25 @@
+{% extends 'body.html' %}
+
+{% block content %}
+
+<h2>{{division.name}}</h2>
+
+<h3>Groups</h3>
+
+<div class="container-fluid">
+  <div class="row">
+
+      <div class="col">
+
+        <ol class="list-group">
+          {% for rank in ranking %}
+            <li class="list-group-item text-nowrap">{{rank.rank}}. {{rank.teamPlaceholder}}</li>
+          {% endfor %}
+        </ol>
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

@@ -79,6 +79,26 @@ class DivisionSystemView(TemplateView, TournamentDetail):
 
         return context
 
+class DivisionRankingView(TemplateView, TournamentDetail):
+
+    template_name = 'division_ranking.html'
+
+    def get_context_data(self, **kwargs):
+        try:
+            division = Division.objects.get(id = self.kwargs['did'])
+        except Division.DoesNotExist:
+            raise Http404("This Division does not exist")
+
+        ranking = division.divisionrank_set.all().order_by('rank')
+
+        context = {
+            'tournament' : self.tournament,
+            'division' : division,
+            'ranking' : ranking,
+        }
+
+        return context
+
 class DivisionCrossTablesView(TemplateView, TournamentDetail):
 
     template_name = 'division_crosstables.html'
