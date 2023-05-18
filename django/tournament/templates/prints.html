@@ -9,7 +9,7 @@
         <h3>Pitch schedule</h3>
           <ol class="list-group">
             {% for pitch in tournament.pitch_set.all %}
-            <li class="list-group-item"><a href="schedule-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/schedule-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
             {% endfor %}
           </ol>
       </div>
@@ -18,7 +18,7 @@
         <h3>Pitch protocols</h3>
           <ol class="list-group">
             {% for pitch in tournament.pitch_set.all %}
-            <li class="list-group-item"><a href="protocols-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/protocols-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
             {% endfor %}
           </ol>
       </div>
@@ -35,9 +35,9 @@
         <ol class="list-group">
           {% for group in div.group_set.all %}
             {% ifchanged group.phase %}
-            <li class="list-group-item"><a href="protocols-division-{{div.id}}-phase-{{group.phase}}">{{div.name}} phase {{group.phase}}</a></li>
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/protocols-division-{{div.id}}-phase-{{group.phase}}">{{div.name}} phase {{group.phase}}</a></li>
             {% endifchanged %}
-            <li class="list-group-item"><a href="protocols-group-{{group.id}}">{{div.name}} gr. {{group.name}}</a></li>
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/protocols-group-{{group.id}}">{{div.name}} gr. {{group.name}}</a></li>
           {% endfor %}
         </ol>
       </div>
