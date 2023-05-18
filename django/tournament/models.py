@@ -54,6 +54,11 @@ class Division(models.Model):
                 teamPlaceholder_arr: list
         """
         rank = rank_first
+
+        # pokud objekt nejde iterovat, zabalime ho do pole
+        if not hasattr(teamPlaceholder_arr, '__iter__'):
+            teamPlaceholder_arr = [teamPlaceholder_arr]
+
         for tph in teamPlaceholder_arr:
             self.divisionrank_set.create(rank = rank, teamPlaceholder = tph)
             rank+=1
