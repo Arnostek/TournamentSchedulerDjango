@@ -16,8 +16,6 @@ urlpatterns = [
     path('finish/group-<int:gid>', views.FinishGroup),
     # Check for conflicts
     path('findconflicts/tournament-<int:tid>', views.FindConflicts),
-    # prints
-    path('<slug:slug>/prints', views.PrintsView.as_view()),
 ]
 
 urlpatterns_tmp = [
@@ -40,7 +38,8 @@ urlpatterns_tmp = [
     ('<slug:slug>/protocols-pitch-<int:pid>', views.ProtocolsView.as_view()),
     ('<slug:slug>/protocols-group-<int:gid>', views.ProtocolsView.as_view()),
     ('<slug:slug>/protocols-division-<int:did>-phase-<int:phase>', views.ProtocolsView.as_view()),
-
+    # prints
+    ('<slug:slug>/prints', views.PrintsView.as_view()),
 ]
 
 # add cached and live version for every url from urlpatterns_tmp
