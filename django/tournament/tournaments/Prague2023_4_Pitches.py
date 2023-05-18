@@ -33,6 +33,27 @@ Men1_system.division.CreateTeams(
 )
 
 ####################################################
+# U15
+
+U15_system = TwoGroups(prague2023,'U15','U15',10)
+U15_system.division.CreateTeams(
+    [
+        "VMW Berlin U15 A",
+        "VMW Berlin U15 B",
+        "Nagymaros U14",
+        # "UKS Kaniow U15",
+        "Powisle U14",
+        "UKS Katowice U15",
+        "Dresden U15",
+        "VK Berlin U15",
+        "Czech U15W",
+        "Czech U15M",
+        "Lesna U14",
+
+    ]
+)
+
+####################################################
 # Ladies
 Ladies_system = SingleGroupDivisionSystem(prague2023,'Ladies','Ladies',7)
 Ladies_system.division.CreateTeams(
@@ -68,26 +89,6 @@ Men2_system.division.CreateTeams(
 )
 
 
-####################################################
-# U15
-
-U15_system = TwoGroups(prague2023,'U15','U15',10)
-U15_system.division.CreateTeams(
-    [
-        "VMW Berlin U15 A",
-        "VMW Berlin U15 B",
-        "Nagymaros U14",
-        # "UKS Kaniow U15",
-        "Powisle U14",
-        "UKS Katowice U15",
-        "Dresden U15",
-        "VK Berlin U15",
-        "Czech U15W",
-        "Czech U15M",
-        "Lesna U14",
-
-    ]
-)
 
 ####################################################
 # U12
@@ -105,7 +106,7 @@ U12_system.division.CreateTeams(
 
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(prague2023,4)
+ts = TournamentScheduler(prague2023,3)
 
 # optimize pitches
 # ts.tdo._reduceColumns(ts.pitches)
@@ -115,14 +116,14 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(30)
-ts.tdo._reduceEmptySlots02(30)
-ts.tdo._reduceEmptySlots03(30)
+ts.tdo._reduceEmptySlots01(34)
+ts.tdo._reduceEmptySlots02(34)
+ts.tdo._reduceEmptySlots03(34)
 
 ts.Schedule(
     [
-        (datetime.datetime(2023,5,20,8,00,tzinfo = pytz.utc),datetime.datetime(2023,5,20,18,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2023,5,21,8,00,tzinfo = pytz.utc),datetime.datetime(2023,5,21,15,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,20,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,20,19,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2023,5,21,7,00,tzinfo = pytz.utc),datetime.datetime(2023,5,21,17,30,tzinfo = pytz.utc)),
         # (datetime.datetime(2022,5,30,7,30),datetime.datetime(2022,5,30,23)),
     ]
 )
