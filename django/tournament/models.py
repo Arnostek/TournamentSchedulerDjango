@@ -48,6 +48,16 @@ class Division(models.Model):
             # zalozim DivisionSeed
             seed = self.divisionseed_set.create(rank = rank, teamPlaceholder = tph)
 
+    def CreateRanks(self,rank_first,teamPlaceholder_arr):
+        """ Vytvoreni zaznamu division rank.
+                rank_first: poradi prvniho z listu
+                teamPlaceholder_arr: list
+        """
+        rank = rank_first
+        for tph in teamPlaceholder_arr:
+            self.divisionrank_set.create(rank = rank, teamPlaceholder = tph)
+            rank+=1
+
     def CreateGroups(self, names, placeholders, phase, referee_groups = None):
         """ Vytvoreni naseedovanych skupin"""
         #
