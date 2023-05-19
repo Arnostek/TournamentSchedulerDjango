@@ -369,6 +369,7 @@ class PrintsView(TemplateView, TournamentDetail):
                 last_schedule.append({
                         'schedule'      : ls,
                         'match'         : ls.match,
+                        'pitch'         : ls.pitch,
                         'division'      : ls.match.division,
                         'group'         : ls.match.group,
                         })
