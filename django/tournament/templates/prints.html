@@ -70,7 +70,7 @@
       <div class="col">
         <h3>Last matches</h3>
 
-        <table class="table table-striped">
+        <table class="table">
           <tr>
             <th>Time</th>
             <th>Division</th>
@@ -78,8 +78,8 @@
             <th>Links</th>
           </tr>
           {% for s in last_schedule %}
-          <tr>
-            <td class="{% if s.match.score_filled %}text-ligth bg-success{% endif %}">{{s.schedule.time | date:'D H:i'}}</td>
+          <tr class="{% if s.match.score_filled %}text-success mark{% endif %}">
+            <td>{{s.schedule.time | date:'D H:i'}}</td>
             <td>{{s.division.name}}</td>
             <td>{{s.group.name}}</td>
             <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
