@@ -75,13 +75,13 @@
             <th>Time</th>
             <th>Division</th>
             <th>Group</th>
-            <th>Links</th>
+            <th></th>
           </tr>
           {% for s in last_schedule %}
           <tr class="{% if s.match.score_filled %}text-success mark{% endif %}">
             <td>{{s.schedule.time | date:'D H:i'}}</td>
-            <td>{{s.division.name}}</td>
-            <td>{{s.group.name}}</td>
+            <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}">{{s.division.name}}</a></td>
+            <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}-group-{{s.group.id}}">{{s.group.name}}</a></td>
             <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
           </tr>
           {% endfor %}
