@@ -360,8 +360,24 @@ class PrintsView(TemplateView, TournamentDetail):
 
     def get_context_data(self, **kwargs):
 
+        last_schedule = []
+        for d in self.tournament.division_set.all():
+            for g in d.group_set.all():
+                # posledni schedule skupiny
+                ls = g.LastSchedule
+
+                last_schedule.append({
+                        'schedule'      : ls,
+                        'match'         : ls.match,
+                        'division'      : ls.match.division,
+                        'group'         : ls.match.group,
+                        })
+
+        last_schedule.sort(key=lambda s: s['schedule'].time)
+
         context = {
             'tournament' : self.tournament,
+            'last_schedule' : last_schedule,
         }
 
         return context

@@ -64,4 +64,28 @@
     </div>
   </div>
 
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col">
+        <h3>Last matches</h3>
+
+        <table>
+          {% for s in last_schedule %}
+          <tr class="{% if s.match.score_filled %}bg-success{% endif %}">
+
+            <td>{{s.schedule.time | date:'D H:i'}}</td>
+            <td>{{s.division.name}}</td>
+            <td>{{s.group.name}}</td>
+            <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          {% endfor %}
+          </table>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
