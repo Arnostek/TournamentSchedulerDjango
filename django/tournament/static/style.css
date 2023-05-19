@@ -38,3 +38,7 @@ nav.sticky-top {
 .crosstable td{
     text-align: center;
 }
+
+a:hover, a:active, a:visited, a:link{
+    text-decoration: none;
+}
