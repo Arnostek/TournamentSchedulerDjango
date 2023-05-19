@@ -70,17 +70,19 @@
       <div class="col">
         <h3>Last matches</h3>
 
-        <table>
+        <table class="table table-striped">
+          <tr>
+            <th>Time</th>
+            <th>Division</th>
+            <th>Group</th>
+            <th>Links</th>
+          </tr>
           {% for s in last_schedule %}
-          <tr class="{% if s.match.score_filled %}bg-success{% endif %}">
-
-            <td>{{s.schedule.time | date:'D H:i'}}</td>
+          <tr>
+            <td class="{% if s.match.score_filled %}text-ligth bg-success{% endif %}">{{s.schedule.time | date:'D H:i'}}</td>
             <td>{{s.division.name}}</td>
             <td>{{s.group.name}}</td>
             <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
-            <td></td>
-            <td></td>
-            <td></td>
           </tr>
           {% endfor %}
           </table>
