@@ -345,6 +345,21 @@ class Group(models.Model):
         self.finished = True
         self.save()
 
+    @property
+    def LastSchedule(self):
+        """ Najde posledni schedule k dane group """
+        # zkusime posledni vygenerovany match
+        last_schedule = Match.objects.filter(group = self).last().schedule_set.last()
+
+        for m in Match.objects.filter(group = self):
+            # pokud je zapas pozdeji, ulozime si ho
+            if m.schedule_set.last().time > last_schedule.time:
+                last_schedule = m.schedule_set.last()
+
+        return last_schedule
+
+
+
 class GroupPointsTransfer(models.Model):
     """ Prenaseni bodu mezi skupinami """
     src = models.ForeignKey(Group, on_delete=models.CASCADE, related_name = "points_transfer_src")
