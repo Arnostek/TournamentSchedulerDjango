@@ -76,6 +76,9 @@
             <th>Pitch</th>
             <th>Division</th>
             <th>Group</th>
+            <th>Home</th>
+            <th></th>
+            <th>Away</th>
             <th></th>
           </tr>
           {% for s in last_schedule %}
@@ -84,6 +87,9 @@
             <td><a href="/live/{{tournament.slug}}/schedule-pitch-{{s.pitch.id}}">{{s.pitch}}</a></td>
             <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}">{{s.division.name}}</a></td>
             <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}-group-{{s.group.id}}">{{s.group.name}}</a></td>
+            <td>{{s.match.home.team_name}}</td>
+            <td>{{s.match.home_score| default_if_none:""}}:{{s.match.away_score| default_if_none:""}}</td>
+            <td>{{s.match.away.team_name}}</td>
             <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
           </tr>
           {% endfor %}
