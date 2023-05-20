@@ -1,3 +1,7 @@
+@page {
+    size: A4 landscape;
+}
+
 td a {
   color: black;
   text-decoration: none !important;
