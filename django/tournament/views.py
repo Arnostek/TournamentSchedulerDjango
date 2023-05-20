@@ -195,7 +195,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
 
         # pripravime data pro sablonu
         for s in schedules:
-            if s.match and not s.match.score_filled and s.match.home.team and s.match.away.team:
+            if s.match and not s.match.score_filled:
                 matches.append({
                 'number' : s.game_number,
                 'division' : s.match.division.name,
