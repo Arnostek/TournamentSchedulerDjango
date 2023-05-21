@@ -266,10 +266,12 @@ class Group(models.Model):
 
         # napocteni bodu a vysledku
         for tph in df.index:
-            results.loc[tph,'Games'] = df[tph].apply(lambda m: 1 if isinstance(m,Match) and m.score_filled else None).sum()
-            results.loc[tph,'Points'] = df[tph].apply(lambda m: m.tph_points(tph) if isinstance(m,Match) else None).sum()
-            results.loc[tph,'Scored'] = df[tph].apply(lambda m: m.tph_scored(tph) if isinstance(m,Match) else None).sum()
-            results.loc[tph,'Obtained'] = df[tph].apply(lambda m: m.tph_obtained(tph) if isinstance(m,Match) else None).sum()
+
+            # vysledky prebirame ze stare metody - 
+            results.loc[tph,'Games'] = self.Results[tph]['games']
+            results.loc[tph,'Points'] = self.Results[tph]['points']
+            results.loc[tph,'Scored'] = self.Results[tph]['scored']
+            results.loc[tph,'Obtained'] = self.Results[tph]['obtained']
 
             for tph_col in df.columns:
 
