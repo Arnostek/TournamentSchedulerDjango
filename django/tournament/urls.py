@@ -40,6 +40,7 @@ urlpatterns_tmp = [
     ('<slug:slug>/protocols-division-<int:did>-phase-<int:phase>', views.ProtocolsView.as_view()),
     #ranking
     ('<slug:slug>/ranking-division-<int:did>', views.DivisionRankingView.as_view()),
+    ('<slug:slug>/ranking-all', views.DivisionRankingView.as_view()),
     # prints
     ('<slug:slug>/prints', views.PrintsView.as_view()),
 ]

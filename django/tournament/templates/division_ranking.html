@@ -2,15 +2,17 @@
 
 {% block content %}
 
-<h2>{{division.name}} final ranking</h2>
+<h2>Final ranking</h2>
 
 <div class="container-fluid">
   <div class="row">
 
+    {% for r in rankings %}
       <div class="col">
+        <h3>{{r.division.name}}</h3>
 
         <ol class="list-group">
-          {% for rank in ranking %}
+          {% for rank in r.ranking %}
             <li class="list-group-item text-nowrap">
               <strong>{{rank.rank}}.</strong>
               {% if rank.teamPlaceholder.team %}{{rank.teamPlaceholder.team.name}}{%else%}{{rank.teamPlaceholder.name}}{%endif%}
@@ -18,6 +20,7 @@
           {% endfor %}
         </ol>
       </div>
+      {% endfor %}
   </div>
 </div>
 
