@@ -398,6 +398,7 @@ class PrintsView(TemplateView, TournamentDetail):
         context = {
             'tournament' : self.tournament,
             'last_schedule' : last_schedule,
+            'kpadmin' : self.request.user.is_authenticated,
         }
 
         return context
