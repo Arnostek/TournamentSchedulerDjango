@@ -92,4 +92,24 @@ $(document).ready(function(){
       );
     }
   )
+
+  $("button.reopen-group").click(
+    function(){
+      var input_el = this
+      url = "/reopen/group-" +this.name;
+      $.get(url)
+      .done(
+        function(){
+          $(input_el).removeClass("bg-danger");
+          $(input_el).addClass("bg-success");
+        }
+      )
+      .fail(
+        function(){
+          $(input_el).addClass("bg-danger");
+        }
+      );
+    }
+  )
+
 });

@@ -95,6 +95,9 @@
                 {% endif %}
               {% elif s.group.finished %}
                 <span class="badge badge-info">finished</span>
+                {% if kpadmin %}
+                <button type="button" class="btn btn-danger btn-sm reopen-group" name="{{s.group.id}}">reopen</button>
+                {% endif %}
               {% endif %}
 
             </td>

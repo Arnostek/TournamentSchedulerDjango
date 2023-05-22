@@ -14,6 +14,7 @@ urlpatterns = [
     path('schedule-switch-<int:sid1>-<int:sid2>', views.SwitchMatch),
     # finish group
     path('finish/group-<int:gid>', views.FinishGroup),
+    path('reopen/group-<int:gid>', views.ReopenGroup),
     # Check for conflicts
     path('findconflicts/tournament-<int:tid>', views.FindConflicts),
 ]

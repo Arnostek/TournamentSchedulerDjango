@@ -349,6 +349,19 @@ def FinishGroup(request, gid):
 
     return HttpResponse("OK")
 
+@login_required
+def ReopenGroup(request, gid):
+    # nacteme skupinu a preklopime poradi do group ranks
+    g = Group.objects.get(id = gid)
+
+    if not g.finished:
+        return HttpResponse("Error: Group is not finished!", status=400)
+
+    g.finished = False
+    g.save()
+
+    return HttpResponse("OK")
+
 def FindConflicts(request, tid):
     tm = Tournament.objects.get(id = tid)
     response = ""
