@@ -89,7 +89,7 @@
             <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}">{{s.division.name}}</a></td>
             <td>
               <a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}-group-{{s.group.id}}">{{s.group.name}}</a>
-              {% if s.group.All_scores_filled and not s.group.finished %}
+              {% if s.group.All_scores_filled and not s.group.finished and s.group_match_count == 1 %}
                 {% if kpadmin %}
                 <button type="button" class="btn btn-primary btn-sm finish-group" name="{{s.group.id}}">finish</button>
                 {% endif %}

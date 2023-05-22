@@ -390,6 +390,7 @@ class PrintsView(TemplateView, TournamentDetail):
                         'pitch'         : ls.pitch,
                         'division'      : ls.match.division,
                         'group'         : ls.match.group,
+                        'group_match_count'   : ls.match.group.match_set.count(),
                         })
 
         last_schedule.sort(key=lambda s: s['schedule'].time)
