@@ -87,7 +87,17 @@
             <td>{{s.schedule.time | date:'D H:i'}}</td>
             <td><a href="/live/{{tournament.slug}}/schedule-pitch-{{s.pitch.id}}">{{s.pitch}}</a></td>
             <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}">{{s.division.name}}</a></td>
-            <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}-group-{{s.group.id}}">{{s.group.name}}</a></td>
+            <td>
+              <a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}-group-{{s.group.id}}">{{s.group.name}}</a>
+              {% if s.group.All_scores_filled and not s.group.finished %}
+                {% if kpadmin %}
+                <button type="button" class="btn btn-primary btn-sm finish-group" name="{{s.group.id}}">finish</button>
+                {% endif %}
+              {% elif s.group.finished %}
+                <span class="badge badge-info">finished</span>
+              {% endif %}
+
+            </td>
             <td>{{s.match.home.team_name}}</td>
             <td>{{s.match.home_score| default_if_none:""}}:{{s.match.away_score| default_if_none:""}}</td>
             <td>{{s.match.away.team_name}}</td>
