@@ -91,7 +91,7 @@
             <td>{{s.match.home.team_name}}</td>
             <td>{{s.match.home_score| default_if_none:""}}:{{s.match.away_score| default_if_none:""}}</td>
             <td>{{s.match.away.team_name}}</td>
-            <td><a href="/live/{{tournament.slug}}/tables-division-{{s.division.id}}">tables</a></td>
+            <td><a href="/live/{{tournament.slug}}/crosstables-division-{{s.division.id}}">tables</a></td>
           </tr>
           {% endfor %}
           </table>
