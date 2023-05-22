@@ -44,11 +44,9 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             # 3rd
             phase += 1
             self.division.CreateGroups(['3rd'], [semi_ranks[2], semi_ranks[3]] , phase)
-            self.division.CreateRanks(3,d.GetGroupsRanks(['3rd']))
             # final
             phase += 1
             self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
-            self.division.CreateRanks(1,d.GetGroupsRanks(['final']))
 
         else:
             # 3rd
@@ -58,6 +56,10 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             # final
             phase += 1
             self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
+
+        self.division.CreateRanks(3,d.GetGroupsRanks(['3rd']))
+        self.division.CreateRanks(1,d.GetGroupsRanks(['final']))
+
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
