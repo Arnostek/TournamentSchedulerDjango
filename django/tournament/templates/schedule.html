@@ -17,14 +17,7 @@
       <div class="collapse navbar-collapse" id="navbarFilter">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link">filter old games <input type="checkbox" id="tgns"></a></li>
-            <li class="nav-item dropdown">
-  			<select class="custom-select custom-select-sm nav-link bg-warning" onchange="highlightTeamClass(this.value)" style="max-width:250px">
-  	    		<option selected>Highlight Team</option>
-            {% for team in teams|dictsort:"name" %}
-         				<option value="{{ team.id }}">{{ team.name }}</option>
-       			{% endfor %}
-     			</select>
-			</li>
+			
           </ul>
       </div>
     </nav>
