@@ -81,6 +81,7 @@
             <th></th>
             <th>Away</th>
             <th></th>
+            <th></th>
           </tr>
           {% for s in last_schedule %}
           <tr class="{% if s.match.score_filled %}text-success mark{% endif %}">
@@ -95,9 +96,6 @@
                 {% endif %}
               {% elif s.group.finished %}
                 <span class="badge badge-info">finished</span>
-                {% if kpadmin %}
-                <button type="button" class="btn btn-danger btn-sm reopen-group" name="{{s.group.id}}">reopen</button>
-                {% endif %}
               {% endif %}
 
             </td>
@@ -105,6 +103,7 @@
             <td>{{s.match.home_score| default_if_none:""}}:{{s.match.away_score| default_if_none:""}}</td>
             <td>{{s.match.away.team_name}}</td>
             <td><a href="/live/{{tournament.slug}}/crosstables-division-{{s.division.id}}">tables</a></td>
+            <td>{% if kpadmin and s.group.finished %}<button type="button" class="btn btn-danger btn-sm reopen-group" name="{{s.group.id}}">Reopen table</button>{% endif %}</td>
           </tr>
           {% endfor %}
           </table>
