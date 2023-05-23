@@ -74,6 +74,7 @@ $(document).ready(function(){
     $("tr.played").toggle(!this.checked);
   });
 
+  // Ukonceni skupiny
   $("button.finish-group").click(
     function(){
       var input_el = this
@@ -83,6 +84,7 @@ $(document).ready(function(){
         function(){
           $(input_el).removeClass("bg-danger");
           $(input_el).addClass("bg-success");
+          location.reload();
         }
       )
       .fail(
@@ -93,6 +95,7 @@ $(document).ready(function(){
     }
   )
 
+  // otevreni ukoncene skupiny
   $("button.reopen-group").click(
     function(){
       var input_el = this
@@ -102,6 +105,7 @@ $(document).ready(function(){
         function(){
           $(input_el).removeClass("bg-danger");
           $(input_el).addClass("bg-success");
+          location.reload();
         }
       )
       .fail(
