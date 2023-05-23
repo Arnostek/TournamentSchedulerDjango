@@ -73,6 +73,7 @@
 
         <table class="table">
           <tr>
+            <th>#</th>
             <th>Time</th>
             <th>Pitch</th>
             <th>Division</th>
@@ -85,6 +86,7 @@
           </tr>
           {% for s in last_schedule %}
           <tr class="{% if s.match.score_filled %}text-success mark{% endif %}">
+            <td>#{{s.schedule.game_number}}</td>
             <td>{{s.schedule.time | date:'D H:i'}}</td>
             <td><a href="/live/{{tournament.slug}}/schedule-pitch-{{s.pitch.id}}">{{s.pitch}}</a></td>
             <td><a href="/live/{{tournament.slug}}/schedule-division-{{s.division.id}}">{{s.division.name}}</a></td>
