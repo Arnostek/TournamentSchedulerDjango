@@ -1,7 +1,7 @@
 {% extends 'body.html' %}
 
 {% block filterbox %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top d-print-none">
       <a class="navbar-brand" href="/{{tournament.slug}}/schedule-full">
         Game-Schedule
         {% if filtered_for %}
@@ -75,7 +75,7 @@
       <td {% if schedule.match.referee.team %}class="team team-{{schedule.match.referee.team.id}}" onclick="highlightTeamClass({{schedule.match.referee.team.id}})"{% endif %}>
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
-      <td class="admin">
+      <td class="admin d-print-none">
         {% if kpadmin %}
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
              <button name="{{schedule.match.id}}" class="badge rounded-pill bg-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button></td><td>
