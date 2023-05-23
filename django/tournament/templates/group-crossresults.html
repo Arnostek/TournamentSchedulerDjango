@@ -1,4 +1,4 @@
-    <h3 class="d-inline">Group {{group.name}}</h3>
+    <h3 class="d-inline">{{division.name}} gr. {{group.name}}</h3>
         {% if group.All_scores_filled and not group.finished %}
           {% if kpadmin %}
           <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
