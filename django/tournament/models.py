@@ -247,9 +247,8 @@ class Group(models.Model):
         """ Data pro cross tabulku zapasu"""
         import pandas as pd
 
-        # seznam tph z groupy
-        teams = [s.teamPlaceholder for s in self.groupseed_set.all()]
-
+        # seznam tph z groupy bereme z results - setridene dle poradi
+        teams = [tph for tph in self.Results.keys()]
         # dataframe tabulky
         df = pd.DataFrame(index=teams,columns=teams)
 
@@ -267,7 +266,7 @@ class Group(models.Model):
         # napocteni bodu a vysledku
         for tph in df.index:
 
-            # vysledky prebirame ze stare metody - 
+            # vysledky prebirame ze stare metody -
             results.loc[tph,'Games'] = self.Results[tph]['games']
             results.loc[tph,'Points'] = self.Results[tph]['points']
             results.loc[tph,'Scored'] = self.Results[tph]['scored']
@@ -299,6 +298,7 @@ class Group(models.Model):
         matches.index = matches.index.map(lambda t: t.team_name)
         matches.columns = matches.columns.map(lambda t: t.team_name if isinstance(t,TeamPlaceholder) else t)
 
+        # vracime dataframe setrideny dle poradi
         return matches
 
 
