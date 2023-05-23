@@ -25,6 +25,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>Phase</th>
       <th>Group</th>
       <th>Home</th>
       <th>Away</th>
@@ -33,9 +34,10 @@
   <thead>
   {% for match in matches %}
     <tr>
+      <td>{{match.group.phase}}</td>
       <td>{{match.group.name}}</td>
-      <td>{{match.home.team_name}}</td>
-      <td>{{match.away.team_name}}</td>
+      <td>{{match.home.team_name}} {% if match.group.phase > 1 and match.home.team %}({{match.home.name}}){% endif %}</td>
+      <td>{{match.away.team_name}} {% if match.group.phase > 1 and match.away.team %}({{match.away.name}}){% endif %}</td>
       <td></td>
     </tr>
   {%endfor%}
