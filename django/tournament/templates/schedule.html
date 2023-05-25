@@ -44,7 +44,10 @@
     </tr>
   </thead>
   {% for schedule in schedules %}
-    <tr class="{% ifchanged schedule.time %}schedule-time-break{% endifchanged %} {% if schedule.match.home_points is not None %} played{% endif %}">
+    <tr class="{% ifchanged schedule.time %}schedule-time-break{% endifchanged %}
+        {% if schedule.match.home_points is not None %} played{% endif %}"
+        {% ifchanged schedule.time|date:'D' %}{% if forloop.counter > 1 %}style="break-before : page"{% endif %}{% endifchanged %}
+        >
       <td>{% if user_role.match_admin %}<a href="/admin/tournament/match/{{schedule.match.id}}/change">{% endif %}#{{schedule.game_number}}{% if user_role.match_admin %}</a>{% endif %}</td>
       <td class="text-nowrap"><a href="?filter_date={{schedule.time | date:'Y-m-d'}}">{{schedule.time | date:'D'}}</a> {{schedule.time | date:'H:i'}}</td>
       <td class="text-nowrap"><a href="schedule-pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
