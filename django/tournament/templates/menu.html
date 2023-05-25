@@ -1,9 +1,9 @@
-    {% if tournament.id %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top d-print-none">
       <a class="navbar-brand" href="/{{tournament.slug}}"><img src="/static/ball32_d.png" width="32" height="32" class="d-inline-block align-top" alt="">&nbsp;&nbsp;&nbsp;{{tournament.name}}</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      {% if tournament.id %}
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
 
@@ -60,5 +60,5 @@
 
         </ul>
       </div>
+      {% endif %}
     </nav>
-    {% endif %}
