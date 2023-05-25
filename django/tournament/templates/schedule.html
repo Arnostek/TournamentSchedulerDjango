@@ -46,7 +46,7 @@
   {% for schedule in schedules %}
     <tr {% ifchanged schedule.time %}class="schedule-time-break{% if schedule.match.home_points is not None %} played{% endif %}"{% endifchanged %}
      {% if schedule.match.home_points is not None %}class="played"{% endif %}>
-      <td>{% if kpadmin %}<a href="/admin/tournament/match/{{schedule.match.id}}/change">{% endif %}#{{schedule.game_number}}{% if kpadmin %}</a>{% endif %}</td>
+      <td>{% if user_role.match_admin %}<a href="/admin/tournament/match/{{schedule.match.id}}/change">{% endif %}#{{schedule.game_number}}{% if user_role.match_admin %}</a>{% endif %}</td>
       <td class="text-nowrap"><a href="?filter_date={{schedule.time | date:'Y-m-d'}}">{{schedule.time | date:'D'}}</a> {{schedule.time | date:'H:i'}}</td>
       <td class="text-nowrap"><a href="schedule-pitch-{{schedule.pitch.id}}">{{schedule.pitch.name}}</a></td>
       <td><a href="schedule-division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
@@ -68,7 +68,7 @@
         {% include "schedule-team.html" with tph=schedule.match.referee %}
       </td>
       <td class="admin d-print-none">
-        {% if kpadmin %}
+        {% if user_role.match_admin %}
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
              <button name="{{schedule.match.id}}" class="badge rounded-pill bg-danger del-score d-print-none" data-bs-toggle="tooltip" title="Delete score">X</button></td><td>
           {% else %}

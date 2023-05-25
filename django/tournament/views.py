@@ -21,12 +21,28 @@ class TournamentListView(ListView):
 class TournamentDetail:
 
     @property
+    def user_role(self):
+        """role dle prihlaseneho uzivatele"""
+        # zatim vsem prihlasenym vse
+        return {
+        'admin_menu'    : self.request.user.is_authenticated,
+        # muze zadavat a mazat score
+        'score_admin'   : self.request.user.is_authenticated,
+        # muze uzavirat tabulky skupin
+        'table_admin'   : self.request.user.is_authenticated,
+        # muze menit zapasy
+        'match_admin'   : self.request.user.is_authenticated,
+        }
+
+    @property
     def tournament(self):
         try:
             tournament = Tournament.objects.get(slug=self.kwargs['slug'])
         except Tournament.DoesNotExist:
             raise Http404("This Tournament does not exist")
         return tournament
+
+
 
 class TournamentDetailView(TemplateView, TournamentDetail):
 
@@ -48,6 +64,7 @@ class TournamentDetailView(TemplateView, TournamentDetail):
         context = {
             'tournament' : self.tournament,
             'division_seed' : division_seed,
+            'user_role' : self.user_role,
         }
 
         return context
@@ -75,6 +92,7 @@ class DivisionSystemView(TemplateView, TournamentDetail):
             'division' : division,
             'groups' : groups,
             'matches' : division.match_set.all().order_by('group__phase','phase_block','id'),
+            'user_role' : self.user_role,
         }
 
         return context
@@ -113,6 +131,7 @@ class DivisionRankingView(TemplateView, TournamentDetail):
         context = {
             'tournament' : self.tournament,
             'rankings' : rankings,
+            'user_role' : self.user_role,
         }
 
         return context
@@ -143,7 +162,7 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'division' : division,
             'tables' : tables,
-            'kpadmin' : self.request.user.is_authenticated,
+            'user_role' : self.user_role,
         }
 
         return context
@@ -168,7 +187,7 @@ class DivisionTablesView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'division' : division,
             'tables' : tables,
-            'kpadmin' : self.request.user.is_authenticated,
+            'user_role' : self.user_role,
         }
 
         return context
@@ -267,10 +286,10 @@ class ScheduleView(TemplateView, TournamentDetail):
             'tournament' : tournament,
             'pitches' : tournament.pitch_set.all(),
             'schedules' : schedules,
-            'kpadmin' : self.request.user.is_authenticated,
             'teams': teams,
             'highlight_team' : highlight_team,
             'filtered_for' : filtered_for,
+            'user_role' : self.user_role,
             # 'mark_team': mteam,
         }
 
@@ -400,7 +419,7 @@ class PrintsView(TemplateView, TournamentDetail):
         context = {
             'tournament' : self.tournament,
             'last_schedule' : last_schedule,
-            'kpadmin' : self.request.user.is_authenticated,
+            'user_role' : self.user_role,
         }
 
         return context
