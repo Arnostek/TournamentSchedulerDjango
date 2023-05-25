@@ -341,7 +341,9 @@ def SwitchMatch(request,  sid1, sid2):
     s1.save()
     s2.save()
     t = s1.tournament
-    return redirect('/live/' + t.slug + '/schedule-full')
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 
 
