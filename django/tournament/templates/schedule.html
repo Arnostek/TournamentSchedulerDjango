@@ -11,13 +11,13 @@
           </button>
           {% endif%}
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarFilter" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarFilter" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarFilter">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link">filter old games <input type="checkbox" id="tgns"></a></li>
-			
+
           </ul>
       </div>
     </nav>
@@ -70,7 +70,7 @@
       <td class="admin d-print-none">
         {% if kpadmin %}
           {% if  not schedule.match.locked and schedule.match.home_points is not None %}
-             <button name="{{schedule.match.id}}" class="badge rounded-pill bg-danger del-score d-print-none" data-toggle="tooltip" title="Delete score">X</button></td><td>
+             <button name="{{schedule.match.id}}" class="badge rounded-pill bg-danger del-score d-print-none" data-bs-toggle="tooltip" title="Delete score">X</button></td><td>
           {% else %}
               <input type="checkbox" id="select{{schedule.id}}" class="teamselector" onclick="selectMatch({{schedule.id}})"></td>
               <td class="admin"><a href="/schedule-switch-{{schedule.id}}-xx" class="teamswitch"> <span class="fa fa-random fa-lg"></span> </a>
