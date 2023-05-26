@@ -35,6 +35,15 @@
       </div>
 
       <div class="col">
+        <h3>Division old tables</h3>
+          <ol class="list-group">
+            {% for div in tournament.division_set.all %}
+            <li class="list-group-item"><a href="/live/{{tournament.slug}}/tables-division-{{div.id}}">{{div.name}}</a></li>
+            {% endfor %}
+          </ol>
+      </div>
+
+      <div class="col">
         <h3>Division ranking</h3>
           <ol class="list-group">
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/ranking-all">All divisions</a></li>

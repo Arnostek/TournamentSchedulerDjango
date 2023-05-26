@@ -47,22 +47,6 @@
           </li>
           {% endif %}
 
-
-          {% if user_role.admin_menu %}
-          <!-- stare tabulky - casem smazeme -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              OLD Tables
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              {% for div in tournament.division_set.all %}
-              <a class="dropdown-item" href="tables-division-{{div.id}}">{{div.name}}</a>
-              {% endfor %}
-            </div>
-          </li>
-          {% endif %}
-
-
         </ul>
       </div>
       {% endif %}
