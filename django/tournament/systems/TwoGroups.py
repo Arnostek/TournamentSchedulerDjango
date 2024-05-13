@@ -30,6 +30,7 @@ class TwoGroups(DivisionSystemBase):
         # lichy pocet tymu = skupina poslednich tri
         if self.last3:
             self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase,['Last3'])
+            self.division.CreateRanks(self.teams_count - 2,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
         phase += 1
@@ -41,20 +42,22 @@ class TwoGroups(DivisionSystemBase):
         mista.reverse()
         for misto in mista:
             self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], phase)
+            self.division.CreateRanks(misto,self.division.GetGroupsRanks(['{}th'.format(misto)]))
 
         if self.semi5_8:
             self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[2:4], phase)
+            self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
             self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[0:2], phase)
-
+            self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
-        # final
+        # Final
         phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
+        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
@@ -75,4 +78,4 @@ class TwoGroups(DivisionSystemBase):
         if self.teams_count > 6 and self.semi5_8:
             self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
 
-        self._GroupAddReferees('final',[self.division.GetGroupsRanks(['5th'])[0]])
+        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])

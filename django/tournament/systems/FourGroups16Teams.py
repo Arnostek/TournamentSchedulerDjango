@@ -32,14 +32,27 @@ class FourGroups16Teams(DivisionSystemBase):
         # Places
         phase += 1
         self.division.CreateGroups(['15th'], self.division.GetGroupsRanks(['SF7','SF8'])[2:], phase)
+        self.division.CreateRanks(15,self.division.GetGroupsRanks(['15th']))
+
         self.division.CreateGroups(['13th'], self.division.GetGroupsRanks(['SF7','SF8'])[:2], phase)
+        self.division.CreateRanks(13,self.division.GetGroupsRanks(['13th']))
+
         self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['SF5','SF6'])[2:], phase)
+        self.division.CreateRanks(11,self.division.GetGroupsRanks(['11th']))
+
         self.division.CreateGroups(['9th'], self.division.GetGroupsRanks(['SF5','SF6'])[:2], phase)
+        self.division.CreateRanks(9,self.division.GetGroupsRanks(['9th']))
+
         self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:], phase)
+        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+
         self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[:2], phase)
+        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
+
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
+        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # Final
         phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
-
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))

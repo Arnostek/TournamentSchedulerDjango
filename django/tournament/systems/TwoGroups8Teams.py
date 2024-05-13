@@ -30,17 +30,21 @@ class TwoGroups8Teams(DivisionSystemBase):
         # 7th
         phase += 1
         self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['D'])[2:4], phase)
+        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
 
         # 5th
         self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['D'])[0:2], phase)
+        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
 
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], phase)
+        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # final
         phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['C'])[0:2], phase)
+        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['C'])[0:2], phase)
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
@@ -53,4 +57,4 @@ class TwoGroups8Teams(DivisionSystemBase):
         self._GroupAddReferees('5th', [d_ranks[2]])
 
         self._GroupAddReferees('3rd',[d_ranks[0]])
-        self._GroupAddReferees('final',[c_ranks[2]])
+        self._GroupAddReferees('Final',[c_ranks[2]])
