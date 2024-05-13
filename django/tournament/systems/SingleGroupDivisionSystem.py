@@ -36,7 +36,7 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         if len(a_ranks) > 5 and self.final_for >= 5:
             phase += 1
             self.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]] , phase)
-            self.division.CreateRanks(5,d.GetGroupsRanks(['5th']))
+            self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
 
         # final
         if self.semi:
@@ -58,8 +58,8 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             phase += 1
             self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
 
-        self.division.CreateRanks(3,d.GetGroupsRanks(['3rd']))
-        self.division.CreateRanks(1,d.GetGroupsRanks(['final']))
+        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
 
 
     def _addReferees(self):

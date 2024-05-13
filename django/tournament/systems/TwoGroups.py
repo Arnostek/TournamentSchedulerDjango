@@ -49,12 +49,12 @@ class TwoGroups(DivisionSystemBase):
         # 3rd
         phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
-        self.division.CreateRanks(3,d.GetGroupsRanks(['3rd']))
+        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # final
         phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
-        self.division.CreateRanks(1,d.GetGroupsRanks(['final']))
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
