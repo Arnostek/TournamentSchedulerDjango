@@ -3,7 +3,7 @@ from .DivisionSystemBase import DivisionSystemBase
 class SingleGroupDivisionSystem(DivisionSystemBase):
     """ Jedna zakladni skupina, kazdy s kazdym, zapas o 3. a prvni misto """
 
-    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False,final_for=None,last3=None):
+    def __init__(self,tournament,division_name,division_slug,num_of_teams,semi=False,final_for=None,last3=False):
         # zavolam konsturktor Predka
         super(SingleGroupDivisionSystem, self).__init__(tournament,division_name,division_slug,num_of_teams,semi = True,final_for = final_for,last3=last3)
 
