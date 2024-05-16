@@ -281,7 +281,7 @@ class TournamentSchedulerDataframeEditor:
             # vymazeme radky smerem dolu
             self.schedule[pitch_ind] = self.schedule[pitch_ind][:match_ind]
             # updatneme dolni cast
-            self.schedule[pitch_ind][match_ind:].update(shifted)
+            self.schedule.loc[match_ind:,pitch_ind] = shifted
 
     def _move_match_shift_col(self, match_ind, pitch1_ind, pitch2_ind):
         """ Presune zapas na jine hriste ve stejnem radku a pripadne posune zapasy"""
