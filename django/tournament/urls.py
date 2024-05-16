@@ -17,6 +17,7 @@ urlpatterns = [
     path('reopen/group-<int:gid>', views.ReopenGroup),
     # Check for conflicts
     path('findconflicts/tournament-<int:tid>', views.FindConflicts),
+    path('<slug:slug>/findconflicts', views.FindConflicts),
 ]
 
 urlpatterns_tmp = [

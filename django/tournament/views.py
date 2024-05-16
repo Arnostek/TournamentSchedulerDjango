@@ -372,8 +372,11 @@ def ReopenGroup(request, gid):
 
     return HttpResponse("OK")
 
-def FindConflicts(request, tid):
-    tm = Tournament.objects.get(id = tid)
+def FindConflicts(request, tid = None, slug = None):
+    if tid == None:
+        tm = Tournament.objects.get(slug = slug)
+    else:
+        tm = Tournament.objects.get(id = tid)
     response = ""
     df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in tm.schedule_set.all()])
     df = df.pivot(columns='pitch',index='time',values='match')
