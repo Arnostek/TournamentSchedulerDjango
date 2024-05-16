@@ -338,7 +338,7 @@ class TournamentSchedulerDataframeTester:
 
     def schedule_matches_only(self):
         """ schedule zafiltrovane jen na matche"""
-        return self.schedule[self.schedule.applymap(lambda x : isinstance(x,models.Match))]
+        return self.schedule[self.schedule.map(lambda x : isinstance(x,models.Match))]
 
     def count_matches(self):
         """ pocty zapasu bez mezer po hristich"""
@@ -346,19 +346,19 @@ class TournamentSchedulerDataframeTester:
 
     def _getGroupMatchesDf(self,group):
         """vraci dataframe kde jsou jen zapasy skupiny z parametru"""
-        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and m.group == group else None)
+        return self.schedule.map(lambda m : m if isinstance(m,models.Match) and m.group == group else None)
 
     def _getTphMatchesDf(self,tph):
         """vraci dataframe kde jsou jen zapasy tph z parametru"""
-        return self.schedule.applymap(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
+        return self.schedule.map(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
 
     def _getFreeSlotsDf(self):
         """ Vraci dataframe s prazdnymi hracimi sloty """
-        return self.schedule.isna().applymap(lambda v : 1 if v else None)
+        return self.schedule.isna().map(lambda v : 1 if v else None)
 
     def _getNonMatchSlotsDf(self):
         """ Vraci dataframe se sloty kde nejsou zapasy """
-        return self.schedule.applymap(lambda m : 1 if not isinstance(m,models.Match) else None)
+        return self.schedule.map(lambda m : 1 if not isinstance(m,models.Match) else None)
 
     def _canPlaceTph(self,tph,df_index,surroundings=True):
         """ test, zda muzeme tph umistit na dany index a okolni radky
@@ -388,7 +388,7 @@ class TournamentSchedulerDataframeTester:
         """
         if isinstance(match, models.Match):
             for tph in [match.home,match.away,match.referee]:
-                if not self._canPlaceTph(tph,df_index,surroundings):
+                if tph and not self._canPlaceTph(tph,df_index,surroundings):
                     return False
         return True
 
