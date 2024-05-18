@@ -305,6 +305,9 @@ def SetScore(request, mid, who, score):
 
     if score > 50:
         return HttpResponse("Error: Score > 50!", status=400)
+        
+    if m.group.NeedsWinner:
+        return HttpResponse("Error: Match needs winner!", status=400)
 
     if who == 'home':
         m.home_score = score

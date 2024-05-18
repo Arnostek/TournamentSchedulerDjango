@@ -359,6 +359,11 @@ class Group(models.Model):
                 last_schedule = m.schedule_set.last()
 
         return last_schedule
+        
+    @property
+    def NeedsWinner(self):
+        """ zapasy ve skupine potrebuji viteze"""
+        return self.teams == 2 
 
 
 
