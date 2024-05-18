@@ -314,8 +314,10 @@ def SetScore(request, mid, who, score):
 
     # final match needs winner
     if m.group.NeedsWinner and (m.home_score == m.away_score):
-        m.home_score = None
-        m.away_score = None
+        if who == 'home':
+            m.home_score = None
+        elif who == 'away':
+            m.away_score = None
         return HttpResponse("Error: Match needs winner!", status=400)
 
     m.save()
