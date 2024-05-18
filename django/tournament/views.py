@@ -305,17 +305,17 @@ def SetScore(request, mid, who, score):
 
     if score > 50:
         return HttpResponse("Error: Score > 50!", status=400)
-        
+
     if who == 'home':
         m.home_score = score
 
     elif who == 'away':
         m.away_score = score
-    
+
     # final match needs winner
-    if m.group.NeedsWinner and (m.home_score == m.away_score)
+    if m.group.NeedsWinner and (m.home_score == m.away_score):
         return HttpResponse("Error: Match needs winner!", status=400)
-    
+
     m.save()
 
     return HttpResponse("OK")
