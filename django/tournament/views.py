@@ -233,6 +233,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
                 'time' : s.time,
                 'phase' : s.match.group.phase,
                 'tournament' : s.match.division.tournament.name,
+                'final_match' : s.match.group.NeedsWinner,
                 })
 
         return {'matches' : matches}
