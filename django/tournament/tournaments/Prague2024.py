@@ -21,7 +21,7 @@ import pytz
 # models.Tournament.objects.get(slug='PIT2024_TEST002').delete()
 
 # turnaj
-prague2024 = models.Tournament(name = "PIT 2024 TEST", slug = "PIT2024_TEST002")
+prague2024 = models.Tournament(name = "PIT 2024 TEST", slug = "PIT2024_TEST003")
 prague2024.save()
 print(prague2024)
 ####################################################
