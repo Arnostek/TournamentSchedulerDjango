@@ -1,7 +1,7 @@
 from . import models
 import pandas as pd
 import numpy as np
-
+from .models import TeamPlaceholder
 
 class TournamentSchedulerDataframeCreator:
     """ creates schedule dataframe from tournament matches """
