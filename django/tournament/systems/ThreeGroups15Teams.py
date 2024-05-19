@@ -17,27 +17,18 @@ class ThreeGroups15Teams(DivisionSystemBase):
         phase = 1
         self.division.CreateGroups(['A','B','C'], self.division.seed_placeholders, phase)
 
-        # meziskupiny pro 2. a 3.
+        # meziskupiny
         phase += 1
-        self.division.CreateGroups(['E'], self.division.GetGroupsRanks(['A','B','C'])[3:6], phase)
-        self.division.CreateGroups(['F'], self.division.GetGroupsRanks(['A','B','C'])[6:9], phase)
+        # 1- 6
+        self.division.CreateGroups(['E'], [self.division.GetGroupsRanks(['A'])[0], self.division.GetGroupsRanks(['B'])[1], self.division.GetGroupsRanks(['C'])[0]], phase)
+        self.division.CreateGroups(['F'], [self.division.GetGroupsRanks(['A'])[1], self.division.GetGroupsRanks(['B'])[0], self.division.GetGroupsRanks(['C'])[1]], phase)
+        # 7- 12
+        self.division.CreateGroups(['G'], [self.division.GetGroupsRanks(['A'])[2], self.division.GetGroupsRanks(['B'])[3], self.division.GetGroupsRanks(['C'])[2]], phase)
+        self.division.CreateGroups(['H'], [self.division.GetGroupsRanks(['A'])[3], self.division.GetGroupsRanks(['B'])[2], self.division.GetGroupsRanks(['C'])[3]], phase)
 
-        # QF pro 1-8
+        # # SF pro 1-4
         phase += 1
-        self.division.CreateGroups(['QF1'], [self.division.GetGroupsRanks(['A'])[0], self.division.GetGroupsRanks(['F'])[1]], phase)
-        self.division.CreateGroups(['QF2'], [self.division.GetGroupsRanks(['B'])[0], self.division.GetGroupsRanks(['F'])[0]], phase)
-        self.division.CreateGroups(['QF3'], [self.division.GetGroupsRanks(['C'])[0], self.division.GetGroupsRanks(['E'])[2]], phase)
-        self.division.CreateGroups(['QF4'], [self.division.GetGroupsRanks(['E'])[0], self.division.GetGroupsRanks(['E'])[1]], phase)
-
-        # SF a Last3
-        phase += 1
-        # SF 8-12
-        self.division.CreateGroups(['SF5'], [self.division.GetGroupsRanks(['F'])[2], self.division.GetGroupsRanks(['C'])[3]], phase)
-        self.division.CreateGroups(['SF6'], [self.division.GetGroupsRanks(['A'])[3], self.division.GetGroupsRanks(['B'])[3]], phase)
-        # porazeni horniho QF
-        self.division.CreateGroups(['SF3','SF4'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[4:], phase)
-        # vitezove horniho QF
-        self.division.CreateGroups(['SF1','SF2'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[:4], phase)
+        self.division.CreateGroups(['SF1','SF2'], self.division.GetGroupsRanks(['E','F'])[:4], phase)
 
         # Places
         phase += 1
@@ -46,16 +37,17 @@ class ThreeGroups15Teams(DivisionSystemBase):
         self.division.CreateRanks(13,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
-        self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['SF5','SF6'])[2:], phase)
+        phase += 1
+        self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['G','H'])[4:6], phase)
         self.division.CreateRanks(11,self.division.GetGroupsRanks(['11th']))
 
-        self.division.CreateGroups(['9th'], self.division.GetGroupsRanks(['SF5','SF6'])[:2], phase)
+        self.division.CreateGroups(['9th'], self.division.GetGroupsRanks(['G','H'])[2:4], phase)
         self.division.CreateRanks(9,self.division.GetGroupsRanks(['9th']))
 
-        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:], phase)
+        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['G','H'])[:2], phase)
         self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
 
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[:2], phase)
+        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['E','F'])[4:], phase)
         self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
 
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
@@ -65,4 +57,3 @@ class ThreeGroups15Teams(DivisionSystemBase):
         phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
-
