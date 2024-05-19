@@ -18,7 +18,7 @@ import pytz
 # run in shell:
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
 
-# models.Tournament.objects.get(slug='PIT2024_TEST002').delete()
+models.Tournament.objects.get(slug='PIT2024_TEST004').delete()
 
 # turnaj
 prague2024 = models.Tournament(name = "PIT 2024 TEST SEEDING", slug = "PIT2024_TEST004")
