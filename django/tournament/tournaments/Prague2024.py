@@ -9,6 +9,7 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
 from tournament.systems.FourGroups16Teams import FourGroups16Teams
 from tournament.systems.FourGroups15Teams import FourGroups15Teams
+from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
 
 from tournament.TournamentScheduler import TournamentScheduler
 
@@ -17,16 +18,16 @@ import pytz
 # run in shell:
 # docker-compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
 
-models.Tournament.objects.get(slug='PIT2024_TEST001').delete()
+# models.Tournament.objects.get(slug='PIT2024_TEST002').delete()
 
 # turnaj
-prague2024 = models.Tournament(name = "PIT 2024 TEST", slug = "PIT2024_TEST001")
+prague2024 = models.Tournament(name = "PIT 2024 TEST", slug = "PIT2024_TEST002")
 prague2024.save()
 print(prague2024)
 ####################################################
 # men 1
 
-Men1_system = FourGroups15Teams(prague2024,'Men Elite','MenElite',15)
+Men1_system = ThreeGroups15Teams(prague2024,'Men Elite','MenElite',15)
 Men1_system.division.CreateTeams(
     [
         "RKV Berlin",
