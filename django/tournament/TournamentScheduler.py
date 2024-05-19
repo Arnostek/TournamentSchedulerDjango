@@ -367,6 +367,9 @@ class TournamentSchedulerDataframeTester:
             df_index    - index zapasu
             surroundings- prohledavat radek nad a pod
         """
+        # pokud tph nereprezentuje tym, muzeme ho umistit kamkoli
+        if tph == None:
+            return True
         # indexy zapasu ve kterych tym hraje, nebo piska
         match_indexes = self._getTphMatchesDf(tph).dropna(how='all').index
         # testujeme na index
