@@ -98,7 +98,7 @@ Men2_system.division.CreateTeams(
         "Leipzig",
         "WCH Berlin",
         "KTW Kalisz B",
-        "Dobroptah (Czech)",
+        "Dobroptaah",
         "Szeged",
     ]
 )
