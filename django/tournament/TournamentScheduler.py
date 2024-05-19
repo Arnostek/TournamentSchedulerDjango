@@ -391,7 +391,7 @@ class TournamentSchedulerDataframeTester:
         """
         if isinstance(match, models.Match):
             for tph in [match.home,match.away,match.referee]:
-                if tph and not self._canPlaceTph(tph,df_index,surroundings):
+                if isinstance(tph,TeamPlaceholder) and not self._canPlaceTph(tph,df_index,surroundings):
                     return False
         return True
 
