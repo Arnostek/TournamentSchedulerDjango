@@ -15,16 +15,16 @@ class ThreeGroups15Teams(DivisionSystemBase):
     def _createSystem(self):
         # phase 1 - zakladni skupina. Skupiny 5,5,5
         phase = 1
-        self.division.CreateGroups(['A','B','C'], self.division.seed_placeholders, phase)
+        self.division.CreateGroups(['A','B','C'], self.division.seed_placeholders, phase, ['A','B','C'])
 
         # meziskupiny
         phase += 1
         # 1- 6
-        self.division.CreateGroups(['E'], [self.division.GetGroupsRanks(['A'])[0], self.division.GetGroupsRanks(['B'])[1], self.division.GetGroupsRanks(['C'])[0]], phase)
-        self.division.CreateGroups(['F'], [self.division.GetGroupsRanks(['A'])[1], self.division.GetGroupsRanks(['B'])[0], self.division.GetGroupsRanks(['C'])[1]], phase)
+        self.division.CreateGroups(['E'], [self.division.GetGroupsRanks(['A'])[0], self.division.GetGroupsRanks(['B'])[1], self.division.GetGroupsRanks(['C'])[0]], phase, ['E'])
+        self.division.CreateGroups(['F'], [self.division.GetGroupsRanks(['A'])[1], self.division.GetGroupsRanks(['B'])[0], self.division.GetGroupsRanks(['C'])[1]], phase, ['F'])
         # 7- 12
-        self.division.CreateGroups(['G'], [self.division.GetGroupsRanks(['A'])[2], self.division.GetGroupsRanks(['B'])[3], self.division.GetGroupsRanks(['C'])[2]], phase)
-        self.division.CreateGroups(['H'], [self.division.GetGroupsRanks(['A'])[3], self.division.GetGroupsRanks(['B'])[2], self.division.GetGroupsRanks(['C'])[3]], phase)
+        self.division.CreateGroups(['G'], [self.division.GetGroupsRanks(['A'])[2], self.division.GetGroupsRanks(['B'])[3], self.division.GetGroupsRanks(['C'])[2]], phase, ['G'])
+        self.division.CreateGroups(['H'], [self.division.GetGroupsRanks(['A'])[3], self.division.GetGroupsRanks(['B'])[2], self.division.GetGroupsRanks(['C'])[3]], phase, ['H'])
 
         # # SF pro 1-4
         phase += 1
