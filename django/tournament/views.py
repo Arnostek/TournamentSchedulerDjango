@@ -233,6 +233,7 @@ class ProtocolsView(TemplateView, TournamentDetail):
                 'time' : s.time,
                 'phase' : s.match.group.phase,
                 'tournament' : s.match.division.tournament.name,
+                'final_match' : s.match.group.NeedsWinner,
                 })
 
         return {'matches' : matches}
@@ -308,11 +309,19 @@ def SetScore(request, mid, who, score):
 
     if who == 'home':
         m.home_score = score
-        m.save()
 
     elif who == 'away':
         m.away_score = score
-        m.save()
+
+    # final match needs winner
+    if m.group.NeedsWinner and (m.home_score == m.away_score):
+        if who == 'home':
+            m.home_score = None
+        elif who == 'away':
+            m.away_score = None
+        return HttpResponse("Error: Match needs winner!", status=400)
+
+    m.save()
 
     return HttpResponse("OK")
 

@@ -1,4 +1,4 @@
-FROM python:3-stretch
+FROM python:3-bookworm
 
 RUN apt-get update; \
     apt-get upgrade -y; \
