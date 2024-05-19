@@ -11,6 +11,8 @@ class ThreeGroups15Teams(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # doplnime rozhodci
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - zakladni skupina. Skupiny 5,5,5
@@ -33,7 +35,7 @@ class ThreeGroups15Teams(DivisionSystemBase):
         # Places
         phase += 1
         # last3
-        self.division.CreateGroups(['Last3'],self.division.GetGroupsRanks(['A','B','C'])[12:], phase)
+        self.division.CreateGroups(['Last3'],self.division.GetGroupsRanks(['A','B','C'])[12:], phase,['Last3'])
         self.division.CreateRanks(13,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
@@ -57,3 +59,16 @@ class ThreeGroups15Teams(DivisionSystemBase):
         phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+
+    def _addReferees(self):
+        """ Referees for  matches """
+        gh_ranks = self.division.GetGroupsRanks(['G','H'])
+        ef_ranks = self.division.GetGroupsRanks(['E','F'])
+        self._GroupAddReferees('SF1',[ef_ranks[4]])
+        self._GroupAddReferees('SF2',[ef_ranks[5]])
+        self._GroupAddReferees('11th',[ef_ranks[3]])
+        self._GroupAddReferees('9th',[ef_ranks[2]])
+        self._GroupAddReferees('7th',[gh_ranks[2]])
+        self._GroupAddReferees('5th',[gh_ranks[0]])
+        self._GroupAddReferees('3rd',[ef_ranks[5]])
+        self._GroupAddReferees('Final',[ef_ranks[4]])
