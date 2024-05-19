@@ -34,18 +34,18 @@ Men1_system.division.CreateTeams(
         "Poland Men",
         "Team Poznań",
         "Kaniow Men",
-        "KSVH Men",
         "Prague A",
-        "WSD SG Sachsen",
-        "UKK Wien",
         "Poland U21",
+        "KSVH Men",
+        "WSD SG Sachsen",
         "Czech U21",
         "Bremen",
+        "UKK Wien",
         # "Austria U21",
         "Kwisa Lesna",
-        "Blue Men (Hungary)",
         "Nagymaros",
         "KTW Kalisz A",
+        "Blue Men (Hungary)",
     ]
 )
 
@@ -57,8 +57,8 @@ Ladies_system.division.CreateTeams(
     [
         "UKS SET Kaniów Women",
         "KSVH Women",
-        "UKS Kanu Katowice",
         "VMW Berlin Women",
+        "UKS Kanu Katowice",
         "SG Sachsen",
         "SG Dresden",
         "Czech U21 Women",
