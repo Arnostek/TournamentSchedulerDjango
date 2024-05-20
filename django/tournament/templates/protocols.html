@@ -115,9 +115,6 @@
       <tr>
         <th colspan="2">{{match.tournament}}</th>
       </tr>
-      <tr>
-        <th colspan="2">{%if match.final_match %}    This match needs winner!{%endif%}</th>
-      </tr>
     </thead>
     <tbody>
       <tr>
@@ -125,6 +122,11 @@
           <!-- Game info -->
           <table>
             <tbody>
+              {%if match.final_match %}
+              <tr>
+                <th colspan="2">One team must win! Use extra time if needed!</th>
+              </tr>
+              {%endif%}
               <tr>
                 <th>Game Nr.</th>
                 <td>{{match.number}}</td>
