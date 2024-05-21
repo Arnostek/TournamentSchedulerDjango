@@ -19,12 +19,19 @@ class TournamentSchedulerDataframeCreator:
         matches = []
         prev_match = None
         for match in division.match_set.all().order_by('group__phase','phase_block','id'):
-            # mezi skupinami davam pauzu
+            # mezi skupinami davam pauzu dva zapasy
             if self._needPause(prev_match,match):
                 matches.append('Pauza - pocitani')
-            # pri konfliktu davam Pauzu
+                matches.append('Pauza - pocitani')
+            # pri konfliktu zkusim odebrat rozhodciho
             if prev_match and not self._canFollow(prev_match,match):
-                matches.append('Pauza - konflikt')
+                # zkusim odebrat rozhodciho
+                ref = match.referee
+                match.referee = None
+                # pokud to nezabere, vratim rozhodciho a vlozim pauzu
+                if not self._canFollow(prev_match,match):
+                    match.referee = ref
+                    matches.append('Pauza - konflikt')
             # pridam zapas
             matches.append(match)
             prev_match = match
