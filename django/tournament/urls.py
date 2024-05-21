@@ -18,6 +18,7 @@ urlpatterns = [
     # Check for conflicts
     path('findconflicts/tournament-<int:tid>', views.FindConflicts),
     path('<slug:slug>/findconflicts', views.FindConflicts),
+    path('live/<slug:slug>/findconflicts', views.FindConflicts),
 ]
 
 urlpatterns_tmp = [
