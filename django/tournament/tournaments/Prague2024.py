@@ -66,6 +66,21 @@ Ladies_system.division.CreateTeams(
     ]
 )
 
+####################################################
+# men 2
+Men2_system = TwoGroups8Teams(prague2024,'Men 2','Men2',8)
+Men2_system.division.CreateTeams(
+    [
+        "SG Cottbus/Glauchau",
+        "USV Potsdam",
+        "SG Neckarau/Nürnberg",
+        "Leipzig",
+        "WCH Berlin",
+        "KTW Kalisz B",
+        "Dobroptaah",
+        "Szeged",
+    ]
+)
 
 ####################################################
 # U15
@@ -84,22 +99,6 @@ U15_system.division.CreateTeams(
         "Nagymaros U15",
         "VK Berlin U15",
 
-    ]
-)
-
-####################################################
-# men 2
-Men2_system = TwoGroups8Teams(prague2024,'Men 2','Men2',8)
-Men2_system.division.CreateTeams(
-    [
-        "SG Cottbus/Glauchau",
-        "USV Potsdam",
-        "SG Neckarau/Nürnberg",
-        "Leipzig",
-        "WCH Berlin",
-        "KTW Kalisz B",
-        "Dobroptaah",
-        "Szeged",
     ]
 )
 
