@@ -87,17 +87,17 @@ Men2_system.division.CreateTeams(
 U15_system = TwoGroups(prague2024,'U15','U15',11)
 U15_system.division.CreateTeams(
     [
+        "VMW Berlin U15 A",
+        "VK Berlin U15",
+        "Czech U15 A",
+        "WSD U15 1",
         "UKS SET Kaniów U15",
         "Kwisa Lesna U15",
-        "VMW Berlin U15 A",
+        "Nagymaros U15",
+        "Szeged U15",
+        "Czech U15 B",
         "VMW Berlin U15 B",
         "WSD U15 2",
-        "WSD U15 1",
-        "Czech U15 A",
-        "Czech U15 B",
-        "Szeged U15",
-        "Nagymaros U15",
-        "VK Berlin U15",
 
     ]
 )
