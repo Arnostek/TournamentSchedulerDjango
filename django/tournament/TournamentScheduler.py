@@ -28,9 +28,11 @@ class TournamentSchedulerDataframeCreator:
                 # zkusim odebrat rozhodciho
                 ref = match.referee
                 match.referee = None
+                match.save()
                 # pokud to nezabere, vratim rozhodciho a vlozim pauzu
                 if not self._canFollow(prev_match,match):
                     match.referee = ref
+                    match.save()
                     matches.append('Pauza - konflikt')
             # pridam zapas
             matches.append(match)
