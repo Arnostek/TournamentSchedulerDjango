@@ -183,7 +183,13 @@ class TournamentSchedulerDataframeOptimizer:
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
                     # pokud je na novem hristi mene zapasu a je potreba zmensovat
-                    if (isinstance(self.schedule.iloc[match_ind][pitch_ind],models.Match) and self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]) and (self.schedule.count()[pitch_ind] > desired_slots):
+                    current_match = self.schedule.iloc[match_ind][pitch_ind]
+                    if (isinstance(current_match,models.Match) and self.schedule.count()[pitch_ind] > self.schedule.count()[move_to_pitch_ind]) and (self.schedule.count()[pitch_ind] > desired_slots):
+                        # 1. zapas z phase neposouvame
+                        if self.DfTester._getDivisionPhaseFirstMatchIdex(current_match,current_match.group.phase) == match_ind:
+                            print("Neposouvame match (phase 1st match) - Pitch: {}, match: {}".format(pitch_ind,match_ind))
+                            continue
+
                         # najdeme si dalsi zapas
                         if match_ind >= len(self.schedule) -1:
                             next_match = None
