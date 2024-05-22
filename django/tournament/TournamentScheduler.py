@@ -22,7 +22,7 @@ class TournamentSchedulerDataframeCreator:
             # mezi skupinami davam pauzu dva zapasy
             if self._needPause(prev_match,match):
                 matches.append('Pauza - pocitani')
-                matches.append('Pauza - pocitani')
+                # matches.append('Pauza - pocitani')
             # pri konfliktu zkusim odebrat rozhodciho
             if prev_match and not self._canFollow(prev_match,match):
                 # zkusim odebrat rozhodciho
