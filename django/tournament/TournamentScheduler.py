@@ -53,6 +53,9 @@ class TournamentSchedulerDataframeCreator:
             for tph in [match2.home,match2.away,match2.referee]:
                 if tph in match1_ranks_tph:
                     return True
+            # pauza je take  potrebna pri zmene phase
+            if match1.group.phase != match2.group.phase:
+                return True
             # pokud neni problem, neni pauza potreba
             return False
 
