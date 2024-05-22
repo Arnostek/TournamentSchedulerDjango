@@ -195,6 +195,11 @@ class TournamentSchedulerDataframeOptimizer:
                             next_match = None
                         else:
                             next_match = self.schedule.iloc[match_ind + 1, pitch_ind]
+                            if isinstance(next_match,models.Match):
+                                if next_match.group.phase != current_match.group.phase:
+                                    print("Neposouvame match (zmena phase) - Pitch: {}, match: {}".format(pitch_ind,match_ind))
+                                    continue
+
                             # pokud to nepujde posunout, jdeme na dalsi hriste
                             if not self.DfTester._canShiftMatch(next_match,match_ind):
                                 print("Neprosel next_match - Pitch: {}, match: {}".format(pitch_ind,match_ind))
