@@ -375,6 +375,10 @@ class TournamentSchedulerDataframeTester:
         """vraci dataframe kde jsou jen zapasy tph z parametru"""
         return self.schedule.map(lambda m : m if isinstance(m,models.Match) and (m.home == tph or m.away == tph or m.referee == tph) else None)
 
+    def _getDivisionPhaseFirstMatchIdex(self,division,phase):
+        """vraci match index prvniho zapasu pro divizi a phase z parametru"""
+        return self.schedule.map(lambda m : m.group.phase if isinstance(m,models.Match) and (m.group.division == division and m.group.phase == phase) else None).dropna(how='all').index.min()
+
     def _getFreeSlotsDf(self):
         """ Vraci dataframe s prazdnymi hracimi sloty """
         return self.schedule.isna().map(lambda v : 1 if v else None)
@@ -429,10 +433,10 @@ class TournamentSchedulerDataframeTester:
             else:
                 return True
         else:
-            # musime otestovat, jestli tymy nejsou na predchozim radku
             # u indexu 0 jsem v pohode
             if match_ind == 0:
                 return True
+            # musime otestovat, jestli tymy nejsou na predchozim radku
             else:
                 # zkoumam vsechny tymy
                 for tph in [next_match.home,next_match.away,next_match.referee]:
