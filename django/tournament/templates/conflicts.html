@@ -1,16 +1,24 @@
 {% extends 'body.html' %}
 
 {% block content %}
-  <ol class="list-group">
-    {% for conflict in conflicts %}
-    <li class="list-group-item">
-      Division {{conflict.match.division}}
-      Group {{conflict.match.group}}
-      Match {{conflict.match}}
-      {{conflict.problem}}
 
-      <!-- <a href="{{tournament.slug}}">{{tournament.name}}</a> -->
-    </li>
+
+<table class="table table-striped">
+  <thead>
+    <th>Division</th>
+    <th>Group</th>
+    <th>Match</th>
+    <th>Problem</th>
+  </thead>
+  <tbody>
+    {% for conflict in conflicts %}
+    <tr>
+      <td><a href="schedule-division-{{conflict.division.id}}">{{conflict.division.name}}</a></td>
+      <td><a href="schedule-division-{{conflict.division.id}}-group-{{conflict.group.id}}">{{conflict.group.name}}</a></td>
+      <td>{{conflict.match.home.team_name}}:{{conflict.match.away.team_name}}</td>
+      <td>{{conflict.problem}}</td>
+    </tr>
     {% endfor %}
-  </ol>
+  </tbody>
+</table>
 {% endblock %}

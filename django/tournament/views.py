@@ -401,7 +401,12 @@ class ConflictsView(TemplateView):
                 # chybejici rozhodci
                 if m1 and not m1.referee:
                     response += ("Missing referee in match num #{} <br>".format(Schedule.objects.get(match=m1).game_number))
-                    conflicts.append({"problem":"Missing referee","match":m1})
+                    conflicts.append({
+                        "problem":"Missing referee",
+                        "division":m1.division,
+                        "group":m1.group,
+                        "match":m1,
+                        })
                 # druhy zapas kontrolujeme na vsech hristich
                 for p2 in range(len(df.columns)):
                     # stejny a nasledujici cas
@@ -411,7 +416,14 @@ class ConflictsView(TemplateView):
                                 for tph2 in [m2.home,m2.away,m2.referee]:
                                     if tph1 == tph2 and tph1 != None:
                                         response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,tph1.team_name, Schedule.objects.get(match=m2).game_number))
-                                        conflicts.append({"problem":"Team coflict","team":tph1,"match":m1,"match2":m2})
+                                        conflicts.append({
+                                            "problem":"Team coflict",
+                                            "division":m1.division,
+                                            "group":m1.group,
+                                            "match":m1,
+                                            "team":tph1,
+                                            "match2":m2,
+                                            })
         # data pro sablonu
         return {'conflicts':conflicts}
 
