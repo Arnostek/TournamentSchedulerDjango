@@ -15,10 +15,6 @@ urlpatterns = [
     # finish group
     path('finish/group-<int:gid>', views.FinishGroup),
     path('reopen/group-<int:gid>', views.ReopenGroup),
-    # Check for conflicts
-    path('findconflicts/tournament-<int:tid>', views.FindConflicts),
-    path('<slug:slug>/findconflicts', views.FindConflicts),
-    path('live/<slug:slug>/findconflicts', views.FindConflicts),
 ]
 
 urlpatterns_tmp = [
@@ -46,6 +42,8 @@ urlpatterns_tmp = [
     ('<slug:slug>/ranking-all', views.DivisionRankingView.as_view()),
     # prints
     ('<slug:slug>/prints', views.PrintsView.as_view()),
+    # conflicts
+    ('<slug:slug>/conflicts', views.ConflictsView.as_view()),
 ]
 
 # add cached and live version for every url from urlpatterns_tmp

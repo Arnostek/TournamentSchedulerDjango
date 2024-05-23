@@ -1,0 +1,16 @@
+{% extends 'body.html' %}
+
+{% block content %}
+  <ol class="list-group">
+    {% for conflict in conflicts %}
+    <li class="list-group-item">
+      Division {{conflict.match.division}}
+      Group {{conflict.match.group}}
+      Match {{conflict.match}}
+      {{conflict.problem}}
+
+      <!-- <a href="{{tournament.slug}}">{{tournament.name}}</a> -->
+    </li>
+    {% endfor %}
+  </ol>
+{% endblock %}
