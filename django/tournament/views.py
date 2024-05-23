@@ -388,7 +388,6 @@ class ConflictsView(TemplateView):
         # nacteme Tournament
         tm = Tournament.objects.get(slug = self.kwargs['slug'])
         # conflicts
-        response = ""
         conflicts = []
         # nacteni schedule do dataframe
         df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in tm.schedule_set.all()])
@@ -400,7 +399,6 @@ class ConflictsView(TemplateView):
                 m1 = df.iloc[i,p1]
                 # chybejici rozhodci
                 if m1 and not m1.referee:
-                    response += ("Missing referee in match num #{} <br>".format(Schedule.objects.get(match=m1).game_number))
                     conflicts.append({
                         "problem":"Missing referee",
                         "division":m1.division,
@@ -415,7 +413,6 @@ class ConflictsView(TemplateView):
                             for tph1 in [m1.home,m1.away,m1.referee]:
                                 for tph2 in [m2.home,m2.away,m2.referee]:
                                     if tph1 == tph2 and tph1 != None:
-                                        response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,tph1.team_name, Schedule.objects.get(match=m2).game_number))
                                         conflicts.append({
                                             "problem":"Team conflict - ",
                                             "division":m1.division,
