@@ -417,7 +417,7 @@ class ConflictsView(TemplateView):
                                     if tph1 == tph2 and tph1 != None:
                                         response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,tph1.team_name, Schedule.objects.get(match=m2).game_number))
                                         conflicts.append({
-                                            "problem":"Team coflict",
+                                            "problem":"Team conflict - ",
                                             "division":m1.division,
                                             "group":m1.group,
                                             "match":m1,
