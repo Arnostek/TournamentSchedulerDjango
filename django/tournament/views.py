@@ -389,6 +389,7 @@ def FindConflicts(request, tid = None, slug = None):
         tm = Tournament.objects.get(id = tid)
     # response
     response = ""
+    conflicts = []
     # nacteni schedule do dataframe
     df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in tm.schedule_set.all()])
     df = df.pivot(columns='pitch',index='time',values='match')
@@ -400,6 +401,7 @@ def FindConflicts(request, tid = None, slug = None):
             # chybejici rozhodci
             if m1 and not m1.referee:
                 response += ("Missing referee in match num #{} <br>".format(Schedule.objects.get(match=m1).game_number))
+                conflicts.append({"problem":"Missing referee","match":m1})
             # druhy zapas kontrolujeme na vsech hristich
             for p2 in range(len(df.columns)):
                 # stejny a nasledujici cas
@@ -409,6 +411,7 @@ def FindConflicts(request, tid = None, slug = None):
                             for tph2 in [m2.home,m2.away,m2.referee]:
                                 if tph1 == tph2 and tph1 != None:
                                     response += ("Problem match num #{} team {} in match # {}<br>".format(Schedule.objects.get(match=m1).game_number,tph1.team_name, Schedule.objects.get(match=m2).game_number))
+                                    conflicts.append({"problem":"Team coflict","team":tph1,"match":m1,"match2":m2})
     if response == "":
         response += "No conflicts found - yyiihhaaa"
     response += "<a href='/live/"+ tm.slug + "/schedule-full'>Back to the schedule</a>"
