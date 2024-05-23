@@ -382,19 +382,27 @@ def ReopenGroup(request, gid):
     return HttpResponse("OK")
 
 def FindConflicts(request, tid = None, slug = None):
+    # nacteme Tournament
     if tid == None:
         tm = Tournament.objects.get(slug = slug)
     else:
         tm = Tournament.objects.get(id = tid)
+    # response
     response = ""
+    # nacteni schedule do dataframe
     df = pd.DataFrame([{ 'time' : sch.time, 'pitch' : sch.pitch.name, 'match': sch.match }for sch in tm.schedule_set.all()])
     df = df.pivot(columns='pitch',index='time',values='match')
+    # projdeme radky
     for i in range(len(df)-1):
+        # projdeme hriste
         for p1 in range(len(df.columns)):
             m1 = df.iloc[i,p1]
+            # chybejici rozhodci
             if m1 and not m1.referee:
                 response += ("Missing referee in match num #{} <br>".format(Schedule.objects.get(match=m1).game_number))
+            # druhy zapas kontrolujeme na vsech hristich
             for p2 in range(len(df.columns)):
+                # stejny a nasledujici cas
                 for m2 in [df.iloc[i,p2],df.iloc[i+1,p2]]:
                     if m1 and m2 and m1 != m2:
                         for tph1 in [m1.home,m1.away,m1.referee]:
