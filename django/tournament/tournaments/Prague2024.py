@@ -88,14 +88,14 @@ U15_system.division.CreateTeams(
         "VMW Berlin U15 A",
         "VK Berlin U15",
         "Czech U15 A",
-        "WSD U15 1",
+        "WSD U15 A",
         "UKS SET Kaniów U15",
         "Kwisa Lesna U15",
         "Nagymaros U15",
         "Szeged U15",
         "Czech U15 B",
         "VMW Berlin U15 B",
-        "WSD U15 2",
+        "WSD U15 B",
 
     ]
 )
