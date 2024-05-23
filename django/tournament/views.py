@@ -410,11 +410,11 @@ class ConflictsView(TemplateView):
                     # stejny a nasledujici cas
                     for m2 in [df.iloc[i,p2],df.iloc[i+1,p2]]:
                         if m1 and m2 and m1 != m2:
-                            for tph1 in [m1.home,m1.away,m1.referee]:
-                                for tph2 in [m2.home,m2.away,m2.referee]:
+                            for typ1,tph1 in [("play",m1.home),("play",m1.away),("ref",m1.referee)]:
+                                for typ2,tph2 in [("play",m2.home),("play",m2.away),("ref",m2.referee)]:
                                     if tph1 == tph2 and tph1 != None:
                                         conflicts.append({
-                                            "problem":"Team conflict - ",
+                                            "problem":"Team conflict - " + typ1 + " " + typ2,
                                             "division":m1.division,
                                             "group":m1.group,
                                             "match":m1,
