@@ -36,3 +36,7 @@ td.score input{
 div.crosstable-phase{
   break-inside: avoid;
 }
+
+.page-break-after{
+  page-break-after: always;
+}
