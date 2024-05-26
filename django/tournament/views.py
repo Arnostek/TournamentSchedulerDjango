@@ -404,6 +404,7 @@ class ConflictsView(TemplateView):
                         "division":m1.division,
                         "group":m1.group,
                         "match":m1,
+                        "schedule":m1.schedule_set.last(),
                         })
                 # druhy zapas kontrolujeme na vsech hristich
                 for p2 in range(len(df.columns)):
@@ -418,6 +419,7 @@ class ConflictsView(TemplateView):
                                             "division":m1.division,
                                             "group":m1.group,
                                             "match":m1,
+                                            "schedule":m1.schedule_set.last(),
                                             "team":tph1,
                                             "match2":m2,
                                             })

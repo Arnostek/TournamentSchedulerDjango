@@ -5,6 +5,7 @@
 
 <table class="table table-striped">
   <thead>
+    <th>Time</th>
     <th>Division</th>
     <th>Group</th>
     <th>Match</th>
@@ -13,6 +14,7 @@
   <tbody>
     {% for conflict in conflicts %}
     <tr>
+      <td>{{conflict.schedule.time | date:'D'}} {{conflict.schedule.time | date:'H:i'}}</td>
       <td><a href="schedule-division-{{conflict.division.id}}">{{conflict.division.name}}</a></td>
       <td><a href="schedule-division-{{conflict.division.id}}-group-{{conflict.group.id}}">{{conflict.group.name}}</a></td>
       <td>{{conflict.match.home.team_name}}:{{conflict.match.away.team_name}}</td>
