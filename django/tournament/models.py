@@ -301,6 +301,12 @@ class Group(models.Model):
         # vracime dataframe setrideny dle poradi
         return matches
 
+    @property
+    def Rank_conflict(self):
+        """ Vysledky skupiny maji konflikt - potreba stanovit poradi jinak """
+        # max poradi je mensi nez pocet tymu
+        return self.ResultsDetail['Rank'].max() < self.teams
+
 
     @property
     def All_scores_filled(self):

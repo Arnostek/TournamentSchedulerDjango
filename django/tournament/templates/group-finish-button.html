@@ -1,8 +1,11 @@
-{% if group.All_scores_filled and not group.finished %}
 
         {% if group.All_scores_filled and not group.finished %}
           {% if user_role.table_admin %}
+            {% if group.Rank_conflict %}
+            <button type="button" class="btn btn-danger btn-sm">Ranking problem</button>
+            {% else %}
             <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
+            {% endif %}
           {% endif %}
         {% elif group.finished %}
           <span class="badge badge-info">finished</span>
