@@ -251,6 +251,8 @@ class ScheduleView(TemplateView, TournamentDetail):
         # mteam = self.request.GET.get('mark_team')
         schedules = tournament.schedule_set.all().order_by('time','pitch')
         highlight_team = None
+        last_match_schedule = tournament.schedule_set.filter(match__isnull=False).order_by('time','pitch').last()
+
 
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
@@ -291,6 +293,7 @@ class ScheduleView(TemplateView, TournamentDetail):
             'highlight_team' : highlight_team,
             'filtered_for' : filtered_for,
             'user_role' : self.user_role,
+            'last_match_schedule' : last_match_schedule
             # 'mark_team': mteam,
         }
 
