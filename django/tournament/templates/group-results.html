@@ -2,13 +2,7 @@
     <tr>
       <th>
         Group {{group.name}}
-        {% if group.All_scores_filled and not group.finished %}
-          {% if user_role.table_admin %}
-          <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
-          {% endif %}
-        {% elif group.finished %}
-          <span class="badge badge-info">finished</span>
-        {% endif %}
+        {% include "group-finish-button.html" %}
       </th>
     </tr>
     <tr>
