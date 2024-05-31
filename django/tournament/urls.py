@@ -15,6 +15,7 @@ urlpatterns = [
     # finish group
     path('finish/group-<int:gid>', views.FinishGroup),
     path('reopen/group-<int:gid>', views.ReopenGroup),
+    path('add-tiepoints/group-<int:gid>-tph-<int:tphid>', views.AddTiePoints),
 ]
 
 urlpatterns_tmp = [
