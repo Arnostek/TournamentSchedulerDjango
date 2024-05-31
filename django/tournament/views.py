@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
-from .models import Tournament, Division, Group, Match, Schedule, Pitch, Team
+from .models import Tournament, Division, Group, Match, Schedule, Pitch, Team, GroupTieRankingPoints
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -381,6 +381,28 @@ def ReopenGroup(request, gid):
 
     g.finished = False
     g.save()
+
+    return HttpResponse("OK")
+
+
+@login_required
+def AddTiePoints(request, gid, tphid):
+    # nacteme skupinu
+    g = Group.objects.get(id = gid)
+
+    if g.finished:
+        return HttpResponse("Error: Group is finished!", status=400)
+
+    if not g.All_scores_filled:
+        return HttpResponse("Error: All scores are not filled!", status=400)
+
+    # vytvorime Tie Points
+    g.CreateGroupTieRankingPoints()
+
+    # nacteme prislusne group tie points
+    gtp = GroupTieRankingPoints.objects.filter(group = g).get(tph__id = tphid)
+    gtp.tiepoints += 1
+    gtp.save()
 
     return HttpResponse("OK")
 
