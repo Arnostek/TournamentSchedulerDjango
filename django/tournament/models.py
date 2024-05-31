@@ -323,7 +323,7 @@ class Group(models.Model):
 
         return True
 
-    def AddTeamResult(self, teamPlaceholder, points, scored, obtained):
+    def AddTeamResult(self, teamPlaceholder, points, scored, obtained, tiepoints = 0):
         """ Pripocteni bodu pro jeden tym"""
 
         if teamPlaceholder not in self.GroupResults:
@@ -333,9 +333,13 @@ class Group(models.Model):
             'diff' : 0,
             'scored' : 0,
             'obtained' : 0,
+            'tiepoints' : 0,
             }
 
-        if (points != None):
+        if tiepoints > 0:
+            self.GroupResults[teamPlaceholder]['tiepoints'] += tiepoints
+
+        elif (points != None):
             self.GroupResults[teamPlaceholder]['games'] +=  1
             self.GroupResults[teamPlaceholder]['points'] +=  points
             self.GroupResults[teamPlaceholder]['scored'] += scored
