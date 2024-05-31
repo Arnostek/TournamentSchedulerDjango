@@ -263,7 +263,7 @@ class Group(models.Model):
             df.loc[match.away,match.home] = match
 
         # df pro vysledky
-        results = pd.DataFrame(index=df.index, columns=['Games','Points','Diff','Scored','Obtained','Rank'])
+        results = pd.DataFrame(index=df.index, columns=['Games','Points','Diff','Scored','Obtained','TiePoints','Rank'])
 
         # vysledky zapasu
         matches = pd.DataFrame(index=df.index,columns=df.columns)
@@ -276,6 +276,7 @@ class Group(models.Model):
             results.loc[tph,'Points'] = self.Results[tph]['points']
             results.loc[tph,'Scored'] = self.Results[tph]['scored']
             results.loc[tph,'Obtained'] = self.Results[tph]['obtained']
+            results.loc[tph,'TiePoints'] = self.Results[tph]['tiepoints']
 
             for tph_col in df.columns:
 
@@ -290,7 +291,7 @@ class Group(models.Model):
 
         results['Diff'] = results['Scored'] - results['Obtained']
         # rank - setridime index a naplnime Rank
-        rank_cols = ['Points','Diff','Scored']
+        rank_cols = ['Points','Diff','Scored','TiePoints']
         # results.loc[results.sort_values(by=rank_cols,ascending=False).index,'Rank'] = range(1,len(results)+1)
         results['Rank'] = results.sort_values(by=rank_cols,ascending=False).groupby(rank_cols, sort=False).ngroup()+1
         # vse prevedeme na int
@@ -304,7 +305,7 @@ class Group(models.Model):
         matches.columns = matches.columns.map(lambda t: t.team_name if isinstance(t,TeamPlaceholder) else t)
 
         # vracime dataframe setrideny dle poradi
-        return matches
+        return matches.drop('TiePoints', axis=1)
 
     @property
     def Rank_conflict(self):
