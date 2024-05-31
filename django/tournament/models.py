@@ -202,6 +202,16 @@ class Group(models.Model):
             away = self.groupseed_set.get(rank = zapas_tup[1]).teamPlaceholder,
         )
 
+    def CreateGroupTieRankingPoints(self):
+        """ Vytvoreni zaznamu ExtrRankingPoints pro skupinu"""
+        if self.grouptierankingpoints_set.count() == 0:
+            for gs in self.groupseed_set.all():
+                erp = GroupTieRankingPoints()
+                erp.tph = gs.teamPlaceholder
+                erp.group = self
+                erp.tiepoints = 0
+                erp.save()
+
     @property
     def Results(self):
         """ Vypocte body tymu ve skupine """
@@ -380,8 +390,6 @@ class Group(models.Model):
     def NeedsWinner(self):
         """ zapasy ve skupine potrebuji viteze"""
         return self.teams == 2
-
-
 
 class GroupPointsTransfer(models.Model):
     """ Prenaseni bodu mezi skupinami """
