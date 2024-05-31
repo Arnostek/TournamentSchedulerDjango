@@ -229,6 +229,10 @@ class Group(models.Model):
                     for i in range(old_result["games"]-1):
                         self.AddTeamResult(new_gs_set[0].teamPlaceholder,0,0,0)
 
+        # pokud existuji, pricteme body z GroupTieRankingPoints
+        for erp in self.grouptierankingpoints_set.all():
+            self.AddTeamResult(erp.tph, None, None, None, erp.tiepoints)
+
         # setridene dle poradi
         tmp =  sorted(
             self.GroupResults.items(),
@@ -236,6 +240,7 @@ class Group(models.Model):
                     int(item[1]['points']),
                     int(item[1]['diff']),
                     int(item[1]['scored']),
+                    int(item[1]['tiepoints']),
             ),
             reverse = True
         )
