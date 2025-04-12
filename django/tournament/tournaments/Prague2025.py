@@ -19,7 +19,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
 
 # turnaj
-prague2025 = models.Tournament(name = "PIT 2025", slug = "PIT2025")
+prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST03")
 prague2025.save()
 print(prague2025)
 ####################################################
@@ -97,15 +97,15 @@ U15_system.division.CreateTeams(
         "Havelbrüder U15", 
         "VK Berlin U15", 
         "Alytus U15", 
-        "VMW Berlin U15 A"
-        "VMW Berlin U15 B"
-        "Hungary U15"
+        "VMW Berlin U15 A", 
+        "VMW Berlin U15 B", 
+        "Hungary U15", 
     ]
 )
 
 ####################################################
 # U12
-U12_system = TwoGroups(prague2025,'U12','U12',11)
+U12_system = TwoGroups(prague2025,'U12','U12',8)
 U12_system.division.CreateTeams(
     [
         "Prague U12", 
@@ -131,13 +131,13 @@ ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
 # optimize games
-ts.tdo._reduceEmptySlots01(40)
-ts.tdo._reduceEmptySlots02(40)
-ts.tdo._reduceEmptySlots03(40)
+ts.tdo._reduceEmptySlots01(50)
+ts.tdo._reduceEmptySlots02(50)
+ts.tdo._reduceEmptySlots03(50)
 
 ts.Schedule(
     [
-        (datetime.datetime(2024,5,25,7,00,tzinfo = pytz.utc),datetime.datetime(2024,5,25,19,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2024,5,26,7,00,tzinfo = pytz.utc),datetime.datetime(2024,5,26,23,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2025,5,17,7,00,tzinfo = pytz.utc),datetime.datetime(2025,5,17,19,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2025,5,18,7,00,tzinfo = pytz.utc),datetime.datetime(2025,5,18,23,30,tzinfo = pytz.utc)),
     ]
 )
