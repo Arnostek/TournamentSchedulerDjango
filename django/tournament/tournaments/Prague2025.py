@@ -54,16 +54,16 @@ Men1_system.division.CreateTeams(
 Ladies_system = TwoGroups(prague2025,'Ladies','Ladies',10, semi5_8=True)
 Ladies_system.division.CreateTeams(
     [
-         "Girls 99", 
+        "VMW Berlin Women", 
         "Kaniow Women", 
-        "Katowize Women", 
-        "Dresden Women", 
-        "Prague Women", 
         "Mosw Choszczno Women", 
+        "Katowize Women", 
+        "Prague Women", 
         "Swiss U21", 
         "Havelbrüder Women", 
+        "Girls 99", 
+        "Dresden Women", 
         "Prague Girls", 
-        "VMW Berlin Women", 
     ]
 )
 
