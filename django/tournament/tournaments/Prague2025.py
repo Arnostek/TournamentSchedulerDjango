@@ -1,15 +1,16 @@
 from tournament import models
 import datetime
-from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
-from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
+# from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
+# from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
 # from tournament.systems.TwoGroups8TeamsMiddle import TwoGroups8TeamsMiddle
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
-from tournament.systems.FourGroups16Teams import FourGroups16Teams
+# from tournament.systems.FourGroups16Teams import FourGroups16Teams
+# from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
 from tournament.systems.FourGroups15Teams import FourGroups15Teams
-from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
+
 
 from tournament.TournamentScheduler import TournamentScheduler
 
