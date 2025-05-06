@@ -11,6 +11,8 @@ class FourGroups15Teams(DivisionSystemBase):
         self._createSystem()
         # vygeneruji zapasy
         self._createMatches()
+        # doplnime rozhodci
+        self._addReferees()
 
     def _createSystem(self):
         # phase 1 - zakladni skupina. Skupiny 4,4,4 a 3
@@ -68,3 +70,31 @@ class FourGroups15Teams(DivisionSystemBase):
         phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase, ['5th'])
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+        
+    def _addReferees(self):
+        """ Doplneni rozhodcich pro finalove zapasy """
+
+        self._GroupAddReferees('EF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[4]])
+        self._GroupAddReferees('EF2',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[5]])
+
+        self._GroupAddReferees('M1',[self.division.GetGroupsRanks(['EF1', 'B'])[1]])
+
+        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[8]])
+        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[9]])
+        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[10]])
+        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[11]])
+
+        
+#        self._GroupAddReferees('11th',[self.division.GetGroupsRanks(['7th'])[0]])
+#        self._GroupAddReferees('9th',[self.division.GetGroupsRanks(['7th'])[0]])
+        self._GroupAddReferees('SF1',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[4]])
+        self._GroupAddReferees('SF2',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[5]])
+        self._GroupAddReferees('SF3',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[0]])
+        self._GroupAddReferees('SF4',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[1]])
+        self._GroupAddReferees('SF5',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[2]])
+        self._GroupAddReferees('SF6',[self.division.GetGroupsRanks(['QF1', 'QF2','QF3', 'QF4' ])[3]])
+        
+        self._GroupAddReferees('7th',[self.division.GetGroupsRanks(['11th'])[0]])
+        self._GroupAddReferees('5th',[self.division.GetGroupsRanks(['9th'])[0]])
+        self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
+        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
