@@ -135,9 +135,9 @@ ts.AddReferees()
 
 
 # optimize games
-ts.tdo._reduceEmptySlots01(43)
-ts.tdo._reduceEmptySlots02(43)
-ts.tdo._reduceEmptySlots03(43)
+ts.tdo._reduceEmptySlots01(40)
+ts.tdo._reduceEmptySlots02(40)
+ts.tdo._reduceEmptySlots03(40)
 
 ts.Schedule(
     [
