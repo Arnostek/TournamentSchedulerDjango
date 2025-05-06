@@ -66,6 +66,10 @@ class TwoGroups(DivisionSystemBase):
 
         self._GroupAddReferees('SemiA',[a_ranks[2]])
         self._GroupAddReferees('SemiB',[b_ranks[2]])
+        
+        if self.semi5_8:
+            self._GroupAddReferees('SemiC',[a_ranks[1]])
+            self._GroupAddReferees('SemiD',[b_ranks[1]])
 
         # if self.teams_count > 11:
         #     self._GroupAddReferees('11th',[a_ranks[3]])
