@@ -19,7 +19,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
 
 # turnaj
-prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST05")
+prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST07")
 prague2025.save()
 print(prague2025)
 ####################################################
@@ -86,7 +86,7 @@ Men2_system.division.CreateTeams(
 
 ####################################################
 # U15
-U15_system = TwoGroups(prague2025,'U15','U15',11)
+U15_system = TwoGroups(prague2025,'U15','U15',11, semi5_8=True)
 U15_system.division.CreateTeams(
     [
         "Kaniow U15", 
@@ -130,10 +130,12 @@ ts = TournamentScheduler(prague2025,5)
 ts.AddReferees()
 # ts.schedule.dropna(inplace=True, how='all')
 
+
+
 # optimize games
-ts.tdo._reduceEmptySlots01(50)
-ts.tdo._reduceEmptySlots02(50)
-ts.tdo._reduceEmptySlots03(50)
+ts.tdo._reduceEmptySlots01(43)
+ts.tdo._reduceEmptySlots02(43)
+ts.tdo._reduceEmptySlots03(43)
 
 ts.Schedule(
     [
