@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.http import Http404
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
@@ -6,7 +6,7 @@ from .models import Tournament, Division, Group, Match, Schedule, Pitch, Team, G
 from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+#from datetime import datetime
 from django.utils.dateparse import parse_date
 import pandas as pd
 
@@ -352,7 +352,7 @@ def SwitchMatch(request,  sid1, sid2):
     s2.match = m1
     s1.save()
     s2.save()
-    t = s1.tournament
+#    t = s1.tournament
 
     return redirect(request.META.get('HTTP_REFERER'))
 

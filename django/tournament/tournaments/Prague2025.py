@@ -17,7 +17,7 @@ from tournament.TournamentScheduler import TournamentScheduler
 import pytz
 
 # run in shell:
-# docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
+# docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
 prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST07")
