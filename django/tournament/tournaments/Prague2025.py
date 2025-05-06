@@ -19,13 +19,13 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2024'
 
 # turnaj
-prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST03")
+prague2025 = models.Tournament(name = "PIT 2025 TEST", slug = "PIT2025_TEST05")
 prague2025.save()
 print(prague2025)
 ####################################################
 # men 1
 
-Men1_system = ThreeGroups15Teams(prague2025,'Men Elite','MenElite',15)
+Men1_system = FourGroups15Teams(prague2025,'Men Elite','MenElite',15)
 Men1_system.division.CreateTeams(
     [
         "Kaniow Men A", 
@@ -49,7 +49,7 @@ Men1_system.division.CreateTeams(
 
 ####################################################
 # Ladies
-Ladies_system = TwoGroups(prague2025,'Ladies','Ladies',10)
+Ladies_system = TwoGroups(prague2025,'Ladies','Ladies',10, semi5_8=True)
 Ladies_system.division.CreateTeams(
     [
          "Girls 99", 
@@ -90,7 +90,7 @@ U15_system = TwoGroups(prague2025,'U15','U15',11)
 U15_system.division.CreateTeams(
     [
         "Kaniow U15", 
-        "KWS Ukraine U15", 
+        "Wien U15", 
         "Lesna U15", 
         "Dresden U15", 
         "Prague U15", 
@@ -105,7 +105,7 @@ U15_system.division.CreateTeams(
 
 ####################################################
 # U12
-U12_system = TwoGroups(prague2025,'U12','U12',8)
+U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
 U12_system.division.CreateTeams(
     [
         "Prague U12", 
