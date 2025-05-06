@@ -80,9 +80,9 @@ class FourGroups15Teams(DivisionSystemBase):
         self._GroupAddReferees('M1',[self.division.GetGroupsRanks(['EF1', 'B'])[1]])
 
         self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[8]])
-        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[9]])
-        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[10]])
-        self._GroupAddReferees('QF1',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[11]])
+        self._GroupAddReferees('QF2',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[9]])
+        self._GroupAddReferees('QF3',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[10]])
+        self._GroupAddReferees('QF4',[self.division.GetGroupsRanks(['A', 'B', 'C', 'D'])[11]])
 
         
 #        self._GroupAddReferees('11th',[self.division.GetGroupsRanks(['7th'])[0]])
