@@ -32,12 +32,12 @@ Men1_system.division.CreateTeams(
     [
         "Kaniow Men A", 
         "Kaniow Men B", 
-        "Poznan", 
+        "Poznań", 
         "Katowice Men", 
         "Bremen", 
         "Dresden Men A", 
         "KSV Glauchau", 
-        "KV Nurnberg", 
+        "KV Nürnberg", 
         "Prague A", 
         "DRC Neuburg", 
         "UKK Wien", 
@@ -45,7 +45,7 @@ Men1_system.division.CreateTeams(
         "VK Berlin U21", 
         "VMW Berlin Men",  
         "Nagymaros", 
-      ]
+    ]
 )
 
 
@@ -53,11 +53,11 @@ Men1_system.division.CreateTeams(
 # Ladies
 Ladies_system = TwoGroups(prague2025,'Ladies','Ladies',10, semi5_8=True)
 Ladies_system.division.CreateTeams(
-    [
+     [
         "VMW Berlin Women", 
         "Kaniow Women", 
-        "Mosw Choszczno Women", 
-        "Katowize Women", 
+        "MOSW Choszczno Women", 
+        "Katowice Women", 
         "Prague Women", 
         "Swiss U21", 
         "Havelbrüder Women", 
@@ -76,9 +76,9 @@ Men2_system.division.CreateTeams(
         "USV Potsdam", 
         "KWS Ukraine Men A", 
         #"KWS Ukraine Men B", 
-        "Lesna Men", 
+        "Leśná Men", 
         "Dresden Men B", 
-        "Dobroptaah", 
+        "DobroPtaah", 
         "Kaniow Men C", 
         "Czech U21 M", 
         #"Innsbruck", 
@@ -93,7 +93,7 @@ U15_system.division.CreateTeams(
     [
         "Kaniow U15", 
         "Wien U15", 
-        "Lesna U15", 
+        "Leśná U15", 
         "Dresden U15", 
         "Prague U15", 
         "Havelbrüder U15", 
@@ -112,11 +112,11 @@ U12_system.division.CreateTeams(
     [
         "Prague U12", 
         "Dresden U12", 
-        "Lesna U12", 
+        "Leśná U12", 
         "Veltrusy U12", 
         "Glauchau U12", 
         "Havelbrüder U12", 
-        "Warsawa U12", 
+        "Warszawa U12", 
         "Hungary U12", 
     ]
 )
