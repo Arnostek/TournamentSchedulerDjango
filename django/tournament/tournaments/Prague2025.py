@@ -34,17 +34,17 @@ Men1_system.division.CreateTeams(
         "Kaniow Men A", 
         "Poznań", 
         "KSV Glauchau", 
-        "DRC Neuburg", 
-        "KV Nürnberg", 
         "Kaniow Men B", 
+        "KV Nürnberg", 
+        "DRC Neuburg", 
         "VMW Berlin Men",  
         "Prague A", 
         "UKK Wien", 
         "VK Berlin U21", 
         "Bremen", 
-        "Dresden Men A", 
-        "Nagymaros", 
         "Katowice Men", 
+        "Nagymaros", 
+        "Dresden Men A", 
     ]
 )
 
