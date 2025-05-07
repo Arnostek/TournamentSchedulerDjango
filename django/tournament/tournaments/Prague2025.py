@@ -76,7 +76,7 @@ Men2_system.division.CreateTeams(
         "USV Potsdam", 
         "KWS Ukraine Men A", 
         #"KWS Ukraine Men B", 
-        "Leśná Men", 
+        "Leśna Men", 
         "Dresden Men B", 
         "DobroPtaah", 
         "Kaniow Men C", 
@@ -93,7 +93,7 @@ U15_system.division.CreateTeams(
     [
         "Kaniow U15", 
         "Wien U15", 
-        "Leśná U15", 
+        "Leśna U15", 
         "Dresden U15", 
         "Prague U15", 
         "Havelbrüder U15", 
@@ -112,7 +112,7 @@ U12_system.division.CreateTeams(
     [
         "Prague U12", 
         "Dresden U12", 
-        "Leśná U12", 
+        "Leśna U12", 
         "Veltrusy U12", 
         "Glauchau U12", 
         "Havelbrüder U12", 
