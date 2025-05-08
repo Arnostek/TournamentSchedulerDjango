@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST23"
+tslug = "PIT2025_TEST22"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
@@ -30,21 +30,21 @@ print(prague2025)
 Men1_system = FourGroups15Teams(prague2025,'Men Elite','MenElite',15)
 Men1_system.division.CreateTeams(
     [
-        "RKV Berlin", 
         "Kaniow Men A", 
-        "Poznań", 
-        "KSV Glauchau", 
         "Kaniow Men B", 
-        "KV Nürnberg", 
-        "DRC Neuburg", 
-        "VMW Berlin Men",  
-        "Prague A", 
-        "UKK Wien", 
-        "VK Berlin U21", 
-        "Bremen", 
+        "Poznań", 
         "Katowice Men", 
-        "Nagymaros", 
+        "Bremen", 
         "Dresden Men A", 
+        "KSV Glauchau", 
+        "KV Nürnberg", 
+        "Prague A", 
+        "DRC Neuburg", 
+        "UKK Wien", 
+        "RKV Berlin", 
+        "VK Berlin U21", 
+        "VMW Berlin Men",  
+        "Nagymaros", 
     ]
 )
 
@@ -76,7 +76,7 @@ Men2_system.division.CreateTeams(
         "USV Potsdam", 
         "KWS Ukraine Men A", 
         #"KWS Ukraine Men B", 
-        "Leśna Men", 
+        "Leśná Men", 
         "Dresden Men B", 
         "DobroPtaah", 
         "Kaniow Men C", 
@@ -91,13 +91,13 @@ Men2_system.division.CreateTeams(
 U15_system = TwoGroups(prague2025,'U15','U15',11, semi5_8=True)
 U15_system.division.CreateTeams(
     [
-        "Kaniow U15", 
-        "Wien U15", 
-        "Leśna U15", 
-        "Dresden U15", 
-        "Prague U15", 
         "Havelbrüder U15", 
         "VK Berlin U15", 
+        "Kaniow U15", 
+        "Leśná U15", 
+        "Prague U15", 
+        "Wien U15", 
+        "Dresden U15", 
         "Alytus U15", 
         "VMW Berlin U15 A", 
         "VMW Berlin U15 B", 
@@ -110,13 +110,13 @@ U15_system.division.CreateTeams(
 U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
 U12_system.division.CreateTeams(
     [
-        "Prague U12", 
-        "Dresden U12", 
-        "Leśna U12", 
-        "Veltrusy U12", 
-        "Glauchau U12", 
         "Havelbrüder U12", 
+        "Dresden U12", 
+        "Prague U12", 
+        "Veltrusy U12", 
         "Warszawa U12", 
+        "Leśná U12", 
+        "Glauchau U12", 
         "Hungary U12", 
     ]
 )
