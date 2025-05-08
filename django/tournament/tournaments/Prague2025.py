@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST29"
+tslug = "PIT2025_TEST30"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
@@ -74,9 +74,9 @@ Men2_system.division.CreateTeams(
     [
         "WCH Berlin", 
         "USV Potsdam", 
+        "Leśná Men", 
         "KWS Ukraine Men A", 
         #"KWS Ukraine Men B", 
-        "Leśná Men", 
         "Dresden Men B", 
         "DobroPtaah", 
         "Kaniow Men C", 
