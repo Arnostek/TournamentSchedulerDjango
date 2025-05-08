@@ -14,7 +14,7 @@ class TwoGroups(DivisionSystemBase):
         self._addReferees()
 
     def _createSystem(self):
-        # phase 1 - zakladni skupina
+        # phase 1 - zakladni skupiny
         phase = 1
         self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
         # a_ranks = self.division.GetGroupsRanks(['A'])
@@ -27,9 +27,13 @@ class TwoGroups(DivisionSystemBase):
         # prvni 4 tymy jdou do semi
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
 
-        # lichy pocet tymu = skupina poslednich tri
+        # pro lichy pocet tymu muze byt skupina poslednich tri
         if self.last3:
-            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase,['Last3'])
+            # pro 9 zasahuje Last3 do semi C a D
+            if self.semi5_8 and self.teams_count == 9:
+                self.division.CreateGroups(['Last3'],[self.division.GetGroupsRanks(['SemiC'])[-1], self.division.GetGroupsRanks(['SemiD'])[-1],  self.division.GetGroupsRanks(['A','B'])[-1]], phase,['Last3'])
+            else:
+                self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase,['Last3'])
             self.division.CreateRanks(self.teams_count - 2,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
@@ -45,8 +49,11 @@ class TwoGroups(DivisionSystemBase):
             self.division.CreateRanks(misto,self.division.GetGroupsRanks(['{}th'.format(misto)]))
 
         if self.semi5_8:
-            self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[2:4], phase)
-            self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+            # pri deviti tymech a last # se o sedme misto nehraje
+            if not(self.teams_count ==9 and self.last3):
+                self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[2:4], phase)
+                self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+            
             self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[0:2], phase)
             self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
         # 3rd
@@ -80,6 +87,6 @@ class TwoGroups(DivisionSystemBase):
         # if self.teams_count > 5:
         #     self._GroupAddReferees('5th', [a_ranks[5]])
         if self.teams_count > 6 and self.semi5_8:
-            self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['7th'])[0]])
+            self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['SemiA'])[0]])
 
         self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
