@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST31"
+tslug = "PIT2025_TEST32"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
