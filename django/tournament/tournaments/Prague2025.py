@@ -9,7 +9,7 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
 # from tournament.systems.FourGroups16Teams import FourGroups16Teams
 # from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
-from tournament.systems.FourGroups15Teams import FourGroups15Teams
+#from tournament.systems.FourGroups15Teams import FourGroups15Teams
 
 
 from tournament.TournamentScheduler import TournamentScheduler
@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST32"
+tslug = "PIT2025_TEST33"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
@@ -130,16 +130,18 @@ ts = TournamentScheduler(prague2025,4)
 # optimize pitches
 # ts.tdo._reduceColumns(ts.pitches)
 # ts.tdo._reduceColumnsOnePitch(ts.pitches)
-# add referees
-ts.AddReferees()
+
 # ts.schedule.dropna(inplace=True, how='all')
 
 
 
 # optimize games
-ts.tdo._reduceEmptySlots01(41)
-ts.tdo._reduceEmptySlots02(41)
-ts.tdo._reduceEmptySlots03(41)
+ts.tdo._reduceEmptySlots01(38)
+ts.tdo._reduceEmptySlots02(38)
+ts.tdo._reduceEmptySlots03(38)
+
+# add referees
+ts.AddReferees()
 
 ts.Schedule(
     [
