@@ -173,13 +173,16 @@ class TournamentSchedulerDataframeOptimizer:
                 print("_shift_col Pitch: {}, match: {}".format(pitch_ind,match_ind))
                 self.DfEditor._shift_col(pitch_ind,match_ind)
 
-    def _reduceEmptySlots03(self,desired_slots):
+    def _reduceEmptySlots03(self,desired_slots,dont_move_to_pitch_index=None):
         # projdeme radky az do delky dataframe
         print("--- _reduceEmptySlots03")
         self.DfEditor._resetMatchIndex()
         for match_ind in range(len(self.schedule)):
             # na kazdem radku hledame prazdna hriste
             for move_to_pitch_ind in self.DfTester._getNonMatchSlotsDf().iloc[match_ind].dropna().index:
+                # na hriste ze senamu nic nepresouvame
+                if dont_move_to_pitch_index and move_to_pitch_ind in dont_move_to_pitch_index:
+                    continue
                 # presouvame ze hrist s co nejvetsim poctem zapasu
                 for pitch_ind in self.schedule.count().sort_values(ascending=False).index:
                     # pokud je na novem hristi mene zapasu a je potreba zmensovat
