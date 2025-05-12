@@ -109,23 +109,23 @@ U15_system.division.CreateTeams(
 
 ####################################################
 # U12
-U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
-U12_system.division.CreateTeams(
-    [
-        "Havelbrüder U12", 
-        "Dresden U12", 
-        "Prague U12", 
-        "Veltrusy U12", 
-        "Warszawa U12", 
-        "Leśná U12", 
-        "Glauchau U12", 
-        "Hungary U12", 
-    ]
-)
+#U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
+#U12_system.division.CreateTeams(
+#    [
+#        "Havelbrüder U12", 
+#        "Dresden U12", 
+#        "Prague U12", 
+#        "Veltrusy U12", 
+#        "Warszawa U12", 
+#        "Leśná U12", 
+#        "Glauchau U12", 
+#        "Hungary U12", 
+#    ]
+#)
 
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(prague2025,5)
+ts = TournamentScheduler(prague2025,4)
 
 # optimize pitches
 # ts.tdo._reduceColumns(ts.pitches)
