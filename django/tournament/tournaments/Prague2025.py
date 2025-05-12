@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST33"
+tslug = "PIT2025_TEST34"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
@@ -109,23 +109,23 @@ U15_system.division.CreateTeams(
 
 ####################################################
 # U12
-#U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
-#U12_system.division.CreateTeams(
-#    [
-#        "Havelbrüder U12", 
-#        "Dresden U12", 
-#        "Prague U12", 
-#        "Veltrusy U12", 
-#        "Warszawa U12", 
-#        "Leśná U12", 
-#        "Glauchau U12", 
-#        "Hungary U12", 
-#    ]
-#)
+U12_system = TwoGroups(prague2025,'U12','U12',8, semi5_8=True)
+U12_system.division.CreateTeams(
+    [
+        "Havelbrüder U12", 
+        "Dresden U12", 
+        "Prague U12", 
+        "Veltrusy U12", 
+        "Warszawa U12", 
+        "Leśná U12", 
+        "Glauchau U12", 
+        "Hungary U12", 
+    ]
+)
 
 ## naplanujeme zapasy
 
-ts = TournamentScheduler(prague2025,4)
+ts = TournamentScheduler(prague2025,5)
 
 # optimize pitches
 # ts.tdo._reduceColumns(ts.pitches)
@@ -138,7 +138,8 @@ ts = TournamentScheduler(prague2025,4)
 # optimize games
 ts.tdo._reduceEmptySlots01(38)
 ts.tdo._reduceEmptySlots02(38)
-ts.tdo._reduceEmptySlots03(38)
+# nic nepresouvat na pitch 5 (index 4)
+ts.tdo._reduceEmptySlots03(38, dont_move_to_pitch_index = [4])
 
 # add referees
 ts.AddReferees()
