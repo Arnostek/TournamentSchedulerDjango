@@ -21,7 +21,7 @@ import pytz
 
 # turnaj
 tslug = "PIT2025_WIP"
-tname = tslug
+tname = "PIT 2025 work in progress"
 prague2025 = models.Tournament(name = tname, slug = tslug)
 prague2025.save()
 print(prague2025)
