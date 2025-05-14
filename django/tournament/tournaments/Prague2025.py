@@ -20,7 +20,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025'
 
 # turnaj
-tslug = "PIT2025_TEST34"
+tslug = "PIT2025_TEST35"
 prague2025 = models.Tournament(name = tslug, slug = tslug)
 prague2025.save()
 print(prague2025)
@@ -65,7 +65,7 @@ Ladies_system.division.CreateTeams(
         "Havelbrüder Women", 
         "Girls 99", 
         "Dresden Women", 
-        "Prague Girls", 
+        "Czech Women U21", 
     ]
 )
 
@@ -115,7 +115,7 @@ U12_system.division.CreateTeams(
         "Havelbrüder U12", 
         "Dresden U12", 
         "Prague U12", 
-        "Veltrusy U12", 
+        "DFF Veltrusy", 
         "Warszawa U12", 
         "Leśná U12", 
         "Glauchau U12", 
@@ -146,7 +146,7 @@ ts.AddReferees()
 
 ts.Schedule(
     [
-        (datetime.datetime(2025,5,17,7,00,tzinfo = pytz.utc),datetime.datetime(2025,5,17,19,00,tzinfo = pytz.utc)),
-        (datetime.datetime(2025,5,18,7,00,tzinfo = pytz.utc),datetime.datetime(2025,5,18,23,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2025,5,17,7,30,tzinfo = pytz.utc),datetime.datetime(2025,5,17,19,00,tzinfo = pytz.utc)),
+        (datetime.datetime(2025,5,18,7,30,tzinfo = pytz.utc),datetime.datetime(2025,5,18,23,30,tzinfo = pytz.utc)),
     ]
 )
