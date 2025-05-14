@@ -249,10 +249,13 @@ class ScheduleView(TemplateView, TournamentDetail):
         tournament = self.tournament
         fdate = self.request.GET.get('filter_date')
         # mteam = self.request.GET.get('mark_team')
-        schedules = tournament.schedule_set.all().order_by('time','pitch')
-        highlight_team = None
+        # posledni zapas
         last_match_schedule = tournament.schedule_set.filter(match__isnull=False).order_by('time','pitch').last()
-
+        # pocet hrist
+        pitches = tournament.pitch_set.count()
+        # schedule po posledni zapas
+        schedules = tournament.schedule_set.all().order_by('time','pitch').filter(id__lte=last_match_schedule.id+pitches)
+        highlight_team = None
 
         if 'did' in self.kwargs:
             if 'gid' in self.kwargs:
