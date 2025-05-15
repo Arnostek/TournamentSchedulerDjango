@@ -5,19 +5,25 @@
 
 <table class="table table-striped">
   <thead>
+    <th>#</th>
     <th>Time</th>
     <th>Division</th>
     <th>Group</th>
-    <th>Match</th>
+    <th>Home</th>
+    <th>Away</th>
+    <th>Ref</th>
     <th>Problem</th>
   </thead>
   <tbody>
     {% for conflict in conflicts %}
     <tr>
+      <td>{% if user_role.match_admin %}<a href="/admin/tournament/match/{{schedule.match.id}}/change">{% endif %}#{{conflict.schedule.game_number}}{% if user_role.match_admin %}</a>{% endif %}</td>
       <td>{{conflict.schedule.time | date:'D'}} {{conflict.schedule.time | date:'H:i'}}</td>
       <td><a href="schedule-division-{{conflict.division.id}}">{{conflict.division.name}}</a></td>
       <td><a href="schedule-division-{{conflict.division.id}}-group-{{conflict.group.id}}">{{conflict.group.name}}</a></td>
-      <td>{{conflict.match.home.team_name}} : {{conflict.match.away.team_name}}</td>
+      <td><a href="schedule-team-{{conflict.match.home.id}}">{{conflict.match.home.team_name}}</a></td>
+      <td><a href="schedule-team-{{conflict.match.away.id}}">{{conflict.match.away.team_name}}</a></td>
+      <td><a href="schedule-team-{{conflict.match.referee.id}}">{{conflict.match.referee.team_name}}</a></td>
       <td>{{conflict.problem}} <a href="schedule-team-{{conflict.team.id}}">{{conflict.team.team_name}}</a></td>
     </tr>
     {% endfor %}
