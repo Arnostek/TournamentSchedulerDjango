@@ -36,12 +36,9 @@
     // Right frame: cycle through links every 30 seconds
     const rightFrame = document.getElementById('rightFrame');
     const rightLinks = [
-      "crosstables-division-1",
-      "crosstables-division-2",
-      "crosstables-division-3",
-      "crosstables-division-4",
-      "crosstables-division-5"
-    ];
+     {% for division in divisions %} 
+      "crosstables-division-{{division.id}}",
+   {% endfor %} 
     let index = 0;
 
     function cycleRightFrame() {
