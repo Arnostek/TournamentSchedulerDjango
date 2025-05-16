@@ -33,12 +33,27 @@
       leftFrame.contentWindow.location.reload();
     }, 300000); // 5 minutes
 
+    // zoom out after load
+    leftFrame.onload = function() {
+        const leftFrameDocument = leftFrame.contentDocument || leftFrame.contentWindow.document;
+        leftFrameDocument.body.style.zoom = "0.8";
+    }; 
+    
+    
     // Right frame: cycle through links every 30 seconds
     const rightFrame = document.getElementById('rightFrame');
     const rightLinks = [
      {% for division in divisions %} 
       "crosstables-division-{{division.id}}",
    {% endfor %} 
+
+    // zoom out after load
+    rightFrame.onload = function() {
+        const rightFrameDocument = rightFrame.contentDocument || rightFrame.contentWindow.document;
+        rightFrameDocument.body.style.zoom = "0.8";
+    }; 
+
+   ];
     let index = 0;
 
     function cycleRightFrame() {
