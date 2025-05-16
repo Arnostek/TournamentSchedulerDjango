@@ -45,6 +45,7 @@ urlpatterns_tmp = [
     ('<slug:slug>/crosstables-division-<int:did>', views.DivisionCrossTablesView.as_view()),
     # schedule
     ('<slug:slug>/schedule-full', views.ScheduleView.as_view()),
+    ('<slug:slug>/schedule-next-<int:next>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-division-<int:did>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-division-<int:did>-group-<int:gid>', views.ScheduleView.as_view()),
     ('<slug:slug>/schedule-pitch-<int:pid>', views.ScheduleView.as_view()),

@@ -275,6 +275,10 @@ class ScheduleView(TemplateView, TournamentDetail):
                 )
             highlight_team = self.kwargs['team']
             filtered_for = '{}'.format(Team.objects.get(id=self.kwargs['team']).name)
+        elif 'next' in self.kwargs:
+              schedules = schedules.filter(
+                    Q(match__home_score__isnull = True)
+                )
 
         if fdate:
             schedules = schedules.filter(time__date=parse_date(fdate))
