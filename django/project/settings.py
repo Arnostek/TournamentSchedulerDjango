@@ -127,3 +127,5 @@ STATICFILES_DIRS = [
 STATIC_ROOT = '/srv/staticroot'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+X_FRAME_OPTIONS = "SAMEORIGIN"

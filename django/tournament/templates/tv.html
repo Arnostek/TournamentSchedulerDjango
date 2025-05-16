@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TV</title>
+  <style>
+    body, html {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      display: flex;
+    }
+    iframe {
+      border: none;
+      height: 100%;
+    }
+    #leftFrame {
+      width: 50%;
+    }
+    #rightFrame {
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="leftFrame" src="./schedule-full"></iframe>
+  <iframe id="rightFrame" src=""></iframe>
+
+  <script>
+    // Refresh left frame every 5 minutes
+    const leftFrame = document.getElementById('leftFrame');
+    setInterval(() => {
+      leftFrame.contentWindow.location.reload();
+    }, 300000); // 5 minutes
+
+    // Right frame: cycle through links every 30 seconds
+    const rightFrame = document.getElementById('rightFrame');
+    const rightLinks = [
+      "crosstables-division-1",
+      "crosstables-division-2",
+      "crosstables-division-3",
+      "crosstables-division-4",
+      "crosstables-division-5"
+    ];
+    let index = 0;
+
+    function cycleRightFrame() {
+      rightFrame.src = rightLinks[index];
+      index = (index + 1) % rightLinks.length;
+    }
+
+    // Start cycling immediately
+    cycleRightFrame();
+    setInterval(cycleRightFrame, 30000); // 30 seconds
+  </script>
+</body>
+</html>

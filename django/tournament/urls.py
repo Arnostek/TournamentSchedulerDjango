@@ -60,6 +60,8 @@ urlpatterns_tmp = [
     ('<slug:slug>/prints', views.PrintsView.as_view()),
     # conflicts
     ('<slug:slug>/conflicts', views.ConflictsView.as_view()),
+        # tv
+    ('<slug:slug>/tv', views.TVView.as_view()),
 ]
 
 # add cached and live version for every url from urlpatterns_tmp
