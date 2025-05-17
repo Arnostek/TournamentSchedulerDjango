@@ -277,7 +277,9 @@ class ScheduleView(TemplateView, TournamentDetail):
             filtered_for = '{}'.format(Team.objects.get(id=self.kwargs['team']).name)
         elif 'next' in self.kwargs:
               schedules = schedules.filter(
-                    Q(match__home_score__isnull = True)
+                    Q(match__home_score__isnull = True) 
+                ).filter(
+                    Q(match__isnull = False)
                 )
 
         if fdate:
