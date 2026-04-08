@@ -4,3 +4,4 @@ __pycache__/
 docker/.env
 .project
 .pydevproject
+django/backup_ostra.sh
