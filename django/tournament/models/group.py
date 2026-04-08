@@ -1,7 +1,8 @@
 from django.db import models
 from ..polygon_generator import polygon_generator
-from .division import SeedAbstract
-from .team import TeamPlaceholder
+from .team_placeholder import TeamPlaceholder
+from .group_tie_ranking_points import GroupTieRankingPoints
+from .match import Match
 
 
 class Group(models.Model):
@@ -237,26 +238,3 @@ class Group(models.Model):
     def NeedsWinner(self):
         """ zapasy ve skupine potrebuji viteze"""
         return self.teams == 2
-
-
-class GroupPointsTransfer(models.Model):
-    """ Prenaseni bodu mezi skupinami """
-    src = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="points_transfer_src")
-    dest = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="points_transfer_dst")
-
-
-class GroupTieRankingPoints(models.Model):
-    """ extra body v pripade shody ve skupine"""
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    tph = models.ForeignKey('TeamPlaceholder', on_delete=models.CASCADE)
-    tiepoints = models.PositiveSmallIntegerField()
-
-
-class GroupSeed(SeedAbstract):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-
-
-class GroupRank(SeedAbstract):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-
-    # seed ?
