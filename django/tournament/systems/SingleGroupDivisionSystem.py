@@ -16,56 +16,51 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
-        phase = 1
-        self.division.CreateGroups(['A'], self.division.seed_placeholders, phase, ['A'])
-        a_ranks = self.division.GetGroupsRanks(['A'])
+        self.phase.create_groups(['A'], self.division.seed_placeholders, referee_groups=['A'])
+        a_ranks = self.phase.get_ranks(['A'])
 
         # semi
         if self.semi:
-            phase += 1
-            self.division.CreateGroups(['Semi1'], [a_ranks[1], a_ranks[2]] , phase)
-            self.division.CreateGroups(['Semi2'],[a_ranks[0], a_ranks[3]] , phase)
+            self.phase.next_phase()
+            self.phase.division.CreateGroups(['Semi1'], [a_ranks[1], a_ranks[2]], self.phase.phase)
+            self.phase.division.CreateGroups(['Semi2'], [a_ranks[0], a_ranks[3]], self.phase.phase)
 
         # last 3
         if self.last3:
-            phase += 1
-            self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A'])[-3:], phase,['Last3'])
-            self.division.CreateRanks(num_of_teams - 2,d.GetGroupsRanks(['Last3']))
+            self.phase.next_phase()
+            self.phase.division.CreateGroups(['Last3'], a_ranks[-3:], self.phase.phase, ['Last3'])
+            self.division.CreateRanks(self.teams_count - 2, self.division.GetGroupsRanks(['Last3']))
 
         # 5th
         if len(a_ranks) > 5 and self.final_for >= 5:
-            phase += 1
-            self.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]] , phase)
-            self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
+            self.phase.next_phase()
+            self.phase.division.CreateGroups(['5th'], [a_ranks[4], a_ranks[5]], self.phase.phase)
+            self.division.CreateRanks(5, self.division.GetGroupsRanks(['5th']))
 
         # final
         if self.semi:
-
             semi_ranks = self.division.GetGroupsRanks(['Semi1','Semi2'])
             # 3rd
-            phase += 1
-            self.division.CreateGroups(['3rd'], [semi_ranks[2], semi_ranks[3]] , phase)
+            self.phase.next_phase()
+            self.phase.create_and_rank('3rd', [semi_ranks[2], semi_ranks[3]], 3)
             # final
-            phase += 1
-            self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
+            self.phase.next_phase()
+            self.phase.create_and_rank('final', [semi_ranks[0], semi_ranks[1]], 1)
 
         else:
             # 3rd
             if len(a_ranks) > 3 and self.final_for >= 3:
-                phase += 1
-                self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
+                self.phase.next_phase()
+                self.phase.create_and_rank('3rd', [a_ranks[2], a_ranks[3]], 3)
             # final
-            phase += 1
-            self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
-
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
+            self.phase.next_phase()
+            self.phase.create_and_rank('final', [a_ranks[0], a_ranks[1]], 1)
 
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        a_ranks = self.division.GetGroupsRanks(['A'])
+        a_ranks = self.phase.get_ranks(['A'])
         if len(a_ranks) > 5 and self.final_for >= 3:
-            self._GroupAddReferees('3rd',[a_ranks[5]])
+            self.referees.assign_group_referees('3rd', [a_ranks[5]])
         if len(a_ranks) > 4:
-            self._GroupAddReferees('final',[a_ranks[4]])
+            self.referees.assign_group_referees('final', [a_ranks[4]])
