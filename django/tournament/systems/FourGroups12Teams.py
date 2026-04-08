@@ -19,42 +19,63 @@ class FourGroups12Teams(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - basic groups
-        phase = 1
-        # teams ref own group to be able shrink schedule
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, referee_groups = ['C','D','A','B'])
-        # phase 2 - two groups up, one down
-        phase += 1
-        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
-        self.division.CreateGroups(['E','F'], [phase1_ranks[0],phase1_ranks[4],phase1_ranks[1],phase1_ranks[5],phase1_ranks[2],phase1_ranks[6],phase1_ranks[3],phase1_ranks[7]], phase, referee_groups = ['F','E'])
-        self.division.CreateGroups(['G'],phase1_ranks[8:], phase, referee_groups = ['G'])
-        # first 4 teams go to semi
-        phase += 1
-        g_ranks = self.division.GetGroupsRanks(['G'])
-        ef_ranks = self.division.GetGroupsRanks(['E','F'])
-        self.division.CreateGroups(['SemiA','SemiB'], ef_ranks[:4], phase)
-        # Finals
-        phase += 1
+        self.phase.create_groups(
+            ['A','B','C','D'],
+            self.division.seed_placeholders,
+            referee_groups=['C','D','A','B']
+        )
 
-        self.division.CreateGroups(['11th'],g_ranks[2:] , phase)
-        self.division.CreateGroups(['9th'],g_ranks[:2] , phase)
-        self.division.CreateGroups(['7th'],ef_ranks[6:8] , phase)
-        self.division.CreateGroups(['5th'],ef_ranks[4:6] , phase)
+        # phase 2 - two groups up, one down
+        self.phase.next_phase()
+        phase1_ranks = self.phase.get_ranks(['A','B','C','D'])
+        self.phase.create_groups(
+            ['E','F'],
+            [phase1_ranks[0],phase1_ranks[4],phase1_ranks[1],phase1_ranks[5],phase1_ranks[2],phase1_ranks[6],phase1_ranks[3],phase1_ranks[7]],
+            referee_groups=['F','E']
+        )
+        self.phase.create_groups(['G'], phase1_ranks[8:], referee_groups=['G'])
+
+        # first 4 teams go to semi
+        self.phase.next_phase()
+        g_ranks = self.phase.get_ranks(['G'])
+        ef_ranks = self.phase.get_ranks(['E','F'])
+        self.phase.create_groups(['SemiA','SemiB'], ef_ranks[:4])
+
+        # Finals
+        self.phase.next_phase()
+
+        self.phase.division.CreateGroups(['11th'], g_ranks[2:], self.phase.phase)
+        self.phase.division.CreateRanks(11, self.phase.division.GetGroupsRanks(['11th']))
+
+        self.phase.division.CreateGroups(['9th'], g_ranks[:2], self.phase.phase)
+        self.phase.division.CreateRanks(9, self.phase.division.GetGroupsRanks(['9th']))
+
+        self.phase.division.CreateGroups(['7th'], ef_ranks[6:8], self.phase.phase)
+        self.phase.division.CreateRanks(7, self.phase.division.GetGroupsRanks(['7th']))
+
+        self.phase.division.CreateGroups(['5th'], ef_ranks[4:6], self.phase.phase)
+        self.phase.division.CreateRanks(5, self.phase.division.GetGroupsRanks(['5th']))
+
         # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('3rd', self.phase.get_ranks(['SemiA','SemiB'])[2:4], 3)
+
         # final
-        phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('final', self.phase.get_ranks(['SemiA','SemiB'])[0:2], 1)
 
     def _addReferees(self):
         """ Referees for final matches """
-        g_ranks = self.division.GetGroupsRanks(['G'])
-        ef_ranks = self.division.GetGroupsRanks(['E','F'])
-        self._GroupAddReferees('SemiA',[ef_ranks[4]])
-        self._GroupAddReferees('SemiB',[ef_ranks[5]])
-        self._GroupAddReferees('11th',[ef_ranks[7]])
-        self._GroupAddReferees('9th',[ef_ranks[5]])
-        self._GroupAddReferees('7th',[g_ranks[2]])
-        self._GroupAddReferees('5th',[g_ranks[0]])
-        self._GroupAddReferees('3rd',[ef_ranks[6]])
-        self._GroupAddReferees('final',[ef_ranks[4]])
+        g_ranks = self.phase.get_ranks(['G'])
+        ef_ranks = self.phase.get_ranks(['E','F'])
+
+        self.referees.assign_multiple_referees({
+            'SemiA': [ef_ranks[4]],
+            'SemiB': [ef_ranks[5]],
+            '11th': [ef_ranks[7]],
+            '9th': [ef_ranks[5]],
+            '7th': [g_ranks[2]],
+            '5th': [g_ranks[0]],
+            '3rd': [ef_ranks[6]],
+            'final': [ef_ranks[4]],
+        })

@@ -14,45 +14,45 @@ class FourGroups16Teams(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
-        phase = 1
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['C','D','A','B'])
+        self.phase.create_groups(
+            ['A','B','C','D'],
+            self.division.seed_placeholders,
+            referee_groups=['C','D','A','B']
+        )
+        abcd_ranks = self.phase.get_ranks(['A','B','C','D'])
 
         # QF - 1. vs 2., 3. vs 4.
-        phase += 1
-        self.division.CreateGroups(['QF1','QF2','QF3','QF4'],self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
-        self.division.CreateGroups(['QF5','QF6','QF7','QF8'],self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)
+        self.phase.next_phase()
+        self.phase.create_groups(['QF1','QF2','QF3','QF4'], abcd_ranks[8:])
+        self.phase.create_groups(['QF5','QF6','QF7','QF8'], abcd_ranks[:8])
 
         # SF
-        phase += 1
-        self.division.CreateGroups(['SF1','SF2'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[:4], phase)
-        self.division.CreateGroups(['SF3','SF4'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[4:], phase)
-        self.division.CreateGroups(['SF5','SF6'],self.division.GetGroupsRanks(['QF5','QF6','QF7','QF8'])[:4], phase)
-        self.division.CreateGroups(['SF7','SF8'],self.division.GetGroupsRanks(['QF5','QF6','QF7','QF8'])[4:], phase)
+        self.phase.next_phase()
+        qf1_4_ranks = self.phase.get_ranks(['QF1','QF2','QF3','QF4'])
+        qf5_8_ranks = self.phase.get_ranks(['QF5','QF6','QF7','QF8'])
+
+        self.phase.create_groups(['SF1','SF2'], qf1_4_ranks[:4])
+        self.phase.create_groups(['SF3','SF4'], qf1_4_ranks[4:])
+        self.phase.create_groups(['SF5','SF6'], qf5_8_ranks[:4])
+        self.phase.create_groups(['SF7','SF8'], qf5_8_ranks[4:])
 
         # Places
-        phase += 1
-        self.division.CreateGroups(['15th'], self.division.GetGroupsRanks(['SF7','SF8'])[2:], phase)
-        self.division.CreateRanks(15,self.division.GetGroupsRanks(['15th']))
+        self.phase.next_phase()
+        sf7_sf8_ranks = self.phase.get_ranks(['SF7','SF8'])
+        sf5_sf6_ranks = self.phase.get_ranks(['SF5','SF6'])
+        sf3_sf4_ranks = self.phase.get_ranks(['SF3','SF4'])
 
-        self.division.CreateGroups(['13th'], self.division.GetGroupsRanks(['SF7','SF8'])[:2], phase)
-        self.division.CreateRanks(13,self.division.GetGroupsRanks(['13th']))
+        self.placements.create_placements_from_ranges({
+            15: sf7_sf8_ranks[2:],
+            13: sf7_sf8_ranks[:2],
+            11: sf5_sf6_ranks[2:],
+            9: sf5_sf6_ranks[:2],
+            7: sf3_sf4_ranks[2:],
+            5: sf3_sf4_ranks[:2],
+        })
 
-        self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['SF5','SF6'])[2:], phase)
-        self.division.CreateRanks(11,self.division.GetGroupsRanks(['11th']))
-
-        self.division.CreateGroups(['9th'], self.division.GetGroupsRanks(['SF5','SF6'])[:2], phase)
-        self.division.CreateRanks(9,self.division.GetGroupsRanks(['9th']))
-
-        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:], phase)
-        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
-
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[:2], phase)
-        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
-
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
+        self.phase.create_and_rank('3rd', self.phase.get_ranks(['SF1','SF2'])[2:4], 3)
 
         # Final
-        phase += 1
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+        self.phase.next_phase()
+        self.phase.create_and_rank('Final', self.phase.get_ranks(['SF1','SF2'])[:2], 1)

@@ -15,30 +15,38 @@ class FourGroups13Teams(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
-        phase = 1
-        self.division.CreateGroups(['A','B','C','D'], self.division.seed_placeholders, phase, ['C','D','A','B'])
+        self.phase.create_groups(
+            ['A','B','C','D'],
+            self.division.seed_placeholders,
+            referee_groups=['C','D','A','B']
+        )
 
         # dve horni a jedna dolni skupina
-        phase += 1
-        phase1_ranks = self.division.GetGroupsRanks(['A','B','C','D'])
+        self.phase.next_phase()
+        phase1_ranks = self.phase.get_ranks(['A','B','C','D'])
         nasazeni_nahoru = phase1_ranks[:4]
         nasazeni_nahoru.extend([phase1_ranks[5],phase1_ranks[4],phase1_ranks[7],phase1_ranks[6]])
-        self.division.CreateGroups(['E','F'],nasazeni_nahoru , phase, ['F','E'])
-        # group G uz konci
-        self.division.CreateGroups(['G'], self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
+        self.phase.create_groups(['E','F'], nasazeni_nahoru, referee_groups=['F','E'])
 
-        phase += 1
+        # group G uz konci
+        self.phase.division.CreateGroups(['G'], phase1_ranks[8:], self.phase.phase)
+
+        self.phase.next_phase()
         # prvni 4 tymy jdou do semi
-        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['E','F'])[:4], phase)
+        self.phase.create_groups(['SemiA','SemiB'], self.phase.get_ranks(['E','F'])[:4])
+
         # zapasy o mista bez semi
-        phase += 1
+        self.phase.next_phase()
         mista = [m for m in [5,7]]
         mista.reverse()
         for misto in mista:
-            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], phase)
+            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['E','F'])[misto - 1: misto + 1], self.phase.phase)
+            self.division.CreateRanks(misto, self.division.GetGroupsRanks(['{}th'.format(misto)]))
+
         # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('3rd', self.phase.get_ranks(['SemiA','SemiB'])[2:4], 3)
+
         # final
-        phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('final', self.phase.get_ranks(['SemiA','SemiB'])[0:2], 1)
