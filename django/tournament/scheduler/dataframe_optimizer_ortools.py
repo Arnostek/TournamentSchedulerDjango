@@ -14,6 +14,8 @@ def _load_cp_model():
 class TournamentSchedulerDataframeOptimizerOrtools:
     """CP-SAT optimizer for schedule dataframe using OR-Tools."""
 
+    PAUSE_ROWS_BETWEEN_PHASES = 2
+
     def __init__(self, schedule):
         self.schedule = schedule
         self.DfEditor = TournamentSchedulerDataframeEditor(self.schedule)
@@ -49,6 +51,63 @@ class TournamentSchedulerDataframeOptimizerOrtools:
         if pk is not None:
             return ('pk', int(pk))
         return ('obj', id(tph))
+
+    def _estimate_max_rows(self, matches, pitch_indexes, dont_move_to_pitch_index=None):
+        blocked_pitches = set(dont_move_to_pitch_index or [])
+        active_pitches = len([p for p in pitch_indexes if p not in blocked_pitches])
+        if active_pitches <= 0:
+            raise ValueError('All pitches are blocked by dont_move_to_pitch_index')
+
+        match_count = len(matches)
+        base_capacity_lb = (match_count + active_pitches - 1) // active_pitches
+
+        # Team adjacency (+-1 row) requires spacing in worst case.
+        team_counts = {}
+        for item in matches:
+            for tph in item['teams']:
+                team_counts[self._team_key(tph)] = team_counts.get(self._team_key(tph), 0) + 1
+        max_team_occ = max(team_counts.values()) if team_counts else 0
+        team_spacing_lb = (2 * max_team_occ - 1) if max_team_occ else 0
+
+        # Global phase pauses add required empty rows between consecutive phases in each division.
+        division_phase_counts = {}
+        for item in matches:
+            division_key, phase = self._match_phase_key(item['match'])
+            division_phase_counts.setdefault(division_key, set()).add(phase)
+        total_phase_transitions = sum(max(0, len(phases) - 1) for phases in division_phase_counts.values())
+        phase_pause_addon = self.PAUSE_ROWS_BETWEEN_PHASES * total_phase_transitions
+
+        # Conservative but finite upper bound.
+        lower = max(base_capacity_lb, team_spacing_lb)
+        upper = max(lower, match_count + phase_pause_addon, (2 * match_count) + phase_pause_addon)
+        return lower, upper
+
+    def _target_rows_candidates(self, start_rows, max_rows):
+        if start_rows > max_rows:
+            return []
+
+        candidates = []
+        seen = set()
+
+        # Dense search near the requested rows.
+        dense_end = min(max_rows, start_rows + 10)
+        for r in range(start_rows, dense_end + 1):
+            if r not in seen:
+                seen.add(r)
+                candidates.append(r)
+
+        # Coarser search for larger expansions.
+        r = dense_end + 2
+        while r <= max_rows:
+            if r not in seen:
+                seen.add(r)
+                candidates.append(r)
+            r += 2 if r < start_rows + 40 else 5
+
+        if max_rows not in seen:
+            candidates.append(max_rows)
+
+        return candidates
 
     def _build_and_solve(self, matches, target_rows, pitch_indexes, dont_move_to_pitch_index=None):
         cp_model = _load_cp_model()
@@ -120,6 +179,46 @@ class TournamentSchedulerDataframeOptimizerOrtools:
             if orig_row < target_rows:
                 model.Add(row_vars[i] == orig_row)
 
+        # Global phase constraints per division:
+        # 1) previous phase must be fully completed before next starts
+        # 2) there must be exactly at least two pause rows between phases
+        division_phases = {}
+        for i, item in enumerate(matches):
+            phase_key = self._match_phase_key(item['match'])
+            division_key = phase_key[0]
+            division_entry = division_phases.setdefault(division_key, {})
+            if phase_key not in division_entry:
+                division_entry[phase_key] = {
+                    'matches': [],
+                    'first_orig_row': int(item['orig_row']),
+                }
+            division_entry[phase_key]['matches'].append(i)
+            if int(item['orig_row']) < division_entry[phase_key]['first_orig_row']:
+                division_entry[phase_key]['first_orig_row'] = int(item['orig_row'])
+
+        phase_bounds = {}
+        for division_entry in division_phases.values():
+            for phase_key, phase_data in division_entry.items():
+                min_row_var = model.NewIntVar(0, target_rows - 1, f'min_row_{phase_key[0]}_{phase_key[1]}')
+                max_row_var = model.NewIntVar(0, target_rows - 1, f'max_row_{phase_key[0]}_{phase_key[1]}')
+                model.AddMinEquality(min_row_var, [row_vars[i] for i in phase_data['matches']])
+                model.AddMaxEquality(max_row_var, [row_vars[i] for i in phase_data['matches']])
+                phase_bounds[phase_key] = (min_row_var, max_row_var)
+
+        required_gap = self.PAUSE_ROWS_BETWEEN_PHASES
+        for division_entry in division_phases.values():
+            ordered_phase_keys = sorted(
+                division_entry.keys(),
+                key=lambda key: division_entry[key]['first_orig_row'],
+            )
+            for idx in range(len(ordered_phase_keys) - 1):
+                prev_key = ordered_phase_keys[idx]
+                next_key = ordered_phase_keys[idx + 1]
+                _, prev_max_row = phase_bounds[prev_key]
+                next_min_row, _ = phase_bounds[next_key]
+                # Example: required_gap=2 means next_min >= prev_max + 3.
+                model.Add(next_min_row >= prev_max_row + required_gap + 1)
+
         # Keep ordering and at least one-row separation at phase boundaries per original pitch.
         for pitch, ordered in by_pitch.items():
             ordered.sort(key=lambda it: it[0])
@@ -129,7 +228,7 @@ class TournamentSchedulerDataframeOptimizerOrtools:
                 m1 = matches[i1]['match']
                 m2 = matches[i2]['match']
                 if m1.group.phase != m2.group.phase:
-                    model.Add(row_vars[i2] >= row_vars[i1] + 1)
+                    model.Add(row_vars[i2] >= row_vars[i1] + required_gap + 1)
 
         # Team cannot play/ref adjacent (same row or +-1 row).
         team_to_matches = {}
@@ -227,11 +326,19 @@ class TournamentSchedulerDataframeOptimizerOrtools:
             return
 
         pitch_indexes = [int(p) for p in self.schedule.columns]
-        max_rows = max(len(self.schedule), desired_slots)
+        lower_bound, estimated_upper_bound = self._estimate_max_rows(
+            matches,
+            pitch_indexes,
+            dont_move_to_pitch_index=dont_move_to_pitch_index,
+        )
+
+        start_rows = max(desired_slots, lower_bound)
+        max_rows = max(len(self.schedule), estimated_upper_bound, start_rows)
+        row_candidates = self._target_rows_candidates(start_rows, max_rows)
 
         # Try to satisfy desired_slots first; relax row count only if infeasible.
         best = None
-        for target_rows in range(desired_slots, max_rows + 1):
+        for target_rows in row_candidates:
             best = self._build_and_solve(
                 matches,
                 target_rows,
@@ -242,4 +349,7 @@ class TournamentSchedulerDataframeOptimizerOrtools:
                 self._apply_assignments(matches, best, target_rows)
                 return
 
-        raise RuntimeError('No feasible OR-Tools schedule found within current row bounds')
+        raise RuntimeError(
+            'No feasible OR-Tools schedule found. '
+            'Tried target rows from {} up to {}.'.format(start_rows, max_rows)
+        )
