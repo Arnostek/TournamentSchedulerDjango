@@ -3,6 +3,7 @@
 {% block content %}
 
 <h2>{{division.name}}</h2>
+{% include "_division_nav.html" %}
 
 <h3>Groups</h3>
 
@@ -13,7 +14,7 @@
         <h4>{{group.name}}</h4>
         <ol class="list-group">
           {% for team in teams %}
-            <li class="list-group-item text-nowrap">{{team}}</li>
+            <li class="list-group-item text-nowrap">{% include "_team_link.html" with link=false %}</li>
           {% endfor %}
         </ol>
       </div>

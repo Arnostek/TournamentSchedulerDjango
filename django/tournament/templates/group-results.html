@@ -18,7 +18,7 @@
     </tr>
     {% for tph,res in results.items %}
     <tr>
-      <td>{{tph.team_name}}</td>
+      <td>{% include "_team_link.html" with link=false %}</td>
       <td>{{res.games}}</td>
       <td>{{res.points}}</td>
       <td>{{res.diff}}</td>

@@ -15,7 +15,7 @@
           {% for rank in r.ranking %}
             <li class="list-group-item text-nowrap">
               <strong>{{rank.rank}}.</strong>
-              {% if rank.teamPlaceholder.team %}{{rank.teamPlaceholder.team.name}}{%else%}{{rank.teamPlaceholder.name}}{%endif%}
+              {% include "_team_link.html" %}
             </li>
           {% endfor %}
         </ol>
