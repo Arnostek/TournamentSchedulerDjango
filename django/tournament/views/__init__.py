@@ -1,6 +1,8 @@
 # Views module
 from .base import TournamentListView, TournamentDetail
-from .tournament import TournamentDetailView, TVView, PrintsView
+from .tournament import TournamentDetailView
+from .tv import TVView
+from .prints import PrintsView
 from .division import (
     DivisionSystemView,
     DivisionRankingView,
