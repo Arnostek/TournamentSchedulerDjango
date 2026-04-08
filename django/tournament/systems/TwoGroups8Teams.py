@@ -14,47 +14,53 @@ class TwoGroups8Teams(DivisionSystemBase):
         self._addReferees()
 
     def _createSystem(self):
-        # phase 1 - first round
-        phase = 1
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
+        """System definition using builders - much cleaner!"""
 
-        # phase 2 - second round
-        phase += 1
+        # PHASE 1 - first round
+        self.phase.create_groups(
+            ['A', 'B'],
+            self.division.seed_placeholders,
+            referee_groups=['B', 'A']
+        )
 
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        b_ranks = self.division.GetGroupsRanks(['B'])
+        # PHASE 2 - second round
+        self.phase.next_phase()
+        a_ranks = self.phase.get_ranks(['A'])
+        b_ranks = self.phase.get_ranks(['B'])
 
-        self.division.CreateGroups(['C','D'], [a_ranks[0],a_ranks[2],b_ranks[2],b_ranks[0],a_ranks[1],a_ranks[3],b_ranks[3],b_ranks[1]], phase, ['D','C'])
+        # Mix teams from A and B
+        mixed_seeds = [
+            a_ranks[0], a_ranks[2], b_ranks[2], b_ranks[0],
+            a_ranks[1], a_ranks[3], b_ranks[3], b_ranks[1]
+        ]
+        self.phase.create_groups(['C', 'D'], mixed_seeds, referee_groups=['D', 'C'])
 
-        # places
-        # 7th
-        phase += 1
-        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['D'])[2:4], phase)
-        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+        # PHASE 3 - placement matches
+        self.phase.next_phase()
+        c_ranks = self.phase.get_ranks(['C'])
+        d_ranks = self.phase.get_ranks(['D'])
 
-        # 5th
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['D'])[0:2], phase)
-        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
+        # Use PlacementBuilder for 7th and 5th place matches
+        self.placements.create_placements_from_ranges({
+            7: d_ranks[2:4],
+            5: d_ranks[0:2],
+        })
 
-        # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], phase)
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
-
-        # final
-        phase += 1
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['C'])[0:2], phase)
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+        # PHASE 4 - Finals
+        self.phase.next_phase()
+        self.phase.create_and_rank('3rd', c_ranks[2:4], 3)
+        self.phase.create_and_rank('Final', c_ranks[0:2], 1)
 
     def _addReferees(self):
-        """ Doplneni rozhodcich pro finalove zapasy """
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        b_ranks = self.division.GetGroupsRanks(['B'])
-        c_ranks = self.division.GetGroupsRanks(['C'])
-        d_ranks = self.division.GetGroupsRanks(['D'])
+        """Simplified referee assignment using RefereeBuilder."""
+        a_ranks = self.phase.get_ranks(['A'])
+        b_ranks = self.phase.get_ranks(['B'])
+        c_ranks = self.phase.get_ranks(['C'])
+        d_ranks = self.phase.get_ranks(['D'])
 
-        self._GroupAddReferees('7th', [d_ranks[1]])
-        self._GroupAddReferees('5th', [d_ranks[2]])
-
-        self._GroupAddReferees('3rd',[d_ranks[0]])
-        self._GroupAddReferees('Final',[c_ranks[2]])
+        self.referees.assign_multiple_referees({
+            '7th': [d_ranks[1]],
+            '5th': [d_ranks[2]],
+            '3rd': [d_ranks[0]],
+            'Final': [c_ranks[2]],
+        })

@@ -15,43 +15,38 @@ class TwoGroups8TeamsMiddle(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - first round
-        phase = 1
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
+        self.phase.create_groups(['A','B'], self.division.seed_placeholders, referee_groups=['B','A'])
 
         # phase 2 - Krizove zapasy
-        phase += 1
-
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        b_ranks = self.division.GetGroupsRanks(['B'])
+        self.phase.next_phase()
+        a_ranks = self.phase.get_ranks(['A'])
+        b_ranks = self.phase.get_ranks(['B'])
 
         # zapasy 2. vs 3.
-        self.division.CreateGroups(['M1','M2'], [a_ranks[1],a_ranks[2],b_ranks[1],b_ranks[2]], phase)
+        self.phase.create_groups(['M1','M2'], [a_ranks[1],a_ranks[2],b_ranks[1],b_ranks[2]])
 
         # phase 3 - druhe kolo
-        phase += 1
+        self.phase.next_phase()
+        m_ranks = self.phase.get_ranks(['M1','M2'])
 
         # vitezove
-        self.division.CreateGroups(['C'], self.division.GetGroupsRanks(['A','B','M1','M2'])[:4],phase, ['C'])
+        self.phase.create_groups(['C'], self.phase.get_ranks(['A','B','M1','M2'])[:4], referee_groups=['C'])
+
         # porazeni
-        self.division.CreateGroups(['D'], self.division.GetGroupsRanks(['M1','M2'])[-2:] + self.division.GetGroupsRanks(['A','B'])[-2:],phase,['D'])
+        self.phase.create_groups(['D'], m_ranks[-2:] + self.phase.get_ranks(['A','B'])[-2:], referee_groups=['D'])
 
         # umisteni
-
         # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['C'])[2:4], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('3rd', self.phase.get_ranks(['C'])[2:4], 3)
 
         # final
-        phase += 1
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['C'])[0:2], phase)
+        self.phase.next_phase()
+        self.phase.create_and_rank('final', self.phase.get_ranks(['C'])[0:2], 1)
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        self._GroupAddReferees('M1', self.division.GetGroupsRanks(['A']))
-        self._GroupAddReferees('M2', self.division.GetGroupsRanks(['B']))
-        #
-        # self._GroupAddReferees('7th', self.division.GetGroupsRanks(['S1']))
-        # self._GroupAddReferees('5th', self.division.GetGroupsRanks(['S2']))
-        #
-        # self._GroupAddReferees('3rd',self.division.GetGroupsRanks(['7th']))
-        # self._GroupAddReferees('final',self.division.GetGroupsRanks(['5th']))
+        self.referees.assign_multiple_referees({
+            'M1': self.phase.get_ranks(['A']),
+            'M2': self.phase.get_ranks(['B']),
+        })

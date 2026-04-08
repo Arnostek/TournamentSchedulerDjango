@@ -14,79 +14,68 @@ class TwoGroups(DivisionSystemBase):
         self._addReferees()
 
     def _createSystem(self):
-        # phase 1 - zakladni skupiny
-        phase = 1
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase, ['B','A'])
-        # a_ranks = self.division.GetGroupsRanks(['A'])
+        # PHASE 1 - zakladni skupiny
+        self.phase.create_groups(['A','B'], self.division.seed_placeholders, referee_groups=['B','A'])
+        ab_ranks = self.phase.get_ranks(['A','B'])
 
-        phase += 1
+        self.phase.next_phase()
         # volitelne semi pro 5-8
         if self.semi5_8:
-            self.division.CreateGroups(['SemiC','SemiD'], self.division.GetGroupsRanks(['A','B'])[4:8], phase)
+            self.phase.division.CreateGroups(['SemiC','SemiD'], ab_ranks[4:8], self.phase.phase)
 
         # prvni 4 tymy jdou do semi
-        self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
+        self.phase.division.CreateGroups(['SemiA','SemiB'], ab_ranks[:4], self.phase.phase)
 
         # pro lichy pocet tymu muze byt skupina poslednich tri
         if self.last3:
             # pro 9 zasahuje Last3 do semi C a D
             if self.semi5_8 and self.teams_count == 9:
-                self.division.CreateGroups(['Last3'],[self.division.GetGroupsRanks(['SemiC'])[-1], self.division.GetGroupsRanks(['SemiD'])[-1],  self.division.GetGroupsRanks(['A','B'])[-1]], phase,['Last3'])
+                self.phase.division.CreateGroups(['Last3'],[self.division.GetGroupsRanks(['SemiC'])[-1], self.division.GetGroupsRanks(['SemiD'])[-1],  ab_ranks[-1]], self.phase.phase,['Last3'])
             else:
-                self.division.CreateGroups(['Last3'], self.division.GetGroupsRanks(['A','B'])[-3:], phase,['Last3'])
+                self.phase.division.CreateGroups(['Last3'], ab_ranks[-3:], self.phase.phase,['Last3'])
             self.division.CreateRanks(self.teams_count - 2,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
-        phase += 1
+        self.phase.next_phase()
         if self.semi5_8:
             mista = [m for m in range(9,self.teams_count if not self.last3 else self.teams_count - 3,2)]
         else:
             mista = [m for m in range(5,self.teams_count if not self.last3 else self.teams_count - 3,2)]
-        # mista = [m for m in range(5,self.teams_count,2)]
         mista.reverse()
         for misto in mista:
-            self.division.CreateGroups(['{}th'.format(misto)], self.division.GetGroupsRanks(['A','B'])[misto - 1: misto + 1], phase)
+            self.division.CreateGroups(['{}th'.format(misto)], ab_ranks[misto - 1: misto + 1], self.phase.phase)
             self.division.CreateRanks(misto,self.division.GetGroupsRanks(['{}th'.format(misto)]))
 
         if self.semi5_8:
             # pri deviti tymech a last # se o sedme misto nehraje
             if not(self.teams_count ==9 and self.last3):
-                self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[2:4], phase)
+                self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[2:4], self.phase.phase)
                 self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
-            
-            self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[0:2], phase)
+
+            self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[0:2], self.phase.phase)
             self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
+
         # 3rd
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
+        self.phase.next_phase()
+        self.phase.create_and_rank('3rd', self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], 3)
 
         # Final
-        phase += 1
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+        self.phase.next_phase()
+        self.phase.create_and_rank('Final', self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], 1)
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        a_ranks = self.division.GetGroupsRanks(['A'])
-        b_ranks = self.division.GetGroupsRanks(['B'])
+        a_ranks = self.phase.get_ranks(['A'])
+        b_ranks = self.phase.get_ranks(['B'])
 
-        self._GroupAddReferees('SemiA',[a_ranks[2]])
-        self._GroupAddReferees('SemiB',[b_ranks[2]])
-        
+        self.referees.assign_group_referees('SemiA',[a_ranks[2]])
+        self.referees.assign_group_referees('SemiB',[b_ranks[2]])
+
         if self.semi5_8:
-            self._GroupAddReferees('SemiC',[a_ranks[1]])
-            self._GroupAddReferees('SemiD',[b_ranks[1]])
+            self.referees.assign_group_referees('SemiC',[a_ranks[1]])
+            self.referees.assign_group_referees('SemiD',[b_ranks[1]])
 
-        # if self.teams_count > 11:
-        #     self._GroupAddReferees('11th',[a_ranks[3]])
-        # if self.teams_count > 9:
-        #     self._GroupAddReferees('9th', [b_ranks[1]])
-        # if self.teams_count > 7:
-        #     self._GroupAddReferees('7th', [a_ranks[1]])
-        # if self.teams_count > 5:
-        #     self._GroupAddReferees('5th', [a_ranks[5]])
         if self.teams_count > 6 and self.semi5_8:
-            self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['SemiA'])[0]])
+            self.referees.assign_group_referees('3rd',[self.division.GetGroupsRanks(['SemiA'])[0]])
 
-        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
+        self.referees.assign_group_referees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
