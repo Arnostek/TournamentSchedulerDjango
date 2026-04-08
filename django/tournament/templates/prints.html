@@ -107,9 +107,9 @@
               {% endif %}
 
             </td>
-            <td>{{s.match.home.team_name}}</td>
+            <td>{% include "_team_link.html" with tph=s.match.home link=false %}</td>
             <td>{{s.match.home_score| default_if_none:""}}:{{s.match.away_score| default_if_none:""}}</td>
-            <td>{{s.match.away.team_name}}</td>
+            <td>{% include "_team_link.html" with tph=s.match.away link=false %}</td>
             <td><a href="/live/{{tournament.slug}}/crosstables-division-{{s.division.id}}">tables</a></td>
             <td>{% if user_role.table_admin and s.group.finished %}<button type="button" class="btn btn-danger btn-sm reopen-group" name="{{s.group.id}}">Reopen table</button>{% endif %}</td>
           </tr>

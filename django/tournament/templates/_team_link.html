@@ -1,0 +1,31 @@
+{% comment %}
+  Flexible team link component that handles different team object types:
+  - tph: team placeholder objects (from schedule-team.html)
+  - rank: ranking objects with teamPlaceholder
+  - team: direct team objects
+  - link: boolean to control whether to create links (default: true)
+  - link_prefix: URL prefix for links (default: "schedule-team-")
+{% endcomment %}
+
+{% if tph %}
+  {# Handle team placeholder objects (schedule context) #}
+  {% if tph.team and link %}
+    <a href="{{link_prefix}}{{tph.team.id}}">{{tph.team_name}}</a>
+  {% else %}
+    {{tph.team_name}}
+  {% endif %}
+{% elif rank %}
+  {# Handle ranking objects #}
+  {% if rank.teamPlaceholder.team and link %}
+    <a href="{{link_prefix}}{{rank.teamPlaceholder.team.id}}">{{rank.teamPlaceholder.team.name}}</a>
+  {% else %}
+    {{rank.teamPlaceholder.name}}
+  {% endif %}
+{% elif team %}
+  {# Handle direct team objects #}
+  {% if team.id and link %}
+    <a href="{{link_prefix}}{{team.id}}">{{team.name}}</a>
+  {% else %}
+    {{team.name}}
+  {% endif %}
+{% endif %}
