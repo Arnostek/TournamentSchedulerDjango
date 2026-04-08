@@ -1,3 +1,8 @@
+from .TournamentBuilders import (
+    PhaseManager, PlacementBuilder, SemiFinalBuilder, 
+    LastThreeBuilder, RefereeBuilder
+)
+
 class DivisionSystemBase:
     """ Zakladni trida, ze ktere se dedi tridy pro jednotlive systemy"""
 
@@ -32,10 +37,17 @@ class DivisionSystemBase:
                 self.final_for = teams_count - 3
             else:
                 self.final_for = teams_count
+        
+        # Initialize builders for use in _createSystem()
+        self._init_builders()
 
-
-
-    def _createDivision(self,name,slug,teams_count):
+    def _init_builders(self):
+        """Initialize builder instances for granular control."""
+        self.phase = PhaseManager(self.division)
+        self.placements = PlacementBuilder(self.phase)
+        self.semis = SemiFinalBuilder(self.phase)
+        self.last3_builder = LastThreeBuilder(self.phase)
+        self.referees = RefereeBuilder(self.phase, self.division)
 
         self.division = self.tournament.division_set.create(name = name, slug = slug, teams = teams_count)
 
