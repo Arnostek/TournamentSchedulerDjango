@@ -35,6 +35,14 @@ class TournamentSchedulerDataframeOptimizerOrtools:
                     )
         return matches
 
+    def _match_phase_key(self, match_obj):
+        group = match_obj.group
+        division = group.division
+        division_id = getattr(division, 'pk', None)
+        if division_id is None:
+            division_id = id(division)
+        return (int(division_id), group.phase)
+
     def _team_key(self, tph):
         # Stable key for model grouping. Prefer DB pk when available.
         pk = getattr(tph, 'pk', None)
@@ -42,7 +50,7 @@ class TournamentSchedulerDataframeOptimizerOrtools:
             return ('pk', int(pk))
         return ('obj', id(tph))
 
-    def _build_and_solve(self, matches, target_rows, pitch_indexes):
+    def _build_and_solve(self, matches, target_rows, pitch_indexes, dont_move_to_pitch_index=None):
         cp_model = _load_cp_model()
         if cp_model is None:
             return None
@@ -50,6 +58,7 @@ class TournamentSchedulerDataframeOptimizerOrtools:
         model = cp_model.CpModel()
         num_matches = len(matches)
         num_pitches = len(pitch_indexes)
+        blocked_pitches = set(dont_move_to_pitch_index or [])
 
         x = {}
         for i in range(num_matches):
@@ -66,12 +75,28 @@ class TournamentSchedulerDataframeOptimizerOrtools:
             for p in range(num_pitches):
                 model.Add(sum(x[(i, r, p)] for i in range(num_matches)) <= 1)
 
+        # Optionally block target pitches from receiving any moved/assigned matches.
+        if blocked_pitches:
+            for i in range(num_matches):
+                for p, pitch_index in enumerate(pitch_indexes):
+                    if pitch_index in blocked_pitches:
+                        for r in range(target_rows):
+                            model.Add(x[(i, r, p)] == 0)
+
         # Helper row vars for ordering and objective.
         row_vars = {}
+        pitch_vars = {}
         for i in range(num_matches):
             row_var = model.NewIntVar(0, target_rows - 1, f'row_{i}')
             model.Add(row_var == sum(r * x[(i, r, p)] for r in range(target_rows) for p in range(num_pitches)))
             row_vars[i] = row_var
+
+            pitch_var = model.NewIntVar(min(pitch_indexes), max(pitch_indexes), f'pitch_{i}')
+            model.Add(
+                pitch_var ==
+                sum(pitch_indexes[p] * x[(i, r, p)] for r in range(target_rows) for p in range(num_pitches))
+            )
+            pitch_vars[i] = pitch_var
 
         # Preserve per-original-pitch match order.
         by_pitch = {}
@@ -83,6 +108,28 @@ class TournamentSchedulerDataframeOptimizerOrtools:
                 i1 = ordered[idx][1]
                 i2 = ordered[idx + 1][1]
                 model.Add(row_vars[i1] <= row_vars[i2])
+
+        # Keep first match of each (division, phase) on its original row when feasible.
+        phase_first = {}
+        for i, item in enumerate(matches):
+            key = self._match_phase_key(item['match'])
+            orig_row = int(item['orig_row'])
+            if key not in phase_first or orig_row < phase_first[key][0]:
+                phase_first[key] = (orig_row, i)
+        for orig_row, i in phase_first.values():
+            if orig_row < target_rows:
+                model.Add(row_vars[i] == orig_row)
+
+        # Keep ordering and at least one-row separation at phase boundaries per original pitch.
+        for pitch, ordered in by_pitch.items():
+            ordered.sort(key=lambda it: it[0])
+            for idx in range(len(ordered) - 1):
+                i1 = ordered[idx][1]
+                i2 = ordered[idx + 1][1]
+                m1 = matches[i1]['match']
+                m2 = matches[i2]['match']
+                if m1.group.phase != m2.group.phase:
+                    model.Add(row_vars[i2] >= row_vars[i1] + 1)
 
         # Team cannot play/ref adjacent (same row or +-1 row).
         team_to_matches = {}
@@ -106,16 +153,25 @@ class TournamentSchedulerDataframeOptimizerOrtools:
                                 model.Add(i_at_r + j_at_r2 <= 1)
 
         # Minimize row movement from original schedule.
-        deviation_vars = []
+        row_deviation_vars = []
+        pitch_deviation_vars = []
         for i, item in enumerate(matches):
             orig_row = min(int(item['orig_row']), target_rows - 1)
             diff = model.NewIntVar(-target_rows, target_rows, f'diff_{i}')
             abs_diff = model.NewIntVar(0, target_rows, f'abs_diff_{i}')
             model.Add(diff == row_vars[i] - orig_row)
             model.AddAbsEquality(abs_diff, diff)
-            deviation_vars.append(abs_diff)
+            row_deviation_vars.append(abs_diff)
 
-        model.Minimize(sum(deviation_vars))
+            pitch_lo = max(pitch_indexes) - min(pitch_indexes)
+            p_diff = model.NewIntVar(-pitch_lo, pitch_lo, f'p_diff_{i}')
+            p_abs_diff = model.NewIntVar(0, pitch_lo, f'p_abs_diff_{i}')
+            model.Add(p_diff == pitch_vars[i] - int(item['orig_pitch']))
+            model.AddAbsEquality(p_abs_diff, p_diff)
+            pitch_deviation_vars.append(p_abs_diff)
+
+        # Row stability is primary; pitch stability is secondary.
+        model.Minimize((100 * sum(row_deviation_vars)) + sum(pitch_deviation_vars))
 
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = 15.0
@@ -156,7 +212,7 @@ class TournamentSchedulerDataframeOptimizerOrtools:
         for i, row_ind, pitch_ind in assignments:
             self.schedule.iloc[row_ind, pitch_ind] = matches[i]['match']
 
-    def Optimize(self, desired_slots):
+    def Optimize(self, desired_slots, dont_move_to_pitch_index=None):
         """Optimize schedule to desired slots using OR-Tools CP-SAT."""
         cp_model = _load_cp_model()
         if cp_model is None:
@@ -176,7 +232,12 @@ class TournamentSchedulerDataframeOptimizerOrtools:
         # Try to satisfy desired_slots first; relax row count only if infeasible.
         best = None
         for target_rows in range(desired_slots, max_rows + 1):
-            best = self._build_and_solve(matches, target_rows, pitch_indexes)
+            best = self._build_and_solve(
+                matches,
+                target_rows,
+                pitch_indexes,
+                dont_move_to_pitch_index=dont_move_to_pitch_index,
+            )
             if best is not None:
                 self._apply_assignments(matches, best, target_rows)
                 return
