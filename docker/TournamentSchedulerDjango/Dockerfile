@@ -5,7 +5,7 @@ RUN apt-get update; \
     apt-get install -y \
       build-essential python-dev; \
     pip install --upgrade pip; \
-    pip install django numpy pandas uwsgi "ipython[notebook]" django_extensions pytz
+    pip install django numpy pandas ortools uwsgi "ipython[notebook]" django_extensions pytz
 
 COPY EntryPoint.sh /EntryPoint.sh
 
