@@ -15,30 +15,33 @@ class SingleGroup5teams(DivisionSystemBase):
 
     def _createSystem(self):
         # phase 1 - zakladni skupina
-        phase = 1
-        self.division.CreateGroups(['A'], self.division.seed_placeholders, phase, ['A'])
-        a_ranks = self.division.GetGroupsRanks(['A'])
+        self.phase.create_groups(['A'], self.division.seed_placeholders, referee_groups=['A'])
+        a_ranks = self.phase.get_ranks(['A'])
+
         # phase 2 - kdo opravdu vypadne
-        phase += 1
-        self.division.CreateGroups(['B'], [a_ranks[2], a_ranks[3], a_ranks[4]], phase)
-        b_ranks = self.division.GetGroupsRanks(['B'])
+        self.phase.next_phase()
+        self.phase.create_groups(['B'], [a_ranks[2], a_ranks[3], a_ranks[4]])
+        b_ranks = self.phase.get_ranks(['B'])
 
         # semi
-        phase += 1
-        self.division.CreateGroups(['SemiA'], [a_ranks[0], b_ranks[1]], phase)
-        self.division.CreateGroups(['SemiB'], [a_ranks[1], b_ranks[0]], phase)
+        self.phase.next_phase()
+        self.phase.create_groups(['SemiA'], [a_ranks[0], b_ranks[1]])
+        self.phase.create_groups(['SemiB'], [a_ranks[1], b_ranks[0]])
 
         # finals
-        phase += 1
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4] , phase)
-        self.division.CreateGroups(['final'],self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2] , phase)
+        self.phase.next_phase()
+        semi_ranks = self.phase.get_ranks(['SemiA','SemiB'])
+        self.phase.create_and_rank('3rd', semi_ranks[2:4], 3)
+        self.phase.create_and_rank('final', semi_ranks[0:2], 1)
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
-        b_ranks = self.division.GetGroupsRanks(['B'])
-        self._GroupAddReferees('SemiA', [b_ranks[0]])
-        self._GroupAddReferees('SemiB', [b_ranks[1]])
+        b_ranks = self.phase.get_ranks(['B'])
+        semi_ranks = self.phase.get_ranks(['SemiA','SemiB'])
 
-        semi_ranks = self.division.GetGroupsRanks(['SemiA','SemiB'])
-        self._GroupAddReferees('3rd', [semi_ranks[0]])
-        self._GroupAddReferees('final', [semi_ranks[2]])
+        self.referees.assign_multiple_referees({
+            'SemiA': [b_ranks[0]],
+            'SemiB': [b_ranks[1]],
+            '3rd': [semi_ranks[0]],
+            'final': [semi_ranks[2]],
+        })
