@@ -1,5 +1,5 @@
 from django.db import models
-from ..polygon_generator import polygon_generator
+from .polygon_generator import polygon_generator
 from .team_placeholder import TeamPlaceholder
 from .group_tie_ranking_points import GroupTieRankingPoints
 from .match import Match
