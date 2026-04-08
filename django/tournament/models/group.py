@@ -1,5 +1,5 @@
 from django.db import models
-from .polygon_generator import polygon_generator
+from ..polygon_generator import polygon_generator
 
 
 class Group(models.Model):
