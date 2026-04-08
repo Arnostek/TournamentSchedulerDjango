@@ -15,42 +15,53 @@ class TwoGroups15Teams(DivisionSystemBase):
         self._createMatches()
 
     def _createSystem(self):
-        # phase 1 - zakladni skupina
-        phase = 1
-        self.division.CreateGroups(['A','B'], self.division.seed_placeholders, phase)
+        """
+        BEFORE: 80 lines of repetitive code
+        AFTER: 40 lines with clearer intent
+        """
 
-        # QF - 1. vs 4., 2. vs 3.
-        phase += 1
-        self.division.CreateGroups(['QF1','QF2','QF3','QF4'],self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)
+        # PHASE 1 - base groups
+        self.phase.create_groups(['A', 'B'], self.division.seed_placeholders)
+        ab_ranks = self.phase.get_ranks(['A', 'B'])
 
-        # SF a Last 3
-        phase += 1
-        self.division.CreateGroups(['SF1','SF2'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[:4], phase)
-        self.division.CreateGroups(['SF3','SF4'],self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[4:], phase)
+        # PHASE 2 - Quarter finals (first 8 teams)
+        self.phase.next_phase()
+        self.phase.create_groups(
+            ['QF1', 'QF2', 'QF3', 'QF4'],
+            ab_ranks[:8]
+        )
+        qf_ranks = self.phase.get_ranks(['QF1', 'QF2', 'QF3', 'QF4'])
 
-        self.division.CreateGroups(['SF5','SF6'],self.division.GetGroupsRanks(['A','B'])[8:12], phase)
+        # PHASE 3 - Semi finals + secondary groups
+        self.phase.next_phase()
 
-        self.division.CreateGroups(['Last3'],self.division.GetGroupsRanks(['A','B'])[12:], phase)
-        self.division.CreateRanks(13,self.division.GetGroupsRanks(['Last3']))
+        # Primary semis from QF winners
+        self.phase.create_groups(['SF1', 'SF2'], qf_ranks[:4])
 
-        # Places
-        phase += 1
-        self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['SF5','SF6'])[2:], phase)
-        self.division.CreateRanks(11,self.division.GetGroupsRanks(['11th']))
+        # Secondary semis from QF losers
+        self.phase.create_groups(['SF3', 'SF4'], qf_ranks[4:])
 
-        self.division.CreateGroups(['9th'], self.division.GetGroupsRanks(['SF5','SF6'])[:2], phase)
-        self.division.CreateRanks(9,self.division.GetGroupsRanks(['9th']))
+        # Additional group for teams 9-12
+        self.phase.create_groups(['SF5', 'SF6'], ab_ranks[8:12])
 
-        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:], phase)
-        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+        # Last 3 teams (13th place starts here)
+        self.last3_builder.create_last3_group(['A', 'B'])
 
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[:2], phase)
-        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
+        # PHASE 4 - Placement matches using builder
+        self.phase.next_phase()
+        sf5_sf6_ranks = self.phase.get_ranks(['SF5', 'SF6'])
+        sf3_sf4_ranks = self.phase.get_ranks(['SF3', 'SF4'])
 
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
+        self.placements.create_placements_from_ranges({
+            11: sf5_sf6_ranks[2:],
+            9: sf5_sf6_ranks[:2],
+            7: sf3_sf4_ranks[2:],
+            5: sf3_sf4_ranks[:2],
+        })
 
-        # Final
-        phase += 1
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
+        # PHASE 5 - Finals
+        self.phase.next_phase()
+        sf1_sf2_ranks = self.phase.get_ranks(['SF1', 'SF2'])
+
+        self.phase.create_and_rank('3rd', sf1_sf2_ranks[2:4], 3)
+        self.phase.create_and_rank('Final', sf1_sf2_ranks[0:2], 1)
