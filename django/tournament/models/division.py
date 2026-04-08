@@ -1,5 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
+from .team_placeholder import TeamPlaceholder
+from .group_rank import GroupRank
 
 
 class Division(models.Model):
@@ -130,19 +132,3 @@ class Division(models.Model):
 def division__after_create(sender, instance, created, *args, **kwargs):
     if created:
         instance.CreateSeeds()
-
-
-class SeedAbstract(models.Model):
-    rank = models.PositiveSmallIntegerField()
-    teamPlaceholder = models.ForeignKey('TeamPlaceholder', null=True, on_delete=models.CASCADE)
-
-    class Meta:
-        abstract = True
-
-
-class DivisionSeed(SeedAbstract):
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
-
-
-class DivisionRank(SeedAbstract):
-    division = models.ForeignKey(Division, on_delete=models.CASCADE)
