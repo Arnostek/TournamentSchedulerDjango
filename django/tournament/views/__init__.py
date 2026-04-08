@@ -7,7 +7,8 @@ from .division import (
     DivisionCrossTablesView,
     DivisionTablesView,
 )
-from .schedule import ScheduleView, ProtocolsView
+from .schedule import ScheduleView
+from .protocols import ProtocolsView
 from .match import SetScore, DelScore, SwitchMatch, FinishGroup, ReopenGroup, AddTiePoints
 from .conflicts import ConflictsView
 
