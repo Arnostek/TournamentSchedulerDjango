@@ -1,5 +1,7 @@
 from django.db import models
 from ..polygon_generator import polygon_generator
+from .division import SeedAbstract
+from .team import TeamPlaceholder
 
 
 class Group(models.Model):
