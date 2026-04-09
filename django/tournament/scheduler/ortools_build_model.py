@@ -89,12 +89,23 @@ def build_model(data, slots, pitches):
     # 7) Phase ordering
     # --------------------------------------------------
     # optimalizace: jen mezi různými phase
-    phases = sorted(matches_by_phase.keys())
+    # phases = sorted(matches_by_phase.keys())
 
-    for i in range(len(phases)):
-        for j in range(i + 1, len(phases)):
-            phase_a = phases[i]
-            phase_b = phases[j]
+    # for i in range(len(phases)):
+    #     for j in range(i + 1, len(phases)):
+    #         phase_a = phases[i]
+    #         phase_b = phases[j]
+
+    #         for m1 in matches_by_phase[phase_a]:
+    #             for m2 in matches_by_phase[phase_b]:
+    #                 model.Add(slot_of_match[m1] < slot_of_match[m2])
+
+    # for d in data["division_idx"].values():
+    #     for i in range(len(matches_by_division[d]) - 1):
+    #         m1 = matches_by_division[d][i]
+    #         m2 = matches_by_division[d][i + 1]
+
+    #         model.Add(slot_of_match[m1] <= slot_of_match[m2])
 
     # --------------------------------------------------
     # 8) Pořadí zápasů v rámci divize podle db_id
