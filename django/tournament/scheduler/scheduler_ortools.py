@@ -41,77 +41,82 @@ class TournamentSchedulerOrtools:
             self.matches_by_team[self.home[m]].append(m)
             self.matches_by_team[self.away[m]].append(m)
 
+        # --- matches by division
+        self.division_matches = {}
+        for idx, m in enumerate(self.matches_qs):
+            div_id = m.division_id
+            self.division_matches.setdefault(div_id, []).append((idx, m.phase_block))
+
     # =========================
     # 2) PROMĚNNÉ
     # =========================
     def _create_variables(self):
-        self.is_scheduled = {}
-        for m in range(self.num_matches):
-            for t in range(self.num_slots):
-                for p in range(self.num_pitches):
-                    self.is_scheduled[m, t, p] = self.model.NewBoolVar(
-                        f"m{m}_t{t}_p{p}"
-                    )
+        # integer variables
+        self.slot = [
+            self.model.NewIntVar(0, self.num_slots - 1, f"slot_{m}")
+            for m in range(self.num_matches)
+        ]
+        self.pitch = [
+            self.model.NewIntVar(0, self.num_pitches - 1, f"pitch_{m}")
+            for m in range(self.num_matches)
+        ]
 
     # =========================
     # 3) CONSTRAINTY
     # =========================
-    def each_match_once(self):
-        for m in range(self.num_matches):
-            self.model.Add(
-                sum(
-                    self.is_scheduled[m, t, p]
-                    for t in range(self.num_slots)
-                    for p in range(self.num_pitches)
-                ) == 1
-            )
-
     def one_match_per_pitch(self):
+        """Na každém hřišti může být jen jeden zápas ve stejný slot"""
         for t in range(self.num_slots):
             for p in range(self.num_pitches):
-                self.model.Add(
-                    sum(self.is_scheduled[m, t, p] for m in range(self.num_matches)) <= 1
-                )
+                overlapping = [
+                    self.model.NewBoolVar(f"overlap_m{m}_t{t}_p{p}")
+                    for m in range(self.num_matches)
+                ]
+                for i, m in enumerate(range(self.num_matches)):
+                    self.model.Add(self.slot[m] == t).OnlyEnforceIf(overlapping[i])
+                    self.model.Add(self.slot[m] != t).OnlyEnforceIf(overlapping[i].Not())
+                    self.model.Add(self.pitch[m] == p).OnlyEnforceIf(overlapping[i])
+                    self.model.AddAnyEquality([self.slot[m] != t, self.pitch[m] != p]).OnlyEnforceIf(overlapping[i].Not())
+                self.model.Add(sum(overlapping) <= 1)
 
     def team_not_same_time(self):
-        for t in range(self.num_slots):
-            for team in range(self.num_teams):
-                self.model.Add(
-                    sum(
-                        self.is_scheduled[m, t, p]
-                        for m in self.matches_by_team[team]
-                        for p in range(self.num_pitches)
-                    ) <= 1
-                )
+        """Tým nemůže hrát více zápasů ve stejný slot"""
+        for team in range(self.num_teams):
+            matches = self.matches_by_team[team]
+            for i in range(len(matches)):
+                for j in range(i + 1, len(matches)):
+                    m1, m2 = matches[i], matches[j]
+                    self.model.Add(self.slot[m1] != self.slot[m2])
 
     def team_no_back_to_back(self):
+        """Tým nesmí hrát dva zápasy po sobě"""
         for team in range(self.num_teams):
-            for t in range(self.num_slots - 1):
-                plays_t = sum(
-                    self.is_scheduled[m, t, p]
-                    for m in self.matches_by_team[team]
-                    for p in range(self.num_pitches)
-                )
-                plays_t1 = sum(
-                    self.is_scheduled[m, t + 1, p]
-                    for m in self.matches_by_team[team]
-                    for p in range(self.num_pitches)
-                )
-                self.model.Add(plays_t + plays_t1 <= 1)
+            matches = self.matches_by_team[team]
+            for i in range(len(matches)):
+                for j in range(i + 1, len(matches)):
+                    m1, m2 = matches[i], matches[j]
+                    self.model.AddAbsEquality(self.model.NewIntVar(2, self.num_slots, ""), self.slot[m1] - self.slot[m2]).OnlyEnforceIf(
+                        self.model.NewBoolVar(f"back_to_back_{m1}_{m2}")
+                    )
 
-    # =========================
-    # 4) OPTIMALIZACE
-    # =========================
+    def division_phase_order(self):
+        """Zachování pořadí zápasů v divizi podle phase_block"""
+        for div_id, match_list in self.division_matches.items():
+            sorted_matches = sorted(match_list, key=lambda x: x[1])
+            for i in range(len(sorted_matches) - 1):
+                m1_idx, _ = sorted_matches[i]
+                m2_idx, _ = sorted_matches[i + 1]
+                self.model.Add(self.slot[m1_idx] < self.slot[m2_idx])
+
     def minimize_last_slot(self):
+        """Minimalizace posledního využitého slotu"""
         last_slot = self.model.NewIntVar(0, self.num_slots - 1, "last_slot")
         for m in range(self.num_matches):
-            for t in range(self.num_slots):
-                for p in range(self.num_pitches):
-                    self.model.Add(last_slot >= t).OnlyEnforceIf(self.is_scheduled[m, t, p])
+            self.model.Add(last_slot >= self.slot[m])
         self.model.Minimize(last_slot)
 
     # =========================
-    # 5) SOLVE
+    # 4) SOLVE
     # =========================
     def solve(self, max_time_seconds=30):
         self.solver.parameters.max_time_in_seconds = max_time_seconds
@@ -122,12 +127,9 @@ class TournamentSchedulerOrtools:
 
         result = []
         for m in range(self.num_matches):
-            for t in range(self.num_slots):
-                for p in range(self.num_pitches):
-                    if self.solver.Value(self.is_scheduled[m, t, p]):
-                        result.append({
-                            "match_id": self.idx_to_match_id[m],
-                            "slot": t,
-                            "pitch": p
-                        })
+            result.append({
+                "match_id": self.idx_to_match_id[m],
+                "slot": self.solver.Value(self.slot[m]),
+                "pitch": self.solver.Value(self.pitch[m])
+            })
         return result
