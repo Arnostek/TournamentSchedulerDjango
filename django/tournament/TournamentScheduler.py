@@ -4,6 +4,7 @@ from .scheduler import (
     TournamentSchedulerDataframeEditor,
     TournamentSchedulerDataframeOptimizer,
     TournamentSchedulerDataframeOptimizerOrtools,
+    TournamentSchedulerDataframeOptimizerOrtoolsV2,
     TournamentSchedulerDataframeTester,
 )
 
@@ -12,6 +13,7 @@ __all__ = [
     'TournamentSchedulerDataframeCreator',
     'TournamentSchedulerDataframeOptimizer',
     'TournamentSchedulerDataframeOptimizerOrtools',
+    'TournamentSchedulerDataframeOptimizerOrtoolsV2',
     'TournamentSchedulerDataframeEditor',
     'TournamentSchedulerDataframeTester',
 ]
