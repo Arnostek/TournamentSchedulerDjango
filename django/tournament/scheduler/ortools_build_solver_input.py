@@ -9,6 +9,7 @@ def build_solver_input():
         .filter(
             division__tournament_id=2
         )
+        .order_by("id")
     )
     match_list = list(qs)
 
