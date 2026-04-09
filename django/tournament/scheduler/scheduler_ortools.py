@@ -6,10 +6,22 @@ class TournamentSchedulerOrtools:
         self.num_pitches = num_pitches
         self.num_slots = num_slots
 
+        if self.num_pitches <= 0:
+            raise ValueError("num_pitches must be > 0")
+        if self.num_slots <= 0:
+            raise ValueError("num_slots must be > 0")
+
         self.model = cp_model.CpModel()
         self.solver = cp_model.CpSolver()
+        self._model_built = False
 
         self._prepare_indices()
+
+        if self.num_matches > self.num_pitches * self.num_slots:
+            raise ValueError(
+                "Number of matches exceeds available pitch/slot capacity"
+            )
+
         self._create_variables()
 
     # =========================
@@ -85,27 +97,39 @@ class TournamentSchedulerOrtools:
 
     def team_no_back_to_back(self):
         """Tým nesmí hrát dva zápasy po sobě (slot difference ≥ 2)"""
+        max_slot_delta = max(0, self.num_slots - 1)
         for team in range(self.num_teams):
             matches = self.matches_by_team[team]
             for i in range(len(matches)):
                 for j in range(i + 1, len(matches)):
                     m1, m2 = matches[i], matches[j]
-                    diff = self.model.NewIntVar(-self.num_slots, self.num_slots, f"diff_{m1}_{m2}")
+                    diff = self.model.NewIntVar(
+                        -max_slot_delta,
+                        max_slot_delta,
+                        f"diff_{m1}_{m2}",
+                    )
+                    abs_diff = self.model.NewIntVar(0, max_slot_delta, f"abs_diff_{m1}_{m2}")
                     self.model.Add(diff == self.slot[m1] - self.slot[m2])
-                    # nepovolíme |diff| = 1
-                    b = self.model.NewBoolVar(f"back2back_ok_{m1}_{m2}")
-                    self.model.Add(diff <= -2).OnlyEnforceIf(b)
-                    self.model.Add(diff >= 2).OnlyEnforceIf(b)
-                    self.model.AddBoolOr([b])
+                    self.model.AddAbsEquality(abs_diff, diff)
+                    self.model.Add(abs_diff >= 2)
 
     def division_phase_order(self):
         """Zachování pořadí zápasů v divizi podle phase_block"""
-        for div_id, match_list in self.division_matches.items():
-            sorted_matches = sorted(match_list, key=lambda x: x[1])
-            for i in range(len(sorted_matches) - 1):
-                m1_idx, _ = sorted_matches[i]
-                m2_idx, _ = sorted_matches[i + 1]
-                self.model.Add(self.slot[m1_idx] < self.slot[m2_idx])
+        for _, match_list in self.division_matches.items():
+            matches_by_block = {}
+            for match_idx, block in match_list:
+                if block is None:
+                    continue
+                matches_by_block.setdefault(block, []).append(match_idx)
+
+            ordered_blocks = sorted(matches_by_block.keys())
+            for lower_i in range(len(ordered_blocks) - 1):
+                for higher_i in range(lower_i + 1, len(ordered_blocks)):
+                    lower_block = ordered_blocks[lower_i]
+                    higher_block = ordered_blocks[higher_i]
+                    for lower_match_idx in matches_by_block[lower_block]:
+                        for higher_match_idx in matches_by_block[higher_block]:
+                            self.model.Add(self.slot[lower_match_idx] < self.slot[higher_match_idx])
 
     def minimize_last_slot(self):
         """Minimalizace posledního využitého slotu"""
@@ -114,10 +138,22 @@ class TournamentSchedulerOrtools:
             self.model.Add(last_slot >= self.slot[m])
         self.model.Minimize(last_slot)
 
+    def build_model(self):
+        if self._model_built:
+            return
+
+        self.one_match_per_pitch()
+        self.team_not_same_time()
+        self.team_no_back_to_back()
+        self.division_phase_order()
+        self.minimize_last_slot()
+        self._model_built = True
+
     # =========================
     # 4) SOLVE
     # =========================
     def solve(self, max_time_seconds=30):
+        self.build_model()
         self.solver.parameters.max_time_in_seconds = max_time_seconds
         status = self.solver.Solve(self.model)
 
