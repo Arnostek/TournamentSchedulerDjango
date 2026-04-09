@@ -14,13 +14,10 @@ class TournamentSchedulerOrtools:
         self.model = cp_model.CpModel()
         self.solver = cp_model.CpSolver()
         self._model_built = False
+        self.last_status = None
+        self.last_status_name = None
 
         self._prepare_indices()
-
-        if self.num_matches > self.num_pitches * self.num_slots:
-            raise ValueError(
-                "Number of matches exceeds available pitch/slot capacity"
-            )
 
         self._create_variables()
 
@@ -152,10 +149,21 @@ class TournamentSchedulerOrtools:
     # =========================
     # 4) SOLVE
     # =========================
-    def solve(self, max_time_seconds=30):
-        self.build_model()
+    def solve(self, max_time_seconds=30, apply_constraints=True):
+        if apply_constraints:
+            self.build_model()
         self.solver.parameters.max_time_in_seconds = max_time_seconds
         status = self.solver.Solve(self.model)
+        self.last_status = status
+
+        status_name_map = {
+            cp_model.UNKNOWN: "UNKNOWN",
+            cp_model.MODEL_INVALID: "MODEL_INVALID",
+            cp_model.FEASIBLE: "FEASIBLE",
+            cp_model.INFEASIBLE: "INFEASIBLE",
+            cp_model.OPTIMAL: "OPTIMAL",
+        }
+        self.last_status_name = status_name_map.get(status, f"STATUS_{status}")
 
         if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             return None
