@@ -12,6 +12,7 @@ def build_model(data, slots, pitches):
     matches_by_team = data["matches_by_team"]
     matches_by_referee = data["matches_by_referee"]
     matches_by_phase = data["matches_by_phase"]
+    matches_by_division = data["matches_by_division"]
 
     matches_data = data["matches"]
 
@@ -95,9 +96,17 @@ def build_model(data, slots, pitches):
             phase_a = phases[i]
             phase_b = phases[j]
 
-            for m1 in matches_by_phase[phase_a]:
-                for m2 in matches_by_phase[phase_b]:
-                    model.Add(slot_of_match[m1] < slot_of_match[m2])
+    # --------------------------------------------------
+    # 8) Pořadí zápasů v rámci divize podle db_id
+    # --------------------------------------------------
+
+    for d in data["division_idx"].values():
+        for i in range(len(matches_by_division[d]) - 1):
+            m1 = matches_by_division[d][i]
+            m2 = matches_by_division[d][i + 1]
+
+            model.Add(slot_of_match[m1] <= slot_of_match[m2])
+
 
     # --------------------------------------------------
     # 8) (Volitelné) Division constraints
