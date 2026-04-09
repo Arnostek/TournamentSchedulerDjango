@@ -66,18 +66,13 @@ class TournamentSchedulerOrtools:
     # =========================
     def one_match_per_pitch(self):
         """Na každém hřišti může být jen jeden zápas ve stejný slot"""
-        for t in range(self.num_slots):
-            for p in range(self.num_pitches):
-                overlapping = [
-                    self.model.NewBoolVar(f"overlap_m{m}_t{t}_p{p}")
-                    for m in range(self.num_matches)
-                ]
-                for i, m in enumerate(range(self.num_matches)):
-                    self.model.Add(self.slot[m] == t).OnlyEnforceIf(overlapping[i])
-                    self.model.Add(self.slot[m] != t).OnlyEnforceIf(overlapping[i].Not())
-                    self.model.Add(self.pitch[m] == p).OnlyEnforceIf(overlapping[i])
-                    self.model.AddAnyEquality([self.slot[m] != t, self.pitch[m] != p]).OnlyEnforceIf(overlapping[i].Not())
-                self.model.Add(sum(overlapping) <= 1)
+        for i in range(self.num_matches):
+            for j in range(i + 1, self.num_matches):
+                # pokud jsou na stejném hřišti, sloty musí být různé
+                b = self.model.NewBoolVar(f"same_pitch_{i}_{j}")
+                self.model.Add(self.pitch[i] == self.pitch[j]).OnlyEnforceIf(b)
+                self.model.Add(self.pitch[i] != self.pitch[j]).OnlyEnforceIf(b.Not())
+                self.model.Add(self.slot[i] != self.slot[j]).OnlyEnforceIf(b)
 
     def team_not_same_time(self):
         """Tým nemůže hrát více zápasů ve stejný slot"""
@@ -89,15 +84,19 @@ class TournamentSchedulerOrtools:
                     self.model.Add(self.slot[m1] != self.slot[m2])
 
     def team_no_back_to_back(self):
-        """Tým nesmí hrát dva zápasy po sobě"""
+        """Tým nesmí hrát dva zápasy po sobě (slot difference ≥ 2)"""
         for team in range(self.num_teams):
             matches = self.matches_by_team[team]
             for i in range(len(matches)):
                 for j in range(i + 1, len(matches)):
                     m1, m2 = matches[i], matches[j]
-                    self.model.AddAbsEquality(self.model.NewIntVar(2, self.num_slots, ""), self.slot[m1] - self.slot[m2]).OnlyEnforceIf(
-                        self.model.NewBoolVar(f"back_to_back_{m1}_{m2}")
-                    )
+                    diff = self.model.NewIntVar(-self.num_slots, self.num_slots, f"diff_{m1}_{m2}")
+                    self.model.Add(diff == self.slot[m1] - self.slot[m2])
+                    # nepovolíme |diff| = 1
+                    b = self.model.NewBoolVar(f"back2back_ok_{m1}_{m2}")
+                    self.model.Add(diff <= -2).OnlyEnforceIf(b)
+                    self.model.Add(diff >= 2).OnlyEnforceIf(b)
+                    self.model.AddBoolOr([b])
 
     def division_phase_order(self):
         """Zachování pořadí zápasů v divizi podle phase_block"""
