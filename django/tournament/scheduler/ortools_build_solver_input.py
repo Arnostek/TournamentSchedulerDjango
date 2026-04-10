@@ -1,4 +1,4 @@
-def build_solver_input():
+def build_solver_input(tid):
     """
     Připraví a vrátí kompletní vstupní datovou strukturu pro OR-Tools solver.
 
@@ -41,7 +41,7 @@ def build_solver_input():
     qs = (
         Match.objects
         .select_related("division", "group", "home", "away", "referee")
-        .filter(division__tournament_id=2)
+        .filter(division__tournament_id=tid)
         .order_by("id")
     )
     # Materializujeme queryset do Pythonového seznamu – solver pracuje
