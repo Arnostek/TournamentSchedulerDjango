@@ -2,9 +2,9 @@ from ortools.sat.python import cp_model
 from tournament.scheduler.ortools_build_solver_input import build_solver_input
 from tournament.scheduler.ortools_build_model import build_model
 
-data = build_solver_input()
+data = build_solver_input(2)
 
-slots = list(range(70))      # např. 10 časů
+slots = list(range(50))      # např. 10 časů
 pitches = list(range(5))    # např. 3 hřiště
 
 model_data = build_model(data, slots, pitches)
