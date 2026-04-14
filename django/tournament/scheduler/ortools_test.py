@@ -1,15 +1,71 @@
 from ortools.sat.python import cp_model
+
 from tournament.scheduler.ortools_build_solver_input import build_solver_input
-from tournament.scheduler.ortools_build_model import build_model
+from tournament.scheduler.ortools_build_model import build_slot_model
 
-data = build_solver_input(2)
 
-slots = list(range(50))      # např. 10 časů
-pitches = list(range(5))    # např. 3 hřiště
+def solve_matches(tid, num_slots, num_pitches):
+    """
+    End-to-end solver runner:
+    Django → input → model → solve → output
+    """
 
-model_data = build_model(data, slots, pitches)
+    # =========================================================
+    # 1) BUILD INPUT
+    # =========================================================
+    solver_input = build_solver_input(tid)
 
-solver = cp_model.CpSolver()
-solver.parameters.max_time_in_seconds = 60
-# solver.parameters.log_search_progress = True
-result = solver.Solve(model_data["model"])
+    # =========================================================
+    # 2) BUILD MODEL
+    # =========================================================
+    model, slot_vars = build_slot_model(
+        solver_input,
+        num_slots=num_slots,
+        num_pitches=num_pitches,
+        pause=1
+    )
+
+    # =========================================================
+    # 3) SOLVER SETUP
+    # =========================================================
+    solver = cp_model.CpSolver()
+
+    solver.parameters.max_time_in_seconds = 30
+    solver.parameters.num_search_workers = 8
+    solver.parameters.log_search_progress = True  # optional debug
+
+    # =========================================================
+    # 4) SOLVE
+    # =========================================================
+    status = solver.Solve(model)
+
+    if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        return {
+            "status": "INFEASIBLE",
+            "solution": None
+        }
+
+    # =========================================================
+    # 5) EXTRACT SOLUTION
+    # =========================================================
+    matches = solver_input["matches"]
+
+    solution = []
+
+    for i, match in enumerate(matches):
+        solution.append({
+            "match_id": match["id"],
+            "division": match["division"],
+            "home": match["home"],
+            "away": match["away"],
+            "referee": match["referee"],
+            "slot": solver.Value(slot_vars[i]),
+        })
+
+    # sort by time
+    solution.sort(key=lambda x: x["slot"])
+
+    return {
+        "status": "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE",
+        "solution": solution
+    }
