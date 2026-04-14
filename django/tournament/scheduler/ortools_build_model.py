@@ -1,139 +1,100 @@
-def build_model(data, slots, pitches):
-    from ortools.sat.python import cp_model
+from ortools.sat.python import cp_model
+from collections import defaultdict
+
+
+def build_slot_model(solver_input, num_slots, num_pitches, pause=1):
+    """
+    Phase 1: SLOT SCHEDULING ONLY (no pitches)
+
+    solver_input:
+        {
+            "matches": [...],
+            "num_matches": int,
+            "division_matches": {div: [match_idx,...]},
+        }
+    """
 
     model = cp_model.CpModel()
 
-    M = data["num_matches"]
-    matches = range(M)
+    matches = solver_input["matches"]
+    num_matches = solver_input["num_matches"]
+    division_matches = solver_input["division_matches"]
 
-    S = len(slots)
-    P = len(pitches)
+    # =========================================================
+    # 1) VARIABLES
+    # =========================================================
+    slot = {}
+    start = {}
+    end = {}
+    interval = {}
 
-    matches_by_team = data["matches_by_team"]
-    matches_by_referee = data["matches_by_referee"]
-    matches_by_phase = data["matches_by_phase"]
-    matches_by_division = data["matches_by_division"]
+    for m in range(num_matches):
+        slot[m] = model.NewIntVar(0, num_slots - 1, f"slot_{m}")
 
-    matches_data = data["matches"]
+        start[m] = slot[m]
 
-    # --------------------------------------------------
-    # 1) Proměnné x[m,s,p]
-    # --------------------------------------------------
-    x = {}
-    for m in matches:
-        for s in range(S):
-            for p in range(P):
-                x[m, s, p] = model.NewBoolVar(f"x_{m}_{s}_{p}")
+        end[m] = model.NewIntVar(0, num_slots + 10, f"end_{m}")
 
-    # --------------------------------------------------
-    # 2) Každý zápas právě jednou
-    # --------------------------------------------------
-    for m in matches:
-        model.Add(
-            sum(x[m, s, p] for s in range(S) for p in range(P)) == 1
+        model.Add(end[m] == start[m] + 1 + pause)
+
+        interval[m] = model.NewIntervalVar(
+            start[m],
+            1 + pause,
+            end[m],
+            f"interval_{m}"
         )
 
-    # --------------------------------------------------
-    # 3) Kapacita: max 1 zápas na (slot, pitch)
-    # --------------------------------------------------
-    for s in range(S):
-        for p in range(P):
-            model.Add(
-                sum(x[m, s, p] for m in matches) <= 1
-            )
+    # =========================================================
+    # 2) TEAM / REFEREE CONSTRAINTS (NO OVERLAP)
+    # =========================================================
+    team_intervals = defaultdict(list)
 
-    # --------------------------------------------------
-    # 4) Tým nemůže hrát 2 zápasy ve stejném slotu
-    # --------------------------------------------------
-    for t, match_ids in matches_by_team.items():
-        for s in range(S):
-            model.Add(
-                sum(
-                    x[m, s, p]
-                    for m in match_ids
-                    for p in range(P)
-                ) <= 1
-            )
+    for m, match in enumerate(matches):
+        for team in [match["home"], match["away"], match.get("referee")]:
+            if team is None:
+                continue
+            team_intervals[team].append(interval[m])
 
-    # --------------------------------------------------
-    # 5) Rozhodčí constraint
-    # --------------------------------------------------
-    for r, match_ids in matches_by_referee.items():
-        for s in range(S):
-            model.Add(
-                sum(
-                    x[m, s, p]
-                    for m in match_ids
-                    for p in range(P)
-                ) <= 1
-            )
+    for team, ints in team_intervals.items():
+        model.AddNoOverlap(ints)
 
-    # --------------------------------------------------
-    # 6) slot_of_match (derived proměnná)
-    # --------------------------------------------------
-    slot_of_match = {}
+    # =========================================================
+    # 3) DIVISION ORDERING
+    # =========================================================
+    for div, ms in division_matches.items():
+        for i in range(len(ms) - 1):
+            m1 = ms[i]
+            m2 = ms[i + 1]
 
-    for m in matches:
-        slot_of_match[m] = model.NewIntVar(0, S - 1, f"slot_{m}")
+            model.Add(slot[m1] < slot[m2])
 
-        model.Add(
-            slot_of_match[m] ==
-            sum(
-                s * x[m, s, p]
-                for s in range(S)
-                for p in range(P)
-            )
-        )
+    # =========================================================
+    # 4) SLOT CAPACITY (<= pitches - 1 buffer)
+    # =========================================================
+    for s in range(num_slots):
+        in_slot = []
 
-    # --------------------------------------------------
-    # 7) Phase ordering
-    # --------------------------------------------------
-    # optimalizace: jen mezi různými phase
-    # phases = sorted(matches_by_phase.keys())
+        for m in range(num_matches):
+            b = model.NewBoolVar(f"in_{m}_{s}")
 
-    # for i in range(len(phases)):
-    #     for j in range(i + 1, len(phases)):
-    #         phase_a = phases[i]
-    #         phase_b = phases[j]
+            model.Add(slot[m] == s).OnlyEnforceIf(b)
+            model.Add(slot[m] != s).OnlyEnforceIf(b.Not())
 
-    #         for m1 in matches_by_phase[phase_a]:
-    #             for m2 in matches_by_phase[phase_b]:
-    #                 model.Add(slot_of_match[m1] < slot_of_match[m2])
+            in_slot.append(b)
 
-    # for d in data["division_idx"].values():
-    #     for i in range(len(matches_by_division[d]) - 1):
-    #         m1 = matches_by_division[d][i]
-    #         m2 = matches_by_division[d][i + 1]
+        model.Add(sum(in_slot) <= num_pitches - 1)
 
-    #         model.Add(slot_of_match[m1] <= slot_of_match[m2])
+    # =========================================================
+    # 5) OBJECTIVE (simple but stable)
+    # =========================================================
+    model.Minimize(
+        sum(slot[m] for m in range(num_matches))
+    )
 
-    # --------------------------------------------------
-    # 8) Pořadí zápasů v rámci divize podle db_id
-    # --------------------------------------------------
+    # =========================================================
+    # 6) SYMMETRY BREAKING
+    # =========================================================
+    if num_matches > 0:
+        model.Add(slot[0] == 0)
 
-    for d in data["division_idx"].values():
-        for i in range(len(matches_by_division[d]) - 1):
-            m1 = matches_by_division[d][i]
-            m2 = matches_by_division[d][i + 1]
-
-            model.Add(slot_of_match[m1] <= slot_of_match[m2])
-
-
-    # --------------------------------------------------
-    # 8) (Volitelné) Division constraints
-    # --------------------------------------------------
-    # TODO: sem můžeš přidat omezení pitch/slot podle division
-
-    # --------------------------------------------------
-    # 9) Objective (zatím žádný = hledáme feasible řešení)
-    # --------------------------------------------------
-    # model.Minimize(...)
-
-    # --------------------------------------------------
-    # 10) návrat
-    # --------------------------------------------------
-    return {
-        "model": model,
-        "x": x,
-        "slot_of_match": slot_of_match,
-    }
+    return model, slot
