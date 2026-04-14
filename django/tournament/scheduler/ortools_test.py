@@ -4,7 +4,7 @@ from tournament.scheduler.ortools_build_solver_input import build_solver_input
 from tournament.scheduler.ortools_build_model import build_slot_model,build_pitch_model
 
 
-def run_full_test(matches_queryset, num_slots=40, num_pitches=5):
+def run_full_test(tid, num_slots=40, num_pitches=5):
     """
     FULL PIPELINE TEST:
     Django → Slot model → Solve → Pitch model → Solve → Output
@@ -13,7 +13,7 @@ def run_full_test(matches_queryset, num_slots=40, num_pitches=5):
     # =========================================================
     # 1) INPUT
     # =========================================================
-    solver_input = build_solver_input(matches_queryset)
+    solver_input = build_solver_input(tid)
 
     print("Matches:", solver_input["num_matches"])
     print("Divisions:", len(solver_input["division_matches"]))
