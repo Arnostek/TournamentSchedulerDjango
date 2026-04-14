@@ -1,71 +1,89 @@
 from ortools.sat.python import cp_model
 
 from tournament.scheduler.ortools_build_solver_input import build_solver_input
-from tournament.scheduler.ortools_build_model import build_slot_model
+from tournament.scheduler.ortools_build_model import build_slot_model,build_pitch_model
 
 
-def solve_matches(tid, num_slots, num_pitches):
+def run_full_test(matches_queryset, num_slots=40, num_pitches=5):
     """
-    End-to-end solver runner:
-    Django → input → model → solve → output
+    FULL PIPELINE TEST:
+    Django → Slot model → Solve → Pitch model → Solve → Output
     """
 
     # =========================================================
-    # 1) BUILD INPUT
+    # 1) INPUT
     # =========================================================
-    solver_input = build_solver_input(tid)
+    solver_input = build_solver_input(matches_queryset)
+
+    print("Matches:", solver_input["num_matches"])
+    print("Divisions:", len(solver_input["division_matches"]))
 
     # =========================================================
-    # 2) BUILD MODEL
+    # 2) SLOT MODEL (PHASE 1)
     # =========================================================
-    model, slot_vars = build_slot_model(
+    slot_model, slot_vars = build_slot_model(
         solver_input,
         num_slots=num_slots,
-        num_pitches=num_pitches,
-        pause=1
+        num_pitches=num_pitches
     )
 
-    # =========================================================
-    # 3) SOLVER SETUP
-    # =========================================================
     solver = cp_model.CpSolver()
-
     solver.parameters.max_time_in_seconds = 30
     solver.parameters.num_search_workers = 8
-    solver.parameters.log_search_progress = True  # optional debug
 
-    # =========================================================
-    # 4) SOLVE
-    # =========================================================
-    status = solver.Solve(model)
+    status = solver.Solve(slot_model)
 
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
-        return {
-            "status": "INFEASIBLE",
-            "solution": None
-        }
+        print("❌ SLOT MODEL INFEASIBLE")
+        return None
+
+    # extract slot solution
+    slot_solution = {
+        i: solver.Value(slot_vars[i])
+        for i in range(solver_input["num_matches"])
+    }
+
+    print("✔ Slot model solved")
 
     # =========================================================
-    # 5) EXTRACT SOLUTION
+    # 3) PITCH MODEL (PHASE 2)
+    # =========================================================
+    pitch_model, pitch_vars = build_pitch_model(
+        solver_input,
+        slot_solution,
+        num_pitches=num_pitches
+    )
+
+    solver2 = cp_model.CpSolver()
+    solver2.parameters.max_time_in_seconds = 30
+    solver2.parameters.num_search_workers = 8
+
+    status2 = solver2.Solve(pitch_model)
+
+    if status2 not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+        print("❌ PITCH MODEL INFEASIBLE")
+        return None
+
+    print("✔ Pitch model solved")
+
+    # =========================================================
+    # 4) BUILD FINAL OUTPUT
     # =========================================================
     matches = solver_input["matches"]
 
-    solution = []
+    result = []
 
-    for i, match in enumerate(matches):
-        solution.append({
-            "match_id": match["id"],
-            "division": match["division"],
-            "home": match["home"],
-            "away": match["away"],
-            "referee": match["referee"],
-            "slot": solver.Value(slot_vars[i]),
+    for i, m in enumerate(matches):
+        result.append({
+            "match_id": m["id"],
+            "division": m["division"],
+            "home": m["home"],
+            "away": m["away"],
+            "referee": m["referee"],
+            "slot": slot_solution[i],
+            "pitch": solver2.Value(pitch_vars[i]),
         })
 
-    # sort by time
-    solution.sort(key=lambda x: x["slot"])
+    result.sort(key=lambda x: (x["slot"], x["pitch"]))
 
-    return {
-        "status": "OPTIMAL" if status == cp_model.OPTIMAL else "FEASIBLE",
-        "solution": solution
-    }
+    return result
