@@ -42,7 +42,7 @@ def build_solver_input(tid):
             "away": m.away_id,
             "referee": m.referee_id,
             "division": m.division_id,
-            "phase": m.phase_block,
+            "phase": m.group.phase,
             "order": m.id,
         })
 
