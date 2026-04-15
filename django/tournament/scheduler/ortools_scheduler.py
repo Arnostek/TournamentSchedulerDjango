@@ -3,6 +3,7 @@ from ortools.sat.python import cp_model
 from tournament.scheduler.ortools_build_solver_input import build_solver_input
 from tournament.scheduler.ortools_build_slot_model import build_slot_model
 from tournament.scheduler.ortools_build_pitch_model import build_pitch_model
+from tournament.scheduler.ortools_build_dataframe import build_slot_pitch_dataframe
 
 
 def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None):
@@ -88,4 +89,10 @@ def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None):
 
     result.sort(key=lambda x: (x["slot"], x["pitch"]))
 
-    return result
+    # =========================================================
+    # 5) RETURN PANDAS DATAFRAME
+    # =========================================================
+
+    df = build_slot_pitch_dataframe(result)
+
+    return df

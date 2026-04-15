@@ -133,11 +133,7 @@ ts.AddReferees()
 
 # naplanujeme zapasy pomoci OR-Tools 
 from tournament.scheduler.ortools_scheduler import ortools_scheduler
-result = ortools_scheduler(prague2025.id, num_slots=40, num_pitches=5, buffer_every_slots=7)
-
-# ziskame zpet dataframe v puvodnim tvaru a vlozime do schedule
-from tournament.scheduler.ortools_build_dataframe import build_slot_pitch_dataframe
-ts.schedule = build_slot_pitch_dataframe(result)
+ts.schedule = ortools_scheduler(prague2025.id, num_slots=40, num_pitches=5, buffer_every_slots=7)
 
 # zalozime zapasy v DB
 ts.Schedule(
