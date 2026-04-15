@@ -1,5 +1,8 @@
 from ortools.sat.python import cp_model
-from collections import defaultdict
+
+
+def _preferred_empty_pitch(slot_index, num_pitches):
+    return slot_index % num_pitches
 
 
 def build_pitch_model(solver_input, slot_solution, num_pitches):
@@ -60,7 +63,19 @@ def build_pitch_model(solver_input, slot_solution, num_pitches):
         model.Add(sum(assign[m, p] for p in range(num_pitches)) == 1)
 
     # =========================================================
-    # 4) DIVISION × PITCH USAGE
+    # 4) ROTATING EMPTY PITCH ON NON-FULL SLOTS
+    # =========================================================
+    for s, ms in slot_groups.items():
+        if len(ms) >= num_pitches:
+            continue
+
+        reserved_pitch = _preferred_empty_pitch(s, num_pitches)
+
+        for m in ms:
+            model.Add(assign[m, reserved_pitch] == 0)
+
+    # =========================================================
+    # 5) DIVISION × PITCH USAGE
     # =========================================================
     used = {}
 
@@ -75,7 +90,7 @@ def build_pitch_model(solver_input, slot_solution, num_pitches):
             )
 
     # =========================================================
-    # 5) OBJECTIVE: minimize pitch fragmentation per division
+    # 6) OBJECTIVE: minimize pitch fragmentation per division
     # =========================================================
     model.Minimize(
         sum(
