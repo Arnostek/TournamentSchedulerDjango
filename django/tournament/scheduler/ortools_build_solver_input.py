@@ -43,6 +43,7 @@ def build_solver_input(tid):
             "referee": m.referee_id,
             "division": m.division_id,
             "phase": m.group.phase,
+            "phase_block": m.phase_block,
             "order": m.id,
         })
 
@@ -56,6 +57,7 @@ def build_solver_input(tid):
         division_matches[div_id].sort(
             key=lambda i: (
                 matches[i]["phase"],
+                matches[i]["phase_block"],
                 matches[i]["order"],
             )
         )
