@@ -1,7 +1,8 @@
 from ortools.sat.python import cp_model
 
 from tournament.scheduler.ortools_build_solver_input import build_solver_input
-from tournament.scheduler.ortools_build_model import build_slot_model,build_pitch_model
+from django.tournament.scheduler.ortools_build_slot_model import build_slot_model
+from django.tournament.scheduler.ortools_build_pitch_model import build_pitch_model
 
 
 def run_full_test(tid, num_slots=40, num_pitches=5):
