@@ -2,7 +2,7 @@ from ortools.sat.python import cp_model
 from collections import defaultdict
 
 
-def build_slot_model(solver_input, num_slots, num_pitches, pause=1):
+def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change_pause=2):
     """
     OPTIMAL CP-SAT SLOT MODEL
 
@@ -59,16 +59,19 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1):
         model.AddNoOverlap(intervals)
 
     # =========================================================
-    # 3) DIVISION ORDERING (SOFT + STABLE)
+    # 3) DIVISION ORDERING + PHASE CHANGE GAPS
     # =========================================================
-    # instead of strict chain, we only enforce partial order
+    # Preserve division order and require extra slack after a phase change.
     for div, ms in division_matches.items():
         for i in range(len(ms) - 1):
             m1 = ms[i]
             m2 = ms[i + 1]
 
-            # soft ordering (allows slack but preserves sequence)
-            model.Add(slot[m1] <= slot[m2])
+            min_gap = 0
+            if matches[m1]["phase"] != matches[m2]["phase"]:
+                min_gap = phase_change_pause + 1
+
+            model.Add(slot[m2] >= slot[m1] + min_gap)
 
     # =========================================================
     # 4) SLOT LOAD BALANCING (IMPORTANT FOR QUALITY)
