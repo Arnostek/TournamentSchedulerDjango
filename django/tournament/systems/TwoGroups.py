@@ -89,4 +89,4 @@ class TwoGroups(DivisionSystemBase):
         if self.teams_count > 6 and self.semi5_8:
             self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['SemiA'])[0]])
 
-        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
+        # self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
