@@ -31,7 +31,7 @@ def build_solver_input(tid):
     # =========================================================
     # BUILD MATCHES FROM DJANGO
     # =========================================================
-    matches_queryset = Match.objects.select_related("division", "group", "home", "away", "referee").filter(division__tournament_id=tid).order_by("id")
+    matches_queryset = Match.objects.select_related("division", "group", "home", "away", "referee").filter(division__tournament_id=tid).order_by("division_id", "group__phase", "phase_block", "id")
 
 
     for idx, m in enumerate(matches_queryset):
@@ -42,8 +42,8 @@ def build_solver_input(tid):
             "away": m.away_id,
             "referee": m.referee_id,
             "division": m.division_id,
-            "phase": getattr(m, "phase", 0),
-            "order": getattr(m, "match_id", idx),
+            "phase": m.phase_block,
+            "order": m.id,
         })
 
         # solver index (NOT DB id!)
@@ -54,7 +54,10 @@ def build_solver_input(tid):
     # =========================================================
     for div_id in division_matches:
         division_matches[div_id].sort(
-            key=lambda i: matches[i]["order"]
+            key=lambda i: (
+                matches[i]["phase"],
+                matches[i]["order"],
+            )
         )
 
     # convert defaultdict → dict (clean output)
