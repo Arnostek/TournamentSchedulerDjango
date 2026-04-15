@@ -11,7 +11,7 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
 #from tournament.systems.FourGroups15Teams import FourGroups15Teams
 
-from tournament.scheduler.TournamentScheduler import (
+from tournament.TournamentScheduler import (
     TournamentScheduler
 )
 
