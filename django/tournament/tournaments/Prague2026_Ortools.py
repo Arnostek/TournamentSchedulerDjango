@@ -1,6 +1,6 @@
 from tournament import models
 import datetime
-# from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
+from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 # from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups import TwoGroups
@@ -8,7 +8,7 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups8TeamsMiddle import TwoGroups8TeamsMiddle
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
 # from tournament.systems.FourGroups16Teams import FourGroups16Teams
-# from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
+from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
 #from tournament.systems.FourGroups15Teams import FourGroups15Teams
 
 from tournament.TournamentScheduler import (
@@ -21,7 +21,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-tslug = "PIT2026_TEST_ORTOOLS_01"
+tslug = "PIT2026_TEST_ORTOOLS_02"
 tname = "PIT 2026 TEST (OR-Tools)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
@@ -29,7 +29,7 @@ print(prague2026)
 ####################################################
 # men 1
 
-Men1_system = TwoGroups(prague2026,'Men Elite','MenElite',15)
+Men1_system = ThreeGroups15Teams(prague2026,'Men Elite','MenElite',15)
 Men1_system.division.CreateTeams(
     [
         "Kaniow A",
@@ -95,7 +95,7 @@ Men2_system.division.CreateTeams(
 
 ####################################################
 # U18
-U18_system = TwoGroups(prague2026,'U18','U18',7, semi5_8=True)
+U18_system = TwoGroups(prague2026,'U18','U18',7, semi5_8=False)
 U18_system.division.CreateTeams(
     [
         "Nagymaros U18",
@@ -130,7 +130,7 @@ U14_system.division.CreateTeams(
 
 ####################################################
 # U12
-U12_system = TwoGroups(prague2026,'U12','U12',5, semi5_8=True)
+U12_system = SingleGroupDivisionSystem(prague2026,'U12','U12',5)
 U12_system.division.CreateTeams(
     [
         "Nagymarosz U12",
