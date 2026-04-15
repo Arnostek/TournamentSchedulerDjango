@@ -11,6 +11,7 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     - interval-based reasoning
     - AddNoOverlap for teams
     - soft division ordering
+    - balanced division finish times
     """
 
     model = cp_model.CpModel()
@@ -74,7 +75,27 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
             model.Add(slot[m2] >= slot[m1] + min_gap)
 
     # =========================================================
-    # 4) SLOT LOAD BALANCING (IMPORTANT FOR QUALITY)
+    # 4) DIVISION FINISH BALANCING
+    # =========================================================
+    division_ends = []
+
+    for div, ms in division_matches.items():
+        division_end = model.NewIntVar(0, num_slots - 1, f"division_end_{div}")
+        model.AddMaxEquality(division_end, [slot[m] for m in ms])
+        division_ends.append(division_end)
+
+    division_finish_spread = 0
+    if division_ends:
+        latest_division_end = model.NewIntVar(0, num_slots - 1, "latest_division_end")
+        earliest_division_end = model.NewIntVar(0, num_slots - 1, "earliest_division_end")
+
+        model.AddMaxEquality(latest_division_end, division_ends)
+        model.AddMinEquality(earliest_division_end, division_ends)
+
+        division_finish_spread = latest_division_end - earliest_division_end
+
+    # =========================================================
+    # 5) SLOT LOAD BALANCING (IMPORTANT FOR QUALITY)
     # =========================================================
     # count matches per slot (lightweight version)
     slot_load = []
@@ -101,15 +122,16 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     model.AddMinEquality(min_load, slot_load)
 
     # =========================================================
-    # 5) OBJECTIVE (balanced + compact schedule)
+    # 6) OBJECTIVE (division finish + slot balance + compact schedule)
     # =========================================================
     model.Minimize(
+        1000 * division_finish_spread +
         10 * (max_load - min_load) +   # balance across slots
         sum(slot[m] for m in range(num_matches))  # compactness
     )
 
     # =========================================================
-    # 6) SYMMETRY BREAKING (IMPORTANT SPEEDUP)
+    # 7) SYMMETRY BREAKING (IMPORTANT SPEEDUP)
     # =========================================================
     if num_matches > 0:
         model.Add(slot[0] == 0)
