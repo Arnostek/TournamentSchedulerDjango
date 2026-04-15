@@ -5,7 +5,7 @@ from tournament.scheduler.ortools_build_slot_model import build_slot_model
 from tournament.scheduler.ortools_build_pitch_model import build_pitch_model
 
 
-def run_full_test(tid, num_slots=40, num_pitches=5):
+def run_full_test(tid, num_slots=40, num_pitches=5, buffer_every_slots=None):
     """
     FULL PIPELINE TEST:
     Django → Slot model → Solve → Pitch model → Solve → Output
@@ -25,7 +25,8 @@ def run_full_test(tid, num_slots=40, num_pitches=5):
     slot_model, slot_vars = build_slot_model(
         solver_input,
         num_slots=num_slots,
-        num_pitches=num_pitches
+        num_pitches=num_pitches,
+        buffer_every_slots=buffer_every_slots,
     )
 
     solver = cp_model.CpSolver()
@@ -52,7 +53,7 @@ def run_full_test(tid, num_slots=40, num_pitches=5):
     pitch_model, pitch_vars = build_pitch_model(
         solver_input,
         slot_solution,
-        num_pitches=num_pitches
+        num_pitches=num_pitches,
     )
 
     solver2 = cp_model.CpSolver()
