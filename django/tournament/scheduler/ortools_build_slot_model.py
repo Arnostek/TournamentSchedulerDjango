@@ -2,7 +2,25 @@ from ortools.sat.python import cp_model
 from collections import defaultdict
 
 
-def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change_pause=2):
+def _reserved_pitch_for_slot(slot_index, num_pitches, buffer_every_slots):
+    if not buffer_every_slots or buffer_every_slots <= 0:
+        return None
+
+    if (slot_index + 1) % buffer_every_slots != 0:
+        return None
+
+    buffer_index = ((slot_index + 1) // buffer_every_slots) - 1
+    return buffer_index % num_pitches
+
+
+def build_slot_model(
+    solver_input,
+    num_slots,
+    num_pitches,
+    pause=1,
+    phase_change_pause=2,
+    buffer_every_slots=None,
+):
     """
     OPTIMAL CP-SAT SLOT MODEL
 
@@ -13,6 +31,7 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     - soft division ordering
     - balanced division finish times
     - evenly spread division matches
+    - optional rotating buffer slots
     """
 
     model = cp_model.CpModel()
@@ -134,6 +153,8 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
 
     for s in range(num_slots):
         bools = []
+        reserved_pitch = _reserved_pitch_for_slot(s, num_pitches, buffer_every_slots)
+        slot_capacity = num_pitches - 1 if reserved_pitch is not None else num_pitches
 
         for m in range(num_matches):
             b = model.NewBoolVar(f"in_{m}_{s}")
@@ -143,9 +164,11 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
 
             bools.append(b)
 
-        load = model.NewIntVar(0, num_pitches, f"load_{s}")
+        load = model.NewIntVar(0, slot_capacity, f"load_{s}")
         model.Add(load == sum(bools))
-        slot_load.append(load)
+        balanced_load = model.NewIntVar(0, num_pitches, f"balanced_load_{s}")
+        model.Add(balanced_load == load + (num_pitches - slot_capacity))
+        slot_load.append(balanced_load)
 
     max_load = model.NewIntVar(0, num_pitches, "max_load")
     min_load = model.NewIntVar(0, num_pitches, "min_load")
