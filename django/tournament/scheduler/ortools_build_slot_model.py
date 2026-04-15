@@ -12,6 +12,7 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     - AddNoOverlap for teams
     - soft division ordering
     - balanced division finish times
+    - evenly spread division matches
     """
 
     model = cp_model.CpModel()
@@ -78,11 +79,42 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     # 4) DIVISION FINISH BALANCING
     # =========================================================
     division_ends = []
+    total_division_span = 0
+    total_division_gap_imbalance = 0
 
     for div, ms in division_matches.items():
+        division_start = model.NewIntVar(0, num_slots - 1, f"division_start_{div}")
         division_end = model.NewIntVar(0, num_slots - 1, f"division_end_{div}")
+
+        model.AddMinEquality(division_start, [slot[m] for m in ms])
         model.AddMaxEquality(division_end, [slot[m] for m in ms])
+
+        division_span = model.NewIntVar(0, num_slots - 1, f"division_span_{div}")
+        model.Add(division_span == division_end - division_start)
+
+        total_division_span += division_span
         division_ends.append(division_end)
+
+        if len(ms) > 2:
+            gap_terms = []
+            gap_count = len(ms) - 1
+
+            for i in range(gap_count):
+                gap = model.NewIntVar(0, num_slots - 1, f"division_gap_{div}_{i}")
+                model.Add(gap == slot[ms[i + 1]] - slot[ms[i]])
+
+                gap_delta = model.NewIntVar(
+                    -(num_slots - 1) * gap_count,
+                    (num_slots - 1) * gap_count,
+                    f"division_gap_delta_{div}_{i}"
+                )
+                model.Add(gap_delta == gap_count * gap - division_span)
+
+                gap_abs = model.NewIntVar(0, (num_slots - 1) * gap_count, f"division_gap_abs_{div}_{i}")
+                model.AddAbsEquality(gap_abs, gap_delta)
+                gap_terms.append(gap_abs)
+
+            total_division_gap_imbalance += sum(gap_terms)
 
     division_finish_spread = 0
     if division_ends:
@@ -122,11 +154,13 @@ def build_slot_model(solver_input, num_slots, num_pitches, pause=1, phase_change
     model.AddMinEquality(min_load, slot_load)
 
     # =========================================================
-    # 6) OBJECTIVE (division finish + slot balance + compact schedule)
+    # 6) OBJECTIVE (division finish + division spread + slot balance + compact schedule)
     # =========================================================
     model.Minimize(
         1000 * division_finish_spread +
+        100 * total_division_gap_imbalance +
         10 * (max_load - min_load) +   # balance across slots
+        -5 * total_division_span +
         sum(slot[m] for m in range(num_matches))  # compactness
     )
 
