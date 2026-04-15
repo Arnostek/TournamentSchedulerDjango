@@ -11,9 +11,8 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
 #from tournament.systems.FourGroups15Teams import FourGroups15Teams
 
-from tournament.TournamentScheduler import (
-    TournamentScheduler,
-    TournamentSchedulerDataframeOptimizerOrtools,
+from tournament.scheduler.TournamentScheduler import (
+    TournamentScheduler
 )
 
 import pytz
