@@ -1,7 +1,7 @@
 from tournament import models
 import datetime
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
-# from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
+from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
@@ -9,7 +9,7 @@ from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
 # from tournament.systems.FourGroups16Teams import FourGroups16Teams
 from tournament.systems.ThreeGroups15Teams import ThreeGroups15Teams
-#from tournament.systems.FourGroups15Teams import FourGroups15Teams
+from tournament.systems.FourGroups15Teams import FourGroups15Teams
 
 from tournament.TournamentScheduler import (
     TournamentScheduler
@@ -21,7 +21,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-tslug = "PIT2026_SEEDING"
+tslug = "PIT2026_SEEDING_14"
 tname = "PIT 2026 TEST (teams, seeding)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
@@ -74,7 +74,7 @@ Ladies_system.division.CreateTeams(
 
 ####################################################
 # men 2
-Men2_system = TwoGroups(prague2026,'Men 2','Men2',8, semi5_8=True)
+Men2_system = TwoGroups8Teams(prague2026,'Men 2','Men2',8)
 Men2_system.division.CreateTeams(
     [
         "VMW Berlin Men",
@@ -95,7 +95,7 @@ Men2_system.division.CreateTeams(
 
 ####################################################
 # U18
-U18_system = TwoGroups(prague2026,'U18','U18',7, semi5_8=False)
+U18_system = SingleGroupDivisionSystem(prague2026,'U18','U18',7, final_for=2)
 U18_system.division.CreateTeams(
     [
         "Alytus U18",
