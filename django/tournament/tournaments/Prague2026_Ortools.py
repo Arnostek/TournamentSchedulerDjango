@@ -21,8 +21,8 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-tslug = "PIT2026_TEST_ORTOOLS_02"
-tname = "PIT 2026 TEST (OR-Tools)"
+tslug = "PIT2026_SEEDING"
+tname = "PIT 2026 TEST (teams, seeding)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
 print(prague2026)
@@ -32,19 +32,19 @@ print(prague2026)
 Men1_system = ThreeGroups15Teams(prague2026,'Men Elite','MenElite',15)
 Men1_system.division.CreateTeams(
     [
-        "Kaniow A",
-        "Poznań",
-        "KC Kelheim",
-        "KP Bremen",
-        "DRC Neuburg",
-        "KSV Glauchau",
         "RKV Berlin",
-        "VK Berlin",
-        "Alytus",
+        "Team Poznań",
         "Kaniow BKT",
+        "DRC Neuburg",
+        "VK Berlin",
         "KV Nurnberg",
+        "Set Kaniow A",
+        "KSV Glauchau",
+        "Alytus",
         "KP Praha A",
         "KCNW U21",
+        "KP Bremen",
+        "KC Kelheim",
         "Katowice M",
         # "Singapore M",
         # "Dresden A",
@@ -59,15 +59,15 @@ Ladies_system = TwoGroups(prague2026,'Ladies','Ladies',9, semi5_8=True)
 Ladies_system.division.CreateTeams(
      [
         "Kaniow W",
-        "Neuburg W",
-        # "Kalisz W",
-        "Bremen W",
-        "Czech/German",
-        "Czech W",
-        "KSVH W",
-        "Powisle W",
         "KCNW Berlin W",
+        "KSVH W",
+        "Neuburg W",
+        "Czech W",
+        "Czech/German",
+        "Powisle W",
         "Katowice W",
+        "Bremen W",
+        # "Kalisz W",
         # "Dresden W",
     ]
 )
@@ -77,17 +77,17 @@ Ladies_system.division.CreateTeams(
 Men2_system = TwoGroups(prague2026,'Men 2','Men2',8, semi5_8=True)
 Men2_system.division.CreateTeams(
     [
-        "Potsdam Men",
-        "Nagymaros Men",
         "VMW Berlin Men",
-        # "KTW Kalisz Men",
-        "Lesna Men",
-        "Ukraine Men",
         "Vidra Old Boys",
+        "Nagymaros Men",
+        # "KTW Kalisz Men",
+        "Potsdam Men",
         "UKK Wien mix",
+        "Ukraine Men",
+        "Lesna Men",
         "Dobroptaah",
-        # "Dresden B",
         # "Ukraine Men B",
+        # "Dresden B",
     ]
 )
 
@@ -98,13 +98,13 @@ Men2_system.division.CreateTeams(
 U18_system = TwoGroups(prague2026,'U18','U18',7, semi5_8=False)
 U18_system.division.CreateTeams(
     [
-        "Nagymaros U18",
         "Alytus U18",
-        "Kalisz U18",
-        "Lesna U18",
         "Czech U18 A",
-        "Czech U18 B",
         "KCNW U16",
+        "Lesna U18",
+        "Kalisz U18",
+        "Nagymaros U18",
+        "Czech U18 B",
         # "Dresden U18",
     ]
 )
@@ -114,17 +114,17 @@ U18_system.division.CreateTeams(
 U14_system = TwoGroups(prague2026,'U14','U14',9, semi5_8=True)
 U14_system.division.CreateTeams(
     [
-        "Neuburg U14",
-        "Lesna U14",
-        "Ukraine U14",
+        "KCNW U14",
+        "Powisle U14",
         "Glauchau U14",
         # "VK Berlin U14",
+        "Neuburg U14",
+        "Lesna U14",
         "Praha U14 M",
         "Praha U14 W",
-        "Powisle U14",
-        "KCNW U14",
         # "Dresden U14",
         "SG Franken U14",
+        "Ukraine U14",
     ]
 )
 
@@ -133,11 +133,11 @@ U14_system.division.CreateTeams(
 U12_system = SingleGroupDivisionSystem(prague2026,'U12','U12',5)
 U12_system.division.CreateTeams(
     [
-        "Nagymarosz U12",
-        "Lesna U12",
+        "KCNW U12",
         "DFF Veltrusy U12",
         "Praha U12",
-        "KCNW U12",
+        "Nagymarosz U12",
+        "Lesna U12",
         # "Dresden U12",
     ]
 )
