@@ -39,7 +39,6 @@ class ThreeGroups15Teams(DivisionSystemBase):
         self.division.CreateRanks(13,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
-        phase += 1
         self.division.CreateGroups(['11th'], self.division.GetGroupsRanks(['G','H'])[4:6], phase)
         self.division.CreateRanks(11,self.division.GetGroupsRanks(['11th']))
 
@@ -56,7 +55,6 @@ class ThreeGroups15Teams(DivisionSystemBase):
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # Final
-        phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
