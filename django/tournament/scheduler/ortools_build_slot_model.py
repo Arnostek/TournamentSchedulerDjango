@@ -98,7 +98,9 @@ def build_slot_model(
     # 4) DIVISION FINISH BALANCING
     # =========================================================
     division_ends = []
-    total_division_span = 0
+    total_division_start = 0
+    total_division_tail = 0
+    total_division_profile_deviation = 0
     total_division_gap_imbalance = 0
 
     for div, ms in division_matches.items():
@@ -111,12 +113,34 @@ def build_slot_model(
         division_span = model.NewIntVar(0, num_slots - 1, f"division_span_{div}")
         model.Add(division_span == division_end - division_start)
 
-        total_division_span += division_span
+        division_tail = model.NewIntVar(0, num_slots - 1, f"division_tail_{div}")
+        model.Add(division_tail == (num_slots - 1) - division_end)
+
+        total_division_start += division_start
+        total_division_tail += division_tail
         division_ends.append(division_end)
+
+        gap_count = len(ms) - 1
+
+        if gap_count > 0:
+            for i, match_index in enumerate(ms):
+                profile_delta = model.NewIntVar(
+                    -(num_slots - 1) * gap_count,
+                    (num_slots - 1) * gap_count,
+                    f"division_profile_delta_{div}_{i}"
+                )
+                model.Add(profile_delta == gap_count * slot[match_index] - i * (num_slots - 1))
+
+                profile_abs = model.NewIntVar(
+                    0,
+                    (num_slots - 1) * gap_count,
+                    f"division_profile_abs_{div}_{i}"
+                )
+                model.AddAbsEquality(profile_abs, profile_delta)
+                total_division_profile_deviation += profile_abs
 
         if len(ms) > 2:
             gap_terms = []
-            gap_count = len(ms) - 1
 
             for i in range(gap_count):
                 gap = model.NewIntVar(0, num_slots - 1, f"division_gap_{div}_{i}")
@@ -177,13 +201,15 @@ def build_slot_model(
     model.AddMinEquality(min_load, slot_load)
 
     # =========================================================
-    # 6) OBJECTIVE (division finish + division spread + slot balance + compact schedule)
+    # 6) OBJECTIVE (division spread across full tournament + even spacing + slot balance)
     # =========================================================
     model.Minimize(
         1000 * division_finish_spread +
-        100 * total_division_gap_imbalance +
+        300 * total_division_profile_deviation +
+        150 * total_division_gap_imbalance +
+        75 * total_division_start +
+        75 * total_division_tail +
         10 * (max_load - min_load) +   # balance across slots
-        -5 * total_division_span +
         sum(slot[m] for m in range(num_matches))  # compactness
     )
 

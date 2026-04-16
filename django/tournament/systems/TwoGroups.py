@@ -27,6 +27,7 @@ class TwoGroups(DivisionSystemBase):
         # prvni 4 tymy jdou do semi
         self.division.CreateGroups(['SemiA','SemiB'], self.division.GetGroupsRanks(['A','B'])[:4], phase)
 
+        phase += 1
         # pro lichy pocet tymu muze byt skupina poslednich tri
         if self.last3:
             # pro 9 zasahuje Last3 do semi C a D
@@ -37,7 +38,6 @@ class TwoGroups(DivisionSystemBase):
             self.division.CreateRanks(self.teams_count - 2,self.division.GetGroupsRanks(['Last3']))
 
         # zapasy o mista
-        phase += 1
         if self.semi5_8:
             mista = [m for m in range(9,self.teams_count if not self.last3 else self.teams_count - 3,2)]
         else:
@@ -57,12 +57,10 @@ class TwoGroups(DivisionSystemBase):
             self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SemiC','SemiD'])[0:2], phase)
             self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
         # 3rd
-        phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SemiA','SemiB'])[2:4], phase)
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # Final
-        phase += 1
         self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SemiA','SemiB'])[0:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 

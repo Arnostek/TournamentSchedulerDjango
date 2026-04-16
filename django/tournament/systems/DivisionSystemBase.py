@@ -14,6 +14,7 @@ class DivisionSystemBase:
         self.teams_count = teams_count
         self._createDivision(division_name, division_slug, teams_count)
         self.add_referees  = add_referees
+        self.final_for = final_for
 
         # parametry generovani zapasu
         self.semi = semi
