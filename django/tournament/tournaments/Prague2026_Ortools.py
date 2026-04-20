@@ -23,7 +23,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-divisions = load_division_configs("config/prague2026.yaml"
+divisions = load_division_configs("config/prague2026.yaml")
 
 tslug = "PIT2026_SEEDING_17"
 tname = "PIT 2026 TEST (teams, seeding)"
