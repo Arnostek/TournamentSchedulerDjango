@@ -1,0 +1,76 @@
+MenElite:
+  name: Men Elite
+  teams:
+    - RKV Berlin
+    - Team Poznań
+    - Kaniow BKT
+    - DRC Neuburg
+    - VK Berlin
+    - KV Nurnberg
+    - Set Kaniow A
+    - KSV Glauchau
+    - Alytus
+    - KP Praha A
+    - KCNW U21
+    - KP Bremen
+    - POL U21
+    - KC Kelheim
+    - Katowice M
+
+Ladies:
+  name: Ladies
+  teams:
+    - Kaniow W
+    - KCNW Berlin W
+    - KSVH W
+    - Neuburg W
+    - Czech W
+    - Czech/German
+    - Powisle W
+    - Katowice W
+    - Bremen W
+
+Men2:
+  name: Men 2
+  teams:
+    - VMW Berlin Men
+    - Vidra Old Boys
+    - Nagymaros Men
+    - Potsdam Men
+    - UKK Wien mix
+    - Ukraine Men
+    - Lesna Men
+    - DobroPtaah
+
+U18:
+  name: U18
+  teams:
+    - Alytus U18
+    - Czech U18 A
+    - KCNW U16
+    - Lesna U18
+    - Kalisz U18
+    - Nagymaros U18
+    - Czech U18 B
+
+U14:
+  name: U14
+  teams:
+    - KCNW U14
+    - Powisle U14
+    - Glauchau U14
+    - Neuburg U14
+    - Lesna U14
+    - Praha U14 M
+    - Praha U14 W
+    - SG Franken U14
+    - Ukraine U14
+
+U12:
+  name: U12
+  teams:
+    - KCNW U12
+    - DFF Veltrusy U12
+    - Praha U12
+    - Nagymarosz U12
+    - Lesna U12
