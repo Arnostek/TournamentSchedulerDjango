@@ -1,7 +1,12 @@
 from pathlib import Path
 import yaml
 
-def load_division_configs(config_path):
+
+def load_division_configs(filename):
+    config_path = Path(filename)
+    if not config_path.is_absolute():
+        config_path = Path(__file__).resolve().parent / config_path
+
     with config_path.open(encoding="utf-8") as config_file:
         division_configs = yaml.safe_load(config_file) or {}
 
