@@ -21,7 +21,7 @@ import pytz
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-tslug = "PIT2026_SEEDING_14"
+tslug = "PIT2026_SEEDING_17"
 tname = "PIT 2026 TEST (teams, seeding)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
@@ -44,11 +44,11 @@ Men1_system.division.CreateTeams(
         "KP Praha A",
         "KCNW U21",
         "KP Bremen",
+        "POL U21",
         "KC Kelheim",
         "Katowice M",
         # "Singapore M",
         # "Dresden A",
-        "POL U21",
     ]
 )
 
@@ -85,7 +85,7 @@ Men2_system.division.CreateTeams(
         "UKK Wien mix",
         "Ukraine Men",
         "Lesna Men",
-        "Dobroptaah",
+        "DobroPtaah",
         # "Ukraine Men B",
         # "Dresden B",
     ]
@@ -150,7 +150,7 @@ ts.AddReferees()
 
 # naplanujeme zapasy pomoci OR-Tools 
 from tournament.scheduler.ortools_scheduler import ortools_scheduler
-ts.schedule = ortools_scheduler(prague2026.id, num_slots=40, num_pitches=5, buffer_every_slots=7)
+ts.schedule = ortools_scheduler(prague2026.id, num_slots=38, num_pitches=5, buffer_every_slots=7)
 
 # zalozime zapasy v DB
 ts.Schedule(
