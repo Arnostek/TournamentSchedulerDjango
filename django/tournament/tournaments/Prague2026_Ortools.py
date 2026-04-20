@@ -1,6 +1,5 @@
 from tournament import models
 import datetime
-from pathlib import Path
 
 from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSystem
 from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
@@ -16,43 +15,15 @@ from tournament.systems.FourGroups15Teams import FourGroups15Teams
 from tournament.TournamentScheduler import (
     TournamentScheduler
 )
+from .load_division_configs import load_division_configs
 
 import pytz
-import yaml
-
-DIVISION_CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "prague2026.yaml"
-
-def load_division_configs(config_path=DIVISION_CONFIG_PATH):
-    with config_path.open(encoding="utf-8") as config_file:
-        division_configs = yaml.safe_load(config_file) or {}
-
-    if not isinstance(division_configs, dict):
-        raise ValueError("Division config must be a mapping keyed by division slug.")
-
-    for division_slug, division_config in division_configs.items():
-        if not isinstance(division_config, dict):
-            raise ValueError(f"Division '{division_slug}' config must be a mapping.")
-
-        if "name" not in division_config:
-            raise ValueError(f"Division '{division_slug}' must define 'name'.")
-
-        teams = division_config.get("teams", [])
-        if not isinstance(teams, list):
-            raise ValueError(f"Division '{division_slug}' teams must be a list.")
-
-        teams_count = division_config.get("teams_count", len(teams))
-        if teams_count != len(teams):
-            raise ValueError(
-                f"Division '{division_slug}' teams_count ({teams_count}) does not match the number of teams ({len(teams)})."
-            )
-
-    return division_configs
 
 # run in shell:
 # docker compose exec tournament_scheduler python /srv/django/manage.py shell -c 'from tournament.tournaments import Prague2025_Ortools'
 
 # turnaj
-divisions = load_division_configs()
+divisions = load_division_configs("config/prague2026.yaml"
 
 tslug = "PIT2026_SEEDING_17"
 tname = "PIT 2026 TEST (teams, seeding)"
