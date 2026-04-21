@@ -13,6 +13,32 @@ def _reserved_pitch_for_slot(slot_index, num_pitches, buffer_every_slots):
     return buffer_index % num_pitches
 
 
+def _allowed_pitch_count(preferred_pitches, division_id, num_pitches):
+    if not preferred_pitches:
+        return num_pitches
+
+    if division_id in preferred_pitches:
+        ordered_pitches = preferred_pitches[division_id]
+    elif str(division_id) in preferred_pitches:
+        ordered_pitches = preferred_pitches[str(division_id)]
+    else:
+        return num_pitches
+
+    if not isinstance(ordered_pitches, list) or len(ordered_pitches) == 0:
+        raise ValueError(f"Preferred pitches for division '{division_id}' must be a non-empty list.")
+
+    if len(set(ordered_pitches)) != len(ordered_pitches):
+        raise ValueError(f"Preferred pitches for division '{division_id}' contain duplicates.")
+
+    for pitch_index in ordered_pitches:
+        if not isinstance(pitch_index, int) or pitch_index < 0 or pitch_index >= num_pitches:
+            raise ValueError(
+                f"Preferred pitch '{pitch_index}' for division '{division_id}' must be an integer in range 0..{num_pitches - 1}."
+            )
+
+    return len(ordered_pitches)
+
+
 def build_slot_model(
     solver_input,
     num_slots,
@@ -20,6 +46,7 @@ def build_slot_model(
     pause=1,
     phase_change_pause=2,
     buffer_every_slots=None,
+    preferred_pitches=None,
 ):
     """
     OPTIMAL CP-SAT SLOT MODEL
@@ -177,6 +204,7 @@ def build_slot_model(
 
     for s in range(num_slots):
         bools = []
+        slot_bools_by_division = defaultdict(list)
         reserved_pitch = _reserved_pitch_for_slot(s, num_pitches, buffer_every_slots)
         slot_capacity = num_pitches - 1 if reserved_pitch is not None else num_pitches
 
@@ -187,6 +215,12 @@ def build_slot_model(
             model.Add(slot[m] != s).OnlyEnforceIf(b.Not())
 
             bools.append(b)
+            slot_bools_by_division[matches[m]["division"]].append(b)
+
+        # A division cannot occupy more matches in one slot than its allowed pitches.
+        for division_id, division_bools in slot_bools_by_division.items():
+            division_slot_capacity = _allowed_pitch_count(preferred_pitches, division_id, num_pitches)
+            model.Add(sum(division_bools) <= division_slot_capacity)
 
         load = model.NewIntVar(0, slot_capacity, f"load_{s}")
         model.Add(load == sum(bools))

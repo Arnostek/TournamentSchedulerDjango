@@ -6,7 +6,7 @@ from tournament.scheduler.ortools_build_pitch_model import build_pitch_model
 from tournament.scheduler.ortools_build_dataframe import build_slot_pitch_dataframe
 
 
-def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None):
+def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None, preferred_pitches=None):
     """
     FULL PIPELINE TEST:
     Django → Slot model → Solve → Pitch model → Solve → Output
@@ -28,6 +28,7 @@ def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None):
         num_slots=num_slots,
         num_pitches=num_pitches,
         buffer_every_slots=buffer_every_slots,
+        preferred_pitches=preferred_pitches,
     )
 
     solver = cp_model.CpSolver()
@@ -55,6 +56,7 @@ def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None):
         solver_input,
         slot_solution,
         num_pitches=num_pitches,
+        preferred_pitches=preferred_pitches,
     )
 
     solver2 = cp_model.CpSolver()
