@@ -25,7 +25,7 @@ import pytz
 # turnaj
 divisions = load_division_configs("config/prague2026.yaml")
 
-tslug = "PIT2026_SEEDING_22"
+tslug = "PIT2026_SEEDING_23"
 tname = "PIT 2026 TEST (teams, seeding)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
@@ -46,7 +46,7 @@ division_slug = 'Ladies'
 division_config = divisions[division_slug]
 Ladies_system = TwoGroups(prague2026,division_config['name'],division_slug,len(division_config['teams']), semi5_8=True)
 Ladies_system.division.CreateTeams(division_config['teams'])
-preferred_pitches[Ladies_system.division.id] = [1, 0, 2, 3, ]
+preferred_pitches[Ladies_system.division.id] = [1, 0, 2, 3, 4]
 
 # men 2
 division_slug = 'Men2'
@@ -60,7 +60,7 @@ division_slug = 'U18'
 division_config = divisions[division_slug]
 U18_system = SingleGroupDivisionSystem(prague2026,division_config['name'],division_slug,len(division_config['teams']), final_for=2)
 U18_system.division.CreateTeams(division_config['teams'])
-preferred_pitches[U18_system.division.id] = [1, 0, 2, 3, ]
+preferred_pitches[U18_system.division.id] = [1, 0, 2, 3, 4]
 
 # U14
 division_slug = 'U14'
