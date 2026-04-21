@@ -1,5 +1,6 @@
 from ortools.sat.python import cp_model
 from collections import defaultdict
+from itertools import combinations
 
 
 def _reserved_pitch_for_slot(slot_index, num_pitches, buffer_every_slots):
@@ -13,16 +14,16 @@ def _reserved_pitch_for_slot(slot_index, num_pitches, buffer_every_slots):
     return buffer_index % num_pitches
 
 
-def _allowed_pitch_count(preferred_pitches, division_id, num_pitches):
+def _allowed_pitch_set(preferred_pitches, division_id, num_pitches):
     if not preferred_pitches:
-        return num_pitches
+        return set(range(num_pitches))
 
     if division_id in preferred_pitches:
         ordered_pitches = preferred_pitches[division_id]
     elif str(division_id) in preferred_pitches:
         ordered_pitches = preferred_pitches[str(division_id)]
     else:
-        return num_pitches
+        return set(range(num_pitches))
 
     if not isinstance(ordered_pitches, list) or len(ordered_pitches) == 0:
         raise ValueError(f"Preferred pitches for division '{division_id}' must be a non-empty list.")
@@ -36,7 +37,7 @@ def _allowed_pitch_count(preferred_pitches, division_id, num_pitches):
                 f"Preferred pitch '{pitch_index}' for division '{division_id}' must be an integer in range 0..{num_pitches - 1}."
             )
 
-    return len(ordered_pitches)
+    return set(ordered_pitches)
 
 
 def build_slot_model(
@@ -66,6 +67,25 @@ def build_slot_model(
     matches = solver_input["matches"]
     num_matches = solver_input["num_matches"]
     division_matches = solver_input["division_matches"]
+    division_allowed_pitches = {
+        division_id: _allowed_pitch_set(preferred_pitches, division_id, num_pitches)
+        for division_id in division_matches
+    }
+
+    # Hall-style subset constraints per slot to ensure there is always a feasible pitch
+    # matching for the selected set of matches in that slot.
+    pitch_subset_constraints = []
+    pitch_indexes = list(range(num_pitches))
+    for subset_size in range(1, num_pitches + 1):
+        for subset_tuple in combinations(pitch_indexes, subset_size):
+            subset = set(subset_tuple)
+            constrained_divisions = [
+                division_id
+                for division_id, allowed in division_allowed_pitches.items()
+                if allowed.issubset(subset)
+            ]
+            if constrained_divisions:
+                pitch_subset_constraints.append((subset_size, constrained_divisions))
 
     # =========================================================
     # 1) VARIABLES
@@ -219,8 +239,17 @@ def build_slot_model(
 
         # A division cannot occupy more matches in one slot than its allowed pitches.
         for division_id, division_bools in slot_bools_by_division.items():
-            division_slot_capacity = _allowed_pitch_count(preferred_pitches, division_id, num_pitches)
+            division_slot_capacity = len(division_allowed_pitches[division_id])
             model.Add(sum(division_bools) <= division_slot_capacity)
+
+        # Enforce subset-capacity feasibility so phase 1 does not create pitch-infeasible slots.
+        for subset_capacity, constrained_divisions in pitch_subset_constraints:
+            constrained_bools = []
+            for division_id in constrained_divisions:
+                constrained_bools.extend(slot_bools_by_division.get(division_id, []))
+
+            if constrained_bools:
+                model.Add(sum(constrained_bools) <= subset_capacity)
 
         load = model.NewIntVar(0, slot_capacity, f"load_{s}")
         model.Add(load == sum(bools))
