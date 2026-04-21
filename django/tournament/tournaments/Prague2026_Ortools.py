@@ -34,37 +34,37 @@ print(prague2026)
 # men 1
 division_slug = 'MenElite'
 division_config = divisions[division_slug]
-Men1_system = ThreeGroups15Teams(prague2026,division_config['name'],division_slug,15)
+Men1_system = ThreeGroups15Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 Men1_system.division.CreateTeams(division_config['teams'])
 
 # Ladies
 division_slug = 'Ladies'
 division_config = divisions[division_slug]
-Ladies_system = TwoGroups(prague2026,division_config['name'],division_slug,9, semi5_8=True)
+Ladies_system = TwoGroups(prague2026,division_config['name'],division_slug,len(division_config['teams']), semi5_8=True)
 Ladies_system.division.CreateTeams(division_config['teams'])
 
 # men 2
 division_slug = 'Men2'
 division_config = divisions[division_slug]
-Men2_system = TwoGroups8Teams(prague2026,division_config['name'],division_slug,8)
+Men2_system = TwoGroups8Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 Men2_system.division.CreateTeams(division_config['teams'])
 
 # U18
 division_slug = 'U18'
 division_config = divisions[division_slug]
-U18_system = SingleGroupDivisionSystem(prague2026,division_config['name'],division_slug,7, final_for=2)
+U18_system = SingleGroupDivisionSystem(prague2026,division_config['name'],division_slug,len(division_config['teams']), final_for=2)
 U18_system.division.CreateTeams(division_config['teams'])
 
 # U14
 division_slug = 'U14'
 division_config = divisions[division_slug]
-U14_system = TwoGroups(prague2026,division_config['name'],division_slug,9, semi5_8=True)
+U14_system = TwoGroups(prague2026,division_config['name'],division_slug,len(division_config['teams']), semi5_8=True)
 U14_system.division.CreateTeams(division_config['teams'])
 
 # U12
 division_slug = 'U12'
 division_config = divisions[division_slug]
-U12_system = SingleGroupDivisionSystem(prague2026,division_config['name'],division_slug,5)
+U12_system = SingleGroupDivisionSystem(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 U12_system.division.CreateTeams(division_config['teams'])
 
 
