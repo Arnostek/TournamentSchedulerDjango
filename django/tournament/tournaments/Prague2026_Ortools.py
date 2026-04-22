@@ -5,7 +5,7 @@ from tournament.systems.SingleGroupDivisionSystem import SingleGroupDivisionSyst
 from tournament.systems.TwoGroups8Teams import TwoGroups8Teams
 from tournament.systems.TwoGroups import TwoGroups
 # from tournament.systems.TwoGroups import TwoGroups
-# from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
+from tournament.systems.TwoGroups8TeamsCross import TwoGroups8TeamsCross
 # from tournament.systems.TwoGroups8TeamsMiddle import TwoGroups8TeamsMiddle
 # from tournament.systems.FourGroups12Teams import FourGroups12Teams
 # from tournament.systems.FourGroups16Teams import FourGroups16Teams
@@ -51,7 +51,7 @@ preferred_pitches[Ladies_system.division.id] = [1, 0, 2, 3, 4]
 # men 2
 division_slug = 'Men2'
 division_config = divisions[division_slug]
-Men2_system = TwoGroups8Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
+Men2_system = TwoGroups8TeamsCross(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 Men2_system.division.CreateTeams(division_config['teams'])
 preferred_pitches[Men2_system.division.id] = [3, 2, 1, 0, 4]
 
