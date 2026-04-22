@@ -72,20 +72,12 @@ def build_slot_model(
         for division_id in division_matches
     }
 
-    # Hall-style subset constraints per slot to ensure there is always a feasible pitch
-    # matching for the selected set of matches in that slot.
-    pitch_subset_constraints = []
-    pitch_indexes = list(range(num_pitches))
-    for subset_size in range(1, num_pitches + 1):
-        for subset_tuple in combinations(pitch_indexes, subset_size):
-            subset = set(subset_tuple)
-            constrained_divisions = [
-                division_id
-                for division_id, allowed in division_allowed_pitches.items()
-                if allowed.issubset(subset)
-            ]
-            if constrained_divisions:
-                pitch_subset_constraints.append((subset_size, constrained_divisions))
+    # Hall-style subset templates used to keep each slot pitch-feasible.
+    pitch_subset_templates = [
+        set(subset_tuple)
+        for subset_size in range(1, num_pitches + 1)
+        for subset_tuple in combinations(range(num_pitches), subset_size)
+    ]
 
     # =========================================================
     # 1) VARIABLES
@@ -225,7 +217,9 @@ def build_slot_model(
     for s in range(num_slots):
         bools = []
         slot_bools_by_division = defaultdict(list)
+        slot_is_full = model.NewBoolVar(f"slot_is_full_{s}")
         reserved_pitch = _reserved_pitch_for_slot(s, num_pitches, buffer_every_slots)
+        rotating_reserved_pitch = s % num_pitches
         slot_capacity = num_pitches - 1 if reserved_pitch is not None else num_pitches
 
         for m in range(num_matches):
@@ -237,22 +231,46 @@ def build_slot_model(
             bools.append(b)
             slot_bools_by_division[matches[m]["division"]].append(b)
 
-        # A division cannot occupy more matches in one slot than its allowed pitches.
+        # Track if slot is full. Non-full slots in phase 2 cannot use rotating_reserved_pitch.
+        raw_load = model.NewIntVar(0, num_pitches, f"raw_load_{s}")
+        model.Add(raw_load == sum(bools))
+        model.Add(raw_load == num_pitches).OnlyEnforceIf(slot_is_full)
+        model.Add(raw_load <= num_pitches - 1).OnlyEnforceIf(slot_is_full.Not())
+
+        # Honor configured slot capacity (e.g., explicit buffer slots).
+        if slot_capacity < num_pitches:
+            model.Add(raw_load <= slot_capacity)
+
+        # A division cannot occupy more matches in one slot than feasible under
+        # both full and non-full pitch availability.
         for division_id, division_bools in slot_bools_by_division.items():
-            division_slot_capacity = len(division_allowed_pitches[division_id])
-            model.Add(sum(division_bools) <= division_slot_capacity)
+            allowed_full = division_allowed_pitches[division_id]
+            allowed_non_full = allowed_full - {rotating_reserved_pitch}
+            division_load = sum(division_bools)
+            model.Add(division_load <= len(allowed_full)).OnlyEnforceIf(slot_is_full)
+            model.Add(division_load <= len(allowed_non_full)).OnlyEnforceIf(slot_is_full.Not())
 
-        # Enforce subset-capacity feasibility so phase 1 does not create pitch-infeasible slots.
-        for subset_capacity, constrained_divisions in pitch_subset_constraints:
-            constrained_bools = []
-            for division_id in constrained_divisions:
-                constrained_bools.extend(slot_bools_by_division.get(division_id, []))
+        # Hall constraints per slot prevent pitch-model infeasibility.
+        for subset in pitch_subset_templates:
+            constrained_full = []
+            constrained_non_full = []
 
-            if constrained_bools:
-                model.Add(sum(constrained_bools) <= subset_capacity)
+            for division_id, division_bools in slot_bools_by_division.items():
+                allowed_full = division_allowed_pitches[division_id]
+                allowed_non_full = allowed_full - {rotating_reserved_pitch}
+
+                if allowed_full.issubset(subset):
+                    constrained_full.extend(division_bools)
+                if allowed_non_full.issubset(subset):
+                    constrained_non_full.extend(division_bools)
+
+            if constrained_full:
+                model.Add(sum(constrained_full) <= len(subset)).OnlyEnforceIf(slot_is_full)
+            if constrained_non_full:
+                model.Add(sum(constrained_non_full) <= len(subset)).OnlyEnforceIf(slot_is_full.Not())
 
         load = model.NewIntVar(0, slot_capacity, f"load_{s}")
-        model.Add(load == sum(bools))
+        model.Add(load == raw_load)
         balanced_load = model.NewIntVar(0, num_pitches, f"balanced_load_{s}")
         model.Add(balanced_load == load + (num_pitches - slot_capacity))
         slot_load.append(balanced_load)
