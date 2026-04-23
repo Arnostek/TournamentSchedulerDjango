@@ -26,7 +26,7 @@ import pytz
 # turnaj
 divisions = load_division_configs("config/prague2026.yaml")
 
-tslug = "PIT2026_SEEDING_33"
+tslug = "PIT2026_SEEDING_35"
 tname = "PIT 2026 TEST (teams, seeding)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
@@ -38,7 +38,7 @@ preferred_pitches = {}
 # men 1
 division_slug = 'MenElite'
 division_config = divisions[division_slug]
-Men1_system = ThreeGroups15Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
+Men1_system = TwoGroups(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 Men1_system.division.CreateTeams(division_config['teams'])
 preferred_pitches[Men1_system.division.id] = [0, 1, 2, 3, ]
 
