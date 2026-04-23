@@ -1,4 +1,5 @@
 from .DivisionSystemBase import DivisionSystemBase
+from tournament.models import GroupPointsTransfer
 
 class ThreeGroups9Teams(DivisionSystemBase):
     """ 3 zakladni skupiny, meziskupiny, QF, SF, umisteni
@@ -35,9 +36,11 @@ class ThreeGroups9Teams(DivisionSystemBase):
         phase += 1
         self.division.CreateGroups(['G2'], self.division.GetGroupsRanks(['A','B','C'])[6:], phase, ['G2'])
         self.division.CreateRanks(7,self.division.GetGroupsRanks(['G2']))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('G1'), dest = self.division.GetGroup('G2'))
 
         self.division.CreateGroups(['H2'], [self.division.GetGroupsRanks(['F'])[1], self.division.GetGroupsRanks(['F'])[2]], phase, ['SF2'])
         self.division.CreateRanks(5,self.division.GetGroupsRanks(['H2']))
+        GroupPointsTransfer.objects.create(src = self.division.GetGroup('H1'), dest = self.division.GetGroup('H2'))
 
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
