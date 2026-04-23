@@ -66,7 +66,7 @@ preferred_pitches[U18_system.division.id] = [1, 0, 2, 3, ]
 # U14
 division_slug = 'U14'
 division_config = divisions[division_slug]
-U14_system = ThreeGroups9Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']), semi5_8=True)
+U14_system = ThreeGroups9Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 U14_system.division.CreateTeams(division_config['teams'])
 preferred_pitches[U14_system.division.id] = [4, 3, 2]
 
