@@ -39,11 +39,11 @@ class ThreeGroups9Teams(DivisionSystemBase):
        
         # places
         phase += 1
-        self.division.CreateGroups(['3rd'], [self.division.GetGroupsRanks(['K'])[2], self.division.GetGroupsRanks(['L'])[0]], phase)
+        self.division.CreateGroups(['3rd'], [self.division.GetGroupsRanks(['J'])[2], self.division.GetGroupsRanks(['K'])[0]], phase)
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # Final
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['K'])[:2], phase)
+        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['J'])[:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
     def _addReferees(self):
