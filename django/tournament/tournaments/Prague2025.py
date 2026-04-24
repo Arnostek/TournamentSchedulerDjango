@@ -31,23 +31,23 @@ print(prague2025)
 Men1_system = TwoGroups(prague2025,'Men Elite','MenElite',14)
 Men1_system.division.CreateTeams(
     [
+        "Team Poznań",
         "RKV Berlin",
-        "KSV Glauchau",
-        "Kaniow Men A", 
-        "Poznań", 
-        
-        "Kaniow Men B", 
+        "Kaniow BKT",
         "DRC Neuburg",
-        "Prague A", 
-        "VMW Berlin Men",
 
-        "VK Berlin U21", 
-        "UKK Wien", 
-        "Dresden Men A", 
-        "Bremen",
+        "VK Berlin",
+        "KSV Glauchau",
+        "KV Nurnberg",
+        "Set Kaniow A",
 
-        "Nagymaros",
-        "Katowice Men", 
+        "KP Praha A",
+        "KP Bremen",
+        "KC Kelheim",
+        "KCNW U21",
+
+        "Katowice M",
+        "POL U21",
     ]
 )
 
