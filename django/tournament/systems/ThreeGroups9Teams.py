@@ -1,8 +1,9 @@
 from .DivisionSystemBase import DivisionSystemBase
 from tournament.models import GroupPointsTransfer
 
-class ThreeGroups9Teams(DivisionSystemBase):
-    """ 3 zakladni skupiny, meziskupiny, QF, SF, umisteni
+class ThreeGroups9TeamsDvojitosti(DivisionSystemBase):
+    """ 3 zakladni skupiny, meziskupiny, SF, double o 5. misto a repete Last 3
+      nikdy jsme nehrali, rade starsich se system nelibil
     """
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
