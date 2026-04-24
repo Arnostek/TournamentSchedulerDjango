@@ -2,8 +2,7 @@ from .DivisionSystemBase import DivisionSystemBase
 from tournament.models import GroupPointsTransfer
 
 class ThreeGroups9TeamsDvojitosti(DivisionSystemBase):
-    """ 3 zakladni skupiny, meziskupiny, SF, double o 5. misto a repete Last 3
-      nikdy jsme nehrali, rade starsich se system nelibil
+    """ 3 zakladni skupiny, 3 skupiny A1B2C3.., 3 skupiny dle poradi DEF, finale
     """
 
     def __init__(self,tournament,division_name,division_slug,num_of_teams):
@@ -23,31 +22,28 @@ class ThreeGroups9TeamsDvojitosti(DivisionSystemBase):
 
         # meziskupiny
         phase += 1
-        self.division.CreateGroups(['E'], self.division.GetGroupsRanks(['A','B','C'])[0:3], phase, ['E'])
-        self.division.CreateGroups(['F'], self.division.GetGroupsRanks(['A','B','C'])[3:6], phase, ['F'])
-        self.division.CreateGroups(['G1'], self.division.GetGroupsRanks(['A','B','C'])[6:], phase, ['G1'])
+        self.division.CreateGroups(['E'], [self.division.GetGroupsRanks(['A'])[0], self.division.GetGroupsRanks(['B'])[1], self.division.GetGroupsRanks(['C'])[2]], phase, ['E'])
+        self.division.CreateGroups(['F'], [self.division.GetGroupsRanks(['B'])[0], self.division.GetGroupsRanks(['C'])[1], self.division.GetGroupsRanks(['A'])[2]], phase, ['F'])
+        self.division.CreateGroups(['G'], [self.division.GetGroupsRanks(['C'])[0], self.division.GetGroupsRanks(['A'])[1], self.division.GetGroupsRanks(['B'])[2]], phase, ['G'])
+
+        # skupiny podle poradi
+        phase += 1
+        self.division.CreateGroups(['J'], self.division.GetGroupsRanks(['E','F','G'])[0:3], phase, ['J'])
+        self.division.CreateGroups(['K'], self.division.GetGroupsRanks(['E','F','G'])[3:6], phase, ['K'])
+        self.division.CreateGroups(['L'], self.division.GetGroupsRanks(['E','F','G'])[6:],  phase, ['L'])
 
         # # SF pro 1-4
-        phase += 1
-        self.division.CreateGroups(['SF1'], [self.division.GetGroupsRanks(['E'])[0], self.division.GetGroupsRanks(['F'])[0]], phase)
-        self.division.CreateGroups(['SF2'], [self.division.GetGroupsRanks(['E'])[1], self.division.GetGroupsRanks(['E'])[2]], phase)
-        self.division.CreateGroups(['H1'], [self.division.GetGroupsRanks(['F'])[1], self.division.GetGroupsRanks(['F'])[2]], phase)
-
+#        phase += 1
+#        self.division.CreateGroups(['SF1'], [self.division.GetGroupsRanks(['E'])[0], self.division.GetGroupsRanks(['F'])[0]], phase)
+#        self.division.CreateGroups(['SF2'], [self.division.GetGroupsRanks(['E'])[1], self.division.GetGroupsRanks(['E'])[2]], phase)
+       
         # places
         phase += 1
-        self.division.CreateGroups(['G2'], self.division.GetGroupsRanks(['A','B','C'])[6:], phase, ['G2'])
-        self.division.CreateRanks(7,self.division.GetGroupsRanks(['G2']))
-        GroupPointsTransfer.objects.create(src = self.division.GetGroup('G1'), dest = self.division.GetGroup('G2'))
-
-        self.division.CreateGroups(['H2'], [self.division.GetGroupsRanks(['F'])[1], self.division.GetGroupsRanks(['F'])[2]], phase, ['SF2'])
-        self.division.CreateRanks(5,self.division.GetGroupsRanks(['H2']))
-        GroupPointsTransfer.objects.create(src = self.division.GetGroup('H1'), dest = self.division.GetGroup('H2'))
-
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:], phase)
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['K','L'])[2:], phase)
         self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # Final
-        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[:2], phase)
+        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['K'])[:2], phase)
         self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
     def _addReferees(self):
