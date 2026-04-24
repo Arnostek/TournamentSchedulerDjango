@@ -1,7 +1,7 @@
 from .DivisionSystemBase import DivisionSystemBase
 from tournament.models import GroupPointsTransfer
 
-class ThreeGroups9TeamsDvojitosti(DivisionSystemBase):
+class ThreeGroups9Teams(DivisionSystemBase):
     """ 3 zakladni skupiny, 3 skupiny A1B2C3.., 3 skupiny dle poradi DEF, finale
     """
 
