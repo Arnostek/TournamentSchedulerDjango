@@ -19,8 +19,8 @@ class FourGroups16Teams(DivisionSystemBase):
 
         # QF - 1. vs 2., 3. vs 4.
         phase += 1
-        self.division.CreateGroups(['QF1','QF2','QF3','QF4'],self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
-        self.division.CreateGroups(['QF5','QF6','QF7','QF8'],self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)
+        self.division.CreateGroups(['QF1','QF2','QF3','QF4'],self.division.GetGroupsRanks(['A','B','C','D'])[:8], phase)
+        self.division.CreateGroups(['QF5','QF6','QF7','QF8'],self.division.GetGroupsRanks(['A','B','C','D'])[8:], phase)
 
         # SF
         phase += 1
