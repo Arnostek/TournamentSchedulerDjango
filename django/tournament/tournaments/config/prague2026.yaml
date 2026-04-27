@@ -9,13 +9,14 @@ MenElite:
     - KSV Glauchau
     - KV Nurnberg
     - Set Kaniow A
-    # - Alytus
+    - Alytus
     - KP Praha A
     - KP Bremen
     - KC Kelheim
     - KCNW U21
     - Katowice M
     - POL U21
+    - WCH Berlin
     
 
 Ladies:
@@ -27,9 +28,9 @@ Ladies:
     - Neuburg W
     - Czech W
     - Czech/German
-    - Powisle W
-    - Katowice W
     - Bremen W
+    - Katowice W
+    - Powisle W
 
 Men2:
   name: Men 2
@@ -60,11 +61,11 @@ U14:
     - KCNW U14
     - Powisle U14
     - Glauchau U14
-    - Neuburg U14
     - Lesna U14
+    - Neuburg U14
     - Praha U14 M
-    - Praha U14 W
     - SG Franken U14
+    - Praha U14 W
     - Ukraine U14
 
 U12:
