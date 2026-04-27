@@ -29,8 +29,12 @@ class ThreeGroups9Teams(DivisionSystemBase):
         # skupiny podle poradi
         phase += 1
         self.division.CreateGroups(['J'], self.division.GetGroupsRanks(['E','F','G'])[0:3], phase, ['J'])
+        
         self.division.CreateGroups(['K'], self.division.GetGroupsRanks(['E','F','G'])[3:6], phase, ['K'])
+        self.division.CreateRanks(5,self.division.GetGroupsRanks(['K'])[1:])
+        
         self.division.CreateGroups(['L'], self.division.GetGroupsRanks(['E','F','G'])[6:],  phase, ['L'])
+        self.division.CreateRanks(7,self.division.GetGroupsRanks(['L']))
 
         # # SF pro 1-4
 #        phase += 1
