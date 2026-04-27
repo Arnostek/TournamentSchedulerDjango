@@ -48,11 +48,5 @@ class ThreeGroups9Teams(DivisionSystemBase):
 
     def _addReferees(self):
         """ Referees for  matches """
-        #self._GroupAddReferees('SF1',[self.division.GetGroupsRanks(['G1'])[0]])
-        #self._GroupAddReferees('SF2',[self.division.GetGroupsRanks(['G1'])[1]])
-        #self._GroupAddReferees('H1',[self.division.GetGroupsRanks(['G1'])[2]])
-        # self._GroupAddReferees('9th',[ef_ranks[2]])
-        # self._GroupAddReferees('7th',[gh_ranks[2]])
-        # self._GroupAddReferees('5th',[gh_ranks[0]])
         self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['K'])[2]])
         self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['K'])[1]])
