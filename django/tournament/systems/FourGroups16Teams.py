@@ -69,10 +69,10 @@ class FourGroups16Teams(DivisionSystemBase):
         self._GroupAddReferees('QF4',[self.division.GetGroupsRanks(['D'])[2]])
 
         # dolni QF piska 2. ze skupin
-        self._GroupAddReferees('QF5',[self.division.GetGroupsRanks(['A'])[1]])
-        self._GroupAddReferees('QF6',[self.division.GetGroupsRanks(['B'])[1]])
-        self._GroupAddReferees('QF7',[self.division.GetGroupsRanks(['C'])[1]])
-        self._GroupAddReferees('QF8',[self.division.GetGroupsRanks(['D'])[1]])
+        self._GroupAddReferees('QF5',[self.division.GetGroupsRanks(['D'])[1]])
+        self._GroupAddReferees('QF6',[self.division.GetGroupsRanks(['C'])[1]])
+        self._GroupAddReferees('QF7',[self.division.GetGroupsRanks(['B'])[1]])
+        self._GroupAddReferees('QF8',[self.division.GetGroupsRanks(['A'])[1]])
 
         # SF 1-4
         self._GroupAddReferees('SF1',[self.division.GetGroupsRanks(['QF1'])[1]])
@@ -81,11 +81,11 @@ class FourGroups16Teams(DivisionSystemBase):
         self._GroupAddReferees('SF3',[self.division.GetGroupsRanks(['QF1'])[0]])
         self._GroupAddReferees('SF4',[self.division.GetGroupsRanks(['QF2'])[0]])
         # SF 9-12
-        self._GroupAddReferees('SF5',[self.division.GetGroupsRanks(['QF3'])[1]])
-        self._GroupAddReferees('SF6',[self.division.GetGroupsRanks(['QF4'])[1]])
+        self._GroupAddReferees('SF5',[self.division.GetGroupsRanks(['QF4'])[1]])
+        self._GroupAddReferees('SF6',[self.division.GetGroupsRanks(['QF3'])[1]])
         # SF 13-16
-        self._GroupAddReferees('SF7',[self.division.GetGroupsRanks(['QF3'])[0]])
-        self._GroupAddReferees('SF8',[self.division.GetGroupsRanks(['QF4'])[0]])
+        self._GroupAddReferees('SF7',[self.division.GetGroupsRanks(['QF4'])[0]])
+        self._GroupAddReferees('SF8',[self.division.GetGroupsRanks(['QF3'])[0]])
 
         # mista
         self._GroupAddReferees('15th',[self.division.GetGroupsRanks(['SF3'])[1]])
