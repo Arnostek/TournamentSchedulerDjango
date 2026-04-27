@@ -54,5 +54,5 @@ class ThreeGroups9Teams(DivisionSystemBase):
         # self._GroupAddReferees('9th',[ef_ranks[2]])
         # self._GroupAddReferees('7th',[gh_ranks[2]])
         # self._GroupAddReferees('5th',[gh_ranks[0]])
-        # self._GroupAddReferees('3rd',[ef_ranks[5]])
-        # self._GroupAddReferees('Final',[ef_ranks[4]])
+        self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['K'])[2]])
+        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['K'])[1]])
