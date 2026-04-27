@@ -41,18 +41,23 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             semi_ranks = self.division.GetGroupsRanks(['Semi1','Semi2'])
             # 3rd
             self.division.CreateGroups(['3rd'], [semi_ranks[2], semi_ranks[3]] , phase)
+            self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
             # final
             self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
+            self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
 
         else:
             # 3rd
             if len(a_ranks) > 3 and self.final_for >= 3:
                 self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
+                self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
             # final
             self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
+            self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
 
-        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
-        self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
+        
+        
+        
 
 
     def _addReferees(self):
