@@ -51,10 +51,10 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         a_ranks = self.division.GetGroupsRanks(['A'])
         b_ranks = self.division.GetGroupsRanks(['B'])
 
-        self._GroupAddReferees('QF1', self.division.GetGroupsRanks(['B'])[1])
-        self._GroupAddReferees('QF2', self.division.GetGroupsRanks(['B'])[0])
-        self._GroupAddReferees('QF3', self.division.GetGroupsRanks(['A'])[0])
-        self._GroupAddReferees('QF4', self.division.GetGroupsRanks(['A'])[1])
+        self._GroupAddReferees('QF1', [self.division.GetGroupsRanks(['B'])[1]])
+        self._GroupAddReferees('QF2', [self.division.GetGroupsRanks(['B'])[0]])
+        self._GroupAddReferees('QF3', [self.division.GetGroupsRanks(['A'])[0]])
+        self._GroupAddReferees('QF4', [self.division.GetGroupsRanks(['A'])[1]])
 
 
         self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['QF1']))
