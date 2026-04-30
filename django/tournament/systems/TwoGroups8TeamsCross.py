@@ -51,10 +51,16 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         a_ranks = self.division.GetGroupsRanks(['A'])
         b_ranks = self.division.GetGroupsRanks(['B'])
 
-        # self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['C3'])[-1:])
-        # self._GroupAddReferees('SF2', self.division.GetGroupsRanks(['C2'])[-1:])
-        # self._GroupAddReferees('SF3', self.division.GetGroupsRanks(['C3'])[-1:])
-        # self._GroupAddReferees('SF4', self.division.GetGroupsRanks(['C2'])[-1:])
+        self._GroupAddReferees('QF1', self.division.GetGroupsRanks(['B'])[1])
+        self._GroupAddReferees('QF2', self.division.GetGroupsRanks(['B'])[0])
+        self._GroupAddReferees('QF3', self.division.GetGroupsRanks(['A'])[0])
+        self._GroupAddReferees('QF4', self.division.GetGroupsRanks(['A'])[1])
+
+
+        self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['QF1']))
+        self._GroupAddReferees('SF2', self.division.GetGroupsRanks(['QF2']))
+        self._GroupAddReferees('SF3', self.division.GetGroupsRanks(['QF3']))
+        self._GroupAddReferees('SF4', self.division.GetGroupsRanks(['QF4']))
 
         self._GroupAddReferees('7th', self.division.GetGroupsRanks(['SF1']))
         self._GroupAddReferees('5th', self.division.GetGroupsRanks(['SF2']))
