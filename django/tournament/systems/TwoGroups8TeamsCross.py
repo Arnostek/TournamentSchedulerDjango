@@ -30,32 +30,32 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         # phase 3 - semi
         phase += 1
         # vitezove
-        self.division.CreateGroups(['S1','S2'], self.division.GetGroupsRanks(['C1','C2','C3','C4'])[:4],phase)
+        self.division.CreateGroups(['SF1','SF2'], self.division.GetGroupsRanks(['C1','C2','C3','C4'])[:4],phase)
         # porazeni
-        self.division.CreateGroups(['S3','S4'], self.division.GetGroupsRanks(['C1','C2','C3','C4'])[-4:],phase,['S1','S2'])
+        self.division.CreateGroups(['SF3','SF4'], self.division.GetGroupsRanks(['C1','C2','C3','C4'])[-4:],phase,['SF1','SF2'])
 
         # umisteni
         # 7th, 5th
         phase += 1
-        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['S3','S4'])[2:4], phase)
-        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['S3','S4'])[0:2], phase)
+        self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:4], phase)
+        self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[0:2], phase)
 
         # 3rd
-        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['S1','S2'])[2:4], phase)
+        self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:4], phase)
 
         # final
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['S1','S2'])[0:2], phase)
+        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SF1','SF2'])[0:2], phase)
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
         a_ranks = self.division.GetGroupsRanks(['A'])
         b_ranks = self.division.GetGroupsRanks(['B'])
 
-        self._GroupAddReferees('S1', self.division.GetGroupsRanks(['C3'])[-1:])
-        self._GroupAddReferees('S2', self.division.GetGroupsRanks(['C2'])[-1:])
+        self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['C3'])[-1:])
+        self._GroupAddReferees('SF2', self.division.GetGroupsRanks(['C2'])[-1:])
 
-        self._GroupAddReferees('7th', self.division.GetGroupsRanks(['S1']))
-        self._GroupAddReferees('5th', self.division.GetGroupsRanks(['S2']))
+        self._GroupAddReferees('7th', self.division.GetGroupsRanks(['SF1']))
+        self._GroupAddReferees('5th', self.division.GetGroupsRanks(['SF2']))
 
         self._GroupAddReferees('3rd',self.division.GetGroupsRanks(['7th']))
         self._GroupAddReferees('final',self.division.GetGroupsRanks(['5th']))
