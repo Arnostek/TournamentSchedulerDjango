@@ -41,11 +41,9 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['S3','S4'])[0:2], phase)
 
         # 3rd
-        phase += 1
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['S1','S2'])[2:4], phase)
 
         # final
-        phase += 1
         self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['S1','S2'])[0:2], phase)
 
     def _addReferees(self):
