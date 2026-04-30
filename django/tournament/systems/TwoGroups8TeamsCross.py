@@ -25,7 +25,7 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         b_ranks = self.division.GetGroupsRanks(['B'])
 
         # zapasy 1. vs 4. a 2. vs 3.
-        self.division.CreateGroups(['QF1','QF2','QF3','QF4'], [a_ranks[0],a_ranks[1],a_ranks[2],a_ranks[3],b_ranks[0],b_ranks[1],b_ranks[2],b_ranks[3]], phase, ['C3','C4','C1','C2'])
+        self.division.CreateGroups(['QF1','QF2','QF3','QF4'], [a_ranks[0],a_ranks[1],a_ranks[2],a_ranks[3],b_ranks[0],b_ranks[1],b_ranks[2],b_ranks[3]], phase)
 
         # phase 3 - semi
         phase += 1
