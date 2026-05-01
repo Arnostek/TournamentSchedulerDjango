@@ -60,7 +60,7 @@ def ortools_scheduler(tid, num_slots, num_pitches, buffer_every_slots=None, pref
     )
 
     solver2 = cp_model.CpSolver()
-    solver2.parameters.max_time_in_seconds = 30
+    solver2.parameters.max_time_in_seconds = 90
     solver2.parameters.num_search_workers = 8
 
     status2 = solver2.Solve(pitch_model)
