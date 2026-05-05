@@ -1,22 +1,22 @@
 MenElite:
   name: Men Elite
   teams:
-    - VK Berlin
     - RKV Berlin
     - KSV Glauchau
-    - DRC Neuburg
-    - Set Kaniow A
     - Kaniow BKT
-    - KV Nurnberg
     - Team Poznań
-    - KC Kelheim
-    - KP Bremen
+    - Set Kaniow A
+    - KVN Praha A
+    - VK Berlin
+    - DRC Neuburg
     - WCH Berlin
     - KCNW U21
-    #- Katowice M
     - Alytus
     - POL U21
-    - KP Praha A
+    - KP Bremen
+    - KC Kelheim
+    #- Katowice M
+    #- KP Praha A
 
 Ladies:
   name: Ladies
