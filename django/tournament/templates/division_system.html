@@ -8,16 +8,29 @@
 <h3>Groups</h3>
 
 <div class="container-fluid page-break-after">
-  <div class="row">
+  <div class="d-flex flex-wrap align-items-start gap-3">
       {% for group,teams in groups.items %}
-      <div class="col">
-        <h4>{{group.name}}</h4>
-        <ol class="list-group">
-          {% for team in teams %}
-            <li class="list-group-item text-nowrap">{{team}}</li>
-          {% endfor %}
-        </ol>
+      {% ifchanged group.phase %}
+      {% if not forloop.first %}
+          </div>
       </div>
+      {% endif %}
+      <div class="border rounded p-2" style="flex: 0 0 auto;">
+        <h5 class="mb-3">Phase {{group.phase}}</h5>
+        <div class="d-flex flex-nowrap align-items-start gap-3">
+      {% endifchanged %}
+          <div style="flex: 0 0 auto; min-width: 220px;">
+            <h4>{{group.name}}</h4>
+            <ol class="list-group">
+              {% for team in teams %}
+                <li class="list-group-item text-nowrap">{{team}}</li>
+              {% endfor %}
+            </ol>
+          </div>
+      {% if forloop.last %}
+        </div>
+      </div>
+      {% endif %}
       {%endfor%}
   </div>
 </div>
