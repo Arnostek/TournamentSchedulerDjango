@@ -1,7 +1,9 @@
 {% extends 'body.html' %}
 
 {% block content %}
-  <h2> {{division.name}} Tables</h2>
+
+  <h1>{{division.name}} Tables</h1>
+
   <table class="table table-striped">
   {% for group,results in tables.items %}
     {% if results%}

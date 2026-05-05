@@ -2,14 +2,14 @@
 
 {% block content %}
 
-<h2>Final ranking</h2>
+<h1>Final ranking</h1>
 
 <div class="container-fluid">
   <div class="row">
 
     {% for r in rankings %}
       <div class="col">
-        <h3>{{r.division.name}}</h3>
+        <h2>{{r.division.name}}</h2>
 
         <ol class="list-group">
           {% for rank in r.ranking %}

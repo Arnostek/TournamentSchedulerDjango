@@ -2,12 +2,13 @@
 
 {% block content %}
 
-<h2>Teams</h2>
+<h1>Teams</h1>
+
 <div class="container-fluid">
   <div class="row">
     {% for division,teams in division_seed.items %}
     <div class="col">
-      <h3>{{division.name}}</h3>
+      <h2>{{division.name}}</h2>
 
       {% include "_division_nav.html" %}
 

@@ -2,11 +2,12 @@
 
 {% block content %}
 
+<h1>Live Tournament</h1>
   <div class="container-fluid">
     <div class="row">
 
       <div class="col">
-        <h3>Schedule</h3>
+        <h2>Schedule</h2>
           <ol class="list-group">
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/schedule-full">Full schedule</a></li>
             {% for pitch in tournament.pitch_set.all %}
@@ -17,7 +18,7 @@
       </div>
 
       <div class="col">
-        <h3>Pitch protocols</h3>
+        <h2>Pitch protocols</h2>
           <ol class="list-group">
             {% for pitch in tournament.pitch_set.all %}
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/protocols-pitch-{{pitch.id}}">{{pitch.name}}</a></li>
@@ -26,7 +27,7 @@
       </div>
 
       <div class="col">
-        <h3>Division tables</h3>
+        <h2>Division tables</h2>
           <ol class="list-group">
             {% for div in tournament.division_set.all %}
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/crosstables-division-{{div.id}}">{{div.name}}</a></li>
@@ -35,7 +36,7 @@
       </div>
 
       <div class="col">
-        <h3>Division old tables</h3>
+        <h2>Division old tables</h2>
           <ol class="list-group">
             {% for div in tournament.division_set.all %}
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/tables-division-{{div.id}}">{{div.name}}</a></li>
@@ -44,7 +45,7 @@
       </div>
 
       <div class="col">
-        <h3>Division ranking</h3>
+        <h2>Division ranking</h2>
           <ol class="list-group">
             <li class="list-group-item"><a href="/live/{{tournament.slug}}/ranking-all">All divisions</a></li>
             {% for div in tournament.division_set.all %}

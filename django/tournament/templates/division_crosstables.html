@@ -2,8 +2,8 @@
 
 {% block content %}
   <div>
-  <h2> Group tables</h2>
-  {% for group,detail in tables.items %}
+    <h1>Group tables</h1>
+    {% for group,detail in tables.items %}
 
      {% ifchanged detail.phase %}
       </div>

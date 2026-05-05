@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h2>{{division.name}}</h2>
+<h1>{{division.name}}</h1>
 {% include "_division_nav.html" %}
 
-<h3>Groups</h3>
+<h2>Groups</h2>
 
 <div class="container-fluid page-break-after">
   <div class="d-flex flex-wrap align-items-start gap-3">
@@ -16,11 +16,11 @@
       </div>
       {% endif %}
       <div class="border rounded p-2" style="flex: 0 0 auto;">
-        <h5 class="mb-3">Phase {{group.phase}}</h5>
+        <h4 class="mb-3">Phase {{group.phase}}</h4>
         <div class="d-flex flex-nowrap align-items-start gap-3">
       {% endifchanged %}
           <div style="flex: 0 0 auto; min-width: 220px;">
-            <h4>{{group.name}}</h4>
+            <h5>{{group.name}}</h5>
             <ol class="list-group">
               {% for team in teams %}
                 <li class="list-group-item text-nowrap">{{team}}</li>
@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<h3>Games ({{matches.count}}) </h3>
+<h2>Games ({{matches.count}}) </h2>
 <table class="table table-striped">
   <thead>
     <tr>
