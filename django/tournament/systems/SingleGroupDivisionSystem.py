@@ -55,9 +55,25 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
             self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
 
-        
-        
-        
+        # nakonec potebujeme dodelat ranking pro vsechny co nikam nepostupuji
+        first_direct_rank_index = 2
+
+        # semifinale nebo zapas o 3. misto znamena, ze tymy 1-4 pokracuji
+        if self.semi or (len(a_ranks) > 3 and self.final_for >= 3):
+            first_direct_rank_index = 4
+
+        # zapas o 5. misto znamena, ze tymy 5-6 pokracuji
+        if len(a_ranks) > 5 and self.final_for >= 5:
+            first_direct_rank_index = 6
+
+        # pokud se hraje Last3, posledni tri tymy maji jeste zapasy
+        direct_ranks_end_index = len(a_ranks) - 3 if self.last3 else len(a_ranks)
+
+        if first_direct_rank_index < direct_ranks_end_index:
+            self.division.CreateRanks(
+                first_direct_rank_index + 1,
+                a_ranks[first_direct_rank_index:direct_ranks_end_index]
+            )
 
 
     def _addReferees(self):
