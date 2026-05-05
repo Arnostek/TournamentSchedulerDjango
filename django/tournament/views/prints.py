@@ -28,6 +28,7 @@ class PrintsView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'last_schedule' : last_schedule,
             'user_role' : self.user_role,
+            'page_title' : 'Prints'
         }
 
         return context

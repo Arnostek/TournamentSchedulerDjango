@@ -24,6 +24,7 @@ class TournamentDetailView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'division_seed' : division_seed,
             'user_role' : self.user_role,
+            'page_title' : self.tournament.name
         }
 
         return context

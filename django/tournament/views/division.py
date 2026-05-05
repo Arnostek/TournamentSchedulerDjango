@@ -28,6 +28,7 @@ class DivisionSystemView(TemplateView, TournamentDetail):
             'groups' : groups,
             'matches' : division.match_set.all().order_by('group__phase','phase_block','id'),
             'user_role' : self.user_role,
+            'page_title' : 'System - ' + division.name
         }
 
         return context
@@ -68,6 +69,7 @@ class DivisionRankingView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'rankings' : rankings,
             'user_role' : self.user_role,
+            'page_title' : 'Ranking'
         }
 
         return context
@@ -100,6 +102,7 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
             'division' : division,
             'tables' : tables,
             'user_role' : self.user_role,
+            'page_title' : 'Tables - ' + division.name 
         }
 
         return context
@@ -126,6 +129,7 @@ class DivisionTablesView(TemplateView, TournamentDetail):
             'division' : division,
             'tables' : tables,
             'user_role' : self.user_role,
+            'page_title' : 'Tables - ' + self.tournament.name
         }
 
         return context

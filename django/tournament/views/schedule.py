@@ -69,7 +69,8 @@ class ScheduleView(TemplateView, TournamentDetail):
             'highlight_team' : highlight_team,
             'filtered_for' : filtered_for,
             'user_role' : self.user_role,
-            'last_match_schedule' : last_match_schedule
+            'last_match_schedule' : last_match_schedule,
+            'page_title' : 'Schedule - ' + (filtered_for or 'full')
             # 'mark_team': mteam,
         }
 
