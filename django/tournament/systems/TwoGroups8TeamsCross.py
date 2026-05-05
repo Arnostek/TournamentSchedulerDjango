@@ -38,13 +38,17 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         # 7th, 5th
         phase += 1
         self.division.CreateGroups(['7th'], self.division.GetGroupsRanks(['SF3','SF4'])[2:4], phase)
+        self.division.CreateRanks(7,self.division.GetGroupsRanks(['7th']))
+        
         self.division.CreateGroups(['5th'], self.division.GetGroupsRanks(['SF3','SF4'])[0:2], phase)
-
+        self.division.CreateRanks(5,self.division.GetGroupsRanks(['5th']))
         # 3rd
         self.division.CreateGroups(['3rd'], self.division.GetGroupsRanks(['SF1','SF2'])[2:4], phase)
+        self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
 
         # final
-        self.division.CreateGroups(['final'], self.division.GetGroupsRanks(['SF1','SF2'])[0:2], phase)
+        self.division.CreateGroups(['Final'], self.division.GetGroupsRanks(['SF1','SF2'])[0:2], phase)
+        self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
     def _addReferees(self):
         """ Doplneni rozhodcich pro finalove zapasy """
@@ -66,4 +70,4 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         self._GroupAddReferees('5th', self.division.GetGroupsRanks(['SF2']))
 
         self._GroupAddReferees('3rd',self.division.GetGroupsRanks(['SF4']))
-        self._GroupAddReferees('final',self.division.GetGroupsRanks(['SF3']))
+        self._GroupAddReferees('Final',self.division.GetGroupsRanks(['SF3']))
