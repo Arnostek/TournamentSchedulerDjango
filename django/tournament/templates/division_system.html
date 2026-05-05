@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h1>{{division.name}}</h1>
+<h1>System {{division.name}}</h1>
 {% include "_division_nav.html" %}
 
-<h2>Groups</h2>
+<h2>Phases / groups</h2>
 
 <div class="container-fluid page-break-after">
   <div class="d-flex flex-wrap align-items-start gap-3">
@@ -16,7 +16,7 @@
       </div>
       {% endif %}
       <div class="border rounded p-2" style="flex: 0 0 auto;">
-        <h4 class="mb-3">Phase {{group.phase}}</h4>
+        <h4 class="mb-3">Ph. {{group.phase}}</h4>
         <div class="d-flex flex-nowrap align-items-start gap-3">
       {% endifchanged %}
           <div style="flex: 0 0 auto; min-width: 220px;">
