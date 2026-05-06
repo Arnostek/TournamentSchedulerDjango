@@ -1,0 +1,3 @@
+:80 {
+    reverse_proxy tournament_scheduler:{$DJANGO_PORT}
+}
