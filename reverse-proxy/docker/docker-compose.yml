@@ -1,0 +1,28 @@
+services:
+
+  tournament_scheduler:
+    build: ../../docker/TournamentSchedulerDjango/
+    container_name: TournamentSchedulerDjango
+    expose:
+      - "8844"
+    environment:
+      - DJANGO_SECRET_KEY
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_DEBUG
+      - DJANGO_PORT
+    restart: unless-stopped
+    volumes:
+      - ../../django:/srv/django
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+    environment:
+      - DJANGO_PORT
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - tournament_scheduler
+    restart: unless-stopped
