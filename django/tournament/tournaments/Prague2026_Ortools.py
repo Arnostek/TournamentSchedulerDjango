@@ -26,8 +26,8 @@ import pytz
 # turnaj
 divisions = load_division_configs("config/prague2026.yaml")
 
-tslug = "PIT2026_TEST_49"
-tname = "PIT 2026 TEST (Bez Prahy)"
+tslug = "PIT2026_TEST_50"
+tname = "PIT 2026 TEST (team names)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
 print(prague2026)
