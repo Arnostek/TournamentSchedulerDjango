@@ -21,8 +21,11 @@ services:
       - tournament_scheduler
     ports:
       - "80:80"
+      - "443:443"
     environment:
       - DJANGO_PORT=${DJANGO_PORT}
+      - CADDY_DOMAIN=${CADDY_DOMAIN}
+      - CADDY_EMAIL=${CADDY_EMAIL}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
