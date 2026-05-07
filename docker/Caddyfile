@@ -1,0 +1,8 @@
+{$CADDY_DOMAIN} {
+    reverse_proxy tournament_scheduler:{$DJANGO_PORT}
+    tls {$CADDY_EMAIL}
+}
+
+:80 {
+    reverse_proxy tournament_scheduler:{$DJANGO_PORT}
+}
