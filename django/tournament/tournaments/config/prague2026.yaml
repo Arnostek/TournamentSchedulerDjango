@@ -3,9 +3,9 @@ MenElite:
   teams:
     - RKV Berlin
     - KSV Glauchau
-    - Kaniow BKT
+    - Kaniów BKT
     - Team Poznań
-    - Set Kaniow A
+    - Set Kaniów A
     - KVN Praha A
     - VK Berlin
     - DRC Neuburg
@@ -21,7 +21,7 @@ MenElite:
 Ladies:
   name: Ladies
   teams:
-    - Kaniow W
+    - Kaniów W
     - KCNW Berlin W
     - KSVH W
     - Neuburg W
@@ -29,7 +29,7 @@ Ladies:
     - Hahaha Team
     - Bremen W
     - Katowice W
-    - Powisle W
+    - Powiśle W
 
 Men2:
   name: Men 2
@@ -40,7 +40,7 @@ Men2:
     - Nagymaros Men
     - UKK Wien mix
     - Ukraine Men
-    - Lesna Men
+    - Leśna Men
     - DobroPtaah
 
 U18:
@@ -49,7 +49,7 @@ U18:
     - Alytus U18
     - Czech U18 A
     - KCNW U16
-    - Lesna U18
+    - Leśna U18
     - Kalisz U18
     - Nagymaros U18
     - Czech U18 B
@@ -58,9 +58,9 @@ U14:
   name: U14
   teams:
     - KCNW U14
-    - Powisle U14
+    - Powiśle U14
     - Glauchau U14
-    - Lesna U14
+    - Leśna U14
     - Neuburg U14
     - Praha U14
     - SG Franken U14
@@ -73,5 +73,5 @@ U12:
     - KCNW U12
     - DFF Veltrusy U12
     - Praha U12
-    - Nagymarosz U12
-    - Lesna U12
+    - Nagymaros U12
+    - Leśna U12
