@@ -43,8 +43,8 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
             self.division.CreateGroups(['3rd'], [semi_ranks[2], semi_ranks[3]] , phase)
             self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
             # final
-            self.division.CreateGroups(['final'],[semi_ranks[0], semi_ranks[1]] , phase)
-            self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
+            self.division.CreateGroups(['Final'],[semi_ranks[0], semi_ranks[1]] , phase)
+            self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
         else:
             # 3rd
@@ -52,8 +52,8 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
                 self.division.CreateGroups(['3rd'], [a_ranks[2], a_ranks[3]] , phase)
                 self.division.CreateRanks(3,self.division.GetGroupsRanks(['3rd']))
             # final
-            self.division.CreateGroups(['final'],[a_ranks[0], a_ranks[1]] , phase)
-            self.division.CreateRanks(1,self.division.GetGroupsRanks(['final']))
+            self.division.CreateGroups(['Final'],[a_ranks[0], a_ranks[1]] , phase)
+            self.division.CreateRanks(1,self.division.GetGroupsRanks(['Final']))
 
         # nakonec potebujeme dodelat ranking pro vsechny co nikam nepostupuji
         first_direct_rank_index = 2
@@ -82,4 +82,4 @@ class SingleGroupDivisionSystem(DivisionSystemBase):
         if len(a_ranks) > 5 and self.final_for >= 3:
             self._GroupAddReferees('3rd',[a_ranks[5]])
         if len(a_ranks) > 4:
-            self._GroupAddReferees('final',[a_ranks[4]])
+            self._GroupAddReferees('Final',[a_ranks[4]])
