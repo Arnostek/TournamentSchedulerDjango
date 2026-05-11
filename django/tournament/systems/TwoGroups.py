@@ -76,15 +76,17 @@ class TwoGroups(DivisionSystemBase):
             self._GroupAddReferees('SemiC',[a_ranks[1]])
             self._GroupAddReferees('SemiD',[b_ranks[1]])
 
-        # if self.teams_count > 11:
-        #     self._GroupAddReferees('11th',[a_ranks[3]])
-        # if self.teams_count > 9:
-        #     self._GroupAddReferees('9th', [b_ranks[1]])
-        # if self.teams_count > 7:
-        #     self._GroupAddReferees('7th', [a_ranks[1]])
-        # if self.teams_count > 5:
-        #     self._GroupAddReferees('5th', [a_ranks[5]])
+        if self.teams_count > 13:
+            self._GroupAddReferees('13th',[b_ranks[3]])
+        if self.teams_count > 11:
+            self._GroupAddReferees('11th',[a_ranks[3]])
+        if self.teams_count > 9:
+            self._GroupAddReferees('9th', [b_ranks[1]])
+        if self.teams_count > 7:
+            self._GroupAddReferees('7th', [a_ranks[1]])
+        if self.teams_count > 5:
+            self._GroupAddReferees('5th', [a_ranks[5]])
         if self.teams_count > 6 and self.semi5_8:
             self._GroupAddReferees('3rd',[self.division.GetGroupsRanks(['SemiA'])[0]])
 
-        # self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
+        self._GroupAddReferees('Final',[self.division.GetGroupsRanks(['5th'])[0]])
