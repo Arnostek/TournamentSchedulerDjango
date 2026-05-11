@@ -31,7 +31,7 @@ def build_solver_input(tid):
     # =========================================================
     # BUILD MATCHES FROM DJANGO
     # =========================================================
-    matches_queryset = Match.objects.select_related("division", "group", "home", "away", "referee").filter(division__tournament_id=tid).order_by("division_id", "group__phase", "phase_block", "id")
+    matches_queryset = Match.objects.select_related("division", "group", "home", "away", "referee").prefetch_related("group__grouprank_set").filter(division__tournament_id=tid).order_by("division_id", "group__phase", "phase_block", "id")
 
 
     for idx, m in enumerate(matches_queryset):
@@ -41,10 +41,12 @@ def build_solver_input(tid):
             "home": m.home_id,
             "away": m.away_id,
             "referee": m.referee_id,
+            "group": m.group_id,
             "division": m.division_id,
             "phase": m.group.phase,
             "phase_block": m.phase_block,
             "order": m.id,
+            "group_rank_placeholders": [gr.teamPlaceholder_id for gr in m.group.grouprank_set.all()],
         })
 
         # solver index (NOT DB id!)

@@ -118,20 +118,54 @@ def build_slot_model(
     for t, intervals in resource_intervals.items():
         model.AddNoOverlap(intervals)
 
+    # Groups are used to detect when a later-phase match depends on
+    # the result of an earlier group.
+    group_matches = defaultdict(list)
+    group_phases = {}
+    group_rank_placeholders = {}
+
+    for m, match in enumerate(matches):
+        group_id = match["group"]
+        group_matches[group_id].append(m)
+        group_phases[group_id] = match["phase"]
+        group_rank_placeholders.setdefault(group_id, set(match["group_rank_placeholders"]))
+
+    group_ends = {}
+    for group_id, ms in group_matches.items():
+        group_ends[group_id] = model.NewIntVar(0, num_slots - 1, f"group_end_{group_id}")
+        model.AddMaxEquality(group_ends[group_id], [slot[m] for m in ms])
+
+    for source_group_id, source_ranks in group_rank_placeholders.items():
+        source_phase = group_phases[source_group_id]
+        if not source_ranks:
+            continue
+
+        for target_index, target_match in enumerate(matches):
+            if target_match["phase"] <= source_phase:
+                continue
+
+            target_participants = {
+                target_match["home"],
+                target_match["away"],
+                target_match.get("referee"),
+            }
+            target_participants.discard(None)
+
+            if not target_participants.intersection(source_ranks):
+                continue
+
+            model.Add(slot[target_index] >= group_ends[source_group_id] + phase_change_pause + 1)
+
     # =========================================================
     # 3) DIVISION ORDERING + PHASE CHANGE GAPS
     # =========================================================
-    # Preserve division order and require extra slack after a phase change.
+    # Preserve division order, but do not add a blanket phase gap here.
     for div, ms in division_matches.items():
         for i in range(len(ms) - 1):
             m1 = ms[i]
             m2 = ms[i + 1]
 
-            min_gap = 0
-            if matches[m1]["phase"] != matches[m2]["phase"]:
-                min_gap = phase_change_pause + 1
-
-            model.Add(slot[m2] >= slot[m1] + min_gap)
+            model.Add(slot[m2] >= slot[m1])
 
     # =========================================================
     # 4) DIVISION FINISH BALANCING
