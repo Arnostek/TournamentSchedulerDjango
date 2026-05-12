@@ -26,8 +26,8 @@ import pytz
 # turnaj
 divisions = load_division_configs("config/prague2026.yaml")
 
-tslug = "PIT2026_TEST_52"
-tname = "PIT 2026 (sobota do 18:30)"
+tslug = "PIT2026"
+tname = "PIT 2026 (NOT FINAL VERSION!)"
 prague2026 = models.Tournament(name = tname, slug = tslug)
 prague2026.save()
 print(prague2026)
@@ -84,12 +84,12 @@ ts.AddReferees()
 
 # naplanujeme zapasy pomoci OR-Tools 
 from tournament.scheduler.ortools_scheduler import ortools_scheduler
-ts.schedule = ortools_scheduler(prague2026.id, num_slots=38, num_pitches=5, buffer_every_slots=7, preferred_pitches=preferred_pitches)
+ts.schedule = ortools_scheduler(prague2026.id, num_slots=38, num_pitches=5, buffer_every_slots=15, preferred_pitches=preferred_pitches)
 
 # zalozime zapasy v DB
 ts.Schedule(
     [
-        (datetime.datetime(2025,5,17,7,30,tzinfo = pytz.utc),datetime.datetime(2025,5,17,18,30,tzinfo = pytz.utc)),
+        (datetime.datetime(2025,5,17,7,30,tzinfo = pytz.utc),datetime.datetime(2025,5,17,19,00,tzinfo = pytz.utc)),
         (datetime.datetime(2025,5,18,7,30,tzinfo = pytz.utc),datetime.datetime(2025,5,18,23,30,tzinfo = pytz.utc)),
     ]
 )
