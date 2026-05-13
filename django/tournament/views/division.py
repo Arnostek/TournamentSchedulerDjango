@@ -69,7 +69,7 @@ class DivisionRankingView(TemplateView, TournamentDetail):
             'tournament' : self.tournament,
             'rankings' : rankings,
             'user_role' : self.user_role,
-            'page_title' : 'Ranking'
+            'page_title' : 'Rankings'
         }
 
         return context
