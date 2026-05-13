@@ -58,8 +58,10 @@ class TournamentProgressView(TemplateView):
             division_progress.append(div_info)
         context['division_progress'] = division_progress
         context['tournament'] = tournament
-        context['page_title'] = f"Progress: {tournament.name}"
+        context['page_title'] = f"Progress"
         return context
+
+
 from django.views.generic import TemplateView
 from ..models import Tournament
 from .base import TournamentDetail
