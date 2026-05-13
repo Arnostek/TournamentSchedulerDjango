@@ -37,8 +37,12 @@ $(document).ready(function(){
         function(){
           $(input_el).removeClass("bg-danger");
           $(input_el).addClass("bg-success");
-          // focus na dalsi score pole - zatim funguje jen v radku
-          $(input_el).closest('td.score').nextAll('td.score').first().find('input').focus();
+          // focus na dalsi score pole v poradi tabulky (i v dalsim radku)
+          var scoreInputs = $("td.score input");
+          var nextIndex = scoreInputs.index(input_el) + 1;
+          if (nextIndex < scoreInputs.length) {
+            scoreInputs.eq(nextIndex).focus();
+          }
         }
       )
       .fail(
