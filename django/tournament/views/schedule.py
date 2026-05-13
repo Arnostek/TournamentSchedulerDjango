@@ -70,7 +70,7 @@ class ScheduleView(TemplateView, TournamentDetail):
             'filtered_for' : filtered_for,
             'user_role' : self.user_role,
             'last_match_schedule' : last_match_schedule,
-            'page_title' : 'Schedule - ' + (filtered_for or 'full')
+            'page_title' : (filtered_for or 'Full') + ' schedule'
             # 'mark_team': mteam,
         }
 

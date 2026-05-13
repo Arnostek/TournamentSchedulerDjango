@@ -28,7 +28,7 @@ class DivisionSystemView(TemplateView, TournamentDetail):
             'groups' : groups,
             'matches' : division.match_set.all().order_by('group__phase','phase_block','id'),
             'user_role' : self.user_role,
-            'page_title' : 'System - ' + division.name
+            'page_title' :  division.name + ' - System'
         }
 
         return context
@@ -102,7 +102,7 @@ class DivisionCrossTablesView(TemplateView, TournamentDetail):
             'division' : division,
             'tables' : tables,
             'user_role' : self.user_role,
-            'page_title' : 'Tables - ' + division.name 
+            'page_title' : division.name  + ' - Tables'
         }
 
         return context
@@ -129,7 +129,7 @@ class DivisionTablesView(TemplateView, TournamentDetail):
             'division' : division,
             'tables' : tables,
             'user_role' : self.user_role,
-            'page_title' : 'Tables - ' + self.tournament.name
+            'page_title' : division.name  + ' - Tables'
         }
 
         return context
