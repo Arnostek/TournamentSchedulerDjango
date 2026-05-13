@@ -46,4 +46,4 @@ class ConflictsView(TemplateView):
                                             "match2":m2,
                                             })
         # data pro sablonu
-        return {'conflicts':conflicts}
+        return {'conflicts':conflicts, 'page_title': "Conflicts"}
