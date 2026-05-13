@@ -2,11 +2,11 @@
         {% if group.All_scores_filled and not group.finished %}
           {% if user_role.table_admin %}
             {% if group.Rank_conflict %}
-            <button type="button" class="btn btn-danger btn-sm">Ranking problem</button>
+            <button type="button" class="btn btn-danger btn-sm">Ranking Conflict</button>
             {% else %}
-            <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">finish</button>
+            <button type="button" class="btn btn-primary btn-sm finish-group" name="{{group.id}}">Finish Group</button>
             {% endif %}
           {% endif %}
         {% elif group.finished %}
-          <span class="badge badge-info">finished</span>
+          <span class="badge badge-info">Finished</span>
         {% endif %}
