@@ -1,0 +1,58 @@
+{% extends "body.html" %}
+{% load progress_extras %}
+{% block content %}
+<h1>{{ page_title }}</h1>
+
+<h2>Overall Tournament Progress</h2>
+<p>Played: {{ tournament_progress.played }} / {{ tournament_progress.total }}</p>
+<div class="progress mb-4">
+  {% if tournament_progress.total > 0 %}
+    <div class="progress-bar" role="progressbar" style="width: {{ tournament_progress.played|divisibleby_total:tournament_progress.total }}%" aria-valuenow="{{ tournament_progress.played }}" aria-valuemin="0" aria-valuemax="{{ tournament_progress.total }}"></div>
+  {% endif %}
+</div>
+
+
+<h2>Divisions</h2>
+<div class="row">
+  {% for div in division_progress %}
+    <div class="col">
+      <div class="card mb-3">
+        <div class="card-header text-center fw-bold">{{ div.division.name }}</div>
+        <div class="card-body">
+          <p>Played: {{ div.played }} / {{ div.total }}</p>
+          <div class="progress mb-2">
+            {% if div.total > 0 %}
+              <div class="progress-bar" role="progressbar" style="width: {{ div.played|divisibleby_total:div.total }}%" aria-valuenow="{{ div.played }}" aria-valuemin="0" aria-valuemax="{{ div.total }}"></div>
+            {% endif %}
+          </div>
+          <ul class="list-unstyled">
+            {% for phase in div.phases %}
+              <li class="mb-2">
+                <strong>Phase {{ phase.phase }}</strong>: {{ phase.played }} / {{ phase.total }}
+                <div class="progress mb-1">
+                  {% if phase.total > 0 %}
+                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ phase.played|divisibleby_total:phase.total }}%" aria-valuenow="{{ phase.played }}" aria-valuemin="0" aria-valuemax="{{ phase.total }}"></div>
+                  {% endif %}
+                </div>
+                <ul class="list-unstyled ms-3">
+                  {% for group in phase.groups %}
+                    <li>
+                      {% if group.total > 1 %}Group {% endif %}{{ group.group.name }}: {{ group.played }} / {{ group.total }}
+                      <div class="progress mb-1">
+                        {% if group.total > 0 %}
+                          <div class="progress-bar bg-success" role="progressbar" style="width: {{ group.played|divisibleby_total:group.total }}%" aria-valuenow="{{ group.played }}" aria-valuemin="0" aria-valuemax="{{ group.total }}"></div>
+                        {% endif %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

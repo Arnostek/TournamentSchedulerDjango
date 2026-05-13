@@ -1,6 +1,6 @@
 # Views module
 from .base import TournamentListView, TournamentDetail
-from .tournament import TournamentDetailView
+from .tournament import TournamentDetailView, TournamentProgressView
 from .tv import TVView
 from .prints import PrintsView
 from .division import (
@@ -20,6 +20,7 @@ __all__ = [
     'TournamentDetail',
     # Tournament
     'TournamentDetailView',
+    'TournamentProgressView',
     'TVView',
     'PrintsView',
     # Division
