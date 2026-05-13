@@ -55,7 +55,7 @@
       <td><a href="schedule-division-{{schedule.match.division.id}}">{{schedule.match.division.name}}</a></td>
       <td>{{schedule.match.group.phase}}</td>
       <td><a href="schedule-division-{{schedule.match.division.id}}-group-{{schedule.match.group.id}}">{{schedule.match.group.name}}</a></td>
-      <td {% if schedule.match.home.team %}class="team team-{{schedule.match.home.team.id}} fw-bold" onclick="highlightTeamClass({{schedule.match.home.team.id}})"{% endif %}>
+      <td {% if schedule.match.home.team %}class="team team-play team-{{schedule.match.home.team.id}} fw-bold" onclick="highlightTeamClass({{schedule.match.home.team.id}})"{% endif %}>
         {% include "_team_link.html" with tph=schedule.match.home %}
       </td>
       <td class="score">
@@ -64,10 +64,10 @@
       <td class="score">
         {% include "schedule-score.html" with home_away="away" score=schedule.match.away_score %}
       </td>
-      <td {% if schedule.match.away.team %}class="team team-{{schedule.match.away.team.id}} fw-bold" onclick="highlightTeamClass({{schedule.match.away.team.id}})"{% endif %}>
+      <td {% if schedule.match.away.team %}class="team team-play team-{{schedule.match.away.team.id}} fw-bold" onclick="highlightTeamClass({{schedule.match.away.team.id}})"{% endif %}>
         {% include "_team_link.html" with tph=schedule.match.away %}
       </td>
-      <td {% if schedule.match.referee.team %}class="team team-{{schedule.match.referee.team.id}}" onclick="highlightTeamClass({{schedule.match.referee.team.id}})"{% endif %}>
+      <td {% if schedule.match.referee.team %}class="team team-ref team-{{schedule.match.referee.team.id}}" onclick="highlightTeamClass({{schedule.match.referee.team.id}})"{% endif %}>
         {% include "_team_link.html" with tph=schedule.match.referee %}
       </td>
       <td class="admin d-print-none">

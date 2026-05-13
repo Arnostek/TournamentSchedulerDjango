@@ -1,6 +1,7 @@
 function highlightTeamClass(team) {
-  $('td.team').removeClass('bg-warning')
-  $('td.team-'+team).addClass('bg-warning')
+  $('td.team').removeClass('bg-warning bg-opacity-25 bg-opacity-75');
+  $('td.team-play.team-'+team).addClass('bg-warning bg-opacity-75');
+  $('td.team-ref.team-'+team).addClass('bg-warning bg-opacity-25');
 }
 
 function selectMatch(sid){
