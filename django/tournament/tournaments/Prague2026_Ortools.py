@@ -45,7 +45,7 @@ preferred_pitches[Men1_system.division.id] = [0, 1, 2, 3, ]
 # Ladies
 division_slug = 'Ladies'
 division_config = divisions[division_slug]
-Ladies_system = ThreeGroups9Teams(prague2026,division_config['name'],division_slug,len(division_config['teams']))
+Ladies_system = TwoGroups8TeamsCross(prague2026,division_config['name'],division_slug,len(division_config['teams']))
 Ladies_system.division.CreateTeams(division_config['teams'])
 preferred_pitches[Ladies_system.division.id] = [1, 0, 2, 3, 4]
 
