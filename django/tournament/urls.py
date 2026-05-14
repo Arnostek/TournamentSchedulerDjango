@@ -8,13 +8,13 @@ from functools import wraps
 # Cache timeout (e.g., 2 minutes)
 cache_timeout = 60 * 2
 
-# Custom decorator to skip caching for admin users
-def cache_exclude_admin(timeout):
+# Custom decorator to skip caching for authenticated users
+def cache_exclude_authenticated(timeout):
     def decorator(view_func):
         @wraps(view_func)
         def wrapper(request: HttpRequest, *args, **kwargs):
-            # Skip caching if user is admin
-            if request.user.is_authenticated and request.user.is_staff:
+            # Skip caching if user is authenticated
+            if request.user.is_authenticated:
                 return view_func(request, *args, **kwargs)
             return cache_page(timeout)(view_func)(request, *args, **kwargs)
         return wrapper
@@ -69,5 +69,5 @@ urlpatterns_tmp = [
 
 # add cached and live version for every url from urlpatterns_tmp
 for pat in urlpatterns_tmp:
-    urlpatterns.append(path(pat[0], cache_exclude_admin(cache_timeout)(pat[1])))
+    urlpatterns.append(path(pat[0], cache_exclude_authenticated(cache_timeout)(pat[1])))
     urlpatterns.append(path('live/' + pat[0], pat[1]))
