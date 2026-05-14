@@ -11,7 +11,7 @@ MenElite:
     - DRC Neuburg
     - WCH Berlin
     - KCNW U21
-    - Alytus
+    - SK Trakai
     - POL U21
     - KP Bremen
     - KC Kelheim
@@ -47,12 +47,12 @@ U18:
   name: U18
   teams:
     - Alytus U18
-    - Czech U18 A
+    - Czech U18
     - KCNW U16
     - Leśna U18
 #    - Kalisz U18
     - Nagymaros U18
-    - Czech U18 B
+    - Czech U16
 
 U14:
   name: U14
