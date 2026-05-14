@@ -30,10 +30,12 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         # phase 3 - semi
         phase += 1
         # vitezove
-        self.division.CreateGroups(['SF1','SF2'], self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[:4],phase)
+        self.division.CreateGroups(['SF1'], self.division.GetGroupsRanks(['QF1','QF3'])[:2],phase)
+        self.division.CreateGroups(['SF2'], self.division.GetGroupsRanks(['QF2','QF4'])[:2],phase)
         # porazeni
-        self.division.CreateGroups(['SF3','SF4'], self.division.GetGroupsRanks(['QF1','QF2','QF3','QF4'])[-4:],phase)
 
+        self.division.CreateGroups(['SF3'], self.division.GetGroupsRanks(['QF1','QF3'])[-2:],phase)
+        self.division.CreateGroups(['SF4'], self.division.GetGroupsRanks(['QF2','QF4'])[-2:],phase)
         # umisteni
         # 7th, 5th
         phase += 1
@@ -61,10 +63,10 @@ class TwoGroups8TeamsCross(DivisionSystemBase):
         self._GroupAddReferees('QF4', [self.division.GetGroupsRanks(['A'])[1]])
 
 
-        self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['QF1']))
-        self._GroupAddReferees('SF2', self.division.GetGroupsRanks(['QF2']))
-        self._GroupAddReferees('SF3', self.division.GetGroupsRanks(['QF3']))
-        self._GroupAddReferees('SF4', self.division.GetGroupsRanks(['QF4']))
+        self._GroupAddReferees('SF1', self.division.GetGroupsRanks(['QF4']))
+        self._GroupAddReferees('SF2', self.division.GetGroupsRanks(['QF3']))
+        self._GroupAddReferees('SF3', self.division.GetGroupsRanks(['QF2']))
+        self._GroupAddReferees('SF4', self.division.GetGroupsRanks(['QF1']))
 
         self._GroupAddReferees('7th', self.division.GetGroupsRanks(['SF1']))
         self._GroupAddReferees('5th', self.division.GetGroupsRanks(['SF2']))
